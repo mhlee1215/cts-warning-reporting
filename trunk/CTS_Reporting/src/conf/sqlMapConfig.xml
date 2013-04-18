@@ -30,7 +30,5 @@
     </transactionManager>
   
   <sqlMap resource="query/UserSql.xml"/>
-  <sqlMap resource="query/TaskSql.xml"/>
-  <sqlMap resource="query/GeneSql.xml"/>
   
 </sqlMapConfig>
