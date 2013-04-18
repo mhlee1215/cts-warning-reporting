@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserSql">
+
+	<resultMap id="User" class="ac.ssu.ml.domain.User">
+		<result column="ID" property="id" />
+		<result column="PASSWORD" property="password" />
+		<result column="ISACTIVATED" property="isactivated" />
+		<result column="ISDELETED" property="isdeleted" />
+		<result column="REGISTEREDTIME" property="registeredtime" />
+		<result column="DELETEDTIME" property="deletedtime" />
+		<result column="ACTIVATEDTIME" property="activatedtime" />
+ 	</resultMap>
+ 	
+ 	<select id="readUserList" resultMap="User">
+ 		SELECT ID, ISACTIVATED, PASSWORD, ISDELETED, REGISTEREDTIME, DELETEDTIME, ACTIVATEDTIME FROM USER_INFO
+ 	</select>
+ 	
+	<select id="readUser" resultMap="User">
+       SELECT ID, PASSWORD, ISACTIVATED, ISDELETED, REGISTEREDTIME, DELETEDTIME, ACTIVATEDTIME FROM USER_INFO 
+       WHERE ID = #id# 
+       <isNotEmpty property="password">
+       and PASSWORD = #password#
+       </isNotEmpty>
+	</select>
+
+	<insert id="createUser" parameterClass="ac.ssu.ml.domain.User">
+		 INSERT INTO
+		 USER_INFO (ID, PASSWORD, ISACTIVATED, ISDELETED, REGISTEREDTIME)
+		 VALUES (#id#, #password#, 'N', 'N', DATE_FORMAT(now(), "%Y%m%d%H%i%s"))
+	</insert>
+	
+	<update id="updateUser" parameterClass="ac.ssu.ml.domain.User">
+		 UPDATE USER_INFO SET
+		 ID = #id#
+		 <isNotEmpty property="isactivated">
+		 ,ISACTIVATED = #isactivated#
+		 ,ACTIVATEDTIME = DATE_FORMAT(now(), "%Y%m%d%H%i%s")
+		 </isNotEmpty>
+		 <isNotEmpty property="isdeleted">
+		 ,ISDELETED = #isdeleted#
+		 ,DELETEDTIME = DATE_FORMAT(now(), "%Y%m%d%H%i%s")
+		 </isNotEmpty>
+		 WHERE ID = #id# 
+	</update>
+	
+	<delete id="deleteUser" parameterClass="ac.ssu.ml.domain.User">
+		 DELETE FROM USER_INFO
+		 WHERE ID = #id#
+	</delete>
+	
+	<select id="getNextId" resultClass="Integer">
+		SELECT IFNULL(MAX(internalid)+1, '10000') FROM USER_IDMAP
+	</select>
+	
+	<insert id="createUserIdMap" parameterClass="ac.ssu.ml.domain.UserIdMap">
+		INSERT INTO USER_IDMAP(externalId, internalid, admindate) 
+		VALUES(#externalId#, #internalId#, DATE_FORMAT(NOW(), "%Y%m%d%H%i%s"))
+	</insert>
+	
+	<select id="getUserIdMap" parameterClass="ac.ssu.ml.domain.UserIdMap" resultClass="ac.ssu.ml.domain.UserIdMap">
+		SELECT internalId, externalId FROM USER_IDMAP WHERE externalId = #externalId#
+	</select>
+	
+	<select id="getWebDesc" parameterClass="ac.ssu.ml.domain.WebDesc" resultClass="ac.ssu.ml.domain.WebDesc">
+		SELECT DESCRIPTION FROM WEB_DESC WHERE CATEGORY = #category#
+	</select>
+	
+	<update id="updateWebDesc" parameterClass="ac.ssu.ml.domain.WebDesc">
+		 UPDATE WEB_DESC SET
+		 DESCRIPTION = #description#
+		 WHERE CATEGORY = #category# 
+	</update>
+	
+	
+	
+</sqlMap>
+
+
