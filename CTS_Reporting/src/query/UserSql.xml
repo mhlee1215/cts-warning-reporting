@@ -5,7 +5,7 @@
 <sqlMap namespace="UserSql">
 
 	<resultMap id="User" class="ac.kaist.cts.domain.User">
-		<result column="ID" property="id" />
+		<result column="ID" property="idUser" />
 		<result column="PASSWORD" property="password" />
 		<result column="ISACTIVATED" property="isactivated" />
 		<result column="ISDELETED" property="isdeleted" />
@@ -53,15 +53,6 @@
 	
 	<select id="getNextId" resultClass="Integer">
 		SELECT IFNULL(MAX(internalid)+1, '10000') FROM USER_IDMAP
-	</select>
-	
-	<insert id="createUserIdMap" parameterClass="ac.kaist.cts.domain.UserIdMap">
-		INSERT INTO USER_IDMAP(externalId, internalid, admindate) 
-		VALUES(#externalId#, #internalId#, DATE_FORMAT(NOW(), "%Y%m%d%H%i%s"))
-	</insert>
-	
-	<select id="getUserIdMap" parameterClass="ac.kaist.cts.domain.UserIdMap" resultClass="ac.kaist.cts.domain.UserIdMap">
-		SELECT internalId, externalId FROM USER_IDMAP WHERE externalId = #externalId#
 	</select>	
 	
 	

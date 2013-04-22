@@ -9,7 +9,6 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import ac.kaist.cts.domain.User;
-import ac.kaist.cts.domain.UserIdMap;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 
@@ -49,23 +48,4 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	public void updateUser(User user) {
 		getSqlMapClientTemplate().update("UserSql.updateUser", user);
 	}
-
-
-	public void createUserIdMap(UserIdMap userIdMap) {
-		getSqlMapClientTemplate().insert("UserSql.createUserIdMap", userIdMap);
-		
-	}
-
-
-	public int getNextUserIdMap() {
-		int result = (Integer)getSqlMapClientTemplate().queryForObject("UserSql.getNextId");
-		return result;
-	}
-
-
-	public UserIdMap getUserIdMap(UserIdMap userIdMap) {
-		UserIdMap result = (UserIdMap)getSqlMapClientTemplate().queryForObject("UserSql.getUserIdMap", userIdMap);
-		return result;
-	}
-
 }

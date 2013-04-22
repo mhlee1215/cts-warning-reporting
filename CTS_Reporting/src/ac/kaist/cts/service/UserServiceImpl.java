@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ac.kaist.cts.dao.UserDao;
 import ac.kaist.cts.domain.User;
-import ac.kaist.cts.domain.UserIdMap;
 import ac.kaist.cts.utils.Crypto;
 
 @Service
@@ -147,20 +146,5 @@ public class UserServiceImpl implements UserService {
 		}
 		// Delete fail.
 		return User.STATUS_NOT_FOUNDED;
-	}
-
-	public void createUserIdMap(UserIdMap userIdMap) {
-		userDao.createUserIdMap(userIdMap);
-		
-	}
-
-	public int getNextUserIdMap() {
-		return userDao.getNextUserIdMap();
-	}
-
-	public UserIdMap getUserIdMap(String externalId) {
-		UserIdMap userIdMap = new UserIdMap();
-		userIdMap.setExternalId(externalId);
-		return userDao.getUserIdMap(userIdMap);
 	}
 }
