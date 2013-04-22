@@ -21,7 +21,7 @@
 	<!--
 		- The controllers are autodetected POJOs labeled with the @Controller annotation.
 	-->
-	<context:component-scan base-package="ac.ssu.ml" />
+	<context:component-scan base-package="ac.kaist.cts" />
 	
 	<!--
 		- The form-based controllers within this application provide @RequestMapping 

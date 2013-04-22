@@ -1,8 +1,10 @@
 package ac.kaist.cts.domain;
 
 /**
+ * CTS Reporting System at KAIST
  * 
- * @author sutting
+ * @author minhaeng lee at KAIST
+ * minhaeng.leee@gmail.com
  * 
  */
 
@@ -19,22 +21,49 @@ public class User {
 	public static int	STATUS_SUCCESS_SEND_FINDPASSWORD = 9;
 	public static int	STATUS_FAIL_SEND_FINDPASSWORD = 10;
 	
-	private String	id			= "";	// ID
-	private int  internalid  = 0;   // ID
-	private String	password	= "";	// PASSWORD
-	private String	isactivated	= "";	// WHETHER THE ACCOUNT IS ACTIVATED OR NOT
-	private String	isdeleted	= "";	// WHETHER THE ACCOUNT IS DELETEDED OR NOT
-	private String registeredtime = "";
-	private String deletedtime = "";
-	private String activatedtime = "";
+	private int  	idUser  		= 0 ;   // ID (pk)
+	private String	id				= "";	// ID	
+	private String 	name 			= "";			// Name
+	private String	password		= "";	// PASSWORD
+	private int 	type 			= 0 ;
 	
+	private String	isactivated		= "";	// WHETHER THE ACCOUNT IS ACTIVATED OR NOT
+	private String	isdeleted		= "";	// WHETHER THE ACCOUNT IS DELETEDED OR NOT
+	private String 	registeredtime 	= "";
+	private String 	deletedtime 	= "";
+	private String 	activatedtime 	= "";
+	
+	
+	public int getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
 
 	public int getInternalid() {
-        return internalid;
+        return idUser;
     }
 
     public void setInternalid(int internalid) {
-        this.internalid = internalid;
+        this.idUser = internalid;
     }
 
     public String getRegisteredtime() {
@@ -94,13 +123,13 @@ public class User {
 	}
 
     @Override
-    public String toString() {
-        return "User [activatedtime=" + activatedtime + ", deletedtime="
-                + deletedtime + ", id=" + id + ", internalid=" + internalid
-                + ", isactivated=" + isactivated + ", isdeleted=" + isdeleted
-                + ", password=" + password + ", registeredtime="
-                + registeredtime + "]";
-    }
+	public String toString() {
+		return "User [id=" + id + ", idUser=" + idUser + ", name=" + name
+				+ ", password=" + password + ", type=" + type
+				+ ", isactivated=" + isactivated + ", isdeleted=" + isdeleted
+				+ ", registeredtime=" + registeredtime + ", deletedtime="
+				+ deletedtime + ", activatedtime=" + activatedtime + "]";
+	}
 
 
 	

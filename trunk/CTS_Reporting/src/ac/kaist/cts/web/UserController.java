@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ac.kaist.cts.domain.User;
-import ac.kaist.cts.domain.UserIdMap;
 import ac.kaist.cts.service.UserService;
 
 
@@ -38,24 +37,24 @@ public class UserController {
 	    
 	    if(userid == null){
     		String remoteHost = request.getRemoteHost();
-    		UserIdMap userIdMap = new UserIdMap();
-    		UserIdMap result = userService.getUserIdMap(remoteHost);
+    		//UserIdMap userIdMap = new UserIdMap();
+    		//UserIdMap result = userService.getUserIdMap(remoteHost);
     		
-    		if(result == null){
-    			int nextId = userService.getNextUserIdMap();
-    			userIdMap.setExternalId(remoteHost);
-    			userIdMap.setInternalId(nextId);
-    			userService.createUserIdMap(userIdMap);
-    			User user = new User();
-    			user.setId(Integer.toString(userIdMap.getInternalId()));
-    			user.setInternalid((userIdMap.getInternalId()));
-    			user.setPassword("N/A");
-    			userService.createUser(user);
-    			
-    			result = userService.getUserIdMap(remoteHost);
-    		}
+//    		if(result == null){
+//    			int nextId = userService.getNextUserIdMap();
+//    			userIdMap.setExternalId(remoteHost);
+//    			userIdMap.setInternalId(nextId);
+//    			userService.createUserIdMap(userIdMap);
+//    			User user = new User();
+//    			user.setId(Integer.toString(userIdMap.getInternalId()));
+//    			user.setInternalid((userIdMap.getInternalId()));
+//    			user.setPassword("N/A");
+//    			userService.createUser(user);
+//    			
+//    			result = userService.getUserIdMap(remoteHost);
+//    		}
     		
-    		request.getSession().setAttribute("userid", Integer.toString(result.getInternalId()));
+    		//request.getSession().setAttribute("userid", Integer.toString(result.getInternalId()));
     		request.getSession().setAttribute("externalid", remoteHost);
     		
     		
@@ -99,9 +98,9 @@ public class UserController {
 		}
 		else if(result == User.STATUS_FOUNDED){
 			System.out.println("User is founded!");
-			UserIdMap userIdMap = userService.getUserIdMap(id);
-			request.getSession().setAttribute("userid", Integer.toString(userIdMap.getInternalId()));
-			request.getSession().setAttribute("externalid", userIdMap.getExternalId());
+			//UserIdMap userIdMap = userService.getUserIdMap(id);
+			//request.getSession().setAttribute("userid", Integer.toString(userIdMap.getInternalId()));
+			//request.getSession().setAttribute("externalid", userIdMap.getExternalId());
 			request.getSession().setAttribute("islogin", "true");
 			model.addObject("loginComplete", "true");
 		}
@@ -117,10 +116,10 @@ public class UserController {
 		String password = request.getParameter("password");
 		
 
-		int nextId = userService.getNextUserIdMap();
+		//int nextId = userService.getNextUserIdMap();
 		User user = new User();
 		user.setId(id);
-		user.setInternalid(nextId);
+		//user.setInternalid(nextId);
 		user.setPassword(password);
 		int result = userService.createUser(user);
 		
@@ -131,10 +130,10 @@ public class UserController {
 			model.addObject("submittedUserId", id);
 		}else if(result == User.STATUS_SUCCESS_REGISTER){
 			
-			UserIdMap userIdMap = new UserIdMap();
-			userIdMap.setExternalId(id);
-			userIdMap.setInternalId(nextId);
-			userService.createUserIdMap(userIdMap);
+			//UserIdMap userIdMap = new UserIdMap();
+			//userIdMap.setExternalId(id);
+			//userIdMap.setInternalId(nextId);
+			//userService.createUserIdMap(userIdMap);
 			model.addObject("registerComplete", "true");
 			model.addObject("submittedUserId", id);
 		}
