@@ -34,4 +34,10 @@ public class HazardItemListDaoImpl extends SqlMapClientDaoSupport implements Haz
 		return array;
 	}
 
+	@Override
+	public HazardItemList readItem(HazardItemList item) {
+		HazardItemList read_item = (HazardItemList) getSqlMapClientTemplate().queryForObject("HazardItemListSql.readItem", item);
+		return read_item;
+	}
+
 }

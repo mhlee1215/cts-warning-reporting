@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="HazardItemSql">
+		
+	<resultMap id="HazardItem" class="ac.kaist.cts.domain.HazardItem">
+		<result column="ID" property="id" />
+		<result column="ITEM_LV1_ID" property="item_lv1_id" />
+		<result column="ITEM_LV2_ID" property="item_lv2_id" />
+		<result column="ITEM_LV3_ID" property="item_lv3_id" />
+		<result column="ITEM_LV4_ID" property="item_lv4_id" />
+		<result column="ITEM_LV5_ID" property="item_lv5_id" />
+		<result column="ITEM_LV5_ID" property="item_lv5_id" />
+		<result column="REPORT_ID" property="report_id" />
+ 	</resultMap>
+ 	
+ 	<select id="readHazardItems" resultMap="HazardItem">
+ 		SELECT ID, ITEM_LV1_ID, ITEM_LV2_ID, ITEM_LV3_ID, ITEM_LV4_ID, ITEM_LV5_ID, REPORT_ID FROM HAZARD_ITEM
+ 		WHERE PARENT_ID = #report_id# 
+ 	</select>
+
+	
+</sqlMap>
+
+
