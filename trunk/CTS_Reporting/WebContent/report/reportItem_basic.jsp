@@ -12,28 +12,68 @@
   <script>
   $(function() {
     $("#id_report_date_datepicker").datepicker();
-    
+    $("#id_flight_date_datepicker").datepicker();
    
-   $("#id_auto_fill_btn")
+    $("#id_date_of_birth_datapicker").datepicker();
+    $("#id_date_of_last_medical_datapicker").datepicker();
+    $("#id_date_last_inspection_datepicker").datepicker();
+    
+        
+    $("#id_auto_fill_btn")
           .button()
           .click(function( event ) {
             event.preventDefault();
           });
-   $("#id_save_btn")
-   .button()
-   .click(function( event ) {
+    $("#id_save_btn")
+    .button()
+    .click(function( event ) {
      event.preventDefault();
-   });
-   $("#id_next_btn")
-   .button()
-   .click(function( event ) {
-	   changeTab(2);
+    });
+    $("#id_next_btn")
+    .button()
+    .click(function( event ) {
+	 changeTab(2);
      event.preventDefault();
-   });
+  });
    
    
   });
   
+  function auto_fill(){
+	    $("#id_report_date_datepicker").attr("value", "04/26/2013");
+	    $("#id_flight_date_datepicker").attr("value", "04/25/2013");
+	    $("#id_flight_no").attr("value", "KE1234");
+	  	$("#id_air_line").attr("value", "7C");
+	  	$("#id_route_from").attr("value", "GMP");
+	  	$("#id_route_to").attr("value", "KIX");
+	  	$("#id_route_diverted").attr("value", "ITM");
+	  	$("#id_no_of_flight_crew").attr("value", "2");
+	  	$("#id_no_of_cabin_crew").attr("value", "7");
+	  	$("#id_no_of_passengers").attr("value", "112");
+	  	
+	  	
+	  	$("#id_id_number").attr("value", "P12345");
+	  	$("#id_name").attr("value", "Gil-Dong Hong");
+	  	$("#id_date_of_birth_datapicker").attr("value", "06/11/1965");
+	  	$("#id_date_of_last_medical_datapicker").attr("value", "05/12/13");
+	  	$("#id_total_time").attr("value", "1540");
+	  	$("#id_this_mask_model").attr("value", "890");
+	  	
+	  	
+	  	$("#id_serial_number").attr("value", "51-11012");
+	  	$("#id_registration_number").attr("value", "HL7229");
+	  	$("#id_flight_crew").attr("value", "2");
+	  	$("#id_cabin_crew").attr("value", "8");
+	  	$("#id_passengers").attr("value", "150");
+	  	$("#id_date_last_inspection_datepicker").attr("value", "06/12/2012");
+	  	
+	  	$("#id_flight_crew_no_of_fatalities").attr("value", "0");
+	  	$("#id_flight_crew_no_of_injuries").attr("value", "0");
+	  	$("#id_cabin_crew_no_of_fatalities").attr("value", "0");
+	  	$("#id_cabin_crew_no_of_injuries").attr("value", "0");
+	  	$("#id_passengers_no_of_fatalities").attr("value", "0");
+	  	$("#id_passengers_no_of_injuries").attr("value", "0");
+  }
   </script>
 </head>
 <body>
@@ -46,7 +86,7 @@
 <td>
 Reporting Date: <input type="text" id="id_report_date_datepicker" />
 </td>
-<td align="right"><a id="id_auto_fill_btn" href="#">Auto Fill</a>
+<td align="right"><a id="id_auto_fill_btn" href="#" onclick="auto_fill();">Auto Fill</a>
 </td>
 </tr>
 </tbody>
@@ -103,7 +143,7 @@ Manufacturer: <select id="id_manufacturer_selector" name="method" style="width:1
 				<option value="6">B747-XXX</option>
 			</select>
 			<br>
-Serial Number: <input type="text" id="id_serial_number" /> Registration Number: <input type="text" id="id_registration_number_datepicker" /><br>
+Serial Number: <input type="text" id="id_serial_number" /> Registration Number: <input type="text" id="id_registration_number" /><br>
 No. of Seats<br>
 Flight Crew: <input type="text" id="id_flight_crew" /> Cabin Crew: <input type="text" id="id_cabin_crew" /> Passengers: <input type="text" id="id_passengers" /><br>
 Last Inspection Type: <select id="id_manufacturer_selector" name="method" style="width:197px;">
@@ -114,25 +154,25 @@ Last Inspection Type: <select id="id_manufacturer_selector" name="method" style=
 				<option value="4">CONDITIONAL INSPECTION</option>
 				<option value="5">UNKNOWN</option>
 			</select>
-Date Last Inspection: <input type="text" id="id_date_last_insp[ection_datepicker" /><br>					
+Date Last Inspection: <input type="text" id="id_date_last_inspection_datepicker" /><br>					
 <h3 class="ui-widget-header">Injury/Damage Report</h3>
 Degree of Injury<br>
 <table width="100%">
 	<tbody>
 		<tr>
 			<td>Flight Crew</td>
-			<td>No. of Fatalities: <input type="text" id="id_no_of_fatalities" /></td>
-			<td>No. of Injuries: <input type="text" id="id_no_of_injuries" /></td>
+			<td>No. of Fatalities: <input type="text" id="id_flight_crew_no_of_fatalities" /></td>
+			<td>No. of Injuries: <input type="text" id="id_flight_crew_no_of_injuries" /></td>
 		</tr>
 		<tr>
 			<td>Cabin Crew</td>
-			<td>No. of Fatalities: <input type="text" id="id_no_of_fatalities" /></td>
-			<td>No. of Injuries: <input type="text" id="id_no_of_injuries" /></td>
+			<td>No. of Fatalities: <input type="text" id="id_cabin_crew_no_of_fatalities" /></td>
+			<td>No. of Injuries: <input type="text" id="id_cabin_crew_no_of_injuries" /></td>
 		</tr>
 		<tr>
 			<td>Passengers</td>
-			<td>No. of Fatalities: <input type="text" id="id_no_of_fatalities" /></td>
-			<td>No. of Injuries: <input type="text" id="id_no_of_injuries" /></td>
+			<td>No. of Fatalities: <input type="text" id="id_passengers_no_of_fatalities" /></td>
+			<td>No. of Injuries: <input type="text" id="id_passengers_no_of_injuries" /></td>
 		</tr>
 		<tr>
 		<td><hr></td>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="HazardItemListSql">
+
+	<resultMap id="HazardItemListTop" class="ac.kaist.cts.domain.HazardItemList">
+		<result column="ID" property="id" />
+		<result column="NAME" property="name" />
+ 	</resultMap>
+ 	
+	<resultMap id="HazardItemList" class="ac.kaist.cts.domain.HazardItemList">
+		<result column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="PARENT_ID" property="parent_id" />
+ 	</resultMap>
+ 	
+ 	<select id="readTopList" resultMap="HazardItemListTop">
+ 		SELECT ID, NAME FROM hazard_item_list_lv1
+ 	</select>
+ 	
+	<select id="readChildList" resultMap="HazardItemList">
+       SELECT ID, NAME, PARENT_ID FROM hazard_item_list_lv#level# 
+       WHERE PARENT_ID = #parent_id# 
+	</select>	
+	
+</sqlMap>
+
+
