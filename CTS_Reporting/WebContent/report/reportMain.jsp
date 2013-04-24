@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="java.sql.*" %>
+<%@page import="org.springframework.web.bind.ServletRequestUtils"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -71,14 +73,19 @@
   #content {
       background: #fff;
       border-top: 2px solid #3d3d3d;
-      padding: 2em;
-      /*height: 220px;*/
+      padding: 1em;
+      /*height: 800px;*/
   }
 
+  .report_title {
+    font-size: 2.5em;
+  	margin: 0 0 5px 0;
+  }
+  
   #content h2,
     #content h3,
     #content p {
-      margin: 0 0 15px 0;
+      margin: 0 0 0 0;
   }  
 
   /* Demo page only */
@@ -96,8 +103,6 @@
 <body>
 
 
-
-
   <ul id="tabs">
       <li><a href="#" id="id_tab1" name="#tab1">BASIC</a></li>
       <li><a href="#" id="id_tab2" name="#tab2">TAXI-OUT</a></li>
@@ -111,7 +116,7 @@
   </ul>
 
   <div id="content">
-      <h1 align="center">PILOT REPORT</h1>
+      <h1 align="center" class="report_title">PILOT REPORT</h1>
       <div id="tab1"></div>
       <div id="tab2"></div>
       <div id="tab3"></div>
