@@ -189,23 +189,23 @@
 	  jQuery("#id_taxi_out_hazardListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/getHazardItems.do', 
 	  	height: 120,
+	  	width:720,
 	  	datatype: "xml", 
 	     	colNames:['No.','HAZARD Lv1', 'HAZARD Lv2', 'HAZARD Lv3','HAZARD Lv4','HAZARD Lv5','FN'],
 	     	colModel:[
 	     	 			{name:'seq_num'		,index:'seq_num'		,width:30	,align:"center", hidden:true, sortable:false},
-	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:110	,align:"center"	,sorttype:"text"},
-	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:110	,align:"center"	},
-	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:110	,align:"center"	},
-	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:110	,align:"center"	},
-	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:110	,align:"center"	},		
-	     	    		{name:'fn'			,index:'fn'				,width:70	,align:"center", formatter:texi_out_fnFormatter	}		
+	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:90	,align:"center"	,sorttype:"text"},
+	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:90	,align:"center"	},
+	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:90	,align:"center"	},
+	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:90	,align:"center"	},
+	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:90	,align:"center"	},		
+	     	    		{name:'fn'			,index:'fn'				,width:40	,align:"center", formatter:texi_out_fnFormatter	}		
 	     	    	],
 	     	//shrinkToFit:true,
 	     	//altRows:true,
 	     	hoverrows:false,
 	     	rownumbers: true, 
 	     	rowNum:10, 
-	     	autowidth: true, 
 	     	loadtext:'&nbsp;Loading hazard items..',
 	     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
 	     	rowList:[10,20,30], 
@@ -326,9 +326,9 @@
 <tr>
 	<td class="leftmost_label">New Hazard:</td>
 	<td style="width:30px;text-align:right;">No</td>
-	<td> <input type="radio" name="new_hazard" id="taxi_out_new_hazard_yes" onchange="taxi_out_enable_description_of_new_hazard('n');" value="n" checked="checked"/></td>
+	<td> <input type="radio" name="new_hazard" id="taxi_out_new_hazard_no" onchange="taxi_out_enable_description_of_new_hazard('n');" value="n" checked="checked"/></td>
 	<td style="width:30px;text-align:right;">Yes</td>
-	<td> <input type="radio"name="new_hazard" id="taxi_out_new_hazard_no" onchange="taxi_out_enable_description_of_new_hazard('y');" value="y"/></td>
+	<td> <input type="radio"name="new_hazard" id="taxi_out_new_hazard_yes" onchange="taxi_out_enable_description_of_new_hazard('y');" value="y"/></td>
 </tr>
 </tbody>
 </table>
