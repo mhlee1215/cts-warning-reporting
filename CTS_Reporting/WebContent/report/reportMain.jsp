@@ -167,8 +167,8 @@
           }
         }*/
         
-        //$("#tab1").load("reportItem_basic.jsp");
-        $("#tab1").load("reportItem_taxi-out.jsp");
+        $("#tab1").load("reportItem_basic.jsp");
+        //$("#tab1").load("reportItem_taxi-out.jsp");
     	$("#tab2").load("reportItem_taxi-out.jsp");
     	$("#tab3").load("reportItem_take-off.jsp");
     	$("#tab4").load("reportItem_climb.jsp");
