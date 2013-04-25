@@ -10,19 +10,50 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/css/ui.jqgrid.css" />
   <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+  <style>
+  .hazard_item_selector{
+  	margin-left:2px;
+  	margin-right:2px;
+  	width:719px;
+  }
+  .hazard_item_text_input{
+    height:14px;
+  	width:717px;
+  }
+  </style>
 </head>
 <script>
   $(function() {
-   $("#id_more_hazards")
+   $("#id_taxi_outmore_hazards")
    .button()
    .click(function( event ) {
 	 reset_hazard_identification();
      event.preventDefault();
    });
-   $("#id_save_hazard")
+   $("#id_taxi_outsave_hazard")
    .button()
    .click(function( event ) {
      event.preventDefault();
+   });
+   $("#id_taxi_out_edit_btn")
+   .button()
+   .click(function( event ) {
+    event.preventDefault();
+   });
+   $("#id_taxi_out_cancel_btn")
+   .button()
+   .click(function( event ) {
+    event.preventDefault();
+   });
+   $("#id_taxi_out_print_btn")
+   .button()
+   .click(function( event ) {
+    event.preventDefault();
+   });
+   $("#id_taxi_out_submit_btn")
+   .button()
+   .click(function( event ) {
+    event.preventDefault();
    });
    $("#id_taxi_out_save_btn")
    .button()
@@ -71,11 +102,11 @@
 	  $('#id_taxi_out_level_'+level+'_selector').removeAttr("disabled");
   }	
   
-  function enable_description_of_new_hazard(val){
+  function taxi_out_enable_description_of_new_hazard(val){
 	  if (val == 'y'){
-		  $('#id_texi_out_description_of_new_hazard').removeAttr("disabled");
+		  $('#id_taxi_out_description_of_new_hazard').removeAttr("disabled");
 	  }else if( val == 'n'){
-		  $('#id_texi_out_description_of_new_hazard').attr("disabled", true);
+		  $('#id_taxi_out_description_of_new_hazard').attr("disabled", true);
 	  }
 	  
 	 
@@ -161,9 +192,9 @@
   
   function fnFormatter( cellvalue, options, rowObject )
   {
-	var return_str = '<a id="id_seq_'+cellvalue+'_edit_hazard" href="#">Edit</a>';
+	var return_str = '<a id="id_taxi_outseq_'+cellvalue+'_edit_hazard" href="#">Edit</a>';
 	return_str += '<script>';
-	return_str += '$("#id_seq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
+	return_str += '$("#id_taxi_outseq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
 	return_str += '    	event.preventDefault();';
 	return_str += '});';
 	return_str += '</scr'+'ipt>';
@@ -174,18 +205,18 @@
   
   function load_hazard_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#taskListTable").jqGrid({
+	  jQuery("#id_taxi_out_hazardListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/getHazardItems.do', 
 	  	height: 120,
 	  	datatype: "xml", 
-	     	colNames:['SEQ_NUM','ITEM_ID_LV1', 'ITEM_ID_LV2', 'ITEM_ID_LV3','ITEM_ID_LV4','ITEM_ID_LV5','FN'],
+	     	colNames:['No.','ITEM Lv1', 'ITEM Lv2', 'ITEM Lv3','ITEM Lv4','ITEM Lv5','FN'],
 	     	colModel:[
-	     	 			{name:'seq_num'		,index:'seq_num'		,width:50	,align:"center", sortable:false},
-	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:150	,align:"center"	,sorttype:"text"},
-	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:150	,align:"center"	},
-	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:150	,align:"center"	},
-	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:150	,align:"center"	},
-	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:150	,align:"center"	},		
+	     	 			{name:'seq_num'		,index:'seq_num'		,width:30	,align:"center", sortable:false},
+	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:110	,align:"center"	,sorttype:"text"},
+	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:110	,align:"center"	},
+	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:110	,align:"center"	},
+	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:110	,align:"center"	},
+	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:110	,align:"center"	},		
 	     	    		{name:'fn'			,index:'fn'				,width:70	,align:"center", formatter:fnFormatter	}		
 	     	    	],
 	     	//shrinkToFit:true,
@@ -213,7 +244,7 @@
 	  	loadComplete: function(){ 
 	  	    
 	  		
-	  			//jQuery("#taskListTable").setRowData(ids[i],{detail:detailHtml});				
+	  			//jQuery("#id_taxi_out_hazardListTable").setRowData(ids[i],{detail:detailHtml});				
 	  			//$("#detail_button_"+recordArry['id']).click(function() {fncDetailTask(recordArry['id']);});
 	 			//$("#step4_next_button_"+recordArry['id']).click(function() {fncShowCoord(recordArry['id']);});
 	  			//$("#step4_stop_button_"+recordArry['id']).click(function() {stopTask(recordArry['id']); });
@@ -222,7 +253,7 @@
 	  	}  
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 	  
-	  /*jQuery("#taskListTable").jqGrid({
+	  /*jQuery("#id_taxi_out_hazardListTable").jqGrid({
 		   	url:'${pageContext.request.contextPath}/getHazardItems.do', 
 			datatype: "xml",
 		   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
@@ -250,98 +281,101 @@
   </script>
 <body>
 <h2 class="ui-widget-header">TAXI-OUT INFORMATION</h2>
-<div class="ui-widget-content" align="center">
-<table width="80%" style="margin:10px;">
+<div class="ui-widget-content">
+<table>
 <tbody>
 <tr>
-	<td colspan="2" align="left"><h2>Hazard Identification</h2></td>
+	<td colspan="2" align="left" class="leftmost_header1"><span style="margin-left:10px;">Hazard Identification</span></td>
 </tr>
 <tr>
-	<td align="right" width="80px;">Level1: </td>
-	<td><select id="id_taxi_out_level_1_selector" onchange="read_hazard_item_list_children(this.value,1);" name="method" style="width:100%">		
+	<td class="leftmost_label">Level1: </td>
+	<td><select id="id_taxi_out_level_1_selector" onchange="read_hazard_item_list_children(this.value,1);" name="method" class="hazard_item_selector">		
 	</select> </td>
 </tr>
 <tr>
-	<td align="right">Level2: </td>
-	<td><select id="id_taxi_out_level_2_selector" onchange="read_hazard_item_list_children(this.value,2);" name="method" style="width:100%">
+	<td class="leftmost_label">Level2: </td>
+	<td><select id="id_taxi_out_level_2_selector" onchange="read_hazard_item_list_children(this.value,2);" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 <tr>
-	<td align="right">Level3: </td>
-	<td><select id="id_taxi_out_level_3_selector" onchange="read_hazard_item_list_children(this.value,3);" name="method" style="width:100%;">
+	<td class="leftmost_label">Level3: </td>
+	<td><select id="id_taxi_out_level_3_selector" onchange="read_hazard_item_list_children(this.value,3);" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 <tr>
-	<td align="right">Level4: </td>
-	<td><select id="id_taxi_out_level_4_selector" name="method" style="width:100%;">
+	<td class="leftmost_label">Level4: </td>
+	<td><select id="id_taxi_out_level_4_selector" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 <tr>
-	<td align="right">Level5: </td>
-	<td><select id="id_taxi_out_level_5_selector" name="method" style="width:100%;">
+	<td class="leftmost_label">Level5: </td>
+	<td><select id="id_taxi_out_level_5_selector" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 </tbody>
 </table>
-<table width="80%">
+<table >
 <tbody>
 <tr>
-	<td align="right" width="80px;">Specific Items: </td>
-	<td> <input type="text" id="id_specific_items" style="width:100%;" /> </td>
+	<td align="right" class="leftmost_label">Specific Items: </td>
+	<td> <input type="text" id="id_taxi_outspecific_items" class="hazard_item_text_input" /> </td>
 </tr>
 </tbody>
 </table>
-<table width="80%">
+<table>
 <tbody>
 <tr>
-	<td align="right" width="80px;"><a id="id_save_hazard" href="#">Done</a> <a id="id_more_hazards" href="#">More Hazards?</a></td>
+	<td class="leftmost_label"></td><td align="right" width="723px;"><a id="id_taxi_outsave_hazard" href="#">Done</a> <a id="id_taxi_outmore_hazards" href="#">More Hazards?</a></td>
 </tr>
 </tbody>
 </table>
 
-<table width="80%">
+<table>
 <tbody>
 <tr>
-	<td align="center"><table id="taskListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+	<td class="leftmost_label"></td>
+	<td align="center" width="723px;" ><table id="id_taxi_out_hazardListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
 	<div id="pager1" class="scroll"></div>
 	</td>
 </tr>
 </tbody>
 </table>
-<table width="80%">
+<table>
 <tbody>
 <tr>
-	<td align="center">New Hazard:</td>
-	<td>No <input type="radio" name="new_hazard" onchange="enable_description_of_new_hazard('n');" value="n" checked="checked"/></td>
-	<td>Yes <input type="radio"name="new_hazard" onchange="enable_description_of_new_hazard('y');" value="y"/></td>
+	<td class="leftmost_label">New Hazard:</td>
+	<td style="width:30px;text-align:right;">No</td>
+	<td> <input type="radio" name="new_hazard" id="taxi_out_new_hazard_yes" onchange="taxi_out_enable_description_of_new_hazard('n');" value="n" checked="checked"/></td>
+	<td style="width:30px;text-align:right;">Yes</td>
+	<td> <input type="radio"name="new_hazard" id="taxi_out_new_hazard_no" onchange="taxi_out_enable_description_of_new_hazard('y');" value="y"/></td>
 </tr>
 </tbody>
 </table>
-<table width="80%">
+<table>
 <tbody>
 <tr>
-	<td width="100px;">Description of New Hazard</td>
-	<td><textarea rows="4" cols="50" id="id_texi_out_description_of_new_hazard" disabled="disabled"></textarea></td>
+	<td class="leftmost_label">Description of New Hazard</td>
+	<td><textarea rows="4" cols="100" id="id_taxi_out_description_of_new_hazard" disabled="disabled"></textarea></td>
 </tr>
 </tbody>
 </table>
-<hr>
-<table width="80%">
+
+<table>
 <tbody>
 <tr>
-	<td>Narrative:</td>
-	<td><textarea rows="4" cols="100%"></textarea></td>
+	<td class="leftmost_label">Narrative</td>
+	<td><textarea rows="4" cols="100" id="id_taxi_out_narrative"></textarea></td>
 </tr>
 <tr>
-	<td>Recommendation::</td>
-	<td><textarea rows="4" cols="100%"></textarea></td>
+	<td class="leftmost_label">Recommendation</td>
+	<td><textarea rows="4" cols="100" id="id_taxi_out_recommendation"></textarea></td>
 </tr>
 </tbody>
 </table>
 <table width="100%">
 <tbody>
 <tr>
-	<td align="right"><a id="id_taxi_out_save_btn" href="#">Save</a><a id="id_taxi_out_previous_btn" href="#">Previous</a><a id="id_taxi_out_next_btn" href="#">Next</a></td>
+	<td align="right"><a id="id_taxi_out_edit_btn" href="#">Edit</a><a id="id_taxi_out_cancel_btn" href="#">Cancel</a><a id="id_taxi_out_print_btn" href="#">Print</a><a id="id_taxi_out_submit_btn" href="#">Submit</a><a id="id_taxi_out_save_btn" href="#">Save</a><a id="id_taxi_out_previous_btn" href="#">Previous</a><a id="id_taxi_out_next_btn" href="#">Next</a></td>
 </tr>
 </tbody>
 </table>
