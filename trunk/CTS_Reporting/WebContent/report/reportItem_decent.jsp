@@ -189,6 +189,7 @@
 	  jQuery("#id_decent_hazardListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/getHazardItems.do', 
 	  	height: 120,
+	  	width:720,
 	  	datatype: "xml", 
 	     	colNames:['No.','HAZARD Lv1', 'HAZARD Lv2', 'HAZARD Lv3','HAZARD Lv4','HAZARD Lv5','FN'],
 	     	colModel:[
@@ -205,7 +206,7 @@
 	     	hoverrows:false,
 	     	rownumbers: true, 
 	     	rowNum:10, 
-	     	autowidth: true, 
+	     	//autowidth: true, 
 	     	loadtext:'&nbsp;Loading hazard items..',
 	     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
 	     	rowList:[10,20,30], 
