@@ -173,13 +173,16 @@
   
   function fn_approach_fnFormatter( cellvalue, options, rowObject )
   {
-	var return_str = '<a id="id_approachseq_'+cellvalue+'_edit_hazard" href="#">Edit</a>';
-	return_str += '<script>';
-	return_str += '$("#id_approachseq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
-	return_str += '    	event.preventDefault();';
-	return_str += '});';
-	return_str += '</scr'+'ipt>';
-  	return return_str;
+	  var return_str = '<a id="id_approach_seq_'+cellvalue+'_edit_hazard" href="#">Edit</a><a id="id_approach_seq_'+cellvalue+'_delete_hazard" href="#">Delete</a>';
+		return_str += '<script>';
+		return_str += '$("#id_approach_seq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
+		return_str += '    	event.preventDefault();';
+		return_str += '});';
+		return_str += '$("#id_approach_seq_'+cellvalue+'_delete_hazard").button().click(function( event ) {'
+		return_str += '    	event.preventDefault();';
+		return_str += '});';
+		return_str += '</scr'+'ipt>';
+	  	return return_str;
   }
   
   
@@ -194,12 +197,12 @@
 	     	colNames:['No.','HAZARD Lv1', 'HAZARD Lv2', 'HAZARD Lv3','HAZARD Lv4','HAZARD Lv5','FN'],
 	     	colModel:[
 	     	 			{name:'seq_num'		,index:'seq_num'		,width:30	,align:"center", hidden:true, sortable:false},
-	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:110	,align:"center"	,sorttype:"text"},
-	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:110	,align:"center"	},
-	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:110	,align:"center"	},
-	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:110	,align:"center"	},
-	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:110	,align:"center"	},		
-	     	    		{name:'fn'			,index:'fn'				,width:70	,align:"center", formatter:fn_approach_fnFormatter	}		
+	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:90	,align:"center"	,sorttype:"text"},
+	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:90	,align:"center"	},
+	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:90	,align:"center"	},
+	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:90	,align:"center"	},
+	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:90	,align:"center"	},
+	     	    		{name:'fn'			,index:'fn'				,width:95	,align:"center", formatter:fn_approach_fnFormatter	}		
 	     	    	],
 	     	//shrinkToFit:true,
 	     	//altRows:true,
@@ -286,7 +289,7 @@
 </tr>
 <tr>
 	<td class="leftmost_label">Level4: </td>
-	<td><select id="id_approach_level_4_selector" name="method" class="hazard_item_selector">
+	<td><select id="id_approach_level_4_selector" onchange="fn_approach_read_hazard_item_list_children(this.value,4);" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 <tr>

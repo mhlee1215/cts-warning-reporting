@@ -173,9 +173,12 @@
   
   function texi_out_fnFormatter( cellvalue, options, rowObject )
   {
-	var return_str = '<a id="id_taxi_outseq_'+cellvalue+'_edit_hazard" href="#">Edit</a>';
+	var return_str = '<a id="id_taxi_out_seq_'+cellvalue+'_edit_hazard" href="#">Edit</a><a id="id_taxi_out_seq_'+cellvalue+'_delete_hazard" href="#">Delete</a>';
 	return_str += '<script>';
-	return_str += '$("#id_taxi_outseq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
+	return_str += '$("#id_taxi_out_seq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
+	return_str += '    	event.preventDefault();';
+	return_str += '});';
+	return_str += '$("#id_taxi_out_seq_'+cellvalue+'_delete_hazard").button().click(function( event ) {'
 	return_str += '    	event.preventDefault();';
 	return_str += '});';
 	return_str += '</scr'+'ipt>';
@@ -199,7 +202,7 @@
 	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:90	,align:"center"	},
 	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:90	,align:"center"	},
 	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:90	,align:"center"	},		
-	     	    		{name:'fn'			,index:'fn'				,width:40	,align:"center", formatter:texi_out_fnFormatter	}		
+	     	    		{name:'fn'			,index:'fn'				,width:95	,align:"center", formatter:texi_out_fnFormatter	}		
 	     	    	],
 	     	//shrinkToFit:true,
 	     	//altRows:true,
@@ -285,7 +288,7 @@
 </tr>
 <tr>
 	<td class="leftmost_label">Level4: </td>
-	<td><select id="id_taxi_out_level_4_selector" name="method" class="hazard_item_selector">
+	<td><select id="id_taxi_out_level_4_selector" onchange="texi_out_read_hazard_item_list_children(this.value,4);" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 <tr>
