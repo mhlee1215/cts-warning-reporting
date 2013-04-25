@@ -163,11 +163,11 @@
 	     	colNames:['SEQ_NUM','ITEM_ID_LV1', 'ITEM_ID_LV2', 'ITEM_ID_LV3','ITEM_ID_LV4','ITEM_ID_LV5','FN'],
 	     	colModel:[
 	     	 			{name:'seq_num'		,index:'seq_num'		,width:50	,align:"center", sortable:false},
-	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:160	,align:"center"	,sorttype:"text"},
-	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:160	,align:"center"	},
-	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:160	,align:"center"	},
-	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:160	,align:"center"	},
-	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:160	,align:"center"	},		
+	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:150	,align:"center"	,sorttype:"text"},
+	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:150	,align:"center"	},
+	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:150	,align:"center"	},
+	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:150	,align:"center"	},
+	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:150	,align:"center"	},		
 	     	    		{name:'fn'			,index:'fn'				,width:70	,align:"center", formatter:fnFormatter	}		
 	     	    	],
 	     	//shrinkToFit:true,
