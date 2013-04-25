@@ -123,6 +123,30 @@
       color: #777;
   }   
   </style>  
+  <script>
+  $(function() {
+	  $("#id_main_edit_btn")
+	  .button()
+	  .click(function( event ) {
+	   event.preventDefault();
+	  });
+	  $("#id_main_cancel_btn")
+	  .button()
+	  .click(function( event ) {
+	   event.preventDefault();
+	  });
+	  $("#id_main_print_btn")
+	  .button()
+	  .click(function( event ) {
+	   event.preventDefault();
+	  });
+	  $("#id_main_submit_btn")
+	  .button()
+	  .click(function( event ) {
+	   event.preventDefault();
+	  });
+  });
+  </script>
 </head>
 <body>
 
@@ -152,7 +176,13 @@
       <div id="tab9"></div>
   </div>
   
-  
+  <div>
+  	<table width="100%">
+  		<tr>
+  			<td align="right"><a id="id_main_edit_btn" href="#">Edit</a><a id="id_main_cancel_btn" href="#">Cancel</a><a id="id_main_print_btn" href="#">Print</a><a id="id_main_submit_btn" href="#">Submit</a></td>
+  		</tr>
+  	</table>
+  </div>
 
   <script>
     function resetTabs(){

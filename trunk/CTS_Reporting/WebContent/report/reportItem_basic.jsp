@@ -22,26 +22,7 @@
           .click(function( event ) {
             event.preventDefault();
           });
-    $("#id_basic_edit_btn")
-    .button()
-    .click(function( event ) {
-     event.preventDefault();
-    });
-    $("#id_basic_cancel_btn")
-    .button()
-    .click(function( event ) {
-     event.preventDefault();
-    });
-    $("#id_basic_print_btn")
-    .button()
-    .click(function( event ) {
-     event.preventDefault();
-    });
-    $("#id_basic_submit_btn")
-    .button()
-    .click(function( event ) {
-     event.preventDefault();
-    });
+    
     $("#id_basic_save_btn")
     .button()
     .click(function( event ) {
@@ -398,7 +379,7 @@ Reporting Date: </td><td><input type="text" id="id_basic_report_date_datepicker"
 <table width="100%">
 	<tbody>
 		<tr>
-			<td align="right"><a id="id_basic_edit_btn" href="#">Edit</a><a id="id_basic_cancel_btn" href="#">Cancel</a><a id="id_basic_print_btn" href="#">Print</a><a id="id_basic_submit_btn" href="#">Submit</a><a id="id_basic_save_btn" href="#">Save</a> <a id="id_basic_next_btn" href="#">Next</a></td>
+			<td align="right"><a id="id_basic_save_btn" href="#">Save</a> <a id="id_basic_next_btn" href="#">Next</a></td>
 		</tr>
 	</tbody>
 </table>

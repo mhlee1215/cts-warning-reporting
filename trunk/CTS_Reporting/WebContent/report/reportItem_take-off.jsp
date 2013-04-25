@@ -27,7 +27,7 @@
    $("#id_take_offmore_hazards")
    .button()
    .click(function( event ) {
-	 reset_hazard_identification();
+	 take_off_reset_hazard_identification();
      event.preventDefault();
    });
    $("#id_take_offsave_hazard")
@@ -35,26 +35,7 @@
    .click(function( event ) {
      event.preventDefault();
    });
-   $("#id_take_off_edit_btn")
-   .button()
-   .click(function( event ) {
-    event.preventDefault();
-   });
-   $("#id_take_off_cancel_btn")
-   .button()
-   .click(function( event ) {
-    event.preventDefault();
-   });
-   $("#id_take_off_print_btn")
-   .button()
-   .click(function( event ) {
-    event.preventDefault();
-   });
-   $("#id_take_off_submit_btn")
-   .button()
-   .click(function( event ) {
-    event.preventDefault();
-   });
+   
    $("#id_take_off_save_btn")
    .button()
    .click(function( event ) {
@@ -73,18 +54,18 @@
      event.preventDefault();
    });
    
-   read_hazard_item_list_top();
-   disable_hazard_selector_from_level(1);
+   take_off_read_hazard_item_list_top();
+   take_off_disable_hazard_selector_from_level(1);
    
-   load_hazard_item();
+   take_off_load_hazard_item();
   });
   
-  function reset_hazard_identification(){
-	  read_hazard_item_list_top();
-	  disable_hazard_selector_from_level(1);
+  function take_off_reset_hazard_identification(){
+	  take_off_read_hazard_item_list_top();
+	  take_off_disable_hazard_selector_from_level(1);
   }
   
-  function disable_hazard_selector_from_level(level){
+  function take_off_disable_hazard_selector_from_level(level){
 	  //alert(level);
 	  for(var cur_level=level+1 ; cur_level <= 5 ; cur_level++){
 		  $('#id_take_off_level_'+cur_level+'_selector').attr("disabled", true);
@@ -98,7 +79,7 @@
 		  
 	  }
   }
-  function enable_hazard_selector(level){
+  function take_off_enable_hazard_selector(level){
 	  $('#id_take_off_level_'+level+'_selector').removeAttr("disabled");
   }	
   
@@ -114,7 +95,7 @@
   
   
   
-  function read_hazard_item_list_top(callback){	
+  function take_off_read_hazard_item_list_top(callback){	
 		$.ajax({
 			type: "POST",
 			url: "<c:url value='/getHazardItemListTop.do' />",
@@ -143,7 +124,7 @@
 		});
   }
   
-  function read_hazard_item_list_children(id, level, callback){ 
+  function take_off_read_hazard_item_list_children(id, level, callback){ 
 		$.ajax({
 			type: "POST",
 			url: "<c:url value='/getHazardItemListChildren.do' />",
@@ -170,13 +151,13 @@
 				if(callback != undefined && callback != null)
 					callback();	
 				
-				disable_hazard_selector_from_level(parseInt(level, 10)+1);
-				enable_hazard_selector(parseInt(level, 10)+1);
+				take_off_disable_hazard_selector_from_level(parseInt(level, 10)+1);
+				take_off_enable_hazard_selector(parseInt(level, 10)+1);
 			}
 		});
   }
   
-  function dateFormatter( cellvalue, options, rowObject )
+  function take_off_dateFormatter( cellvalue, options, rowObject )
   {
   	if(cellvalue != undefined && cellvalue != ''){
   		var year = cellvalue.substring(0, 4);
@@ -190,7 +171,7 @@
   	return '-';
   }
   
-  function fnFormatter( cellvalue, options, rowObject )
+  function take_off_fnFormatter( cellvalue, options, rowObject )
   {
 	var return_str = '<a id="id_take_offseq_'+cellvalue+'_edit_hazard" href="#">Edit</a>';
 	return_str += '<script>';
@@ -203,21 +184,21 @@
   
   
   
-  function load_hazard_item(){
+  function take_off_load_hazard_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
 	  jQuery("#id_take_off_hazardListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/getHazardItems.do', 
 	  	height: 120,
 	  	datatype: "xml", 
-	     	colNames:['No.','ITEM Lv1', 'ITEM Lv2', 'ITEM Lv3','ITEM Lv4','ITEM Lv5','FN'],
+	     	colNames:['No.','HAZARD Lv1', 'HAZARD Lv2', 'HAZARD Lv3','HAZARD Lv4','HAZARD Lv5','FN'],
 	     	colModel:[
-	     	 			{name:'seq_num'		,index:'seq_num'		,width:30	,align:"center", sortable:false},
+	     	 			{name:'seq_num'		,index:'seq_num'		,width:30	,align:"center", hidden:true, sortable:false},
 	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:110	,align:"center"	,sorttype:"text"},
 	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:110	,align:"center"	},
 	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:110	,align:"center"	},
 	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:110	,align:"center"	},
 	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:110	,align:"center"	},		
-	     	    		{name:'fn'			,index:'fn'				,width:70	,align:"center", formatter:fnFormatter	}		
+	     	    		{name:'fn'			,index:'fn'				,width:70	,align:"center", formatter:take_off_fnFormatter	}		
 	     	    	],
 	     	//shrinkToFit:true,
 	     	//altRows:true,
@@ -289,17 +270,17 @@
 </tr>
 <tr>
 	<td class="leftmost_label">Level1: </td>
-	<td><select id="id_take_off_level_1_selector" onchange="read_hazard_item_list_children(this.value,1);" name="method" class="hazard_item_selector">		
+	<td><select id="id_take_off_level_1_selector" onchange="take_off_read_hazard_item_list_children(this.value,1);" name="method" class="hazard_item_selector">		
 	</select> </td>
 </tr>
 <tr>
 	<td class="leftmost_label">Level2: </td>
-	<td><select id="id_take_off_level_2_selector" onchange="read_hazard_item_list_children(this.value,2);" name="method" class="hazard_item_selector">
+	<td><select id="id_take_off_level_2_selector" onchange="take_off_read_hazard_item_list_children(this.value,2);" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 <tr>
 	<td class="leftmost_label">Level3: </td>
-	<td><select id="id_take_off_level_3_selector" onchange="read_hazard_item_list_children(this.value,3);" name="method" class="hazard_item_selector">
+	<td><select id="id_take_off_level_3_selector" onchange="take_off_read_hazard_item_list_children(this.value,3);" name="method" class="hazard_item_selector">
 	</select> </td>
 </tr>
 <tr>
@@ -375,7 +356,7 @@
 <table width="100%">
 <tbody>
 <tr>
-	<td align="right"><a id="id_take_off_edit_btn" href="#">Edit</a><a id="id_take_off_cancel_btn" href="#">Cancel</a><a id="id_take_off_print_btn" href="#">Print</a><a id="id_take_off_submit_btn" href="#">Submit</a><a id="id_take_off_save_btn" href="#">Save</a><a id="id_take_off_previous_btn" href="#">Previous</a><a id="id_take_off_next_btn" href="#">Next</a></td>
+	<td align="right"><a id="id_take_off_save_btn" href="#">Save</a><a id="id_take_off_previous_btn" href="#">Previous</a><a id="id_take_off_next_btn" href="#">Next</a></td>
 </tr>
 </tbody>
 </table>
