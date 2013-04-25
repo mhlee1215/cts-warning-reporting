@@ -1,0 +1,130 @@
+1,(general),1
+2,Maintenance/inspections,1
+3,Towing and taxiing,1
+4,Parking/securing,1
+5,Loading,1
+6,(general),2
+7,Air conditioning system,2
+8,Auto flight system,2
+9,Communications system,2
+10,Electrical power system,2
+11,Equipment/furnishings,2
+12,Fire protection system,2
+13,Flight control system,2
+14,Fuel system,2
+15,Hydraulic power system,2
+16,Ice/rain protection system,2
+17,Indicating/recording systems,2
+18,Landing gear system,2
+19,Lighting system,2
+20,Navigation system,2
+21,Oxygen system,2
+22,Pneumatic system,2
+23,Vacuum system,2
+24,Water and waste system,2
+25,Central maintenance computer,2
+26,Airborne APU system,2
+27,(general),3
+28,Balloon/dirigible structures,3
+29,Doors,3
+30,Fuselage,3
+31,Nacelles/pylons structure,3
+32,Empennage structure,3
+33,Windows,3
+34,Wing structure,3
+35,(general),4
+36,Propeller system,4
+37,Main rotor system,4
+38,Main rotor drive,4
+39,Tail rotor,4
+40,Tail rotor drive system,4
+41,Rotorcraft flight control,4
+42,(general),5
+43,Power plant,5
+44,Engine (turbine/turboprop),5
+45,Engine fuel and control,5
+46,Ignition system,5
+47,Engine bleed air system,5
+48,Engine controls,5
+49,Engine indicating system,5
+50,Engine exhaust,5
+51,Eng oil sys (airframe furnish),5
+52,Engine starting,5
+53,Turbocharging (recip only),5
+54,Water injection,5
+55,Accessory gear,5
+56,Engine (reciprocating),5
+57,(general),6
+58,Aircraft capability,6
+59,Performance/control parameters,6
+60,(general),7
+61,Fluids,7
+62,Misc hardware,7
+63,(general),8
+64,En route navaid coverage/avail,8
+65,Approach aid coverage/avail,8
+66,Meteorological services,8
+67,Air traffic/operating proc,8
+68,Radar services/coverage,8
+69,Communication system,8
+70,Airport facilities/design,8
+71,(general),9
+72,Terrain,9
+73,Object/animal/substance,9
+74,Runway/land/takeoff/taxi surface,9
+75,(general),10
+76,Temp/humidity/pressure,10
+77,Turbulence,10
+78,Convective weather,10
+79,Wind,10
+80,Ceiling/visibility/precip,10
+81,Light condition,10
+82,(general),11
+83,Physical workspace,11
+84,Pressures/demands,11
+85,(general),12
+86,(general),13
+87,Design,13
+88,Selection/certification/testing,13
+89,Manufacture/production,13
+90,(general),14
+91,Policy/procedure,14
+92,Resources,14
+93,Scheduling,14
+94,Culture,14
+95,Communication (organizational),14
+96,(general),15
+97,Training,15
+98,Oversight,15
+99,Documentation/record keeping,15
+100,Enforcement,15
+101,Safety programs,15
+102,(general),16
+103,Physical characteristic,16
+104,Sensory ability/limitation,16
+105,Impairment/incapacitation,16
+106,Health/Fitness,16
+107,Alertness/Fatigue,16
+108,(general),17
+109,Personality/attitude,17
+110,Attention/monitoring,17
+111,Perception/orientation/illusion,17
+112,Mental/emotional state,17
+113,Cognitive limitation,17
+114,(general),18
+115,Experience/qualifications,18
+116,Training,18
+117,Knowledge,18
+118,(general),19
+119,Action,19
+120,Info processing/decision,19
+121,(general),20
+122,Intentional act,20
+123,(general),21
+124,Planning/preparation,21
+125,Inspection,21
+126,Maintenance,21
+127,Record,21
+128,Use of equip/info,21
+129,Communication (personnel),21
+130,Workload management,21
