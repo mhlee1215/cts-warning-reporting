@@ -44,6 +44,7 @@
    read_hazard_item_list_top();
    disable_hazard_selector_from_level(1);
    
+   load_hazard_item();
   });
   
   function disable_hazard_selector_from_level(level){
@@ -126,6 +127,107 @@
 		});
   }
   
+  function dateFormatter( cellvalue, options, rowObject )
+  {
+  	if(cellvalue != undefined && cellvalue != ''){
+  		var year = cellvalue.substring(0, 4);
+  		var month = cellvalue.substring(4, 6);
+  		var date = cellvalue.substring(6, 8);
+  		var hour = cellvalue.substring(8, 10);
+  		var min = cellvalue.substring(10, 12);
+  		var sec = cellvalue.substring(12, 14);
+  		return year+'-'+month+'-'+date+' '+hour+':'+min+':'+sec;
+  	}
+  	return '-';
+  }
+  
+  function fnFormatter( cellvalue, options, rowObject )
+  {
+	var return_str = '<a id="id_seq_'+cellvalue+'_edit_hazard" href="#">Edit</a>';
+	return_str += '<script>';
+	return_str += '$("#id_seq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
+	return_str += '    	event.preventDefault();';
+	return_str += '});';
+	return_str += '</scr'+'ipt>';
+  	return return_str;
+  }
+  
+  
+  
+  function load_hazard_item(){
+	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
+	  jQuery("#taskListTable").jqGrid({
+	  	url:'${pageContext.request.contextPath}/getHazardItems.do', 
+	  	height: 120,
+	  	datatype: "xml", 
+	     	colNames:['SEQ_NUM','ITEM_ID_LV1', 'ITEM_ID_LV2', 'ITEM_ID_LV3','ITEM_ID_LV4','ITEM_ID_LV5','FN'],
+	     	colModel:[
+	     	 			{name:'seq_num'		,index:'seq_num'		,width:50	,align:"center", sortable:false},
+	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:160	,align:"center"	,sorttype:"text"},
+	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:160	,align:"center"	},
+	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:160	,align:"center"	},
+	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:160	,align:"center"	},
+	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:160	,align:"center"	},		
+	     	    		{name:'fn'			,index:'fn'				,width:70	,align:"center", formatter:fnFormatter	}		
+	     	    	],
+	     	//shrinkToFit:true,
+	     	//altRows:true,
+	     	hoverrows:false,
+	     	rownumbers: true, 
+	     	rowNum:10, 
+	     	autowidth: true, 
+	     	loadtext:'&nbsp;Loading hazard items..',
+	     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
+	     	rowList:[10,20,30], 
+	     	//pager: jQuery('#pager1'), 
+	     	pagerpos:'center',
+	     	sortname: 'id', 
+	     	sortorder: 'desc',
+	     	imgpath: gridimgpath,
+	     	//multiselect: true,
+	     	viewrecords: true, 
+	     	emptyrecords:'no task data',
+	     	//caption: "Task List",
+	     	toolbar: [false,"top"],
+	     	loadError : function(xhr,st,err) { 
+	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
+	  	},
+	  	loadComplete: function(){ 
+	  	    
+	  		
+	  			//jQuery("#taskListTable").setRowData(ids[i],{detail:detailHtml});				
+	  			//$("#detail_button_"+recordArry['id']).click(function() {fncDetailTask(recordArry['id']);});
+	 			//$("#step4_next_button_"+recordArry['id']).click(function() {fncShowCoord(recordArry['id']);});
+	  			//$("#step4_stop_button_"+recordArry['id']).click(function() {stopTask(recordArry['id']); });
+	  			
+	  		
+	  	}  
+	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
+	  
+	  /*jQuery("#taskListTable").jqGrid({
+		   	url:'${pageContext.request.contextPath}/getHazardItems.do', 
+			datatype: "xml",
+		   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+		   	colModel:[
+		   		{name:'id',index:'id', width:75},
+		   		{name:'invdate',index:'invdate', width:90},
+		   		{name:'name',index:'name', width:100},
+		   		{name:'amount',index:'amount', width:80, align:"right"},
+		   		{name:'tax',index:'tax', width:80, align:"right"},		
+		   		{name:'total',index:'total', width:80,align:"right"},		
+		   		{name:'note',index:'note', width:150, sortable:false}		
+		   	],
+		   	rowNum:10,
+		   	autowidth: true,
+		   	rowList:[10,20,30],
+		   	pager: jQuery('#pager1'),
+		   	sortname: 'id',
+		    viewrecords: true,
+		    sortorder: "desc",
+		    caption:"XML Example"
+		}).navGrid('#pager1',{edit:false,add:false,del:false});		*/
+  }
+  
 
   </script>
 <body>
@@ -182,7 +284,9 @@
 <table width="80%">
 <tbody>
 <tr>
-	<td align="center"><textarea rows="4" cols="100%" ></textarea></td>
+	<td align="center"><table id="taskListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+	<div id="pager1" class="scroll"></div>
+	</td>
 </tr>
 </tbody>
 </table>

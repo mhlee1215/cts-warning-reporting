@@ -6,18 +6,22 @@
 		
 	<resultMap id="HazardItem" class="ac.kaist.cts.domain.HazardItem">
 		<result column="ID" property="id" />
-		<result column="ITEM_LV1_ID" property="item_lv1_id" />
-		<result column="ITEM_LV2_ID" property="item_lv2_id" />
-		<result column="ITEM_LV3_ID" property="item_lv3_id" />
-		<result column="ITEM_LV4_ID" property="item_lv4_id" />
-		<result column="ITEM_LV5_ID" property="item_lv5_id" />
-		<result column="ITEM_LV5_ID" property="item_lv5_id" />
+		<result column="SEQ_NUM" property="seq_num" />
+		<result column="ITEM_ID" property="item_id" />
+		<result column="ITEM_LEVEL" property="item_level" />
 		<result column="REPORT_ID" property="report_id" />
  	</resultMap>
  	
- 	<select id="readHazardItems" resultMap="HazardItem">
- 		SELECT ID, ITEM_LV1_ID, ITEM_LV2_ID, ITEM_LV3_ID, ITEM_LV4_ID, ITEM_LV5_ID, REPORT_ID FROM HAZARD_ITEM
- 		WHERE PARENT_ID = #report_id# 
+ 	
+ 	<select id="readHazardItemNum" resultClass="Integer">
+ 		SELECT max(SEQ_NUM) FROM HAZARD_ITEM
+ 		WHERE REPORT_ID = #report_id# 
+ 	</select>
+ 	
+ 	<select id="readHazardItem" resultMap="HazardItem">
+ 		SELECT ID, SEQ_NUM, ITEM_ID, ITEM_LEVEL, REPORT_ID FROM HAZARD_ITEM
+ 		WHERE REPORT_ID = #report_id# and SEQ_NUM = #seq_num#
+ 		ORDER BY ITEM_LEVEL
  	</select>
 
 	
