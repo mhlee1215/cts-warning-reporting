@@ -20,10 +20,15 @@ public class HazardItemDaoImpl extends SqlMapClientDaoSupport implements HazardI
 	} 
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<HazardItem> readHazardItems(HazardItem item) {
-		List<HazardItem> array = getSqlMapClientTemplate().queryForList("HazardItemSql.readHazardItems", item);
-		return array;
+	public List<HazardItem> readHazardItem(HazardItem item) {
+		List<HazardItem> read_item = getSqlMapClientTemplate().queryForList("HazardItemSql.readHazardItem", item);
+		return read_item;
+	}
+
+	@Override
+	public Integer readHazardItemNum(HazardItem item) {
+		Integer item_num = (Integer) getSqlMapClientTemplate().queryForObject("HazardItemSql.readHazardItemNum", item);
+		return item_num;
 	}
 
 }
