@@ -16,6 +16,7 @@
    $("#id_more_hazards")
    .button()
    .click(function( event ) {
+	 reset_hazard_identification();
      event.preventDefault();
    });
    $("#id_save_hazard")
@@ -47,6 +48,11 @@
    load_hazard_item();
   });
   
+  function reset_hazard_identification(){
+	  read_hazard_item_list_top();
+	  disable_hazard_selector_from_level(1);
+  }
+  
   function disable_hazard_selector_from_level(level){
 	  //alert(level);
 	  for(var cur_level=level+1 ; cur_level <= 5 ; cur_level++){
@@ -64,6 +70,18 @@
   function enable_hazard_selector(level){
 	  $('#id_taxi_out_level_'+level+'_selector').removeAttr("disabled");
   }	
+  
+  function enable_description_of_new_hazard(val){
+	  if (val == 'y'){
+		  $('#id_texi_out_description_of_new_hazard').removeAttr("disabled");
+	  }else if( val == 'n'){
+		  $('#id_texi_out_description_of_new_hazard').attr("disabled", true);
+	  }
+	  
+	 
+  }
+  
+  
   
   function read_hazard_item_list_top(callback){	
 		$.ajax({
@@ -111,7 +129,7 @@
 					count=count-1;
 				}
 				
-				selectItem.options[0] = new Option('[SELECT LEVEL 2 HAZARD]', '');
+				selectItem.options[0] = new Option('[SELECT LEVEL '+(parseInt(level, 10)+1)+' HAZARD]', '');
 				
 				for(var count = 0 ; count < platforms.length ; count++)
 				{
@@ -294,16 +312,16 @@
 <tbody>
 <tr>
 	<td align="center">New Hazard:</td>
-	<td>No <input type="radio" name="new_hazard" value="n"/></td>
-	<td>Yes <input type="radio"name="new_hazard" value="y"/></td>
+	<td>No <input type="radio" name="new_hazard" onchange="enable_description_of_new_hazard('n');" value="n" checked="checked"/></td>
+	<td>Yes <input type="radio"name="new_hazard" onchange="enable_description_of_new_hazard('y');" value="y"/></td>
 </tr>
 </tbody>
 </table>
 <table width="80%">
 <tbody>
 <tr>
-	<td width="100px;">Description of NEw Hazard</td>
-	<td><textarea rows="4" cols="50" disabled="disabled"></textarea></td>
+	<td width="100px;">Description of New Hazard</td>
+	<td><textarea rows="4" cols="50" id="id_texi_out_description_of_new_hazard" disabled="disabled"></textarea></td>
 </tr>
 </tbody>
 </table>
