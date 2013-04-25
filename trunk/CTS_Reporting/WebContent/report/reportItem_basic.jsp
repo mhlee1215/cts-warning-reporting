@@ -6,43 +6,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
-  <style>
-  .leftmost_label{
-  	width:100px;
-  	text-align:right;
-  }
-  .leftmost_label2{
-  	width:100px;
-  	text-align:right;
-  	font-weight:bold;
-  }
-  .leftmost_header1{
-    font-size:12px;
-  	font-weight:bold;
-  	margin-left:5px;
-  	width:100px;
-  	text-align:left;
-  }
-  .form_input_text{
-  	width:120px;
-  }
-  .form_selector{
-  	margin-left:2px;
-  	margin-right:2px;
-  	width:120px;
-  }
-  </style>
+  
   <script>
   $(function() {
-    $("#id_report_date_datepicker").datepicker();
-    $("#id_flight_date_datepicker").datepicker();
+    $("#id_basic_report_date_datepicker").datepicker();
+    $("#id_basic_flight_date_datepicker").datepicker();
    
-    $("#id_date_of_birth_datapicker").datepicker();
-    $("#id_date_of_last_medical_datapicker").datepicker();
-    $("#id_date_last_inspection_datepicker").datepicker();
+    $("#id_basic_date_of_birth_datapicker").datepicker();
+    $("#id_basic_date_of_last_medical_datapicker").datepicker();
+    $("#id_basic_date_last_inspection_datepicker").datepicker();
     
         
-    $("#id_auto_fill_btn")
+    $("#id_basic_auto_fill_btn")
           .button()
           .click(function( event ) {
             event.preventDefault();
@@ -83,41 +58,51 @@
   });
   
   function auto_fill(){
-	    $("#id_report_date_datepicker").attr("value", "04/26/2013");
-	    $("#id_flight_date_datepicker").attr("value", "04/25/2013");
-	    $("#id_flight_no").attr("value", "KE1234");
-	  	$("#id_air_line").attr("value", "7C");
-	  	$("#id_route_from").attr("value", "GMP");
-	  	$("#id_route_to").attr("value", "KIX");
-	  	$("#id_route_diverted").attr("value", "ITM");
-	  	$("#id_no_of_flight_crew").attr("value", "2");
-	  	$("#id_no_of_cabin_crew").attr("value", "7");
-	  	$("#id_no_of_passengers").attr("value", "112");
+	    $("#id_basic_report_date_datepicker").attr("value", "04/26/2013");
+	    $("#id_basic_flight_date_datepicker").attr("value", "04/25/2013");
+	    $("#id_basic_flight_no").attr("value", "KE1234");
+	  	$("#id_basic_air_line").attr("value", "7C");
+	  	$("#id_basic_route_from").attr("value", "GMP");
+	  	$("#id_basic_route_to").attr("value", "KIX");
+	  	$("#id_basic_route_diverted").attr("value", "ITM");
+	  	$("#id_basic_no_of_flight_crew").attr("value", "2");
+	  	$("#id_basic_no_of_cabin_crew").attr("value", "7");
+	  	$("#id_basic_no_of_passengers").attr("value", "112");
 	  	
 	  	
-	  	$("#id_id_number").attr("value", "P12345");
-	  	$("#id_name").attr("value", "Gil-Dong Hong");
-	  	$("#id_date_of_birth_datapicker").attr("value", "06/11/1965");
-	  	$("#id_date_of_last_medical_datapicker").attr("value", "05/12/13");
-	  	$("#id_total_time").attr("value", "1540");
-	  	$("#id_this_mask_model").attr("value", "890");
+	  	$("#id_basic_id_basic_number").attr("value", "P12345");
+	  	$("#id_basic_name").attr("value", "Gil-Dong Hong");
+	  	$("#id_basic_date_of_birth_datapicker").attr("value", "06/11/1965");
+	  	$("#id_basic_date_of_last_medical_datapicker").attr("value", "05/12/13");
+	  	$("#id_basic_total_time").attr("value", "1540");
+	  	$("#id_basic_this_mask_model").attr("value", "890");
 	  	
 	  	
-	  	$("#id_serial_number").attr("value", "51-11012");
-	  	$("#id_registration_number").attr("value", "HL7229");
-	  	$("#id_flight_crew").attr("value", "2");
-	  	$("#id_cabin_crew").attr("value", "8");
-	  	$("#id_passengers").attr("value", "150");
-	  	$("#id_date_last_inspection_datepicker").attr("value", "06/12/2012");
+	  	$("#id_basic_serial_number").attr("value", "51-11012");
+	  	$("#id_basic_registration_number").attr("value", "HL7229");
+	  	$("#id_basic_flight_crew").attr("value", "2");
+	  	$("#id_basic_cabin_crew").attr("value", "8");
+	  	$("#id_basic_passengers").attr("value", "150");
+	  	$("#id_basic_date_last_inspection_datepicker").attr("value", "06/12/2012");
 	  	
-	  	$("#id_flight_crew_no_of_fatalities").attr("value", "0");
-	  	$("#id_flight_crew_no_of_injuries").attr("value", "0");
-	  	$("#id_cabin_crew_no_of_fatalities").attr("value", "0");
-	  	$("#id_cabin_crew_no_of_injuries").attr("value", "0");
-	  	$("#id_passengers_no_of_fatalities").attr("value", "0");
-	  	$("#id_passengers_no_of_injuries").attr("value", "0");
+	  	$("#id_basic_flight_crew_no_of_fatalities").attr("value", "0");
+	  	$("#id_basic_flight_crew_no_of_injuries").attr("value", "0");
+	  	$("#id_basic_cabin_crew_no_of_fatalities").attr("value", "0");
+	  	$("#id_basic_cabin_crew_no_of_injuries").attr("value", "0");
+	  	$("#id_basic_passengers_no_of_fatalities").attr("value", "0");
+	  	$("#id_basic_passengers_no_of_injuries").attr("value", "0");
 	  	
-	  	$("#id_model_selector").val("12");
+	  	
+	  	$("#id_basic_flight_type_selector").val("1");
+	  	$("#id_basic_dom_or_int_selector").val("1");
+	  	$("#id_basic_cargo_oper_selector").val("1");
+	  	$("#id_basic_medical_certification_selector").val("1");
+	  	$("#id_basic_manufacturer_selector").val("1");
+	  	$("#id_basic_model_selector").val("12");
+	  	$("#id_basic_last_inspection_type_selector").val("1");
+	  	$("#id_basic_damage_selector").val("1");
+	  	$("#id_basic_fire_selector").val("1");
+	  	$("#id_basic_explosion_selector").val("1");
   }
   </script>
 </head>
@@ -129,9 +114,9 @@
 <tbody>
 <tr>
 <td class="leftmost_label">
-Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class="form_input_text"/>
+Reporting Date: </td><td><input type="text" id="id_basic_report_date_datepicker" class="form_input_text"/>
 </td>
-<td align="right"><a id="id_auto_fill_btn" href="#" onclick="auto_fill();">Auto Fill</a>
+<td align="right"><a id="id_basic_auto_fill_btn" href="#" onclick="auto_fill();">Auto Fill</a>
 </td>
 </tr>
 </tbody>
@@ -141,13 +126,13 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">Flight Date:</td>
-	<td><input type="text" id="id_flight_date_datepicker" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_flight_date_datepicker" class="form_input_text" /></td>
 	<td width="100px;" align="right">Flight No.:</td>
-	<td><input type="text" id="id_flight_no" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_flight_no" class="form_input_text"/></td>
 </tr>
 <tr>
 	<td class="leftmost_label">Airline:</td>
-	<td><input type="text" id="id_air_line" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_air_line" class="form_input_text" /></td>
 	<td></td>
 	<td></td>
 </tr>
@@ -158,11 +143,11 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">Route:</td>
-	<td><input type="text" id="id_route_from" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_route_from" class="form_input_text" /></td>
 	<td>to</td>
-	<td><input type="text" id="id_route_to" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_route_to" class="form_input_text"/></td>
 	<td>/ Diverted:</td>
-	<td><input type="text" id="id_route_diverted" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_route_diverted" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table>
@@ -171,7 +156,7 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">Flight Type:</td>
-	<td><select id="id_flight_type_selector" name="method" class="form_selector">
+	<td><select id="id_basic_flight_type_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">SCHEDULED</option>
 				<option value="2">NON-SCHEDULED</option>
@@ -184,13 +169,13 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">Domestic or International:</td>
-	<td><select id="id_dom_or_int_selector" name="method" class="form_selector">
+	<td><select id="id_basic_dom_or_int_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">INTERNATIONAL</option>
 				<option value="2">DOMESTIC</option>
 			</select></td>
 	<td style="width:100px;text-align:right;">Cargo Operation:</td>
-	<td><select id="id_cargo_oper_selector" name="method" class="form_selector">
+	<td><select id="id_basic_cargo_oper_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">PASSENGER/CARGO</option>
 				<option value="2">PASSENGER</option>
@@ -205,11 +190,11 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">No. of Flight Crew:</td>
-	<td><input type="text" id="id_no_of_flight_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_no_of_flight_crew" class="form_input_text"/></td>
 	<td style="width:100px;text-align:right;">No. of Cabin Crew:</td>
-	<td><input type="text" id="id_no_of_cabin_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_no_of_cabin_crew" class="form_input_text"/></td>
 	<td style="width:100px;text-align:right;">No. of Passengers:</td>
-	<td><input type="text" id="id_no_of_passengers" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_no_of_passengers" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 
@@ -219,11 +204,11 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">ID Number:</td>
-	<td><input type="text" id="id_id_number" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_id_basic_number" class="form_input_text" /></td>
 	<td style="width:100px;text-align:right;">Name:</td>
-	<td><input type="text" id="id_name" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_name" class="form_input_text"/></td>
 	<td style="width:100px;text-align:right;">Date of Birth:</td>
-	<td><input type="text" id="id_date_of_birth_datapicker" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_date_of_birth_datapicker" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 
@@ -234,7 +219,7 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 </tr>
 <tr>
 	<td class="leftmost_label">Medical Certification:</td>
-	<td><select id="id_medical_certification_selector" name="method" class="form_selector">
+	<td><select id="id_basic_medical_certification_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">NONE</option>
 				<option value="2">CLASS1</option>
@@ -243,16 +228,16 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 				<option value="5">UNKNOWN</option>
 			</select></td>
 	<td style="width:135px;text-align:right;">Date of Last Medical:</td>
-	<td><input type="text" id="id_date_of_last_medical_datapicker" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_date_of_last_medical_datapicker" class="form_input_text"/></td>
 </tr>
 <tr>
 	<td class="leftmost_header1" colspan="4"><span style="margin-left:10px;">Flight Time (hours)</span></td>
 </tr>
 <tr>
 	<td class="leftmost_label">Total Time:</td>
-	<td><input type="text" id="id_total_time" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_total_time" class="form_input_text"/></td>
 	<td style="width:135px;text-align:right;">This Mask/Model:</td>
-	<td><input type="text" id="id_this_mask_model" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_this_mask_model" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 
@@ -262,13 +247,13 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">Manufacturer:</td>
-	<td><select id="id_manufacturer_selector" name="method" class="form_selector">
+	<td><select id="id_basic_manufacturer_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">BOEING</option>
 				<option value="2">AIRBUS</option>
 			</select></td>
 	<td style="width:135px;text-align:right;">Model:</td>
-	<td><select id="id_model_selector" name="method" class="form_selector">
+	<td><select id="id_basic_model_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">A300-600</option>
 				<option value="2">A320-200</option>
@@ -299,9 +284,9 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 </tr>
 <tr>
 	<td class="leftmost_label">Serial Number:</td>
-	<td><input type="text" id="id_serial_number" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_serial_number" class="form_input_text"/></td>
 	<td style="width:135px;text-align:right;">Registration Number:</td>
-	<td><input type="text" id="id_registration_number" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_registration_number" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 
@@ -313,11 +298,11 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 </tr>
 <tr>
 	<td class="leftmost_label">Flight Crew:</td>
-	<td><input type="text" id="id_flight_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_flight_crew" class="form_input_text"/></td>
 	<td style="width:130px;text-align:right;">Cabin Crew:</td>
-	<td><input type="text" id="id_cabin_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_cabin_crew" class="form_input_text"/></td>
 	<td style="width:130px;text-align:right;">Passengers:</td>
-	<td><input type="text" id="id_passengers" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_passengers" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 
@@ -326,7 +311,7 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tbody>
 <tr>
 	<td class="leftmost_label">Last Inspection Type:</td>
-	<td><select id="id_manufacturer_selector" name="method" class="form_selector">
+	<td><select id="id_basic_last_inspection_type_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">100HOUR</option>
 				<option value="2">AAIP</option>
@@ -336,7 +321,7 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 				<option value="6">UNKNOWN</option>
 			</select></td>
 	<td style="width:130px;text-align:right;">Date Last Inspection:</td>
-	<td><input type="text" id="id_date_last_inspection_datepicker" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_date_last_inspection_datepicker" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 	
@@ -350,23 +335,23 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 <tr>
 	<td class="leftmost_label2">Flight Crew</td>
 	<td style="width:130px;text-align:right;">No. of Fatalities:</td>
-	<td><input type="text" id="id_flight_crew_no_of_fatalities" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_flight_crew_no_of_fatalities" class="form_input_text"/></td>
 	<td style="width:130px;text-align:right;">No. of Injuries:</td>
-	<td><input type="text" id="id_flight_crew_no_of_injuries" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_flight_crew_no_of_injuries" class="form_input_text"/></td>
 </tr>
 <tr>
 	<td class="leftmost_label2">Cabin Crew</td>
 	<td style="width:130px;text-align:right;">No. of Fatalities:</td>
-	<td><input type="text" id="id_cabin_crew_no_of_fatalities" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_cabin_crew_no_of_fatalities" class="form_input_text"/></td>
 	<td style="width:130px;text-align:right;">No. of Injuries:</td>
-	<td><input type="text" id="id_cabin_crew_no_of_injuries" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_cabin_crew_no_of_injuries" class="form_input_text"/></td>
 </tr>
 <tr>
 	<td class="leftmost_label2">Passengers</td>
 	<td style="width:130px;text-align:right;">No. of Fatalities:</td>
-	<td><input type="text" id="id_passengers_no_of_fatalities" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_passengers_no_of_fatalities" class="form_input_text"/></td>
 	<td style="width:130px;text-align:right;">No. of Injuries:</td>
-	<td><input type="text" id="id_passengers_no_of_injuries" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_passengers_no_of_injuries" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 
@@ -378,7 +363,7 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 </tr>
 <tr>
 	<td class="leftmost_label">Damage:</td>
-	<td><select id="id_damage_selector" name="method" class="form_selector">
+	<td><select id="id_basic_damage_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">NONE</option>
 				<option value="2">MINOR</option>
@@ -386,7 +371,7 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 				<option value="4">DESTROYED</option>
 			</select></td>
 	<td style="width:70px;text-align:right;">Fire:</td>
-	<td><select id="id_fire_selector" name="method" class="form_selector">
+	<td><select id="id_basic_fire_selector" name="method" class="form_selector">
 				<option value="0">select</option>	
 				<option value="1">NONE</option>
 				<option value="2">IN-FLIGHT</option>
@@ -395,7 +380,7 @@ Reporting Date: </td><td><input type="text" id="id_report_date_datepicker" class
 				<option value="5">UNKNOWN ORIGIN</option>
 			</select></td>
 	<td style="width:70px;text-align:right;">Explosion:</td>
-	<td><select id="id_explosion_selector" name="method" class="form_selector">
+	<td><select id="id_basic_explosion_selector" name="method" class="form_selector">
 				<option value="0">select</option>					
 				<option value="1">NONE</option>
 				<option value="2">IN-FLIGHT</option>

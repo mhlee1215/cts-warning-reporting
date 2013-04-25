@@ -11,6 +11,30 @@
   <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <style>
+  .leftmost_label{
+  	width:100px;
+  	text-align:right;
+  }
+  .leftmost_label2{
+  	width:100px;
+  	text-align:right;
+  	font-weight:bold;
+  }
+  .leftmost_header1{
+    font-size:12px;
+  	font-weight:bold;
+  	margin-left:5px;
+  	width:100px;
+  	text-align:left;
+  }
+  .form_input_text{
+  	width:120px;
+  }
+  .form_selector{
+  	margin-left:2px;
+  	margin-right:2px;
+  	width:120px;
+  }
   body {
   
     margin: 10px auto 0 auto;
