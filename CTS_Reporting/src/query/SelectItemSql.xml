@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="SelectItemSql">
+
+	<resultMap id="SelectItem" class="ac.kaist.cts.domain.SelectItem">
+		<result column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="VALUE" property="value" />
+		<result column="CATEGORY" property="category" />
+ 	</resultMap>
+ 	
+ 	<select id="readSelectItemList" resultMap="SelectItem">
+ 		SELECT ID, NAME VALUE FROM SELECT_ITEMS
+ 		WHERE CATEGORY = #category#
+ 	</select>
+ 	
+	<select id="readSelectItem" resultMap="SelectItem">
+       SELECT ID, NAME FROM SELECT_ITEMS
+       WHERE VALUE = #value# and CATEGORY = #category#
+       
+	</select>
+
+	
+	
+	
+</sqlMap>
+
+

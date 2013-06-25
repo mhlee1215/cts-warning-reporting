@@ -60,7 +60,8 @@ public class UserController {
     		
 	    }
 		
-		ModelAndView model = new ModelAndView("index");
+		ModelAndView model = new ModelAndView("login");
+		model.addObject("page_title", "HAZARD REPORTING SYSTEM");
 		model.addObject("loginComplete", loginComplete);
 		model.addObject("loginFail", loginFail);
 		model.addObject("logoutComplete", logoutComplete);
@@ -76,24 +77,39 @@ public class UserController {
 	@RequestMapping("/login.do")
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String id = request.getParameter("id");
-		String password = request.getParameter("password");
-		
+		String id = ServletRequestUtils.getStringParameter(request, "id", "");
+		String password = ServletRequestUtils.getStringParameter(request, "password", "");
+		String work_type = ServletRequestUtils.getStringParameter(request, "work_type", "");
+		String user_type = ServletRequestUtils.getStringParameter(request, "user_type", "");
+		String language = ServletRequestUtils.getStringParameter(request, "language", "");
+			
 		logger.debug("public ModelAndView login");
 		logger.debug("===[S]======================");
 		logger.debug("id : "+id);
 		logger.debug("password : "+password);
+		logger.debug("work_type : "+work_type);
+		logger.debug("user_type : "+user_type);
+		logger.debug("language : "+language);
 		User user = new User();
-		user.setId(id);
+		user.setUserId(id);
 		user.setPassword(password);
 		
-		int result = userService.readUser(user);
+		int result = 0;//userService.readUser(user);
 		
+		User readed = userService.readUserData(user);
 		
-		ModelAndView model = new ModelAndView("redirect:index.do");
+		if(readed == null){
+			result =  User.STATUS_NOT_FOUNDED;
+		}else{
+			result = User.STATUS_FOUNDED;
+		}
+		System.out.println(readed);
+		ModelAndView model = null;//new ModelAndView("redirect:index.do");
 		
 		if(result == User.STATUS_NOT_FOUNDED){
-			System.out.println("User does not exist! or password is wrong.");
+			System.out.println("User does not exist! or password is wrong.");			
+			model = new ModelAndView("redirect:index.do");
+			
 			model.addObject("loginFail", "true");
 		}
 		else if(result == User.STATUS_FOUNDED){
@@ -102,9 +118,20 @@ public class UserController {
 			//request.getSession().setAttribute("userid", Integer.toString(userIdMap.getInternalId()));
 			//request.getSession().setAttribute("externalid", userIdMap.getExternalId());
 			request.getSession().setAttribute("islogin", "true");
-			model.addObject("loginComplete", "true");
+			request.getSession().setAttribute("user_name", readed.getName());
+			request.getSession().setAttribute("user_type", user_type);
+			
+			
+			if(work_type.equals("report")){
+				model = new ModelAndView("redirect:report.do");
+			}else if(work_type.equals("management")){
+				model = new ModelAndView("redirect:management.do");
+			}
+			
+			//model.addObject("loginComplete", "true");
+				
 		}
-		model.addObject("userId", id);
+		//model.addObject("userId", id);
 		logger.debug("===[S]======================");
 		return model;
     }
@@ -118,7 +145,7 @@ public class UserController {
 
 		//int nextId = userService.getNextUserIdMap();
 		User user = new User();
-		user.setId(id);
+		user.setUserId(id);
 		//user.setInternalid(nextId);
 		user.setPassword(password);
 		int result = userService.createUser(user);
@@ -147,8 +174,9 @@ public class UserController {
 		request.getSession().removeAttribute("externalid");
 		request.getSession().removeAttribute("islogin");
 		
-		ModelAndView model = new ModelAndView("index");
+		ModelAndView model = new ModelAndView("login");
 		model.addObject("logoutComplete", "true");
+		model.addObject("page_title", "HAZARD REPORTING SYSTEM");
 		return model;
     }
 	

@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         //
         
 		User paramUser = new User();
-		paramUser.setId(user.getId());
+		paramUser.setUserId(user.getUserId());
 		paramUser.setPassword(password);
 		User readed = userDao.readUser(paramUser);
 		
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 	public int activateUser(String id) {
 
 		User paramUser = new User();
-		paramUser.setId(id);
+		paramUser.setUserId(id);
 		User user = userDao.readUser(paramUser);
 		if (user != null) {
 			if (user.getIsactivated().equals("Y")) {
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
 	}
 	public int deleteUser(String id, boolean isDeleteRow) {
 		User paramUser = new User();
-		paramUser.setId(id);
+		paramUser.setUserId(id);
 		User user = userDao.readUser(paramUser);
 		if (user != null) {
 			if (user.getIsdeleted().equals("Y")) {
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
 	public int findPassword(String id) throws EmailException, MalformedURLException {
 		
 		User paramUser = new User();
-		paramUser.setId(id);
+		paramUser.setUserId(id);
 		User user = userDao.readUser(paramUser);
 		if (user != null) {
 

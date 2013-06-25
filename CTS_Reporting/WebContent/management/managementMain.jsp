@@ -20,10 +20,6 @@
   	text-align:right;
   	font-weight:bold;
   }
-  .leftmost_label_widt{
-  	width:250px;
-  	text-align:right;
-  }
   .leftmost_header1{
     font-size:12px;
   	font-weight:bold;
@@ -156,15 +152,12 @@
 <%@include file="/header.jsp"%>
 
   <ul id="tabs">
-      <li><a href="#" id="id_tab1" name="#tab1">BASIC</a></li>
-      <li><a href="#" id="id_tab2" name="#tab2">TAXI-OUT</a></li>
-      <li><a href="#" id="id_tab3" name="#tab3">TAKE-OFF</a></li>
-      <li><a href="#" id="id_tab4" name="#tab4">CLIMB</a></li>    
-      <li><a href="#" id="id_tab5" name="#tab5">EN-ROUTE</a></li>
-      <li><a href="#" id="id_tab6" name="#tab6">DECENT</a></li>
-      <li><a href="#" id="id_tab7" name="#tab7">APPROACH</a></li>
-      <li><a href="#" id="id_tab8" name="#tab8">LANDING</a></li>
-      <li><a href="#" id="id_tab9" name="#tab9">TAXI-IN</a></li>
+      <li><a href="#" id="id_tab1" name="#tab1">Review</a></li>
+      <li><a href="#" id="id_tab2" name="#tab2">Hazard Identification</a></li>
+      <li><a href="#" id="id_tab3" name="#tab3">Risk Analysis</a></li>
+      <li><a href="#" id="id_tab4" name="#tab4">Risk Assessment</a></li>    
+      <li><a href="#" id="id_tab5" name="#tab5">Mitigation</a></li>
+      
   </ul>
 
   <div id="content">
@@ -174,10 +167,6 @@
       <div id="tab3"></div>
       <div id="tab4"></div>
       <div id="tab5"></div>
-      <div id="tab6"></div>
-      <div id="tab7"></div>
-      <div id="tab8"></div>
-      <div id="tab9"></div>
   </div>
   
   <div>
@@ -216,15 +205,11 @@
             }
         });
         
-        $("#tab1").load("${pageContext.request.contextPath}/report/reportItem_basic.jsp");
-    	$("#tab2").load("${pageContext.request.contextPath}/report/reportItem_taxi-out.jsp");
-    	$("#tab3").load("${pageContext.request.contextPath}/report/reportItem_take-off.jsp");
-    	$("#tab4").load("${pageContext.request.contextPath}/report/reportItem_climb.jsp");
-    	$("#tab5").load("${pageContext.request.contextPath}/report/reportItem_en-route.jsp");
-    	$("#tab6").load("${pageContext.request.contextPath}/report/reportItem_decent.jsp");
-    	$("#tab7").load("${pageContext.request.contextPath}/report/reportItem_approach.jsp");
-    	$("#tab8").load("${pageContext.request.contextPath}/report/reportItem_landing.jsp");
-    	$("#tab9").load("${pageContext.request.contextPath}/report/reportItem_taxi-in.jsp");
+        $("#tab1").load("${pageContext.request.contextPath}/management/managementReview.jsp");
+    	$("#tab2").load("${pageContext.request.contextPath}/management/managementHazardIdentification.jsp");
+    	$("#tab3").load("${pageContext.request.contextPath}/management/managementRiskAnalysis.jsp");
+    	$("#tab4").load("${pageContext.request.contextPath}/management/managementRiskAssessment.jsp");
+    	$("#tab5").load("${pageContext.request.contextPath}/management/managementMitigation.jsp");
 
     })()
     

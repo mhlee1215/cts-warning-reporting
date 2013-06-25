@@ -5,13 +5,12 @@
 <sqlMap namespace="UserSql">
 
 	<resultMap id="User" class="ac.kaist.cts.domain.User">
-		<result column="ID" property="idUser" />
+		<result column="ID" property="id" />
+		<result column="USERID" property="userId" />
+		<result column="NAME" property="name" />
 		<result column="PASSWORD" property="password" />
-		<result column="ISACTIVATED" property="isactivated" />
-		<result column="ISDELETED" property="isdeleted" />
-		<result column="REGISTEREDTIME" property="registeredtime" />
-		<result column="DELETEDTIME" property="deletedtime" />
-		<result column="ACTIVATEDTIME" property="activatedtime" />
+		<result column="EMAIL" property="email" />
+		<result column="TYPE" property="type" />
  	</resultMap>
  	
  	<select id="readUserList" resultMap="User">
@@ -19,8 +18,8 @@
  	</select>
  	
 	<select id="readUser" resultMap="User">
-       SELECT ID, PASSWORD, ISACTIVATED, ISDELETED, REGISTEREDTIME, DELETEDTIME, ACTIVATEDTIME FROM USER_INFO 
-       WHERE ID = #id# 
+       SELECT ID, USERID, NAME, EMAIL, PASSWORD, TYPE FROM USER 
+       WHERE USERID = #userId# 
        <isNotEmpty property="password">
        and PASSWORD = #password#
        </isNotEmpty>

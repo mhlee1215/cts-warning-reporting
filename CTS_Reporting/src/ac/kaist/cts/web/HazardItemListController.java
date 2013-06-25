@@ -1,5 +1,4 @@
 package ac.kaist.cts.web;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ac.kaist.cts.domain.HazardItemList;
 import ac.kaist.cts.service.HazardItemListService;
 
-
 @Controller
 public class HazardItemListController {
 private Logger logger = Logger.getLogger(getClass());
@@ -26,7 +24,6 @@ private Logger logger = Logger.getLogger(getClass());
 	
 	@RequestMapping("/getHazardItemListTop.do")
     public ModelAndView getHazardItemListTop(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		List<HazardItemList> list = hazardItemListService.readTopList();
 
 		String result = "";
@@ -41,10 +38,8 @@ private Logger logger = Logger.getLogger(getClass());
 			logger.debug("resultHazardItemListTopStr : "+result);
 			response.getWriter().append(result);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 	
@@ -72,10 +67,8 @@ private Logger logger = Logger.getLogger(getClass());
 			logger.debug("resultHazardItemListTopStr : "+result);
 			response.getWriter().append(result);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 }
