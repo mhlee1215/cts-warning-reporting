@@ -32,5 +32,7 @@
   <sqlMap resource="query/UserSql.xml"/>
   <sqlMap resource="query/HazardItemListSql.xml"/>
   <sqlMap resource="query/HazardItemSql.xml"/>
+  <sqlMap resource="query/SelectItemSql.xml"/>
+  
   
 </sqlMapConfig>
