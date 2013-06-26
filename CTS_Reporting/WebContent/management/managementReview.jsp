@@ -25,45 +25,19 @@
 <script>
   $(function() {
 	  $( "#tabs_review" ).tabs();
-	   texi_out_load_hazard_item();
+	   management_review_load_report("id_management_review_all_ListTable", "reportToIdentifyList.do");
+	   management_review_load_report("id_management_review_review_ListTable", "reportToIdentifyList.do");
+	   management_review_load_report("id_management_review_accepted_ListTable", "reportToIdentifyList.do");
+	   management_review_load_report("id_management_review_rejected_ListTable", "reportToIdentifyList.do");
+	   management_review_load_report("id_management_review_investigation_ListTable", "reportToIdentifyList.do");
+	   management_review_load_report("id_management_review_registered_ListTable", "reportToIdentifyList.do");
   });
   
-  
-  
-  function texi_out_dateFormatter( cellvalue, options, rowObject )
-  {
-  	if(cellvalue != undefined && cellvalue != ''){
-  		var year = cellvalue.substring(0, 4);
-  		var month = cellvalue.substring(4, 6);
-  		var date = cellvalue.substring(6, 8);
-  		var hour = cellvalue.substring(8, 10);
-  		var min = cellvalue.substring(10, 12);
-  		var sec = cellvalue.substring(12, 14);
-  		return year+'-'+month+'-'+date+' '+hour+':'+min+':'+sec;
-  	}
-  	return '-';
-  }
-  
-  function texi_out_fnFormatter( cellvalue, options, rowObject )
-  {
-	var return_str = '<a id="id_taxi_out_seq_'+cellvalue+'_edit_hazard" href="#">Edit</a><a id="id_taxi_out_seq_'+cellvalue+'_delete_hazard" href="#">Delete</a>';
-	return_str += '<script>';
-	return_str += '$("#id_taxi_out_seq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
-	return_str += '    	event.preventDefault();';
-	return_str += '});';
-	return_str += '$("#id_taxi_out_seq_'+cellvalue+'_delete_hazard").button().click(function( event ) {'
-	return_str += '    	event.preventDefault();';
-	return_str += '});';
-	return_str += '</scr'+'ipt>';
-  	return return_str;
-  }
-  
-  
-  
-  function texi_out_load_hazard_item(){
+   
+  function management_review_load_report(id, url){
 	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_taxi_out_hazardListTable").jqGrid({
-	  	url:'${pageContext.request.contextPath}/reportToIdentifyList.do', 
+	  jQuery("#"+id).jqGrid({
+	  	url:'${pageContext.request.contextPath}/'+url, 
 	  	height: 120,
 	  	width:800,
 	  	datatype: "xml", 
@@ -94,10 +68,10 @@
 	     	//viewrecords: true, 
 	     	emptyrecords:'no report data',
 	     	//caption: "Task List",
-	     	toolbar: [false,"top"],
-	     	loadError : function(xhr,st,err) { 
-	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
-	  	},
+	     	//toolbar: [false,"top"],
+	     	//loadError : function(xhr,st,err) { 
+	  	   	//jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
+	  	//},
 	  	loadComplete: function(){ 
 	  		
 	  	},
@@ -125,32 +99,70 @@
   </ul>
   <div id="tabs-1">
     <table>
-<tbody>
-<tr>
-	<td align="center" width="723px;" ><table id="id_taxi_out_hazardListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
-	<div id="pager1" class="scroll"></div>
-	</td>
-</tr>
-</tbody>
-</table>
+	<tbody>
+		<tr>
+			<td align="center" width="723px;" ><table id="id_management_review_all_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+			<div id="id_management_review_all_pager" class="scroll"></div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
   </div>
   <div id="tabs-2">
-    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+    <table>
+	<tbody>
+		<tr>
+			<td align="center" width="723px;" ><table id="id_management_review_review_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+			<div id="id_management_review_review_pager" class="scroll"></div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
   </div>
   <div id="tabs-3">
-    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+    <table>
+	<tbody>
+		<tr>
+			<td align="center" width="723px;" ><table id="id_management_review_accepted_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+			<div id="id_management_review_accepted_pager" class="scroll"></div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
   </div>
   <div id="tabs-4">
-    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+    <table>
+	<tbody>
+		<tr>
+			<td align="center" width="723px;" ><table id="id_management_review_rejected_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+			<div id="id_management_review_rejected_pager" class="scroll"></div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
   </div>
   <div id="tabs-5">
-    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+    <table>
+	<tbody>
+		<tr>
+			<td align="center" width="723px;" ><table id="id_management_review_investigation_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+			<div id="id_management_review_investigation_pager" class="scroll"></div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
   </div>
   <div id="tabs-6">
-    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+    <table>
+	<tbody>
+		<tr>
+			<td align="center" width="723px;" ><table id="id_management_review_registered_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+			<div id="id_management_review_registered_pager" class="scroll"></div>
+			</td>
+		</tr>
+	</tbody>
+	</table>
   </div>
-
 </div>
-
 </body>
 </html>

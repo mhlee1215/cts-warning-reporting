@@ -20,18 +20,35 @@
 	              "Couldn't load this tab. We'll try to fix this as soon as possible. " +
 	              "If this wouldn't be a demo." );
 	          });
+	        },
+	        ajaxOptions: {
+	            error: function(xhr, status, index, anchor) {
+	                $(anchor.hash).html();
+	            },
+	            beforeSend: function() {
+	                $('#loader').show();
+	            },
+	            complete: function() {
+	                $("#loader").hide();
+	            }
 	        }
 	      });
- 
+	 $( "#tabs_management_detail_main" ).tabs("option", "active", 2);
     // fix the classes
     $( ".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *" )
       .removeClass( "ui-corner-all ui-corner-top" )
       .addClass( "ui-corner-bottom" );
- 
+    
     // move the nav to the bottom
     $( ".tabs-bottom .ui-tabs-nav" ).appendTo( ".tabs-bottom" );
     
-   
+    
+    $("#tab1").load("${pageContext.request.contextPath}/managementDetailReview.do");
+	$("#tab2").load("${pageContext.request.contextPath}/managementDetailHazardIdentification.do");
+	$("#tab3").load("${pageContext.request.contextPath}/managementDetailRiskAnalysis.do");
+	$("#tab4").load("${pageContext.request.contextPath}/managementDetailRiskAssessment.do");
+	$("#tab5").load("${pageContext.request.contextPath}/managementDetailMitigation.do");
+	$("#tab6").load("${pageContext.request.contextPath}/managementDetailRegistered.do");
   });
   </script>
   <style>
@@ -40,23 +57,34 @@
     height: 720px;
     overflow: auto;
   }
-  #tabs_management_detail_main .tabs-spacer { float: left; height: 500px; }
+  #tabs_management_detail_main .tabs-spacer { float: left; height: 100px; }
   .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
   .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
   .tabs-bottom .ui-tabs-nav li.ui-tabs-active { margin-top: -1px; padding-top: 1px; }
   </style>
 </head>
 <body>
- 
+
+<div id="loader" style="display:none">Loading...</div>
+
 <div id="tabs_management_detail_main" class="tabs-bottom">
   <ul>
-    <li><a href="${pageContext.request.contextPath}/managementDetailReview.do">Review</a></li>
-    <li><a href="${pageContext.request.contextPath}/managementDetailHazardIdentification.do">Hazard ID</a></li>
-    <li><a href="${pageContext.request.contextPath}/managementDetailRiskAnalysis.do">Risk Analysis</a></li>
-    <li><a href="${pageContext.request.contextPath}/managementDetailRiskAssessment.do">Risk Assessment</a></li>
-    <li><a href="${pageContext.request.contextPath}/managementDetailMitigation.do">Mitigation</a></li>
-    <li><a href="${pageContext.request.contextPath}/managementDetailRegistered.do">Registered</a></li>
-  </ul> 
+    <li><a href="#tab1" id="id_tab1">Review</a></li>
+    <li><a href="#tab2" id="id_tab2">Hazard ID</a></li>
+    <li><a href="#tab3" id="id_tab3">Risk Analysis</a></li>
+    <li><a href="#tab4" id="id_tab4">Risk Assessment</a></li>
+    <li><a href="#tab5" id="id_tab5">Mitigation</a></li>
+    <li><a href="#tab6" id="id_tab6">Registered</a></li>
+  </ul>
+  <div id="content">
+      <!-- <h1 align="center" class="report_title">PILOT REPORT</h1> -->
+      <div id="tab1"></div>
+      <div id="tab2"></div>
+      <div id="tab3"></div>
+      <div id="tab4"></div>
+      <div id="tab5"></div>
+      <div id="tab6"></div>
+  </div> 
 </div>
 </body>
 </html>

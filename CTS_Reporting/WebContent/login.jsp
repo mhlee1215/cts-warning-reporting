@@ -28,7 +28,7 @@
 	}
 	
 	function texi_out_load_hazard_item(){
-		  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
+		  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';
 		  jQuery("#id_login_flight_information_ListTable").jqGrid({
 		  	url:'${pageContext.request.contextPath}/readFlightInformation.do', 
 		  	height: 300, 

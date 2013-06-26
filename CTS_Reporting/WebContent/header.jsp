@@ -40,7 +40,7 @@
 		
 	});
 </script>
-<div id="templatemo_header">
+<div>
 	<table style="width:100%">
 	<tr>
 	<td width="15%" align="left">
