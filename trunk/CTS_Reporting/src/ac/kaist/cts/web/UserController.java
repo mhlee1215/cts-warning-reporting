@@ -3,6 +3,10 @@ package ac.kaist.cts.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import language.LanguagePack;
+import language.LanguagePackEng;
+import language.LanguageServiceImpl;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,6 +73,13 @@ public class UserController {
 		model.addObject("registerFail", registerFail);
 		model.addObject("submittedUserId", submittedUserId);
 		model.addObject("isUseController", "true");
+		
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		
+		model.addObject("lang", lang);
+		
+		
 		//model.addObject("userId", id);
 		
 		return model;
@@ -120,7 +131,7 @@ public class UserController {
 			request.getSession().setAttribute("islogin", "true");
 			request.getSession().setAttribute("user_name", readed.getName());
 			request.getSession().setAttribute("user_type", user_type);
-			
+			request.getSession().setAttribute("lang", language);
 			
 			if(work_type.equals("report")){
 				model = new ModelAndView("redirect:report.do");
@@ -174,7 +185,7 @@ public class UserController {
 		request.getSession().removeAttribute("externalid");
 		request.getSession().removeAttribute("islogin");
 		
-		ModelAndView model = new ModelAndView("login");
+		ModelAndView model = new ModelAndView("redirect:login.do");
 		model.addObject("logoutComplete", "true");
 		model.addObject("page_title", "HAZARD REPORTING SYSTEM");
 		return model;

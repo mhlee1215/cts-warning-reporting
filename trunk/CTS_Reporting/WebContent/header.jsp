@@ -44,7 +44,7 @@
 	<table style="width:100%">
 	<tr>
 	<td width="15%" align="left">
-		<a id="id_header_home_btn" href="#">Home</a>
+		<a id="id_header_home_btn" href="#">${lang.getStringHome()}</a>
 	</td>
 	<td width="70%" align="center">
     <h1>${page_title}</h1>
@@ -52,7 +52,7 @@
     <td width="15%" align="right">
     
 	    <%if("true".equals(islogin)){ %>
-			[<%=user_name %>(<%=user_type %>)] <a id="id_header_logout_btn" href="#">Log out</a>
+			[<%=user_name %>(<%=user_type %>)] <a id="id_header_logout_btn" href="#">${lang.getStringLogout()}</a>
 			<%}else{ %>
 	
 			<%} %>
@@ -63,14 +63,4 @@
     
     
 </div> <!-- end of templatemo header -->
-
-<div id="templatemo_menu" style="display:none">
-    <ul>
-        <li></li>
-        <li><a href="login.jsp">Login</a></li>
-        <li><a href="report/reportMain.jsp" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=SomeSize,height=SomeSize')">New reports <br>(For user)</a></li>
-        <li><a href="about.html">Report List (For admin)</a></li>
-        <li><a href="contact.html" class="last">Contact</a></li>
-    </ul>    	
-</div> <!-- end of templatemo_menu -->
     
