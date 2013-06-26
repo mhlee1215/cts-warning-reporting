@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/css/ui.jqgrid.css" />
   <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/ckeditor/ckeditor_4.1.2_standard/ckeditor.js"></script>
   <style>
   .hazard_item_selector{
   	margin-left:2px;
@@ -42,13 +43,13 @@
      event.preventDefault();
    });
    $("#id_taxi_out_previous_btn")
-   .button()
+   .button({icons: {primary: "ui-icon-circle-triangle-w" } })
    .click(function( event ) {
      changeTab(1);
      event.preventDefault();
    });
    $("#id_taxi_out_next_btn")
-   .button()
+   .button({icons: {secondary: "ui-icon-circle-triangle-e" } })
    .click(function( event ) {
 	 changeTab(3);
      event.preventDefault();
@@ -58,6 +59,8 @@
    texi_out_disable_hazard_selector_from_level(1);
    
    texi_out_load_hazard_item();
+   
+   CKEDITOR.replace( 'test_ckeditor' );
   });
   
   function texi_out_reset_hazard_identification(){
@@ -266,6 +269,7 @@
 <body>
 <h2 class="ui-widget-header">TAXI-OUT INFORMATION</h2>
 <div class="ui-widget-content">
+<textarea name="test_ckeditor" rows="70" cols="100">123123</textarea>
 <table>
 <tbody>
 <tr>

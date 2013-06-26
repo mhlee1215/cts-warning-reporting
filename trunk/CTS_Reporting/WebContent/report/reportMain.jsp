@@ -129,23 +129,35 @@
   </style>  
   <script>
   $(function() {
+	  $("#id_main_previous_btn")
+	  .button({icons: {primary: "ui-icon-circle-triangle-w" } })
+	  .click(function( event ) {
+		  previousTab();
+	   event.preventDefault();
+	  });
+	  $("#id_main_next_btn")
+	  .button({icons: {secondary: "ui-icon-circle-triangle-e" } })
+	  .click(function( event ) {
+		  nextTab()
+	   event.preventDefault();
+	  });
 	  $("#id_main_edit_btn")
-	  .button()
+	  .button({icons: {secondary: "ui-icon-document" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
-	  $("#id_main_cancel_btn")
-	  .button()
+	  $("#id_main_save_btn")
+	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
-	  $("#id_main_print_btn")
-	  .button()
+	  $("#id_main_delete_btn")
+	  .button({icons: {secondary: "ui-icon-trash" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
 	  $("#id_main_submit_btn")
-	  .button()
+	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
@@ -183,7 +195,9 @@
   <div>
   	<table width="100%">
   		<tr>
-  			<td align="right"><a id="id_main_edit_btn" href="#">Edit</a><a id="id_main_cancel_btn" href="#">Cancel</a><a id="id_main_print_btn" href="#">Print</a><a id="id_main_submit_btn" href="#">Submit</a></td>
+  			<td align="left"><a id="id_main_previous_btn" href="#">Previous</a></td>
+  			<td align="center"><a id="id_main_edit_btn" href="#">Edit</a><a id="id_main_save_btn" href="#">Save</a><a id="id_main_delete_btn" href="#">Delete</a><a id="id_main_submit_btn" href="#">Submit</a></td>
+  			<td align="right"><a id="id_main_next_btn" href="#">Next</a></td>
   		</tr>
   	</table>
   </div>
@@ -226,8 +240,25 @@
     	$("#tab8").load("${pageContext.request.contextPath}/report/reportItem_landing.jsp");
     	$("#tab9").load("${pageContext.request.contextPath}/report/reportItem_taxi-in.jsp");
 
-    })()
+    })();
     
+    var currentTab = 1;
+    var min = 1;
+    var max = 9;
+    function nextTab(){
+    	currentTab += 1;
+    	if (currentTab > max)
+    		currentTab = max;
+    	else
+    		changeTab(currentTab);
+    }
+    function previousTab(){
+    	currentTab -= 1;
+    	if (currentTab < min)
+    		currentTab = min;
+    	else
+    		changeTab(currentTab);
+    }
     function changeTab(num){
     	resetTabs();
     	$("#id_tab"+num).attr("class","current"); // Activate this

@@ -1,6 +1,7 @@
 package ac.kaist.cts.web;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 
 import language.LanguagePack;
@@ -53,6 +54,15 @@ public class ReportController {
 		return model;
 	}
 	
+	@RequestMapping("/attachedFileList.do")
+    public ModelAndView attachedFileList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/attachedFileList");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
 	@RequestMapping("/managementDetailMain.do")
     public ModelAndView managementDetailMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
@@ -85,6 +95,60 @@ public class ReportController {
 		String language = (String)request.getSession().getAttribute("lang");
 		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
 		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysis");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisViewReport.do")
+    public ModelAndView managementDetailRiskAnalysisViewReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisViewReport");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisLikelihood.do")
+    public ModelAndView managementDetailRiskAnalysisLikelihood(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisLikelihood");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisLikelihoodLikelihoodList.do")
+    public ModelAndView managementDetailRiskAnalysisLikelihoodLikelihoodList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisLikelihoodLikelihoodList");
+		model.addObject("lang", lang);
+		return model;
+	}
+
+	@RequestMapping("/managementDetailRiskAnalysisLikelihoodExistingControlsList.do")
+    public ModelAndView managementDetailRiskAnalysisLikelihoodExistingControlsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisLikelihoodExistingControlsList");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisLikelihoodNewControlsList.do")
+    public ModelAndView managementDetailRiskAnalysisLikelihoodNewControlsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisLikelihoodNewControlsList");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisSeverity.do")
+    public ModelAndView managementDetailRiskAnalysisSeverity(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisSeverity");
 		model.addObject("lang", lang);
 		return model;
 	}
