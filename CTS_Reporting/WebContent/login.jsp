@@ -34,7 +34,7 @@
 		  	height: 300, 
 		  	width:600,
 		  	datatype: "xml", 
-		     	colNames:['Report No.','Flight Date (UTC)', 'Flight No.', 'A/C Type','State'],
+		     	colNames:['${lang.getStringReportNo()}','${lang.getStringFlightDate()} (UTC)', '${lang.getStringFlightNo()}', '${lang.getStringACType()}','${lang.getStringState()}'],
 		     	colModel:[
 		     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 		     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -99,23 +99,21 @@
 						<td>
 							<form method="post" name="contact" action="${pageContext.request.contextPath}/login.do">
 							<fieldset>
-								<table>
+								<table width="250">
 									<tbody>
 										<tr>
-											<td colspan="2"><h4>Work type</h4></td>
+											<td colspan="2"><h4>${lang.getStringWorkType()}</h4></td>
 										</tr>
 										<tr>
 											<td><input type="radio" name="work_type"
 												id="approach_new_hazard_yes" value="report"
 												checked="checked" /></td>
-											<td style="width: 300px; text-align: left;">Hazard
-												Reporting System</td>
+											<td style="width: 300px; text-align: left;">${lang.getStringHazardReportingSystem()}</td>
 										</tr>
 										<tr>
 											<td><input type="radio" name="work_type"
 												id="approach_new_hazard_no" value="management" /></td>
-											<td style="width: 300px; text-align: left;">Hazard
-												Management System</td>
+											<td style="width: 300px; text-align: left;">${lang.getStringHazardManagementSystem()}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -123,18 +121,18 @@
 								<table>
 									<tbody>
 										<tr>
-											<td class="leftmost_label">ID</td>
+											<td class="leftmost_label">${lang.getStringID()}</td>
 											<td><input type="text"
 												name="id" id="id" class="form_input_text" value="0000"/></td>
 										</tr>
 										<tr>
-											<td class="leftmost_label">Password</td>
+											<td class="leftmost_label">${lang.getStringPassword()}</td>
 											<td><input type="password" name="password" id="password" class="form_input_text" value="0000"/></td>
 											<td></td>
 											<td></td>
 										</tr>
 										<tr>
-											<td class="leftmost_label">Type</td>
+											<td class="leftmost_label">${lang.getStringType()}</td>
 											<td><select id="id_type_selector" name="user_type"
 												class="form_selector">
 													<option value="0">select</option>
@@ -146,7 +144,7 @@
 											</select></td>
 										</tr>
 										<tr>
-											<td class="leftmost_label">Language</td>
+											<td class="leftmost_label">${lang.getStringLanguage()}</td>
 											<td><select id="id_language_selector" name="language"
 												class="form_selector">
 													<option value="Eng">English</option>
@@ -159,7 +157,7 @@
 											</td>
 											<td align="right">
 											 <%if("true".equals(islogin)){ %>
-											 	<button><a href="${pageContext.request.contextPath}/logout.do">Log out</a></button>
+											 	<button><a href="${pageContext.request.contextPath}/logout.do">${lang.getStringLogout()}</a></button>
 											<%}else{ %>
 												<input type="submit" name="submit" id="submit" value="Log in" />
 											<%} %>
@@ -168,7 +166,7 @@
 										</tr>
 										<tr>
 											<td colspan="2"><div align="right">
-													<a href="#">Forgot your Password?</a>
+													<a href="#">${lang.getStringForgotYourPassword()}</a>
 												</div></td>
 										</tr>
 									</tbody>
@@ -182,7 +180,7 @@
 								    <table>
 									<tbody>
 									<tr>
-										<td align="center"><h2>Flight Information</h2></td>
+										<td align="center"><h2>${lang.getStringFlightInformation()}</h2></td>
 									</tr>
 									<tr>
 										<td align="center" width="723px;" ><table id="id_login_flight_information_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
