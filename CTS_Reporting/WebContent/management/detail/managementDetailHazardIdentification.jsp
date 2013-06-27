@@ -52,6 +52,17 @@
 	   event.preventDefault();
 	});
 	  
+	  
+	$( "#management_hazard_identification_basic_menu" ).menu();
+	$( "#management_hazard_identification_taxi_out_menu" ).menu();
+	$( "#management_hazard_identification_take_off_menu" ).menu();
+	$( "#management_hazard_identification_climb_menu" ).menu();
+	$( "#management_hazard_identification_en_route_menu" ).menu();
+	$( "#management_hazard_identification_decent_menu" ).menu();
+	$( "#management_hazard_identification_approach_menu" ).menu();
+	$( "#management_hazard_identification_landing_menu" ).menu();
+	$( "#management_hazard_identification_taxi_in_menu" ).menu();
+		 
 	  fn_management_hazard_identification_read_hazard_item_list_top();
 	   fn_management_hazard_identification_disable_hazard_selector_from_level(1);
 	   
@@ -162,7 +173,7 @@
 	  jQuery("#id_management_hazard_identification_attached_file_ListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/attachedFileList.do', 
 	  	height: 80,
-	  	width:520,
+	  	width:800,
 	  	datatype: "xml", 
 	     	colNames:['File Name','Size', 'Modified'],
 	     	colModel:[
@@ -206,7 +217,8 @@
   body {
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: 70%;
-}
+  }
+  .ui-menu { width: 150px; }
   </style>
 </head>
 <body>
@@ -225,47 +237,91 @@
 <td id="id_management_detail_main_left_panel" width="30%" valign="top">
 <div id="management_hazard_identification_accordion">
   <h3>Basic Information</h3>
-  <div>
-    1
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_basic_menu" style="border:none">
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Show basic info.</a></li>
+		</ul>
+	</div>
   <h3>Taxi-Out (2)</h3>
-  <div>
-   <ul>
-   	<li>Pilot (1)</li>
-   	<li>Cabin (1)</li>
-   	<li>Ground (0)</li>
-   	<li>Maintenance (0)</li>
-   	<li>Dispatcher (0)</li>
-   </ul>
-  </div>
+	<div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_taxi_out_menu" style="border:none">
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Pilot (1)</a></li>
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Cabin (1)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
   <h3>Take-Off (0)</h3>
-  <div>
-    3
-  </div>
+  	<div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_take_off_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
   <h3>Climb (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_climb_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>En-Route (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_en_route_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Decent (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_decent_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Approach (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_approach_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Landing (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_landing_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Taxi-In (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_hazard_identification_taxi_in_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
 </div>
 
 </td>

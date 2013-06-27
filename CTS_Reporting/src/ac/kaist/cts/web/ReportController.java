@@ -144,6 +144,33 @@ public class ReportController {
 		return model;
 	}
 	
+	@RequestMapping("/managementDetailRiskAnalysisSeveritySeverityList.do")
+    public ModelAndView managementDetailRiskAnalysisSeveritySeverityList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisSeveritySeverityList");
+		model.addObject("lang", lang);
+		return model;
+	}
+
+	@RequestMapping("/managementDetailRiskAnalysisSeverityExistingControlsList.do")
+    public ModelAndView managementDetailRiskAnalysisSeverityExistingControlsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisSeverityExistingControlsList");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisSeverityNewControlsList.do")
+    public ModelAndView managementDetailRiskAnalysisSeverityNewControlsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisSeverityNewControlsList");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
 	@RequestMapping("/managementDetailRiskAnalysisSeverity.do")
     public ModelAndView managementDetailRiskAnalysisSeverity(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");

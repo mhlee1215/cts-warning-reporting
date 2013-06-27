@@ -13,6 +13,13 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <script>
   $(function() {
+	  $("#id_management_risk_analysis_view_report_btn")
+	  .button({icons: {secondary: "ui-icon-forder-open" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	  });
+	  
+	  
 	  function resetTabs(){
 	        $("#id_management_risk_analysis_content > div").hide(); //Hide all content
 	        $("#id_management_risk_analysis_tabs a").attr("class",""); //Reset id's      
@@ -169,8 +176,9 @@
 <table width="100%"> 
 <tr>
 <td>
-<div class="ui-widget-header">Hazard No. : RP2604137C1234</div>
+<div class="ui-widget-header">Hazard No. : H2604137C1234</div>
 </td>
+<td align="right"><a id="id_management_risk_analysis_view_report_btn" href="#">View Report</a></td>
 </tr>
 </table>
  

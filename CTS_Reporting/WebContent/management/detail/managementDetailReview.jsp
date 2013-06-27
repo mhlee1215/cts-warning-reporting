@@ -25,25 +25,35 @@
 	  });
 	  
 	$("#id_management_review_edit_btn")
-	  .button()
+	  .button({icons: {secondary: "ui-icon-document" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
 	  $("#id_management_review_save_btn")
-	  .button()
+	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	});
 	  $("#id_management_review_delete_btn")
-	  .button()
+	  .button({icons: {secondary: "ui-icon-trash" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	});
 	  $("#id_management_review_submit_btn")
-	  .button()
+	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	});
+	  
+	 $( "#management_review_basic_menu" ).menu();
+	 $( "#management_review_taxi_out_menu" ).menu();
+	 $( "#management_review_take_off_menu" ).menu();
+	 $( "#management_review_climb_menu" ).menu();
+	 $( "#management_review_en_route_menu" ).menu();
+	 $( "#management_review_decent_menu" ).menu();
+	 $( "#management_review_approach_menu" ).menu();
+	 $( "#management_review_landing_menu" ).menu();
+	 $( "#management_review_taxi_in_menu" ).menu();
 	  
 	  management_review_load_hazard_item();
   });
@@ -53,7 +63,7 @@
 	  jQuery("#id_taxi_out_hazardListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/attachedFileList.do', 
 	  	height: 80,
-	  	width:520,
+	  	width:600,
 	  	datatype: "xml", 
 	     	colNames:['File Name','Size', 'Modified'],
 	     	colModel:[
@@ -98,6 +108,7 @@
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: 70%;
 }
+.ui-menu { width: 150px; }
   </style>
 </head>
 <body>
@@ -106,54 +117,98 @@
 <div class="ui-widget-content" style="padding: 5px;">
 <table width="100%">
 <tr>
-<td id="id_management_detail_main_left_panel" width="30%" valign="top">
+<td id="id_management_detail_main_left_panel" width="180" valign="top">
 <div id="management_review_accordion">
   <h3>Basic Information</h3>
-  <div>
-    1
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_review_basic_menu" style="border:none">
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Show basic info.</a></li>
+		</ul>
+	</div>
   <h3>Taxi-Out (2)</h3>
-  <div>
-   <ul>
-   	<li>Pilot (1)</li>
-   	<li>Cabin (1)</li>
-   	<li>Ground (0)</li>
-   	<li>Maintenance (0)</li>
-   	<li>Dispatcher (0)</li>
-   </ul>
-  </div>
+	<div style="padding:0 0 0 15px;">
+		<ul id="management_review_taxi_out_menu" style="border:none">
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Pilot (1)</a></li>
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Cabin (1)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
   <h3>Take-Off (0)</h3>
-  <div>
-    3
-  </div>
+  	<div style="padding:0 0 0 15px;">
+		<ul id="management_review_take_off_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
   <h3>Climb (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_review_climb_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>En-Route (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_review_en_route_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Decent (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_review_decent_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Approach (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_review_approach_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Landing (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_review_landing_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
    <h3>Taxi-In (0)</h3>
-  <div>
-    4
-  </div>
+  <div style="padding:0 0 0 15px;">
+		<ul id="management_review_taxi_in_menu" style="border:none">
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		</ul>
+	</div>
 </div>
 
 </td>
-<td id="id_management_detail_main_right_panel" width="70%">
+<td id="id_management_detail_main_right_panel" >
 	<fieldset >
 	    <legend>Title : Pax door impated airbridge while opening</legend>
 	    <div class="ui-widget-header">Pilot</div>
