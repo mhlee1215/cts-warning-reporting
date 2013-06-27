@@ -12,12 +12,52 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/css/ui.jqgrid.css" />
   <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
-
+  <style>
+    
+  .l1_fieldset { border:2px solid rgb(40, 40, 40) }
+  .l1_fieldset_legend {
+	  padding: 0.2em 0.5em;
+	  
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:150%;
+	  text-align:left;
+  }
+  .l2_fieldset { border:1px solid rgb(60, 60, 60) }
+  .l2_fieldset_legend {
+	  padding: 0.2em 0.5em;
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:120%;
+	  text-align:left;
+  }
+  
+  .example{color:#666;}
+  </style>
 <script language="javascript" type="text/javascript">
 
 	$(function() {
 		//alert('a');
 		texi_out_load_hazard_item();
+		
+		$("#id_login_login_btn")
+		  .button({icons: {primary: "ui-icon-locked" } })
+		  .click(function( event ) {
+			  
+		  // window.open('','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=800')
+		   //alert($('#id_login_login_info').attr('action'));
+		   //$('#id_login_login_info').attr('target', 'targetWindow');
+		   $('#id_login_login_info').submit();
+		   //event.preventDefault();
+		});
+		
+		$("#id_login_logout_btn")
+		  .button({icons: {primary: "ui-icon-unlocked" } })
+		  .click(function( event ) {
+			  
+		  document.location = '${pageContext.request.contextPath}/logout.do';
+		   event.preventDefault();
+		});
 	});
 
 	function clearText(field) {
@@ -32,7 +72,8 @@
 		  jQuery("#id_login_flight_information_ListTable").jqGrid({
 		  	url:'${pageContext.request.contextPath}/readFlightInformation.do', 
 		  	height: 300, 
-		  	width:600,
+		  	//width:600,
+		  	autowidth:true,
 		  	datatype: "xml", 
 		     	colNames:['${lang.getStringReportNo()}','${lang.getStringFlightDate()} (UTC)', '${lang.getStringFlightNo()}', '${lang.getStringACType()}','${lang.getStringState()}'],
 		     	colModel:[
@@ -42,7 +83,7 @@
 		     	    		{name:'ac_type'		,index:'ac_type'	,width:80	,align:"center"	,sortable: true},
 		     	    		{name:'state'		,index:'state'		,width:75	,align:"center" ,sortable: true}		
 		     	    	],
-		     	shrinkToFit:true,
+		     	//shrinkToFit:false,
 		     	//altRows:true,
 		     	hoverrows:false,
 		     	rownumbers: false, 
@@ -64,7 +105,7 @@
 		  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
 		  	},
 		  	loadComplete: function(){ 
-		  		
+		  		$("#id_login_flight_information_ListTable").jqGrid('setGridWidth', $('#id_login_flight_information_ListTable_parentDiv').width(), true);
 		  	},
 		  	onSelectRow: function(id){ 
 		  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
@@ -94,16 +135,15 @@
 
 			<div id="">
 
-				<table>
+				<table width="100%">
 					<tr>
-						<td>
-							<form method="post" name="contact" action="${pageContext.request.contextPath}/login.do">
-							<fieldset>
+						<%if(!"true".equals(islogin)){ %>
+						<td valign="top">
+							<form method="post" name="name_login_login_info" id="id_login_login_info" action="${pageContext.request.contextPath}/login.do">
+							<fieldset class="l2_fieldset" style="height:353px;">
+							<legend class="l2_fieldset_legend">${lang.getStringWorkType()}</legend>
 								<table width="250">
 									<tbody>
-										<tr>
-											<td colspan="2"><h4>${lang.getStringWorkType()}</h4></td>
-										</tr>
 										<tr>
 											<td><input type="radio" name="work_type"
 												id="approach_new_hazard_yes" value="report"
@@ -157,9 +197,11 @@
 											</td>
 											<td align="right">
 											 <%if("true".equals(islogin)){ %>
-											 	<button><a href="${pageContext.request.contextPath}/logout.do">${lang.getStringLogout()}</a></button>
+											 	<a id="id_login_logout_btn" href="#">${lang.getStringLogout()}</a>
 											<%}else{ %>
-												<input type="submit" name="submit" id="submit" value="Log in" />
+												
+												<a id="id_login_login_btn" href="#">Log in</a>
+												<!-- <input type="submit" >Log in</input> -->
 											<%} %>
 											
 											</td>
@@ -174,22 +216,27 @@
 								</fieldset>
 							</form>
 						</td>
+						<%} %>
 						<td width="100%">
-							<div>
+							
+							<fieldset class="l2_fieldset">
+							<legend class="l2_fieldset_legend">${lang.getStringFlightInformation()}</legend>
 									
-								    <table>
+								    <table width="100%">
 									<tbody>
+									
 									<tr>
-										<td align="center"><h2>${lang.getStringFlightInformation()}</h2></td>
-									</tr>
-									<tr>
-										<td align="center" width="723px;" ><table id="id_login_flight_information_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+										<td align="center">
+										<div id="id_login_flight_information_ListTable_parentDiv">
+										<table id="id_login_flight_information_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
 										<div id="pager1" class="scroll"></div>
+										</div>
 										</td>
 									</tr>
 									</tbody>
 									</table>
-							</div>
+									</fieldset>
+							
 						</td>
 					</tr>
 				</table>

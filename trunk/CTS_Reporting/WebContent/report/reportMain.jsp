@@ -240,6 +240,7 @@
     	$("#tab8").load("${pageContext.request.contextPath}/report/reportItem_landing.jsp");
     	$("#tab9").load("${pageContext.request.contextPath}/report/reportItem_taxi-in.jsp");
 
+    	//changeTab(2);
     })();
     
     var currentTab = 1;

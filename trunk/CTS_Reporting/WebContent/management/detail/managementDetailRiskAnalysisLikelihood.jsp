@@ -54,7 +54,30 @@
 	  management_risk_analysis_likelihood_likelihood_item();
 	  management_risk_analysis_likelihood_new_controls_item();
 	  management_risk_analysis_likelihood_existing_controls_item();
+	  
+	  //timeout = setInterval('resize_trigger()', 500);
+	  //alert($('#id_management_risk_analysis_likelihood_likelihood_ListTable_parentDiv').width());
   });
+  
+
+  
+/*
+  function resize_trigger(){
+	  //alert('hi');
+	  
+	  var parentDivWidth = $('#id_management_risk_analysis_likelihood_likelihood_ListTable_parentDiv').width();
+	  if ( parentDivWidth > 100){
+		  clearInterval(timeout);		  
+	  }
+	  else {
+		 // alert('still not loaded..');
+	  }
+	*/  
+
+  
+  //};
+  
+  
   function printObject(o) {
 	  var out = '';
 	  for (var p in o) {
@@ -114,9 +137,11 @@
 	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
 	  	},
 	  	loadComplete: function(){ 
-	  		
+	  		//alert($('#id_management_risk_analysis_likelihood_likelihood_ListTable_parentDiv').width());
+	  		//$("#id_management_risk_analysis_likelihood_likelihood_ListTable").jqGrid('setGridWidth', $('#id_management_risk_analysis_likelihood_likelihood_ListTable_parentDiv').width(), true); 
 	  	},
 	  	onSelectRow: function(id){ 
+	  		
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
 	    }
@@ -247,11 +272,13 @@
     	</tr>
     </tbody>
     </table>
-    <table>
+    <table width="100%">
     	<tbody>
     		<tr>
     			<td>
+    			<div style="width:100%;" id="id_management_risk_analysis_likelihood_likelihood_ListTable_parentDiv">
     			<table id="id_management_risk_analysis_likelihood_likelihood_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+    			</div>
 				<div id="management_risk_analysis_likelihood_likelihood_pager1" class="scroll"></div>  
     			</td>
     		</tr>

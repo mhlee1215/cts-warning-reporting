@@ -6,7 +6,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <style>
+    
+  .l1_fieldset { border:2px solid rgb(40, 40, 40) }
+  .l1_fieldset_legend {
+	  padding: 0.2em 0.5em;
+	  
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:150%;
+	  text-align:left;
+  }
+  .l2_fieldset { border:1px solid rgb(60, 60, 60) }
+  .l2_fieldset_legend {
+	  padding: 0.2em 0.5em;
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:120%;
+	  text-align:left;
+  }
   
+  .example{color:#666;}
+  </style>
   <script>
   var d = new Date();
   var curr_date = d.getDate()+'';
@@ -104,8 +125,8 @@
 </head>
 <body>
 
-<h2 class="ui-widget-header">BASIC INFORMATION</h2>
-<div class="ui-widget-content">
+<fieldset class="l1_fieldset">
+<legend class="l1_fieldset_legend">BASIC INFORMATION</legend>
 <table width="100%">
 <tbody>
 <tr>
@@ -132,7 +153,8 @@ Reporting No. </td>
 </tbody>
 </table>
 
-<h3 class="ui-widget-header">FLIGHT INFORMATION</h3>
+<fieldset class="l2_fieldset">
+<legend class="l2_fieldset_legend">FLIGHT INFORMATION</legend>
 <table>
 <tbody>
 <tr>
@@ -205,8 +227,10 @@ Reporting No. </td>
 </tr>
 </tbody>
 </table> 
-  
-<h3 class="ui-widget-header">PERSONAL INFORMATION</h3>
+</fieldset>
+
+<fieldset class="l2_fieldset">
+<legend class="l2_fieldset_legend">PERSONAL INFORMATION</legend>
 <table>
 <tbody>
 <tr>
@@ -246,8 +270,9 @@ Reporting No. </td>
 </tr>
 </tbody>
 </table> 
-			
-<h3 class="ui-widget-header">AIRCRAFT INFORMATION</h3>
+</fieldset>
+<fieldset class="l2_fieldset">
+<legend class="l2_fieldset_legend">AIRCRAFT INFORMATION</legend>
 <table>
 <tbody>
 <tr>
@@ -328,8 +353,11 @@ Reporting No. </td>
 </tr>
 </tbody>
 </table> 	
-					
-<h3 class="ui-widget-header">Injury/Damage Report</h3>
+</fieldset>
+</fieldset>			
+
+<fieldset class="l2_fieldset">
+<legend class="l2_fieldset_legend">Injury/Damage Report</legend>
 <table>
 <tbody>
 <tr>
@@ -381,17 +409,8 @@ Reporting No. </td>
 </tr>
 </tbody>
 </table>
-<br>
+</fieldset>
 			 
-			
-			 
-<table width="100%">
-	<tbody>
-		<tr>
-			<td align="right"><a id="id_basic_save_btn" href="#">Save</a> <a id="id_basic_next_btn" href="#">Next</a></td>
-		</tr>
-	</tbody>
-</table>
-</div>
+
 </body>
 </html>

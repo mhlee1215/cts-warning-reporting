@@ -10,154 +10,54 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/css/ui.jqgrid.css" />
   <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+  <script src="${pageContext.request.contextPath}/js/jquery.example.min.js" type="text/javascript"></script>
+  <script src="${pageContext.request.contextPath}/js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/ckeditor/ckeditor_4.1.2_standard/ckeditor.js"></script>
   <style>
-  .hazard_item_selector{
-  	margin-left:2px;
-  	margin-right:2px;
-  	width:719px;
+    
+  .l1_fieldset { border:2px solid rgb(40, 40, 40) }
+  .l1_fieldset_legend {
+	  padding: 0.2em 0.5em;
+	  
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:150%;
+	  text-align:left;
   }
-  .hazard_item_text_input{
-    height:14px;
-  	width:717px;
+  .l2_fieldset { border:1px solid rgb(60, 60, 60) }
+  .l2_fieldset_legend {
+	  padding: 0.2em 0.5em;
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:120%;
+	  text-align:left;
   }
+  
+  .example{color:#666;}
   </style>
 </head>
 <script>
   $(function() {
-   $("#id_landingmore_hazards")
-   .button()
-   .click(function( event ) {
-	 fn_landing_reset_hazard_identification();
-     event.preventDefault();
-   });
-   $("#id_landingsave_hazard")
-   .button()
-   .click(function( event ) {
-     event.preventDefault();
-   });
+	  $("#id_report_landing_attach_file_btn")
+	  .button({icons: {secondary: "ui-icon-plus" } })
+	  .click(function( event ) {
+		  previousTab();
+	   event.preventDefault();
+	  });
    
-   $("#id_landing_save_btn")
-   .button()
-   .click(function( event ) {
-     event.preventDefault();
-   });
-   $("#id_landing_previous_btn")
-   .button()
-   .click(function( event ) {
-     changeTab(7);
-     event.preventDefault();
-   });
-   $("#id_landing_next_btn")
-   .button()
-   .click(function( event ) {
-	 changeTab(9);
-     event.preventDefault();
-   });
+   $("#id_report_landing_hazard_title").example('ex) Pax door impated airbridege while opening');
+   $("#id_report_landing_hazard_time").timepicker();
+  
    
-   fn_landing_read_hazard_item_list_top();
-   fn_landing_disable_hazard_selector_from_level(1);
+   texi_out_load_hazard_item();
    
-   fn_landing_load_hazard_item();
+   CKEDITOR.replace( 'report_landing_narrative_ckeditor' );
+   CKEDITOR.replace( 'report_landing_recommendation_ckeditor' );
   });
   
-  function fn_landing_reset_hazard_identification(){
-	  fn_landing_read_hazard_item_list_top();
-	  fn_landing_disable_hazard_selector_from_level(1);
-  }
+ 
   
-  function fn_landing_disable_hazard_selector_from_level(level){
-	  //alert(level);
-	  for(var cur_level=level+1 ; cur_level <= 5 ; cur_level++){
-		  $('#id_landing_level_'+cur_level+'_selector').attr("disabled", true);
-		  var selectItem = document.getElementById('id_landing_level_'+cur_level+'_selector');
-		  for(var count = 0 ; count < selectItem.options.length ; count++)
-			{
-				selectItem.options[count] = null;
-				count=count-1;
-			}
-		  selectItem.options[0] = new Option('[SELECT LEVEL '+cur_level+' HAZARD]', '');
-		  
-	  }
-  }
-  function fn_landing_enable_hazard_selector(level){
-	  $('#id_landing_level_'+level+'_selector').removeAttr("disabled");
-  }	
-  
-  function fn_landing_landing_enable_description_of_new_hazard(val){
-	  if (val == 'y'){
-		  $('#id_landing_description_of_new_hazard').removeAttr("disabled");
-	  }else if( val == 'n'){
-		  $('#id_landing_description_of_new_hazard').attr("disabled", true);
-	  }
-	  
-	 
-  }
-  
-  
-  
-  function fn_landing_read_hazard_item_list_top(callback){	
-		$.ajax({
-			type: "POST",
-			url: "<c:url value='/getHazardItemListTop.do' />",
-			success: function(msg){
-				var Result = msg;
-				Result = jQuery.trim(Result);
-				var platforms = Result.split(",");
-				var selectItem = document.getElementById('id_landing_level_1_selector');
-				//Remove all Items
-				for(var count = 0 ; count < selectItem.options.length ; count++)
-				{
-					selectItem.options[count] = null;
-					count=count-1;
-				}
-				
-				selectItem.options[0] = new Option('[SELECT LEVEL 1 HAZARD]', '');
-				
-				for(var count = 0 ; count < platforms.length ; count++)
-				{
-					var item = platforms[count].split("_/");
-					selectItem.options[selectItem.options.length] = new Option(item[1], item[0]);
-				}
-				if(callback != undefined && callback != null)
-					callback();	
-			}
-		});
-  }
-  
-  function fn_landing_read_hazard_item_list_children(id, level, callback){ 
-		$.ajax({
-			type: "POST",
-			url: "<c:url value='/getHazardItemListChildren.do' />",
-			data: 'level='+level+'&parent_id='+id,
-			success: function(msg){
-				var Result = msg;
-				Result = jQuery.trim(Result);
-				var platforms = Result.split(",");
-				var selectItem = document.getElementById('id_landing_level_'+(parseInt(level, 10)+1)+'_selector');
-				//Remove all Items
-				for(var count = 0 ; count < selectItem.options.length ; count++)
-				{
-					selectItem.options[count] = null;
-					count=count-1;
-				}
-				
-				selectItem.options[0] = new Option('[SELECT LEVEL '+(parseInt(level, 10)+1)+' HAZARD]', '');
-				
-				for(var count = 0 ; count < platforms.length ; count++)
-				{
-					var item = platforms[count].split("_/");
-					selectItem.options[selectItem.options.length] = new Option(item[1], item[0]);
-				}
-				if(callback != undefined && callback != null)
-					callback();	
-				
-				fn_landing_disable_hazard_selector_from_level(parseInt(level, 10)+1);
-				fn_landing_enable_hazard_selector(parseInt(level, 10)+1);
-			}
-		});
-  }
-  
-  function fn_landing_dateFormatter( cellvalue, options, rowObject )
+  function texi_out_dateFormatter( cellvalue, options, rowObject )
   {
   	if(cellvalue != undefined && cellvalue != ''){
   		var year = cellvalue.substring(0, 4);
@@ -171,45 +71,39 @@
   	return '-';
   }
   
-  function fn_landing_fnFormatter( cellvalue, options, rowObject )
+  function texi_out_fnFormatter( cellvalue, options, rowObject )
   {
-	  var return_str = '<a id="id_landing_seq_'+cellvalue+'_edit_hazard" href="#">Edit</a><a id="id_landing_seq_'+cellvalue+'_delete_hazard" href="#">Delete</a>';
-		return_str += '<script>';
-		return_str += '$("#id_landing_seq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
-		return_str += '    	event.preventDefault();';
-		return_str += '});';
-		return_str += '$("#id_landing_seq_'+cellvalue+'_delete_hazard").button().click(function( event ) {'
-		return_str += '    	event.preventDefault();';
-		return_str += '});';
-		return_str += '</scr'+'ipt>';
-	  	return return_str;
+	var return_str = '<a id="id_landing_seq_'+cellvalue+'_delete_hazard" href="#">Delete</a>';
+	return_str += '<script>';
+	return_str += '$("#id_landing_seq_'+cellvalue+'_delete_hazard").button({icons: {secondary: "ui-icon-trash" } }).click(function( event ) {'
+	return_str += '    	event.preventDefault();';
+	return_str += '});';
+	return_str += '</scr'+'ipt>';
+  	return return_str;
   }
   
   
   
-  function fn_landing_load_hazard_item(){
+  function texi_out_load_hazard_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_landing_hazardListTable").jqGrid({
-	  	url:'${pageContext.request.contextPath}/getHazardItems.do', 
+	  jQuery("#id_landing_attached_file_list_table").jqGrid({
+	  	url:'${pageContext.request.contextPath}/attachedFileListFN.do', 
 	  	height: 120,
 	  	width:720,
+	  	//autowidth:true,
 	  	datatype: "xml", 
-	     	colNames:['No.','HAZARD Lv1', 'HAZARD Lv2', 'HAZARD Lv3','HAZARD Lv4','HAZARD Lv5','FN'],
+	     	colNames:['File Name','Size', 'Modified', ''],
 	     	colModel:[
-	     	 			{name:'seq_num'		,index:'seq_num'		,width:30	,align:"center", hidden:true, sortable:false},
-	     	    		{name:'item_lv1'	,index:'item_lv1'		,width:90	,align:"center"	,sorttype:"text"},
-	     	    		{name:'item_lv2'	,index:'item_lv2'		,width:90	,align:"center"	},
-	     	    		{name:'item_lv3'	,index:'item_lv3'		,width:90	,align:"center"	},
-	     	    		{name:'item_lv4'	,index:'item_lv4'		,width:90	,align:"center"	},
-	     	    		{name:'item_lv5'	,index:'item_lv5'		,width:90	,align:"center"	},	
-	     	    		{name:'fn'			,index:'fn'				,width:95	,align:"center", formatter:fn_landing_fnFormatter	}		
+	     	 			{name:'file_name'		,index:'file_name'			,width:90	,align:"center"},
+	     	    		{name:'file_size'		,index:'file_size'			,width:90	,align:"center"},
+	     	    		{name:'modified_date'	,index:'modified_date'		,width:90	,align:"center"},
+	     	    		{name:'fn'				,index:'fn'					,width:70	,align:"center", formatter:texi_out_fnFormatter	}		
 	     	    	],
-	     	//shrinkToFit:true,
+	     	shrinkToFit:true,
 	     	//altRows:true,
 	     	hoverrows:false,
 	     	rownumbers: true, 
 	     	rowNum:10, 
-	     	//autowidth: true, 
 	     	loadtext:'&nbsp;Loading hazard items..',
 	     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
 	     	rowList:[10,20,30], 
@@ -229,7 +123,7 @@
 	  	loadComplete: function(){ 
 	  	    
 	  		
-	  			//jQuery("#id_landing_hazardListTable").setRowData(ids[i],{detail:detailHtml});				
+	  			//jQuery("#id_landing_attached_file_list_table").setRowData(ids[i],{detail:detailHtml});				
 	  			//$("#detail_button_"+recordArry['id']).click(function() {fncDetailTask(recordArry['id']);});
 	 			//$("#step4_next_button_"+recordArry['id']).click(function() {fncShowCoord(recordArry['id']);});
 	  			//$("#step4_stop_button_"+recordArry['id']).click(function() {stopTask(recordArry['id']); });
@@ -238,7 +132,7 @@
 	  	}  
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 	  
-	  /*jQuery("#id_landing_hazardListTable").jqGrid({
+	  /*jQuery("#id_landing_attached_file_list_table").jqGrid({
 		   	url:'${pageContext.request.contextPath}/getHazardItems.do', 
 			datatype: "xml",
 		   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
@@ -265,105 +159,66 @@
 
   </script>
 <body>
-<h2 class="ui-widget-header">LANDING INFORMATION</h2>
-<div class="ui-widget-content">
-<table>
-<tbody>
-<tr>
-	<td colspan="2" align="left" class="leftmost_header1"><span style="margin-left:10px;">Hazard Identification</span></td>
-</tr>
-<tr>
-	<td class="leftmost_label">Level1: </td>
-	<td><select id="id_landing_level_1_selector" onchange="fn_landing_read_hazard_item_list_children(this.value,1);" name="method" class="hazard_item_selector">		
-	</select> </td>
-</tr>
-<tr>
-	<td class="leftmost_label">Level2: </td>
-	<td><select id="id_landing_level_2_selector" onchange="fn_landing_read_hazard_item_list_children(this.value,2);" name="method" class="hazard_item_selector">
-	</select> </td>
-</tr>
-<tr>
-	<td class="leftmost_label">Level3: </td>
-	<td><select id="id_landing_level_3_selector" onchange="fn_landing_read_hazard_item_list_children(this.value,3);" name="method" class="hazard_item_selector">
-	</select> </td>
-</tr>
-<tr>
-	<td class="leftmost_label">Level4: </td>
-	<td><select id="id_landing_level_4_selector" onchange="fn_landing_read_hazard_item_list_children(this.value,4);" name="method" class="hazard_item_selector">
-	</select> </td>
-</tr>
-<tr>
-	<td class="leftmost_label">Level5: </td>
-	<td><select id="id_landing_level_5_selector" name="method" class="hazard_item_selector">
-	</select> </td>
-</tr>
-</tbody>
-</table>
-<table >
-<tbody>
-<tr>
-	<td align="right" class="leftmost_label">Specific Items: </td>
-	<td> <input type="text" id="id_landingspecific_items" class="hazard_item_text_input" /> </td>
-</tr>
-</tbody>
-</table>
-<table>
-<tbody>
-<tr>
-	<td class="leftmost_label"></td><td align="right" width="723px;"><a id="id_landingsave_hazard" href="#">Done</a> <a id="id_landingmore_hazards" href="#">More Hazards?</a></td>
-</tr>
-</tbody>
+
+<fieldset class="l1_fieldset">
+<legend class="l1_fieldset_legend">LANDING INFORMATION</legend>
+
+<table width="100%" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td width="90">Hazard Title</td>
+			<td><input type="text" style="width:100%" name="" id="id_report_landing_hazard_title" value=""/></td>
+		</tr>
+		<tr>
+			<td>Time</td>
+			<td>
+				<table width="100%" cellpadding="0" cellspacing="0" border="0">
+				<tbody>
+					<tr>
+						<td width="10%"><input type="text" style="width:100%; height:12px;" name="" id="id_report_landing_hazard_time" value=""/><td>
+						<td width="5%" align="right"> <input type="radio" name="new_hazard" id="landing_new_hazard_no" onchange="landing_enable_description_of_new_hazard('n');" value="n" checked="checked"/></td>
+						<td width="5%" align="left">Local</td>
+						<td width="5%" align="right"> <input type="radio"name="new_hazard" id="landing_new_hazard_yes" onchange="landing_enable_description_of_new_hazard('y');" value="y"/></td>
+						<td width="5%" align="left">UTC</td>
+						<td width="80%"></td>
+					</tr>
+				</tbody>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<fieldset class="l2_fieldset">
+				<legend class="l2_fieldset_legend">Narrative</legend>
+				<textarea name="report_landing_narrative_ckeditor" rows="3" style="width:100%"></textarea>
+			</fieldset>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="2">
+			<fieldset class="l2_fieldset">
+				<legend class="l2_fieldset_legend">Recommendation</legend>
+				<textarea name="report_landing_recommendation_ckeditor" rows="3" style="width:100%"></textarea>
+			</fieldset>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="2">
+			<fieldset class="l2_fieldset">
+				<legend class="l2_fieldset_legend">Attachment</legend>
+				<div style="width:100%;" align="right"><a id="id_report_landing_attach_file_btn" href="#">Attach Files</a></div>
+				<div style="height:6px;"></div>
+				<table id="id_landing_attached_file_list_table" class="scroll" cellpadding="0" cellspacing="0"></table>
+				<div id="id_landing_attached_file_list_pager" class="scroll"></div>
+			</fieldset>
+			</td>
+		</tr>
+	</tbody>
 </table>
 
-<table>
-<tbody>
-<tr>
-	<td class="leftmost_label"></td>
-	<td align="center" width="723px;" ><table id="id_landing_hazardListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
-	<div id="pager1" class="scroll"></div>
-	</td>
-</tr>
-</tbody>
-</table>
-<table>
-<tbody>
-<tr>
-	<td class="leftmost_label">New Hazard:</td>
-	<td style="width:30px;text-align:right;">No</td>
-	<td> <input type="radio" name="new_hazard" id="landing_new_hazard_yes" onchange="fn_landing_landing_enable_description_of_new_hazard('n');" value="n" checked="checked"/></td>
-	<td style="width:30px;text-align:right;">Yes</td>
-	<td> <input type="radio"name="new_hazard" id="landing_new_hazard_no" onchange="fn_landing_landing_enable_description_of_new_hazard('y');" value="y"/></td>
-</tr>
-</tbody>
-</table>
-<table>
-<tbody>
-<tr>
-	<td class="leftmost_label">Description of New Hazard</td>
-	<td><textarea rows="4" cols="100" id="id_landing_description_of_new_hazard" disabled="disabled"></textarea></td>
-</tr>
-</tbody>
-</table>
 
-<table>
-<tbody>
-<tr>
-	<td class="leftmost_label">Narrative</td>
-	<td><textarea rows="4" cols="100" id="id_landing_narrative"></textarea></td>
-</tr>
-<tr>
-	<td class="leftmost_label">Recommendation</td>
-	<td><textarea rows="4" cols="100" id="id_landing_recommendation"></textarea></td>
-</tr>
-</tbody>
-</table>
-<table width="100%">
-<tbody>
-<tr>
-	<td align="right"><a id="id_landing_save_btn" href="#">Save</a><a id="id_landing_previous_btn" href="#">Previous</a><a id="id_landing_next_btn" href="#">Next</a></td>
-</tr>
-</tbody>
-</table>
-</div>
+</fieldset>
 </body>
 </html>

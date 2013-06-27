@@ -20,7 +20,7 @@ public class ReportController {
 		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportMain");
-		model.addObject("page_title", "PILOT REPORT");
+		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
 	}
@@ -31,7 +31,7 @@ public class ReportController {
 		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
 		
 		ModelAndView model = new ModelAndView("management/managementMain");
-		model.addObject("page_title", "HAZARD REPORT REVIEW");
+		model.addObject("page_title", lang.getStringHazardReportReview());
 		model.addObject("lang", lang);
 		return model;
 	}
@@ -59,6 +59,15 @@ public class ReportController {
 		String language = (String)request.getSession().getAttribute("lang");
 		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
 		ModelAndView model = new ModelAndView("management/detail/attachedFileList");
+		model.addObject("lang", lang);
+		return model;
+	}
+	
+	@RequestMapping("/attachedFileListFN.do")
+    public ModelAndView attachedFileListFN(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		ModelAndView model = new ModelAndView("management/detail/attachedFileListFN");
 		model.addObject("lang", lang);
 		return model;
 	}

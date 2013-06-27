@@ -43,8 +43,10 @@
 	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
 	   event.preventDefault();
-	});
+	   
 	  
+	});
+	
 	 $( "#management_review_basic_menu" ).menu();
 	 $( "#management_review_taxi_out_menu" ).menu();
 	 $( "#management_review_take_off_menu" ).menu();
@@ -56,14 +58,17 @@
 	 $( "#management_review_taxi_in_menu" ).menu();
 	  
 	  management_review_load_hazard_item();
+	  
+	  //alert($('#id_taxi_out_hazardListTable_parentDiv').width());
   });
-  
+   
   function management_review_load_hazard_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
 	  jQuery("#id_taxi_out_hazardListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/attachedFileList.do', 
 	  	height: 80,
-	  	width:600,
+	  	width:649,
+	  	//autowidth:true,
 	  	datatype: "xml", 
 	     	colNames:['File Name','Size', 'Modified'],
 	     	colModel:[
@@ -93,7 +98,7 @@
 	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
 	  	},
 	  	loadComplete: function(){ 
-	  		
+	  		//$("#id_taxi_out_hazardListTable").jqGrid('setGridWidth', $('#id_taxi_out_hazardListTable_parentDiv').width()-5, true);
 	  	},
 	  	onSelectRow: function(id){ 
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
@@ -234,7 +239,9 @@
 	    
 	    <tr>
 	    <td>
+	    <div id="id_taxi_out_hazardListTable_parentDiv">
 	    <table id="id_taxi_out_hazardListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+	    </div>
 		<div id="pager1" class="scroll"></div>    
 	    </td>
 	    </tr>
