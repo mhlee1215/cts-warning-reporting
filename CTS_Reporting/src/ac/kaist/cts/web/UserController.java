@@ -37,6 +37,8 @@ public class UserController {
 		String registerFail = ServletRequestUtils.getStringParameter(request, "registerFail", "false");
 	
 		
+		System.out.println("requesturl"+request.getRequestURI());
+		
 	    String userid = (String)request.getSession().getAttribute("userid");
 	    
 	    if(userid == null){
@@ -84,6 +86,14 @@ public class UserController {
 		
 		//model.addObject("userId", id);
 		
+		return model;
+    }
+	
+	@RequestMapping("/changeLang.do")
+    public ModelAndView changeLang(HttpServletRequest request, HttpServletResponse response) {
+		String language = ServletRequestUtils.getStringParameter(request, "language", "");
+		request.getSession().setAttribute("lang", language);
+		ModelAndView model = new ModelAndView("redirect:index.do");
 		return model;
     }
 	

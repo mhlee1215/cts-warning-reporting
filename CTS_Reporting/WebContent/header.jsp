@@ -16,6 +16,23 @@
 	href="css/jquery.lightbox-0.5.css" />
 <link rel="stylesheet" type="text/css"
 	href="css/jquery.lightbox-0.5.css" media="screen" />
+<style>
+ .header_user_name {
+	  padding: 0.2em 0.5em;
+	  background-color:white;
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:120%;
+	  text-align:left;
+  }
+  .header_title {
+	  padding: 0.2em 0.5em;
+	  color:rgb(30, 30, 30);
+	  font-weight:bold;
+	  font-size:250%;
+	  text-align:center;
+  }
+</style>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery.lightbox-0.5.js"></script>
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -31,6 +48,21 @@
 		 event.preventDefault();
 		 document.location = '${pageContext.request.contextPath}/index.do';
 		});
+		
+		$("#id_header_reporting_system_btn")
+		.button()
+		.click(function( event ) {
+		 event.preventDefault();
+		 document.location = '${pageContext.request.contextPath}/report.do';
+		});
+		
+		$("#id_header_management_system_btn")
+		.button()
+		.click(function( event ) {
+		 event.preventDefault();
+		 document.location = '${pageContext.request.contextPath}/management.do';
+		});
+		
 		$("#id_header_logout_btn")
 		.button()
 		.click(function( event ) {
@@ -38,29 +70,59 @@
 		 document.location = '${pageContext.request.contextPath}/logout.do';
 		});
 		
+		//$('#id_header_language_selector')
+		
 	});
+	
+	function changeLanguage(value){
+		$('#id_header_language_form').attr('action', '${pageContext.request.contextPath}/changeLang.do');
+		$('#id_header_language_input').attr('value', value);
+		$('#id_header_language_form').submit();
+	}
 </script>
+<form id="id_header_language_form" >
+	<input id="id_header_language_input" name="language" type="hidden"/>
+</form>
 <div>
 	<table style="width:100%">
 	<tr>
-	<td width="15%" align="left">
+		<td align="center" class="header_title">${page_title}</td>
+	</tr>
+	</table>
+	<div style="height:10px;"></div>
+	<table style="width:100%; height:30px;">
+	 <%if("true".equals(islogin)){ %>
+	
+	<tr>
+	<td width="100" align="left">
 		<a id="id_header_home_btn" href="#">${lang.getStringHome()}</a>
 	</td>
-	<td width="70%" align="center">
-    <h1>${page_title}</h1>
+	<td  align="center">
+    	<a id="id_header_reporting_system_btn" href="#">${lang.getStringHazardReportingSystem()}</a>
+    	<a id="id_header_management_system_btn" href="#">${lang.getStringHazardManagementSystem()}</a>
     </td>
-    <td width="15%" align="right">
     
-	    <%if("true".equals(islogin)){ %>
-			[<%=user_name %>(<%=user_type %>)] <a id="id_header_logout_btn" href="#">${lang.getStringLogout()}</a>
-			<%}else{ %>
-	
-			<%} %>
-	
-         </td>
+    <td align="right">
+    
+	   
+	    <select id="id_header_language_selector" onchange="changeLanguage(this.value);" name="language"
+			class="form_selector">
+				<option value="Eng" ${lang.getLanguage() == "Eng" ? "selected=\"selected\"" : ""}>English</option>
+				<option value="Kor" ${lang.getLanguage() == "Kor" ? "selected=\"selected\"" : ""}>Korean</option>
+		</select>
+    </td>
+    <td>
+		<span class="header_user_name">[<%=user_name %> (<%=user_type %>)]</span>
+	</td>
+	<td align="right"> <a id="id_header_logout_btn" href="#">${lang.getStringLogout()}</a>
+		
+    </td>
     </tr>
-    </table>
     
+    <%}%>
+
+		
+	</table>
     
 </div> <!-- end of templatemo header -->
     

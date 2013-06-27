@@ -908,6 +908,12 @@ public class LanguagePackKor implements LanguagePack {
 		return "기본 정보 보기";
 	}
 
+	@Override
+	public String getLanguage() {
+		// TODO Auto-generated method stub
+		return "Kor";
+	}
+
 	
 
 }

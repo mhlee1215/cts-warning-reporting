@@ -1,6 +1,7 @@
 package language;
 
 public interface LanguagePack {
+	String getLanguage();
 	//General / Login
 	String getStringHome();
 	String getStringLogin();
