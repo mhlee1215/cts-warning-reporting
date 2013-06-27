@@ -1,7 +1,7 @@
 package language;
 
 public class LanguageServiceImpl {
-	public static LanguagePack getLangePack(String lang){
+	public static LanguagePack getLangPack(String lang){
 		if(lang == null)
 			return new LanguagePackEng();
 		else if("eng".compareToIgnoreCase(lang) == 0)

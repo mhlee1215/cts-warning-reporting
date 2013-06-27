@@ -189,7 +189,7 @@ public class LanguagePackKor implements LanguagePack {
 	}
 
 	@Override
-	public String gestStringTo() {
+	public String getStringTo() {
 		// TODO Auto-generated method stub
 		return "도착";
 	}
@@ -231,7 +231,7 @@ public class LanguagePackKor implements LanguagePack {
 	}
 
 	@Override
-	public String getPersoanlInformation() {
+	public String getStringPersonalInformation() {
 		// TODO Auto-generated method stub
 		return "운항승무원 정보";
 	}
@@ -393,7 +393,7 @@ public class LanguagePackKor implements LanguagePack {
 	}
 
 	@Override
-	public String getStringAircraftDamage() {
+	public String getStringAircraftDamages() {
 		// TODO Auto-generated method stub
 		return "항공기 손상";
 	}
@@ -492,6 +492,420 @@ public class LanguagePackKor implements LanguagePack {
 	public String getStringHazardReportReview() {
 		// TODO Auto-generated method stub
 		return "위해요인 보고서 검토";
+	}
+
+	@Override
+	public String getStringFlightType() {
+		// TODO Auto-generated method stub
+		return "항공기 Type";
+	}
+
+	@Override
+	public String getStringInjuries() {
+		// TODO Auto-generated method stub
+		return "부상(명)";
+	}
+
+	@Override
+	public String getStringSelect() {
+		// TODO Auto-generated method stub
+		return "선택";
+	}
+
+	@Override
+	public String getStringInformation() {
+		// TODO Auto-generated method stub
+		return "정보";
+	}
+
+	@Override
+	public String getStringNarrative() {
+		// TODO Auto-generated method stub
+		return "서술";
+	}
+
+	@Override
+	public String getStringRecommendation() {
+		// TODO Auto-generated method stub
+		return "권고사항";
+	}
+
+	@Override
+	public String getStringAttachment() {
+		// TODO Auto-generated method stub
+		return "첨부";
+	}
+
+	@Override
+	public String getStringAttachFiles() {
+		// TODO Auto-generated method stub
+		return "첨부 파일";
+	}
+
+	@Override
+	public String getStringHazardTitle() {
+		// TODO Auto-generated method stub
+		return "위해요인 제목";
+	}
+
+	@Override
+	public String getStringFileName() {
+		// TODO Auto-generated method stub
+		return "파일이름";
+	}
+
+	@Override
+	public String getStringSize() {
+		// TODO Auto-generated method stub
+		return "크기";
+	}
+
+	@Override
+	public String getStringModified() {
+		// TODO Auto-generated method stub
+		return "수정일";
+	}
+
+	@Override
+	public String getStringReview() {
+		// TODO Auto-generated method stub
+		return "검토";
+	}
+
+	@Override
+	public String getStringHazardIdentification() {
+		// TODO Auto-generated method stub
+		return "위해요인 식별";
+	}
+
+	@Override
+	public String getStringRiskAnalysis() {
+		// TODO Auto-generated method stub
+		return "리스크 분석";
+	}
+
+	@Override
+	public String getStringRiskAssessment() {
+		// TODO Auto-generated method stub
+		return "리스크 평가";
+	}
+
+	@Override
+	public String getStringMitigation() {
+		// TODO Auto-generated method stub
+		return "경감조치";
+	}
+
+	@Override
+	public String getStringRegistered() {
+		// TODO Auto-generated method stub
+		return "등록";
+	}
+
+	@Override
+	public String getStringDate() {
+		// TODO Auto-generated method stub
+		return "날짜";
+	}
+
+	@Override
+	public String getStringAircraftDamage() {
+		// TODO Auto-generated method stub
+		return "항공기 손상";
+	}
+
+	@Override
+	public String getStringPriority() {
+		// TODO Auto-generated method stub
+		return "우선순위";
+	}
+
+	@Override
+	public String getStringAccepted() {
+		// TODO Auto-generated method stub
+		return "승인";
+	}
+
+	@Override
+	public String getStringRejected() {
+		// TODO Auto-generated method stub
+		return "거부";
+	}
+
+	@Override
+	public String getStringInvestigation() {
+		// TODO Auto-generated method stub
+		return "조사";
+	}
+
+	@Override
+	public String getStringAccept() {
+		// TODO Auto-generated method stub
+		return "승인";
+	}
+
+	@Override
+	public String getStringReject() {
+		// TODO Auto-generated method stub
+		return "거부";
+	}
+
+	@Override
+	public String getStringNeedAnInvestigation() {
+		// TODO Auto-generated method stub
+		return "추가 조사 필요";
+	}
+
+	@Override
+	public String getStringTitle() {
+		// TODO Auto-generated method stub
+		return "제목";
+	}
+
+	@Override
+	public String getStringReportsToIdentify() {
+		// TODO Auto-generated method stub
+		return "위해요인 식별";
+	}
+
+	@Override
+	public String getStringIdentifiedReports() {
+		// TODO Auto-generated method stub
+		return "위해요인 식별 완료";
+	}
+
+	@Override
+	public String getStringHazardNo() {
+		// TODO Auto-generated method stub
+		return "위해요인 No.";
+	}
+
+	@Override
+	public String getStringHazard() {
+		// TODO Auto-generated method stub
+		return "위해요인";
+	}
+
+	@Override
+	public String getStringHazardsToBeAnalyzed() {
+		// TODO Auto-generated method stub
+		return "위해요인 분석";
+	}
+
+	@Override
+	public String getStringAnalyzedHazards() {
+		// TODO Auto-generated method stub
+		return "위해요인 분석 완료";
+	}
+
+	@Override
+	public String getStringSearch() {
+		// TODO Auto-generated method stub
+		return "검색";
+	}
+
+	@Override
+	public String getStringViewReport() {
+		// TODO Auto-generated method stub
+		return "보고서 보기";
+	}
+
+	@Override
+	public String getStringLikelihood() {
+		// TODO Auto-generated method stub
+		return "발생 가능성";
+	}
+
+	@Override
+	public String getStringSeverity() {
+		// TODO Auto-generated method stub
+		return "심각도";
+	}
+
+	@Override
+	public String getStringFrequency() {
+		// TODO Auto-generated method stub
+		return "빈도";
+	}
+
+	@Override
+	public String getStringPast() {
+		// TODO Auto-generated method stub
+		return "과거";
+	}
+
+	@Override
+	public String getStringYear() {
+		// TODO Auto-generated method stub
+		return "년";
+	}
+
+	@Override
+	public String getStringYears() {
+		// TODO Auto-generated method stub
+		return "년";
+	}
+
+	@Override
+	public String getStringAll() {
+		// TODO Auto-generated method stub
+		return "All";
+	}
+
+	@Override
+	public String getStringControlNo() {
+		// TODO Auto-generated method stub
+		return "Control No.";
+	}
+
+	@Override
+	public String getStringStartDate() {
+		// TODO Auto-generated method stub
+		return "시작일";
+	}
+
+	@Override
+	public String getStringEndDate() {
+		// TODO Auto-generated method stub
+		return "종료일";
+	}
+
+	@Override
+	public String getStringDueDate() {
+		// TODO Auto-generated method stub
+		return "완료일";
+	}
+
+	@Override
+	public String getStringExistingControls() {
+		// TODO Auto-generated method stub
+		return "기존 안전조치";
+	}
+
+	@Override
+	public String getStringNewControls() {
+		// TODO Auto-generated method stub
+		return "새로운 안전조치";
+	}
+
+	@Override
+	public String getStringRisk() {
+		// TODO Auto-generated method stub
+		return "리스크";
+	}
+
+	@Override
+	public String getStringHazardsToBeAssessed() {
+		// TODO Auto-generated method stub
+		return "위해요인 평가";
+	}
+
+	@Override
+	public String getStringAssessedHazards() {
+		// TODO Auto-generated method stub
+		return "위해요인 평가 완료";
+	}
+
+	@Override
+	public String getStringHazardsToBeMitigated() {
+		// TODO Auto-generated method stub
+		return "위해요인 경감조치";
+	}
+
+	@Override
+	public String getStringMitigatedHazards() {
+		// TODO Auto-generated method stub
+		return "위해요인 경감조치 완료";
+	}
+
+	@Override
+	public String getStringOwner() {
+		// TODO Auto-generated method stub
+		return "담당";
+	}
+
+	@Override
+	public String getStringDivision() {
+		// TODO Auto-generated method stub
+		return "부서";
+	}
+
+	@Override
+	public String getStringAssignedTo() {
+		// TODO Auto-generated method stub
+		return "담당자";
+	}
+
+	@Override
+	public String getStringRequestedDate() {
+		// TODO Auto-generated method stub
+		return "요청 날짜";
+	}
+
+	@Override
+	public String getStringDueDate2() {
+		// TODO Auto-generated method stub
+		return "완료 날짜";
+	}
+
+	@Override
+	public String getStringDivisionFlight() {
+		// TODO Auto-generated method stub
+		return "운항";
+	}
+
+	@Override
+	public String getStringDivisionOperations() {
+		// TODO Auto-generated method stub
+		return "운항통제";
+	}
+
+	@Override
+	public String getStringDivisionDispatch() {
+		// TODO Auto-generated method stub
+		return "정비";
+	}
+
+	@Override
+	public String getStringDivisionMaintenance() {
+		// TODO Auto-generated method stub
+		return "보수";
+	}
+
+	@Override
+	public String getStringDivisionCabin() {
+		// TODO Auto-generated method stub
+		return "객실";
+	}
+
+	@Override
+	public String getStringDivisionGround() {
+		// TODO Auto-generated method stub
+		return "지상조업";
+	}
+
+	@Override
+	public String getStringDivisionCargo() {
+		// TODO Auto-generated method stub
+		return "Cargo";
+	}
+
+	@Override
+	public String getStringDivisionTraining() {
+		// TODO Auto-generated method stub
+		return "Training";
+	}
+
+	@Override
+	public String getStringSafetyOfficer() {
+		// TODO Auto-generated method stub
+		return "안전 관리자";
+	}
+
+	@Override
+	public String getStringShowBasicInfo() {
+		// TODO Auto-generated method stub
+		return "기본 정보 보기";
 	}
 
 	

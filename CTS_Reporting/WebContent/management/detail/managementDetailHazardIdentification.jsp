@@ -176,7 +176,7 @@
 	  	width:650,
 	  	//autowidth:true,
 	  	datatype: "xml", 
-	     	colNames:['File Name','Size', 'Modified'],
+	  		colNames:['${lang.getStringFileName()}','${lang.getStringSize()}', '${lang.getStringModified()}'],
 	     	colModel:[
 	     	 			{name:'file_name'		,index:'file_name'		,width:50	,align:"left"	,sortable: false},
 	     	    		{name:'file_size'		,index:'file_size'		,width:90	,align:"center"	,sortable: false},
@@ -227,7 +227,7 @@
 <table width="100%"> 
 <tr>
 <td>
-<div class="ui-widget-header">Report No. : RP2604137C1234</div>
+<div class="ui-widget-header">${lang.getStringReportNo()} : RP2604137C1234</div>
 </td>
 <td align="right">Priority : <span style="background-color: red; padding:3px;">High</span></td>
 </tr>
@@ -237,90 +237,90 @@
 <tr>
 <td id="id_management_detail_main_left_panel" width="30%" valign="top">
 <div id="management_hazard_identification_accordion">
-  <h3>Basic Information</h3>
+  <h3>${lang.getStringBasicInformation()}</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_basic_menu" style="border:none">
-		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Show basic info.</a></li>
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringShowBasicInfo()}</a></li>
 		</ul>
 	</div>
   <h3>Taxi-Out (2)</h3>
 	<div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_taxi_out_menu" style="border:none">
-		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Pilot (1)</a></li>
-		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>Cabin (1)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringPilot()} (1)</a></li>
+		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringCabin()} (1)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
   <h3>Take-Off (0)</h3>
   	<div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_take_off_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
   <h3>Climb (0)</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_climb_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
    <h3>En-Route (0)</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_en_route_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
    <h3>Decent (0)</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_decent_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
    <h3>Approach (0)</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_approach_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
    <h3>Landing (0)</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_landing_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
    <h3>Taxi-In (0)</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_hazard_identification_taxi_in_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Pilot (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Cabin (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Ground (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Maintenance (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>Dispatcher (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
+		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
 		</ul>
 	</div>
 </div>
@@ -328,14 +328,14 @@
 </td>
 <td id="id_management_detail_main_right_panel" width="70%">
 	<fieldset >
-	    <legend>Title : Pax door impated airbridge while opening</legend>
-	    <div class="ui-widget-header">Pilot</div>
+	    <legend>${lang.getStringTitle()} : Pax door impated airbridge while opening</legend>
+	    <div class="ui-widget-header">${lang.getStringPilot()}</div>
 	    <div class="ui-widget-content" style="padding: 5px;">
 	    <table width="100%">
 	    <tr>
 	    <td>
 	    <fieldset>
-	    <legend>Narrative</legend>
+	    <legend>${lang.getStringNarrative()}</legend>
 	    <textarea rows="3" style="width:100%" id="id_management_hazard_identification_narrative"></textarea>
 	    </fieldset>
 	    </td>
@@ -344,7 +344,7 @@
 	    <tr>
 	    <td>
 	    <fieldset>
-	    <legend>Recommendation</legend>
+	    <legend>${lang.getStringRecommendation()}</legend>
 	    <textarea rows="3" style="width:100%" id="id_management_hazard_identification_recommendation"></textarea>
 	    </fieldset>
 	    </td>
@@ -365,20 +365,20 @@
 	    </fieldset>
 	    
 	    <fieldset>
-	    <legend>Hazard Identification</legend>
+	    <legend>${lang.getStringHazardIdentification()}</legend>
 	    
 	    <table cellspacing="0" width="100%" style="padding-right:5px;">
 		<tbody >
 		<tr>
 			<td width="50%"></td>
-			<td align="right" width="20%">Hazard No.: </td>
+			<td align="right" width="20%">${lang.getStringHazardNo()}: </td>
 			<td width="30%"><input style="width:100%" type="text" id="id_management_hazard_identification_hazard_no_text" class="form_input_text" disabled="disabled" value="H260413KE1234-01"/></td>
 		</tr>
 		</tbody>
 		</table>
 	    
 	    <fieldset>
-	    <legend>Hazard</legend>
+	    <legend>${lang.getStringHazard()}</legend>
 	    
 	    <table cellspacing="0" width="100%">
 		<tbody>
@@ -436,7 +436,7 @@
 			</select> </td>
 		</tr>
 		<tr>
-			<td class="leftmost_label">Injury: </td>
+			<td class="leftmost_label">${lang.getStringInjury()}: </td>
 			<td><select style="width:100%" id="id_management_hazard_identification_injury_selector"  name="method" class="hazard_item_selector">
 			<option value="0">ex) Fatal</option>	
 				<option value="1">PASSENGER/CARGO</option>
@@ -446,7 +446,7 @@
 			</select> </td>
 		</tr>
 		<tr>
-			<td class="leftmost_label">Damage: </td>
+			<td class="leftmost_label">${lang.getStringDamage()}: </td>
 			<td><select style="width:100%" id="id_management_hazard_identification_damage_selector"  name="method" class="hazard_item_selector">
 				<option value="0">ex) Substantial</option>	
 				<option value="1">NONE</option>
@@ -456,7 +456,7 @@
 			</select> </td>
 		</tr>
 		<tr>
-			<td class="leftmost_label">Delay: </td>
+			<td class="leftmost_label">${lang.getStringDelay()}: </td>
 			<td><select style="width:100%" id="id_management_hazard_identification_delay_selector"  name="method" class="hazard_item_selector">
 			<option value="0">ex) Flight Cancel</option>	
 				<option value="1">No Delay</option>
@@ -474,8 +474,8 @@
 	    <table width="100%">
 		<tbody>
 		<tr>
-			<td align="left"><a id="id_management_hazard_identification_previous_btn" href="#">Previous</a></td>
-			<td align="right"><a id="id_management_hazard_identification_next_btn" href="#">Next</a></td>
+			<td align="left"><a id="id_management_hazard_identification_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
+			<td align="right"><a id="id_management_hazard_identification_next_btn" href="#">${lang.getStringNext()}</a></td>
 		</tr>
 		</tbody>
 		</table>
@@ -488,8 +488,8 @@
 	    
 	    <tr>
 			<td align="center">
-			<a id="id_management_hazard_identification_edit_btn" href="#">Edit</a> <a id="id_management_hazard_identification_save_btn" href="#">Save</a> 
-			<a id="id_management_hazard_identification_delete_btn" href="#">Delete</a> <a id="id_management_hazard_identification_submit_btn" href="#">Submit</a>
+			<a id="id_management_hazard_identification_edit_btn" href="#">${lang.getStringEdit()}</a> <a id="id_management_hazard_identification_save_btn" href="#">${lang.getStringSave()}</a> 
+			<a id="id_management_hazard_identification_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_hazard_identification_submit_btn" href="#">${lang.getStringSubmit()}</a>
 			</td>
 		</tr>
 				

@@ -132,7 +132,7 @@
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Control No.','Title', 'State', 'Start Date','End Date'],
+		  	colNames:['${lang.getStringControlNo()}','${lang.getStringTitle()}', '${lang.getStringState()}', '${lang.getStringStartDate()}','${lang.getStringEndDate()}'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -178,7 +178,7 @@
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Control No.','Title', 'State', 'Start Date','Due Date'],
+	  		colNames:['${lang.getStringControlNo()}','${lang.getStringTitle()}', '${lang.getStringState()}', '${lang.getStringStartDate()}','${lang.getStringEndDate()}'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -234,22 +234,22 @@
 	</table>
  	
 	<fieldset>
-	<legend>Risk Assessment Result</legend>
+	<legend>${lang.getStringRiskAssessment()}</legend>
 	<table width="100%" cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
 				<td width="49%">
 					<fieldset>
-					<legend>Initial Risk</legend>
+					<legend>Initial ${lang.getStringRisk()}</legend>
 						<table width="100%" cellpadding="2" cellspacing="10">
 							<tbody>
 								<tr>
-									<td align="left">Likelihood</td>
-									<td><b>Frequent</b></td>
+									<td align="left">${lang.getStringLikelihood()}</td>
+									<td><b>${lang.getStringFrequency()}</b></td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
-									<td align="left">Severity</td>
+									<td align="left">${lang.getStringSeverity()}</td>
 									<td><b>Major</b></td>
 								</tr>
 								<tr>
@@ -263,16 +263,16 @@
 				<td width="2%"></td>
 				<td width="49%">
 					<fieldset>
-					<legend>Residual Risk</legend>
+					<legend>Residual ${lang.getStringRisk()}</legend>
 						<table width="100%" cellpadding="2" cellspacing="10">
 							<tbody>
 								<tr>
-									<td align="left">Likelihood</td>
+									<td align="left">${lang.getStringLikelihood()}</td>
 									<td><b>Remote</b></td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
-									<td align="left">Severity</td>
+									<td align="left">${lang.getStringSeverity()}</td>
 									<td><b>Minor</b></td>
 								</tr>
 								<tr>
@@ -287,25 +287,25 @@
 		</tbody>
 	</table>
     <div style="height: 8px;"></div>
-    <div class="ui-widget-header">Existing Controls</div>
+    <div class="ui-widget-header">${lang.getStringExistingControls()}</div>
     <div class="ui-widget-content" style="padding: 5px;">
     <table width="100%">
     <tbody>
     	<tr>
     		<td><select style="width:100%" id="id_management_mitigation_existing_controls_year_selector" name="method" class="">
-				<option value="1">Past 1 Year</option>
-				<option value="2">Past 2 Years</option>
-				<option value="3" selected="selected">Past 3 Years</option>
-				<option value="4">Past 4 Years</option>
-				<option value="5">Past 5 Years</option>
-				<option value="6">Past 6 Years</option>
-				<option value="7">Past 7 Years</option>
-				<option value="8">Past 8 Years</option>
-				<option value="9">Past 9 Years</option>
-				<option value="10">Past 10 Years</option>
-				<option value="999">All</option>
+				<option value="1">${lang.getStringPast()} 1 ${lang.getStringYear()}</option>
+				<option value="2">${lang.getStringPast()} 2 ${lang.getStringYears()}</option>
+				<option value="3" selected="selected">${lang.getStringPast()} 3 ${lang.getStringYears()}</option>
+				<option value="4">${lang.getStringPast()} 4 ${lang.getStringYears()}</option>
+				<option value="5">${lang.getStringPast()} 5 ${lang.getStringYears()}</option>
+				<option value="6">${lang.getStringPast()} 6 ${lang.getStringYears()}</option>
+				<option value="7">${lang.getStringPast()} 7 ${lang.getStringYears()}</option>
+				<option value="8">${lang.getStringPast()} 8 ${lang.getStringYears()}</option>
+				<option value="9">${lang.getStringPast()} 9 ${lang.getStringYears()}</option>
+				<option value="10">${lang.getStringPast()} 10 ${lang.getStringYears()}</option>
+				<option value="999">${lang.getStringAll()}</option>
 			</select></td>
-    		<td align="left"><a id="id_management_mitigation_existing_controls_search_btn" href="#">Search</a> </td>
+    		<td align="left"><a id="id_management_mitigation_existing_controls_search_btn" href="#">${lang.getStringSearch()}</a> </td>
     		<td align="right" width="70%"></td>
     	</tr>
     </tbody>
@@ -322,7 +322,7 @@
     </table>
     </div>	
     <div style="height: 4px;"></div>
-    <div class="ui-widget-header">New Controls</div>
+    <div class="ui-widget-header">${lang.getStringNewControls()}</div>
     <div class="ui-widget-content" style="padding: 5px;">
     <table>
     	<tbody>
@@ -338,7 +338,7 @@
 	</fieldset>
 	
 	<fieldset>
-	<legend>Risk Owner Assignment</legend>
+	<legend>${lang.getStringRisk()} Owner Assignment</legend>
 	
 	<table width="100%" cellpadding="0" cellspacing="0">
 		<tbody>
@@ -364,26 +364,26 @@
 			<tr>
 				<td width="49%">
 					<fieldset>
-					<legend>Owner 1</legend>
+					<legend>${lang.getStringOwner()} 1</legend>
 						<table width="100%" cellpadding="2" cellspacing="2">
 							<tbody>
 								<tr>
-									<td align="left">Division</td>
+									<td align="left">${lang.getStringDivision()}</td>
 									<td><select style="width:100%" id="id_management_risk_mitigation_owner1_division_selector" name="method" class="">
-										<option value="1">Flight</option>
-										<option value="2">Operations</option>
-										<option value="3">Dispatch</option>
-										<option value="4">Maintenance</option>
-										<option value="5">Cabin</option>
-										<option value="6">Ground</option>
-										<option value="7">Cargo</option>
-										<option value="8" selected="selected">Training</option>
+										<option value="1">${lang.getStringDivisionFlight()}</option>
+										<option value="2">${lang.getStringDivisionOperations()}</option>
+										<option value="3">${lang.getStringDivisionDispatch()}</option>
+										<option value="4">${lang.getStringDivisionMaintenance()}</option>
+										<option value="5">${lang.getStringDivisionCabin()}</option>
+										<option value="6">${lang.getStringDivisionGround()}</option>
+										<option value="7">${lang.getStringDivisionCargo()}</option>
+										<option value="8" selected="selected">${lang.getStringDivisionTraining()}</option>
 										</select>
 									</td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
-									<td align="left">Assigned to</td>
+									<td align="left">${lang.getStringAssignedTo()}</td>
 									<td><select style="width:100%" id="id_management_risk_mitigation_owner1_assigned_to_selector" name="method" class="">
 							<option value="1">Yuna Noh</option>
 							<option value="2">Jiseon Lee</option>
@@ -392,11 +392,11 @@
 							</select></td>
 								</tr>
 								<tr>
-									<td align="left">Requested Date</td>
+									<td align="left">${lang.getStringRequestedDate()}</td>
 									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner1_requested_date" id="id_management_risk_mitigation_owner1_requested_date"/></td>
 								</tr>
 								<tr>
-									<td align="left">Due Date</td>
+									<td align="left">${lang.getStringDueDate2()}</td>
 									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner1_due_date" id="id_management_risk_mitigation_owner1_due_date"/></td>
 								</tr>
 								<tr>
@@ -415,26 +415,26 @@
 				<td width="2%"></td>
 				<td width="49%">
 					<fieldset>
-					<legend>Owner 2</legend>
+					<legend>${lang.getStringOwner()} 2</legend>
 						<table width="100%" cellpadding="2" cellspacing="2">
 							<tbody>
 								<tr>
-									<td align="left">Division</td>
+									<td align="left">${lang.getStringDivision()}</td>
 									<td><select style="width:100%" id="id_management_risk_mitigation_owner2_division_selector" name="method" class="">
-										<option value="1">Flight</option>
-										<option value="2">Operations</option>
-										<option value="3">Dispatch</option>
-										<option value="4">Maintenance</option>
-										<option value="5">Cabin</option>
-										<option value="6">Ground</option>
-										<option value="7">Cargo</option>
-										<option value="8" selected="selected">Training</option>
+										<option value="1">${lang.getStringDivisionFlight()}</option>
+										<option value="2">${lang.getStringDivisionOperations()}</option>
+										<option value="3">${lang.getStringDivisionDispatch()}</option>
+										<option value="4">${lang.getStringDivisionMaintenance()}</option>
+										<option value="5">${lang.getStringDivisionCabin()}</option>
+										<option value="6">${lang.getStringDivisionGround()}</option>
+										<option value="7">${lang.getStringDivisionCargo()}</option>
+										<option value="8" selected="selected">${lang.getStringDivisionTraining()}</option>
 										</select>
 									</td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
-									<td align="left">Assigned to</td>
+									<td align="left">${lang.getStringAssignedTo()}</td>
 									<td><select style="width:100%" id="id_management_risk_mitigation_owner2_assigned_to_selector" name="method" class="">
 							<option value="1">Yuna Noh</option>
 							<option value="2">Jiseon Lee</option>
@@ -443,11 +443,11 @@
 							</select></td>
 								</tr>
 								<tr>
-									<td align="left">Requested Date</td>
+									<td align="left">${lang.getStringRequestedDate()}</td>
 									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner2_requested_date" id="id_management_risk_mitigation_owner2_requested_date"/></td>
 								</tr>
 								<tr>
-									<td align="left">Due Date</td>
+									<td align="left">${lang.getStringDueDate2()}</td>
 									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner2_due_date" id="id_management_risk_mitigation_owner2_due_date"/></td>
 								</tr>
 								<tr>
@@ -474,8 +474,8 @@
 	
 	<tr>
 		<td align="center">
-		<a id="id_management_mitigation_edit_btn" href="#">Edit</a> <a id="id_management_mitigation_save_btn" href="#">Save</a> 
-		<a id="id_management_mitigation_delete_btn" href="#">Delete</a> <a id="id_management_mitigation_submit_btn" href="#">Submit</a>
+		<a id="id_management_mitigation_edit_btn" href="#">${lang.getStringEdit()}</a> <a id="id_management_mitigation_save_btn" href="#">${lang.getStringSave()}</a> 
+		<a id="id_management_mitigation_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_mitigation_submit_btn" href="#">${lang.getStringSubmit()}</a>
 		</td>
 	</tr>
 			
