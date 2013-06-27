@@ -31,7 +31,11 @@
 	            complete: function() {
 	                $("#loader").hide();
 	            }
-	        }
+	        },
+	        activate: function(event ,ui){
+                //console.log(event);
+                //alert(ui.newTab.index());
+            }
 	      });
 	 $( "#tabs_management_detail_main" ).tabs("option", "active", 0);
     // fix the classes

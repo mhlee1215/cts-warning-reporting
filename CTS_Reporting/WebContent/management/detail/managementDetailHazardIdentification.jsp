@@ -173,7 +173,8 @@
 	  jQuery("#id_management_hazard_identification_attached_file_ListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/attachedFileList.do', 
 	  	height: 80,
-	  	width:800,
+	  	width:650,
+	  	//autowidth:true,
 	  	datatype: "xml", 
 	     	colNames:['File Name','Size', 'Modified'],
 	     	colModel:[

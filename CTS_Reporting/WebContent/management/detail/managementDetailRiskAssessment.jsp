@@ -63,7 +63,7 @@
 	   event.preventDefault();
 	  });
 	  
-	  management_risk_assessment_likelihood_item();
+	 
 	  management_risk_assessment_new_controls_item();
 	  management_risk_assessment_existing_controls_item();
   });
@@ -103,51 +103,6 @@
 	  	return return_str;
   }
   
-  function management_risk_assessment_likelihood_item(){
-	  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_management_risk_assessment_likelihood_ListTable").jqGrid({
-	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisSeveritySeverityList.do', 
-	  	height: 100, 
-	  	width:800,
-	  	datatype: "xml", 
-	     	colNames:['Ocurrence No.','Date (UTC)', 'Occurrence', 'Severity','Residual Severity'],
-	     	colModel:[
-	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
-	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
-	     	    		{name:'flight_no'	,index:'flight_no'	,width:60	,align:"left"	,sortable: true},
-	     	    		{name:'ac_type'		,index:'ac_type'	,width:50	,align:"left"	,sortable: true},
-	     	    		{name:'state'		,index:'state'		,width:75	,align:"center" , formatter:fn_severity_fnFormatter}		
-	     	    	],
-	     	shrinkToFit:true,
-	     	//altRows:true,
-	     	hoverrows:false,
-	     	rownumbers: false, 
-	     	rowNum:10, 
-	     	loadtext:'&nbsp;Loading report items..',
-	     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
-	     	rowList:[10,20,30], 
-	     	//pager: '#pager1', 
-	     	//pagerpos:'center',
-	     	sortname: 'id', 
-	     	sortorder: 'desc',
-	     	imgpath: gridimgpath,
-	     	//multiselect: true,
-	     	//viewrecords: true, 
-	     	emptyrecords:'no report data',
-	     	//caption: "Task List",
-	     	toolbar: [false,"top"],
-	     	loadError : function(xhr,st,err) { 
-	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
-	  	},
-	  	loadComplete: function(){ 
-	  		
-	  	},
-	  	onSelectRow: function(id){ 
-	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
-	  	    //alert(localRowData);
-	    }
-	  }).navGrid('#management_risk_assessment_likelihood_pager1',{edit:false,add:false,del:false}); 
-  }
   
   function management_risk_assessment_new_controls_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';

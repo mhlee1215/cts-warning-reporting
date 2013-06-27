@@ -63,9 +63,12 @@ public class UserController {
     		
     		
 	    }
+	    String language = (String)request.getSession().getAttribute("lang");
+		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		
 		
 		ModelAndView model = new ModelAndView("login");
-		model.addObject("page_title", "HAZARD REPORTING SYSTEM");
+		model.addObject("page_title", lang.getStringHazardReportingSystem());
 		model.addObject("loginComplete", loginComplete);
 		model.addObject("loginFail", loginFail);
 		model.addObject("logoutComplete", logoutComplete);
@@ -74,8 +77,7 @@ public class UserController {
 		model.addObject("submittedUserId", submittedUserId);
 		model.addObject("isUseController", "true");
 		
-		String language = (String)request.getSession().getAttribute("lang");
-		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		
 		
 		model.addObject("lang", lang);
 		
@@ -185,9 +187,8 @@ public class UserController {
 		request.getSession().removeAttribute("externalid");
 		request.getSession().removeAttribute("islogin");
 		
-		ModelAndView model = new ModelAndView("redirect:login.do");
+		ModelAndView model = new ModelAndView("redirect:index.do");
 		model.addObject("logoutComplete", "true");
-		model.addObject("page_title", "HAZARD REPORTING SYSTEM");
 		return model;
     }
 	
