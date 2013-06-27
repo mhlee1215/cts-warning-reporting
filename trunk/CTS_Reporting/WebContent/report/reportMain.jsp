@@ -195,9 +195,9 @@
   <div>
   	<table width="100%">
   		<tr>
-  			<td align="left"><a id="id_main_previous_btn" href="#">Previous</a></td>
-  			<td align="center"><a id="id_main_edit_btn" href="#">Edit</a><a id="id_main_save_btn" href="#">Save</a><a id="id_main_delete_btn" href="#">Delete</a><a id="id_main_submit_btn" href="#">Submit</a></td>
-  			<td align="right"><a id="id_main_next_btn" href="#">Next</a></td>
+  			<td align="left"><a id="id_main_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
+  			<td align="center"><a id="id_main_edit_btn" href="#">${lang.getStringEdit()}</a><a id="id_main_save_btn" href="#">${lang.getStringSave()}</a><a id="id_main_delete_btn" href="#">Delete</a><a id="id_main_submit_btn" href="#">Submit</a></td>
+  			<td align="right"><a id="id_main_next_btn" href="#">${lang.getStringNext()}</a></td>
   		</tr>
   	</table>
   </div>
@@ -230,15 +230,15 @@
             }
         });
         
-        $("#tab1").load("${pageContext.request.contextPath}/report/reportItem_basic.jsp");
-    	$("#tab2").load("${pageContext.request.contextPath}/report/reportItem_taxi-out.jsp");
-    	$("#tab3").load("${pageContext.request.contextPath}/report/reportItem_take-off.jsp");
-    	$("#tab4").load("${pageContext.request.contextPath}/report/reportItem_climb.jsp");
-    	$("#tab5").load("${pageContext.request.contextPath}/report/reportItem_en-route.jsp");
-    	$("#tab6").load("${pageContext.request.contextPath}/report/reportItem_decent.jsp");
-    	$("#tab7").load("${pageContext.request.contextPath}/report/reportItem_approach.jsp");
-    	$("#tab8").load("${pageContext.request.contextPath}/report/reportItem_landing.jsp");
-    	$("#tab9").load("${pageContext.request.contextPath}/report/reportItem_taxi-in.jsp");
+        $("#tab1").load("${pageContext.request.contextPath}/reportBasic.do");
+    	$("#tab2").load("${pageContext.request.contextPath}/reportTaxiOut.do");
+    	$("#tab3").load("${pageContext.request.contextPath}/reportTakeOff.do");
+    	$("#tab4").load("${pageContext.request.contextPath}/reportClimb.do");
+    	$("#tab5").load("${pageContext.request.contextPath}/report_en_route.do");
+    	$("#tab6").load("${pageContext.request.contextPath}/reportDecent.do");
+    	$("#tab7").load("${pageContext.request.contextPath}/reportApproach.do");
+    	$("#tab8").load("${pageContext.request.contextPath}/reportLanding.do");
+    	$("#tab9").load("${pageContext.request.contextPath}/reportTaxiIn.do");
 
     	//changeTab(2);
     })();

@@ -115,8 +115,8 @@
 
 <div id="tabs_risk_analysis">
   <ul>
-    <li><a href="#tabs-1">Reports to Identify</a></li>
-    <li><a href="#tabs-2">Identified Reports</a></li>
+    <li><a href="#tabs-1">${lang.getStringHazardsToBeAnalyzed()}</a></li>
+    <li><a href="#tabs-2">${lang.getStringAnalyzedHazards()}</a></li>
   </ul>
   <div id="tabs-1">
     <table>

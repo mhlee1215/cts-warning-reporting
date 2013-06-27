@@ -133,11 +133,11 @@
 <%@include file="/header.jsp"%>
 
   <ul id="tabs">
-      <li><a href="#" id="id_tab1" name="#tab1">Review</a></li>
-      <li><a href="#" id="id_tab2" name="#tab2">Hazard Identification</a></li>
-      <li><a href="#" id="id_tab3" name="#tab3">Risk Analysis</a></li>
-      <li><a href="#" id="id_tab4" name="#tab4">Risk Assessment</a></li>    
-      <li><a href="#" id="id_tab5" name="#tab5">Mitigation</a></li>
+      <li><a href="#" id="id_tab1" name="#tab1">${lang.getStringReview()}</a></li>
+      <li><a href="#" id="id_tab2" name="#tab2">${lang.getStringHazardIdentification()}</a></li>
+      <li><a href="#" id="id_tab3" name="#tab3">${lang.getStringRiskAnalysis()}</a></li>
+      <li><a href="#" id="id_tab4" name="#tab4">${lang.getStringRiskAssessment()}</a></li>    
+      <li><a href="#" id="id_tab5" name="#tab5">${lang.getStringMitigation()}</a></li>
       
   </ul>
 
@@ -179,11 +179,11 @@
             }
         });
         
-        $("#tab1").load("${pageContext.request.contextPath}/management/managementReview.jsp");
-    	$("#tab2").load("${pageContext.request.contextPath}/management/managementHazardIdentification.jsp");
-    	$("#tab3").load("${pageContext.request.contextPath}/management/managementRiskAnalysis.jsp");
-    	$("#tab4").load("${pageContext.request.contextPath}/management/managementRiskAssessment.jsp");
-    	$("#tab5").load("${pageContext.request.contextPath}/management/managementMitigation.jsp");
+        $("#tab1").load("${pageContext.request.contextPath}/managementReview.do");
+    	$("#tab2").load("${pageContext.request.contextPath}/managementHazardIdentification.do");
+    	$("#tab3").load("${pageContext.request.contextPath}/managementRiskAnalysis.do");
+    	$("#tab4").load("${pageContext.request.contextPath}/managementRiskAssessment.do");
+    	$("#tab5").load("${pageContext.request.contextPath}/managementMitigation.do");
 
     })()
     

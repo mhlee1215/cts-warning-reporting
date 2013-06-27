@@ -76,12 +76,12 @@
 
 <div id="tabs_management_detail_main" class="tabs-bottom">
   <ul>
-    <li><a href="#tab1" id="id_tab1">Review</a></li>
-    <li><a href="#tab2" id="id_tab2">Hazard ID</a></li>
-    <li><a href="#tab3" id="id_tab3">Risk Analysis</a></li>
-    <li><a href="#tab4" id="id_tab4">Risk Assessment</a></li>
-    <li><a href="#tab5" id="id_tab5">Mitigation</a></li>
-    <li><a href="#tab6" id="id_tab6">Registered</a></li>
+    <li><a href="#tab1" id="id_tab1">${lang.getStringReview()}</a></li>
+    <li><a href="#tab2" id="id_tab2">${lang.getStringHazardIdentification()}</a></li>
+    <li><a href="#tab3" id="id_tab3">${lang.getStringRiskAnalysis()}</a></li>
+    <li><a href="#tab4" id="id_tab4">${lang.getStringRiskAssessment()}</a></li>
+    <li><a href="#tab5" id="id_tab5">${lang.getStringMitigation()}</a></li>
+    <li><a href="#tab6" id="id_tab6">${lang.getStringRegistered()}</a></li>
   </ul>
   <div id="content">
       <!-- <h1 align="center" class="report_title">PILOT REPORT</h1> -->

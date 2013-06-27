@@ -115,8 +115,8 @@
 
 <div id="tabs_hazard_identification">
   <ul>
-    <li><a href="#tabs-1">Reports to Identify</a></li>
-    <li><a href="#tabs-2">Identified Reports</a></li>
+    <li><a href="#tabs-1">${lang.getStringReportsToIdentify()}</a></li>
+    <li><a href="#tabs-2">${lang.getStringIdentifiedReports()}</a></li>
   </ul>
   <div id="tabs-1">
     <table>

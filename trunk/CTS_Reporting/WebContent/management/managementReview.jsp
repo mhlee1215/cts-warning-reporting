@@ -41,7 +41,7 @@
 	  	height: 120,
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Report No.','Date (UTC)', 'Aircraft Damage11', 'Injury','Delay Time','Priority','State'],
+	     	colNames:['${lang.getStringReportNo()}','${lang.getStringDate()} (UTC)', '${lang.getStringAircraftDamage()}', '${lang.getStringInjury()}','${lang.getStringDelay()} ${lang.getStringTime()}','${lang.getStringPriority()}','${lang.getStringState()}'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:120	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:90	,align:"center"	,sortable: true},
@@ -90,12 +90,12 @@
 
 <div id="tabs_review">
   <ul>
-    <li><a href="#tabs-1">All</a></li>
-    <li><a href="#tabs-2">Review</a></li>
-    <li><a href="#tabs-3">Accepted</a></li>
-    <li><a href="#tabs-4">Rejected</a></li>
-    <li><a href="#tabs-5">Investigation</a></li>
-    <li><a href="#tabs-6">Registered</a></li>
+    <li><a href="#tabs-1">${lang.getStringAll()}</a></li>
+    <li><a href="#tabs-2">${lang.getStringReview()}</a></li>
+    <li><a href="#tabs-3">${lang.getStringAccepted()}</a></li>
+    <li><a href="#tabs-4">${lang.getStringRejected()}</a></li>
+    <li><a href="#tabs-5">${lang.getStringInvestigation()}</a></li>
+    <li><a href="#tabs-6">${lang.getStringRegistered()}</a></li>
   </ul>
   <div id="tabs-1">
     <table>

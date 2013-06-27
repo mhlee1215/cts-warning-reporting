@@ -64,7 +64,7 @@ public class UserController {
     		
 	    }
 	    String language = (String)request.getSession().getAttribute("lang");
-		LanguagePack lang = LanguageServiceImpl.getLangePack(language);
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		
 		ModelAndView model = new ModelAndView("login");

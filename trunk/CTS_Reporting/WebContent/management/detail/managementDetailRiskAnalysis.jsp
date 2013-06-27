@@ -176,15 +176,15 @@
 <table width="100%"> 
 <tr>
 <td>
-<div class="ui-widget-header">Hazard No. : H2604137C1234</div>
+<div class="ui-widget-header">${lang.getStringHazardNo()} : H2604137C1234</div>
 </td>
-<td align="right"><a id="id_management_risk_analysis_view_report_btn" href="#">View Report</a></td>
+<td align="right"><a id="id_management_risk_analysis_view_report_btn" href="#">${lang.getStringViewReport()}</a></td>
 </tr>
 </table>
  
 <ul id="id_management_risk_analysis_tabs">
-      <li><a href="#" id="id_management_risk_analysis_tab1" name="#management_risk_analysis_tab1">Likelihood</a></li>
-      <li><a href="#" id="id_management_risk_analysis_tab2" name="#management_risk_analysis_tab2">Severity</a></li>
+      <li><a href="#" id="id_management_risk_analysis_tab1" name="#management_risk_analysis_tab1">${lang.getStringLikelihood()}</a></li>
+      <li><a href="#" id="id_management_risk_analysis_tab2" name="#management_risk_analysis_tab2">${lang.getStringSeverity()}</a></li>
   </ul>
 
   <div id="id_management_risk_analysis_content" style="border: 1px solid gray;">

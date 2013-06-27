@@ -73,7 +73,7 @@
   
   function texi_out_fnFormatter( cellvalue, options, rowObject )
   {
-	var return_str = '<a id="id_take_off_seq_'+cellvalue+'_delete_hazard" href="#">Delete</a>';
+	var return_str = '<a id="id_take_off_seq_'+cellvalue+'_delete_hazard" href="#">${lang.getStringDelete()}</a>';
 	return_str += '<script>';
 	return_str += '$("#id_take_off_seq_'+cellvalue+'_delete_hazard").button({icons: {secondary: "ui-icon-trash" } }).click(function( event ) {'
 	return_str += '    	event.preventDefault();';
@@ -92,7 +92,7 @@
 	  	width:720,
 	  	//autowidth:true,
 	  	datatype: "xml", 
-	     	colNames:['File Name','Size', 'Modified', ''],
+	  		colNames:['${lang.getStringFileName()}','${lang.getStringSize()}', '${lang.getStringModified()}', ''],
 	     	colModel:[
 	     	 			{name:'file_name'		,index:'file_name'			,width:90	,align:"center"},
 	     	    		{name:'file_size'		,index:'file_size'			,width:90	,align:"center"},
@@ -161,16 +161,16 @@
 <body>
 
 <fieldset class="l1_fieldset">
-<legend class="l1_fieldset_legend">TAKE-OFF INFORMATION</legend>
+<legend class="l1_fieldset_legend">TAKE-OFF ${lang.getStringInformation()}</legend>
 
 <table width="100%" cellpadding="0" cellspacing="0">
 	<tbody>
 		<tr>
-			<td width="90">Hazard Title</td>
+			<td width="90">${lang.getStringHazardTitle()}</td>
 			<td><input type="text" style="width:100%" name="" id="id_report_take_off_hazard_title" value=""/></td>
 		</tr>
 		<tr>
-			<td>Time</td>
+			<td>${lang.getStringTime()}</td>
 			<td>
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
 				<tbody>
@@ -189,7 +189,7 @@
 		<tr>
 			<td colspan="2">
 			<fieldset class="l2_fieldset">
-				<legend class="l2_fieldset_legend">Narrative</legend>
+				<legend class="l2_fieldset_legend">${lang.getStringNarrative()}</legend>
 				<textarea name="report_take_off_narrative_ckeditor" rows="3" style="width:100%"></textarea>
 			</fieldset>
 			</td>
@@ -198,7 +198,7 @@
 		<tr>
 			<td colspan="2">
 			<fieldset class="l2_fieldset">
-				<legend class="l2_fieldset_legend">Recommendation</legend>
+				<legend class="l2_fieldset_legend">${lang.getStringRecommendation()}</legend>
 				<textarea name="report_take_off_recommendation_ckeditor" rows="3" style="width:100%"></textarea>
 			</fieldset>
 			</td>
@@ -207,8 +207,8 @@
 		<tr>
 			<td colspan="2">
 			<fieldset class="l2_fieldset">
-				<legend class="l2_fieldset_legend">Attachment</legend>
-				<div style="width:100%;" align="right"><a id="id_report_take_off_attach_file_btn" href="#">Attach Files</a></div>
+				<legend class="l2_fieldset_legend">${lang.getStringAttachment()}</legend>
+				<div style="width:100%;" align="right"><a id="id_report_take_off_attach_file_btn" href="#">${lang.getStringAttachFiles()}</a></div>
 				<div style="height:6px;"></div>
 				<table id="id_take_off_attached_file_list_table" class="scroll" cellpadding="0" cellspacing="0"></table>
 				<div id="id_take_off_attached_file_list_pager" class="scroll"></div>

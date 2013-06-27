@@ -98,7 +98,7 @@
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Ocurrence No.','Date (UTC)', 'Occurrence', 'Severity','Residual Severity'],
+	     	colNames:['Ocurrence No.','${lang.getStringDate()} (UTC)', 'Occurrence', '${lang.getStringSeverity()}','Residual ${lang.getStringSeverity()}'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -144,7 +144,7 @@
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Control No.','Title', 'State', 'Start Date','End Date'],
+		  	colNames:['${lang.getStringControlNo()}','${lang.getStringTitle()}', '${lang.getStringState()}', '${lang.getStringStartDate()}','${lang.getStringEndDate()}'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -190,7 +190,7 @@
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Control No.','Title', 'State', 'Start Date','Due Date'],
+		  	colNames:['${lang.getStringControlNo()}','${lang.getStringTitle()}', '${lang.getStringState()}', '${lang.getStringStartDate()}','${lang.getStringEndDate()}'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -235,28 +235,28 @@
  
  
 	<fieldset>
-	<legend>Risk Analysis</legend>
-	<div class="ui-widget-header">Severity</div>
+	<legend>${lang.getStringRiskAnalysis()}</legend>
+	<div class="ui-widget-header">${lang.getStringSeverity()}</div>
     <div class="ui-widget-content" style="padding: 5px;">
     
     <table width="100%">
     <tbody>
     	<tr>
     		<td><select style="width:100%" id="id_management_risk_analysis_severity_likelihood_year_selector" name="method" class="">
-				<option value="1">Past 1 Year</option>
-				<option value="2">Past 2 Years</option>
-				<option value="3" selected="selected">Past 3 Years</option>
-				<option value="4">Past 4 Years</option>
-				<option value="5">Past 5 Years</option>
-				<option value="6">Past 6 Years</option>
-				<option value="7">Past 7 Years</option>
-				<option value="8">Past 8 Years</option>
-				<option value="9">Past 9 Years</option>
-				<option value="10">Past 10 Years</option>
-				<option value="999">All</option>
+				<option value="1">${lang.getStringPast()} 1 ${lang.getStringYear()}</option>
+				<option value="2">${lang.getStringPast()} 2 ${lang.getStringYears()}</option>
+				<option value="3" selected="selected">${lang.getStringPast()} 3 ${lang.getStringYears()}</option>
+				<option value="4">${lang.getStringPast()} 4 ${lang.getStringYears()}</option>
+				<option value="5">${lang.getStringPast()} 5 ${lang.getStringYears()}</option>
+				<option value="6">${lang.getStringPast()} 6 ${lang.getStringYears()}</option>
+				<option value="7">${lang.getStringPast()} 7 ${lang.getStringYears()}</option>
+				<option value="8">${lang.getStringPast()} 8 ${lang.getStringYears()}</option>
+				<option value="9">${lang.getStringPast()} 9 ${lang.getStringYears()}</option>
+				<option value="10">${lang.getStringPast()} 10 ${lang.getStringYears()}</option>
+				<option value="999">${lang.getStringAll()}</option>
 			</select></td>
-    		<td align="left"><a id="id_management_risk_analysis_severity_likelihood_search_btn" href="#">Search</a> </td>
-    		<td align="right">Frequency: <input style="width:30px;" type="text" id="id_management_risk_analysis_severity_likelihood_frequency_text" class="form_input_text" disabled="disabled" value="4"/></td>
+    		<td align="left"><a id="id_management_risk_analysis_severity_likelihood_search_btn" href="#">${lang.getStringSearch()}</a> </td>
+    		<td align="right">${lang.getStringFrequency()}: <input style="width:30px;" type="text" id="id_management_risk_analysis_severity_likelihood_frequency_text" class="form_input_text" disabled="disabled" value="4"/></td>
     		<td align="right">Worst Residual Severity: <input style="width:100px;" type="text" id="id_management_risk_analysis_severity_likelihood_worst_residual_text" class="form_input_text" disabled="disabled" value="Remote"/></td>
     	</tr>
     </tbody>
@@ -274,25 +274,25 @@
     </div>	
     <div style="height: 4px;"></div>
     
-    <div class="ui-widget-header">Existing Controls</div>
+    <div class="ui-widget-header">${lang.getStringExistingControls()}</div>
     <div class="ui-widget-content" style="padding: 5px;">
     <table width="100%">
     <tbody>
     	<tr>
     		<td><select style="width:100%" id="id_management_risk_analysis_severity_existing_controls_year_selector" name="method" class="">
-				<option value="1">Past 1 Year</option>
-				<option value="2">Past 2 Years</option>
-				<option value="3" selected="selected">Past 3 Years</option>
-				<option value="4">Past 4 Years</option>
-				<option value="5">Past 5 Years</option>
-				<option value="6">Past 6 Years</option>
-				<option value="7">Past 7 Years</option>
-				<option value="8">Past 8 Years</option>
-				<option value="9">Past 9 Years</option>
-				<option value="10">Past 10 Years</option>
-				<option value="999">All</option>
+				<option value="1">${lang.getStringPast()} 1 ${lang.getStringYear()}</option>
+				<option value="2">${lang.getStringPast()} 2 ${lang.getStringYears()}</option>
+				<option value="3" selected="selected">${lang.getStringPast()} 3 ${lang.getStringYears()}</option>
+				<option value="4">${lang.getStringPast()} 4 ${lang.getStringYears()}</option>
+				<option value="5">${lang.getStringPast()} 5 ${lang.getStringYears()}</option>
+				<option value="6">${lang.getStringPast()} 6 ${lang.getStringYears()}</option>
+				<option value="7">${lang.getStringPast()} 7 ${lang.getStringYears()}</option>
+				<option value="8">${lang.getStringPast()} 8 ${lang.getStringYears()}</option>
+				<option value="9">${lang.getStringPast()} 9 ${lang.getStringYears()}</option>
+				<option value="10">${lang.getStringPast()} 10 ${lang.getStringYears()}</option>
+				<option value="999">${lang.getStringAll()}</option>
 			</select></td>
-    		<td align="left"><a id="id_management_risk_analysis_severity_existing_controls_search_btn" href="#">Search</a> </td>
+    		<td align="left"><a id="id_management_risk_analysis_severity_existing_controls_search_btn" href="#">${lang.getStringSearch()}</a> </td>
     		<td align="right" width="70%"></td>
     	</tr>
     </tbody>
@@ -309,7 +309,7 @@
     </table>
     </div>	
     <div style="height: 4px;"></div>
-    <div class="ui-widget-header">New Controls</div>
+    <div class="ui-widget-header">${lang.getStringNewControls()}</div>
     <div class="ui-widget-content" style="padding: 5px;">
     <table>
     	<tbody>
@@ -329,7 +329,7 @@
 	<table width="100%">
 	<tbody>
 		<tr>
-			<td>Initial Severity: <select style="width:50%" id="id_management_risk_analysis_severity_initial_likelihood_selector" name="method" class="hazard_item_selector">
+			<td>Initial ${lang.getStringSeverity()}: <select style="width:50%" id="id_management_risk_analysis_severity_initial_likelihood_selector" name="method" class="hazard_item_selector">
 				<option value="1">Catastrophic</option>
 				<option value="2">Hazardous</option>
 				<option value="3">Major</option>
@@ -337,7 +337,7 @@
 				<option value="5">Negligible</option>
 			</select></td>
 			<td></td>
-			<td>Residual Severity: <select style="width:50%" id="id_management_risk_analysis_severity_residual_likelihood_selector" name="method" class="hazard_item_selector">
+			<td>Residual ${lang.getStringSeverity()}: <select style="width:50%" id="id_management_risk_analysis_severity_residual_likelihood_selector" name="method" class="hazard_item_selector">
 				<option value="1">Catastrophic</option>
 				<option value="2">Hazardous</option>
 				<option value="3">Major</option>
@@ -358,8 +358,8 @@
 	
 	<tr>
 		<td align="center">
-		<a id="id_management_risk_analysis_severity_edit_btn" href="#">Edit</a> <a id="id_management_risk_analysis_severity_save_btn" href="#">Save</a> 
-		<a id="id_management_risk_analysis_severity_delete_btn" href="#">Delete</a> <a id="id_management_risk_analysis_severity_submit_btn" href="#">Submit</a>
+		<a id="id_management_risk_analysis_severity_edit_btn" href="#">${lang.getStringEdit()}</a> <a id="id_management_risk_analysis_severity_save_btn" href="#">${lang.getStringSave()}</a> 
+		<a id="id_management_risk_analysis_severity_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_risk_analysis_severity_submit_btn" href="#">${lang.getStringSubmit()}</a>
 		</td>
 	</tr>
 			

@@ -126,7 +126,7 @@
 <body>
 
 <fieldset class="l1_fieldset">
-<legend class="l1_fieldset_legend">BASIC INFORMATION</legend>
+<legend class="l1_fieldset_legend">${lang.getStringBasicInformation()}</legend>
 <table width="100%">
 <tbody>
 <tr>
@@ -135,18 +135,18 @@
 <tbody>
 <tr>
 <td class="leftmost_label">
-Reporting Date: </td>
+${lang.getStringReportingDate()}: </td>
 <td><input type="text" id="id_basic_report_date_datepicker" class="form_input_text"/>
 </td>
 <td width="100px;" align="right">
-Reporting No. </td>
+${lang.getStringReportingNo()} </td>
 <td><input readonly="readonly" type="text" id="id_basic_report_No" class="form_input_text"/>
 </td>
 </tr>
 </tbody>
 </table>
 </td>
-<td align="right"><a id="id_basic_auto_fill_btn" href="#" onclick="auto_fill();">Auto Fill</a>
+<td align="right"><a id="id_basic_auto_fill_btn" href="#" onclick="auto_fill();">${lang.getStringAutoFill()}</a>
 </td>
 
 </tr>
@@ -154,15 +154,15 @@ Reporting No. </td>
 </table>
 
 <fieldset class="l2_fieldset">
-<legend class="l2_fieldset_legend">FLIGHT INFORMATION</legend>
+<legend class="l2_fieldset_legend">${lang.getStringFlightInformation()}</legend>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Flight Date:</td>
+	<td class="leftmost_label">${lang.getStringFlightDate()}:</td>
 	<td><input type="text" id="id_basic_flight_date_datepicker" class="form_input_text" /></td>
-	<td width="100px;"  align="right">Flight No.:</td>
+	<td width="100px;"  align="right">${lang.getStringFlightNo()}:</td>
 	<td><input type="text" onchange="update_rp_no();" id="id_basic_flight_no" class="form_input_text"/></td>
-	<td width="100px;" align="right">Airline:</td>
+	<td width="100px;" align="right">${lang.getStringAirline()}:</td>
 	<td><input type="text" id="id_basic_air_line" class="form_input_text" /></td>
 </tr>
 
@@ -171,11 +171,11 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Route:</td>
+	<td class="leftmost_label">${lang.getStringRoute()}:</td>
 	<td><input type="text" id="id_basic_route_from" class="form_input_text" /></td>
-	<td width="100px;" align="right">To</td>
+	<td width="100px;" align="right">${lang.getStringTo()}</td>
 	<td><input type="text" id="id_basic_route_to" class="form_input_text"/></td>
-	<td width="100px;" align="right">Diverted:</td>
+	<td width="100px;" align="right">${lang.getStringDiverted()}:</td>
 	<td><input type="text" id="id_basic_route_diverted" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -184,9 +184,9 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Flight Type:</td>
+	<td class="leftmost_label">${lang.getStringFlightType()}:</td>
 	<td><select id="id_basic_flight_type_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">SCHEDULED</option>
 				<option value="2">NON-SCHEDULED</option>
 			</select></td>
@@ -197,15 +197,15 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Domestic or International:</td>
+	<td class="leftmost_label">${lang.getStringDomesticInternational()}:</td>
 	<td><select id="id_basic_dom_or_int_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">INTERNATIONAL</option>
 				<option value="2">DOMESTIC</option>
 			</select></td>
-	<td style="width:100px;text-align:right;">Cargo Operation:</td>
+	<td style="width:100px;text-align:right;">${lang.getStringCargoOperation()}:</td>
 	<td><select id="id_basic_cargo_oper_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">PASSENGER/CARGO</option>
 				<option value="2">PASSENGER</option>
 				<option value="3">CARGO</option>
@@ -218,11 +218,11 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">No. of Flight Crew:</td>
+	<td class="leftmost_label">${lang.getStringNoOfFlightCrew()}:</td>
 	<td><input type="text" id="id_basic_no_of_flight_crew" class="form_input_text"/></td>
-	<td style="width:100px;text-align:right;">No. of Cabin Crew:</td>
+	<td style="width:100px;text-align:right;">${lang.getStringNoOfCabinCrew()}:</td>
 	<td><input type="text" id="id_basic_no_of_cabin_crew" class="form_input_text"/></td>
-	<td style="width:100px;text-align:right;">No. of Passengers:</td>
+	<td style="width:100px;text-align:right;">${lang.getStringNoOfPassengers()}:</td>
 	<td><input type="text" id="id_basic_no_of_passengers" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -230,15 +230,15 @@ Reporting No. </td>
 </fieldset>
 
 <fieldset class="l2_fieldset">
-<legend class="l2_fieldset_legend">PERSONAL INFORMATION</legend>
+<legend class="l2_fieldset_legend">${lang.getStringPersonalInformation()}</legend>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">ID Number:</td>
+	<td class="leftmost_label">${lang.getStringIDNo()}:</td>
 	<td><input type="text" id="id_basic_id_basic_number" class="form_input_text" /></td>
-	<td style="width:100px;text-align:right;">Name:</td>
+	<td style="width:100px;text-align:right;">${lang.getStringName()}:</td>
 	<td><input type="text" id="id_basic_name" class="form_input_text"/></td>
-	<td style="width:100px;text-align:right;">Date of Birth:</td>
+	<td style="width:100px;text-align:right;">${lang.getStringDateOfBirth()}:</td>
 	<td><input type="text" id="id_basic_date_of_birth_datapicker" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -246,16 +246,16 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label_wide">Medical Certification:</td>
+	<td class="leftmost_label_wide">${lang.getStringMedicalCertification()}:</td>
 	<td><select id="id_basic_medical_certification_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">NONE</option>
 				<option value="2">CLASS1</option>
 				<option value="3">CLASS2</option>
 				<option value="4">CLASS3</option>
 				<option value="5">UNKNOWN</option>
 			</select></td>
-	<td style="width:135px;text-align:right;">Date of Last Medical:</td>
+	<td style="width:135px;text-align:right;">${lang.getStringDateOfLastMedical()}:</td>
 	<td><input type="text" id="id_basic_date_of_last_medical_datapicker" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -263,28 +263,28 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Flight Time (hours):</td>
+	<td class="leftmost_label">${lang.getStringFlightTime()}:</td>
 	<td><input type="text" id="id_basic_total_time" class="form_input_text"/></td>
-	<td style="width:135px;text-align:right;">This Mask/Model:</td>
+	<td style="width:135px;text-align:right;">${lang.getStringThisMakeModel()}:</td>
 	<td><input type="text" id="id_basic_this_mask_model" class="form_input_text"/></td>
 </tr>
 </tbody>
 </table> 
 </fieldset>
 <fieldset class="l2_fieldset">
-<legend class="l2_fieldset_legend">AIRCRAFT INFORMATION</legend>
+<legend class="l2_fieldset_legend">${lang.getStringAircraftInformation()}</legend>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Manufacturer:</td>
+	<td class="leftmost_label">${lang.getStringManufacturer()}:</td>
 	<td><select id="id_basic_manufacturer_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">BOEING</option>
 				<option value="2">AIRBUS</option>
 			</select></td>
-	<td style="width:135px;text-align:right;">Model:</td>
+	<td style="width:135px;text-align:right;">${lang.getStringModel()}:</td>
 	<td><select id="id_basic_model_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">A300-600</option>
 				<option value="2">A320-200</option>
 				<option value="3">A321-100</option>
@@ -313,9 +313,9 @@ Reporting No. </td>
 			</select></td>
 </tr>
 <tr>
-	<td class="leftmost_label">Serial Number:</td>
+	<td class="leftmost_label">${lang.getStringSerialNumber()}:</td>
 	<td><input type="text" id="id_basic_serial_number" class="form_input_text"/></td>
-	<td style="width:135px;text-align:right;">Registration Number:</td>
+	<td style="width:135px;text-align:right;">${lang.getStringRegistrationNumber()}:</td>
 	<td><input type="text" id="id_basic_registration_number" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -324,12 +324,12 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td>No. of Seats: </td>
-	<td class="leftmost_label">Flight Crew:</td>
+	<td>${lang.getStringNoOfSeats()}: </td>
+	<td class="leftmost_label">${lang.getStringFlightCrews()}:</td>
 	<td><input type="text" id="id_basic_flight_crew" class="form_input_text"/></td>
-	<td style="width:130px;text-align:right;">Cabin Crew:</td>
+	<td style="width:130px;text-align:right;">${lang.getStringCabinCrews()}:</td>
 	<td><input type="text" id="id_basic_cabin_crew" class="form_input_text"/></td>
-	<td style="width:130px;text-align:right;">Passengers:</td>
+	<td style="width:130px;text-align:right;">${lang.getStringPassengers()}:</td>
 	<td><input type="text" id="id_basic_passengers" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -338,9 +338,9 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Last Inspection Type:</td>
+	<td class="leftmost_label">${lang.getStringLastInspectionType()}:</td>
 	<td><select id="id_basic_last_inspection_type_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">100HOUR</option>
 				<option value="2">AAIP</option>
 				<option value="3">ANNUAL</option>
@@ -348,7 +348,7 @@ Reporting No. </td>
 				<option value="5">CONDITIONAL INSPECTION</option>
 				<option value="6">UNKNOWN</option>
 			</select></td>
-	<td style="width:130px;text-align:right;">Date Last Inspection:</td>
+	<td style="width:130px;text-align:right;">${lang.getStringDateLastInspection()}:</td>
 	<td><input type="text" id="id_basic_date_last_inspection_datepicker" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -357,28 +357,28 @@ Reporting No. </td>
 </fieldset>			
 
 <fieldset class="l2_fieldset">
-<legend class="l2_fieldset_legend">Injury/Damage Report</legend>
+<legend class="l2_fieldset_legend">${lang.getStringInjury()}/${lang.getStringDamage()}/${lang.getStringDelay()}</legend>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label2">Flight Crew</td>
-	<td style="width:130px;text-align:right;">No. of Fatalities:</td>
+	<td class="leftmost_label2">${lang.getStringFlightCrew()}</td>
+	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
 	<td><input type="text" id="id_basic_flight_crew_no_of_fatalities" class="form_input_text"/></td>
-	<td style="width:130px;text-align:right;">No. of Injuries:</td>
+	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
 	<td><input type="text" id="id_basic_flight_crew_no_of_injuries" class="form_input_text"/></td>
 </tr>
 <tr>
-	<td class="leftmost_label2">Cabin Crew</td>
-	<td style="width:130px;text-align:right;">No. of Fatalities:</td>
+	<td class="leftmost_label2">${lang.getStringCabinCrew()}</td>
+	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
 	<td><input type="text" id="id_basic_cabin_crew_no_of_fatalities" class="form_input_text"/></td>
-	<td style="width:130px;text-align:right;">No. of Injuries:</td>
+	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
 	<td><input type="text" id="id_basic_cabin_crew_no_of_injuries" class="form_input_text"/></td>
 </tr>
 <tr>
-	<td class="leftmost_label2">Passengers</td>
-	<td style="width:130px;text-align:right;">No. of Fatalities:</td>
+	<td class="leftmost_label2">${lang.getStringPassenger()}</td>
+	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
 	<td><input type="text" id="id_basic_passengers_no_of_fatalities" class="form_input_text"/></td>
-	<td style="width:130px;text-align:right;">No. of Injuries:</td>
+	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
 	<td><input type="text" id="id_basic_passengers_no_of_injuries" class="form_input_text"/></td>
 </tr>
 </tbody>
@@ -387,24 +387,24 @@ Reporting No. </td>
 <table>
 <tbody>
 <tr>
-	<td class="leftmost_label">Aircraft Damages:</td>
+	<td class="leftmost_label">${lang.getStringAircraftDamages()}:</td>
 	<td><select id="id_basic_damage_selector" name="method" class="form_selector">
-				<option value="0">select</option>	
+				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="1">NONE</option>
 				<option value="2">MINOR</option>
 				<option value="3">SUBSTANTIAL</option>
 				<option value="4">DESTROYED</option>
 			</select></td>
 		
-	<td style="width:70px;text-align:right;">Delay Time:</td>
+	<td style="width:70px;text-align:right;">${lang.getStringDelay()}${lang.getStringTime()}:</td>
 	<td><select id="id_basic_delay_time_selector" name="method" class="form_selector">
-				<option value="0">select</option>					
-				<option value="1">NONE</option>
-				<option value="2">No Delay</option>
-				<option value="3">Within 30 min</option>
-				<option value="4">More than 1 hour</option>
-				<option value="5">Flight Cancel</option>
-				<option value="6">A/C Change</option>
+				<option value="0">${lang.getStringSelect()}</option>					
+				<option value="1">${lang.getStringNone()}</option>
+				<option value="2">${lang.getStringNoDelay()}</option>
+				<option value="3">${lang.getStringWithin30Min()}</option>
+				<option value="4">${lang.getStringMoreThan1Hour()}</option>
+				<option value="5">${lang.getStringFlightCancel()}</option>
+				<option value="6">${lang.getStringACChange()}</option>
 			</select></td>
 </tr>
 </tbody>
