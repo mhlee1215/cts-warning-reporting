@@ -33,7 +33,7 @@
 	            }
 	        }
 	      });
-	 $( "#tabs_management_detail_main" ).tabs("option", "active", 2);
+	 $( "#tabs_management_detail_main" ).tabs("option", "active", 0);
     // fix the classes
     $( ".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *" )
       .removeClass( "ui-corner-all ui-corner-top" )
@@ -54,13 +54,16 @@
   <style>
   /* force a height so the tabs don't jump as content height changes */
   #tabs_management_detail_main .ui-tabs-panel {
-    height: 720px;
+    height: 820px;
     overflow: auto;
   }
   #tabs_management_detail_main .tabs-spacer { float: left; height: 100px; }
   .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
   .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
   .tabs-bottom .ui-tabs-nav li.ui-tabs-active { margin-top: -1px; padding-top: 1px; }
+  
+  .ui-menu { width: 150px; border : none;}
+  .ui-menu .ui-widget-content { border : none;}
   </style>
 </head>
 <body>

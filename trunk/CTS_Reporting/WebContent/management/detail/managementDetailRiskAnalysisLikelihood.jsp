@@ -30,25 +30,67 @@
 	   event.preventDefault();
 	  });
 	  
+	  $("#id_management_risk_analysis_likelihood_edit_btn")
+	  .button({icons: {secondary: "ui-icon-document" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	  });
+	  $("#id_management_risk_analysis_likelihood_save_btn")
+	  .button({icons: {secondary: "ui-icon-disk" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	});
+	  $("#id_management_risk_analysis_likelihood_delete_btn")
+	  .button({icons: {secondary: "ui-icon-trash" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	});
+	  $("#id_management_risk_analysis_likelihood_submit_btn")
+	  .button({icons: {secondary: "ui-icon-check" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	});
+	  
 	  management_risk_analysis_likelihood_likelihood_item();
 	  management_risk_analysis_likelihood_new_controls_item();
 	  management_risk_analysis_likelihood_existing_controls_item();
   });
+  function printObject(o) {
+	  var out = '';
+	  for (var p in o) {
+	    out += p + ': ' + o[p] + '\n';
+	  }
+	  alert(out);
+	}
+  
+  function fn_climb_fnFormatter( cellvalue, options, rowObject )
+  {
+	  //alert(rowObject[0]);
+	  //printObject(rowObject.attributes);
+	  var return_str = '<select style="width:100%" id="id_management_risk_analysis_likelihood_initial_likelihood_selector" name="method" class="hazard_item_selector">'+
+		'<option value="1">Frequent</option>'+
+		'<option value="2">Occasional</option>'+
+		'<option value="3">Remote</option>'+
+		'<option value="4">Improbable</option>'+		
+		'<option value="5">Extremely</option>'+
+		'</select>';
+	  	return return_str;
+  }
   
   function management_risk_analysis_likelihood_likelihood_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_management_riskanalysis_likelihood_likelihood_ListTable").jqGrid({
+	  jQuery("#id_management_risk_analysis_likelihood_likelihood_ListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisLikelihoodLikelihoodList.do', 
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['${lang.getStringReportNo()}','${lang.getStringFlightDate()} (UTC)', '${lang.getStringFlightNo()}', '${lang.getStringACType()}','${lang.getStringState()}'],
+	     	colNames:['Title','Date', 'Occurrence', 'Likelihood','Residual'],
 	     	colModel:[
-	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
+	     	 			{name:'rp_no'		,index:'rp_no'		,width:150	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
-	     	    		{name:'flight_no'	,index:'flight_no'	,width:60	,align:"center"	,sortable: true},
-	     	    		{name:'ac_type'		,index:'ac_type'	,width:80	,align:"center"	,sortable: true},
-	     	    		{name:'state'		,index:'state'		,width:75	,align:"center" ,sortable: true}		
+	     	    		{name:'flight_no'	,index:'flight_no'	,width:60	,align:"left"	,sortable: true},
+	     	    		{name:'ac_type'		,index:'ac_type'	,width:80	,align:"left"	,sortable: true},
+	     	    		{name:'state'		,index:'state'		,width:75	,align:"center" , formatter:fn_climb_fnFormatter}		
 	     	    	],
 	     	shrinkToFit:true,
 	     	//altRows:true,
@@ -78,17 +120,17 @@
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
 	    }
-	  }).navGrid('#management_riskanalysis_likelihood_likelihood_pager1',{edit:false,add:false,del:false}); 
+	  }).navGrid('#management_risk_analysis_likelihood_likelihood_pager1',{edit:false,add:false,del:false}); 
   }
   
   function management_risk_analysis_likelihood_new_controls_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_management_riskanalysis_likelihood_new_controls_ListTable").jqGrid({
+	  jQuery("#id_management_risk_analysis_likelihood_new_controls_ListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisLikelihoodNewControlsList.do', 
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['${lang.getStringReportNo()}','${lang.getStringFlightDate()} (UTC)', '${lang.getStringFlightNo()}', '${lang.getStringACType()}','${lang.getStringState()}'],
+	     	colNames:['Control No.','Title', 'State', 'Start Date','End Date'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -124,17 +166,17 @@
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
 	    }
-	  }).navGrid('#management_riskanalysis_likelihood_likelihood_pager1',{edit:false,add:false,del:false}); 
+	  }).navGrid('#management_risk_analysis_likelihood_likelihood_pager1',{edit:false,add:false,del:false}); 
   }
   
   function management_risk_analysis_likelihood_existing_controls_item(){
 	  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_management_riskanalysis_likelihood_existing_controls_ListTable").jqGrid({
+	  jQuery("#id_management_risk_analysis_likelihood_existing_controls_ListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisLikelihoodExistingControlsList.do', 
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['${lang.getStringReportNo()}','${lang.getStringFlightDate()} (UTC)', '${lang.getStringFlightNo()}', '${lang.getStringACType()}','${lang.getStringState()}'],
+	     	colNames:['Control No.','Title', 'State', 'Start Date','Due Date'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
@@ -170,7 +212,7 @@
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
 	    }
-	  }).navGrid('#management_riskanalysis_likelihood_likelihood_pager1',{edit:false,add:false,del:false}); 
+	  }).navGrid('#management_risk_analysis_likelihood_likelihood_pager1',{edit:false,add:false,del:false}); 
   }
   </script>
   
@@ -189,7 +231,7 @@
     		<td><select style="width:100%" id="id_management_risk_analysis_likelihood_likelihood_year_selector" name="method" class="">
 				<option value="1">Past 1 Year</option>
 				<option value="2">Past 2 Years</option>
-				<option value="3">Past 3 Years</option>
+				<option value="3" selected="selected">Past 3 Years</option>
 				<option value="4">Past 4 Years</option>
 				<option value="5">Past 5 Years</option>
 				<option value="6">Past 6 Years</option>
@@ -209,24 +251,24 @@
     	<tbody>
     		<tr>
     			<td>
-    			<table id="id_management_riskanalysis_likelihood_likelihood_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
-				<div id="management_riskanalysis_likelihood_likelihood_pager1" class="scroll"></div>  
+    			<table id="id_management_risk_analysis_likelihood_likelihood_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+				<div id="management_risk_analysis_likelihood_likelihood_pager1" class="scroll"></div>  
     			</td>
     		</tr>
     	</tbody>
     </table>
     </div>	
+    <div style="height: 4px;"></div>
     
     <div class="ui-widget-header">Existing Controls</div>
     <div class="ui-widget-content" style="padding: 5px;">
-    
     <table width="100%">
     <tbody>
     	<tr>
     		<td><select style="width:100%" id="id_management_risk_analysis_likelihood_existing_controls_year_selector" name="method" class="">
 				<option value="1">Past 1 Year</option>
 				<option value="2">Past 2 Years</option>
-				<option value="3">Past 3 Years</option>
+				<option value="3" selected="selected">Past 3 Years</option>
 				<option value="4">Past 4 Years</option>
 				<option value="5">Past 5 Years</option>
 				<option value="6">Past 6 Years</option>
@@ -245,22 +287,22 @@
     	<tbody>
     		<tr>
     			<td>
-    			<table id="id_management_riskanalysis_likelihood_existing_controls_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
-				<div id="management_riskanalysis_likelihood_existing_controls_pager1" class="scroll"></div>  
+    			<table id="id_management_risk_analysis_likelihood_existing_controls_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+				<div id="management_risk_analysis_likelihood_existing_controls_pager1" class="scroll"></div>  
     			</td>
     		</tr>
     	</tbody>
     </table>
     </div>	
-    
+    <div style="height: 4px;"></div>
     <div class="ui-widget-header">New Controls</div>
     <div class="ui-widget-content" style="padding: 5px;">
     <table>
     	<tbody>
     		<tr>
     			<td>
-    			<table id="id_management_riskanalysis_likelihood_new_controls_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
-				<div id="management_riskanalysis_likelihood_new_controls_pager1" class="scroll"></div>  
+    			<table id="id_management_risk_analysis_likelihood_new_controls_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+				<div id="management_risk_analysis_likelihood_new_controls_pager1" class="scroll"></div>  
     			</td>
     		</tr>
     	</tbody>
@@ -270,12 +312,44 @@
 	
 	<fieldset>
 	<legend>Determine Likelihood</legend>
+	<table width="100%">
+	<tbody>
+		<tr>
+			<td>Initial Likelihood: <select style="width:50%" id="id_management_risk_analysis_likelihood_initial_likelihood_selector" name="method" class="hazard_item_selector">
+				<option value="1">Frequent</option>
+				<option value="2">Occasional</option>
+				<option value="3">Remote</option>
+				<option value="4">Improbable</option>		
+				<option value="5">Extremely</option>
+			</select></td>
+			<td></td>
+			<td>Residual Likelihood: <select style="width:50%" id="id_management_risk_analysis_likelihood_residual_likelihood_selector" name="method" class="hazard_item_selector">
+				<option value="1">Frequent</option>
+				<option value="2">Occasional</option>
+				<option value="3">Remote</option>
+				<option value="4">Improbable</option>		
+				<option value="5">Extremely</option>
+			</select> </td>
+		</tr>
+	</tbody>
+	</table>
 	</fieldset>
 	
 	<fieldset>
 	<legend>Comments</legend>
+	<textarea rows="3" style="width:100%" id="id_management_risk_analysis_likelihood_comments"></textarea>
 	</fieldset>
 	
+	<table width="100%">
+	
+	<tr>
+		<td align="center">
+		<a id="id_management_risk_analysis_likelihood_edit_btn" href="#">Edit</a> <a id="id_management_risk_analysis_likelihood_save_btn" href="#">Save</a> 
+		<a id="id_management_risk_analysis_likelihood_delete_btn" href="#">Delete</a> <a id="id_management_risk_analysis_likelihood_submit_btn" href="#">Submit</a>
+		</td>
+	</tr>
+			
+    </table>
 	
  
  
