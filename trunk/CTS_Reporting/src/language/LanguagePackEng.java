@@ -908,6 +908,12 @@ public class LanguagePackEng implements LanguagePack {
 		return "Show basic Info.";
 	}
 
+	@Override
+	public String getLanguage() {
+		// TODO Auto-generated method stub
+		return "Eng";
+	}
+
 	
 
 }
