@@ -35,10 +35,6 @@ public class UserController {
 		String logoutComplete = ServletRequestUtils.getStringParameter(request, "logoutComplete", "false");
 		String registerComplete = ServletRequestUtils.getStringParameter(request, "registerComplete", "false");
 		String registerFail = ServletRequestUtils.getStringParameter(request, "registerFail", "false");
-	
-		
-		System.out.println("requesturl"+request.getRequestURI());
-		
 	    String userid = (String)request.getSession().getAttribute("userid");
 	    
 	    if(userid == null){
