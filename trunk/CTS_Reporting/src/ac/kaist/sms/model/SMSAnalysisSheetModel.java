@@ -1,6 +1,12 @@
 package ac.kaist.sms.model;
 
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
+
+import org.joda.time.LocalDate;
+
+import ac.kaist.sms.utils.SMSAnalysisDateUtil;
 
 import jxl.Sheet;
 
@@ -24,13 +30,19 @@ public class SMSAnalysisSheetModel {
 		for(int i = 0 ; i < sheet.getRows() ; i++){
 			Vector<String> rows = new Vector<String>();
 			for(int j = 0 ; j < sheet.getColumns() ; j++){
+				if(sheet.getCell(j, i).getContents().isEmpty())
+					continue;
 				//FIrst rows = header
 				if(i == 0){
 					headers.add(sheet.getCell(j, i).getContents());
 				}
 				//Otherwise normal content
 				else{
-					rows.add(sheet.getCell(j, i).getContents());
+					//System.out.println(headers);
+					if(headers.get(j).equalsIgnoreCase("³¯Â¥"))
+						rows.add("20"+sheet.getCell(j, i).getContents());
+					else
+						rows.add(sheet.getCell(j, i).getContents());
 				}
 			}
 			//Skip header
@@ -89,6 +101,118 @@ public class SMSAnalysisSheetModel {
 		return average;
 	}
 
+	public Map<String, Integer> getDateColumnSum(String dateHeader, String dataHeader, int dateType){
+//		int dateIndex = -1;
+//		int dataIndex = -1;
+//		for(int i = 0 ; i < headers.size(); i++){
+//			if(headers.get(i).equalsIgnoreCase(dateHeader))
+//				dateIndex = i;
+//			if(headers.get(i).equalsIgnoreCase(dataHeader))
+//				dataIndex = i;
+//		}
+//		
+//		if(dateIndex == -1 || dataIndex == -1){
+//			System.out.println("Header mismatched!");
+//			return null;
+//		}
+//		
+//		TreeMap<LocalDate, Integer> inputDateMap = new TreeMap<LocalDate, Integer>(SMSAnalysisDateUtil.dateComp);
+//		for(int i = 0 ; i < contents.size(); i++){
+//			//sum += Integer.parseInt(contents.get(i).get(columnIndex));
+//			String dateStr = SMSAnalysisDateUtil.convertJodaDateFormat(contents.get(i).get(dateIndex));
+//			inputDateMap.put(new LocalDate(dateStr), 0);
+//		}
+//		
+//		Map<String, Integer> dateMap = SMSAnalysisDateUtil.getDateArray(inputDateMap, type);
+//		for(int i = 0 ; i < contents.size(); i++){
+//			String dateStr = SMSAnalysisDateUtil.convertJodaDateFormat(contents.get(i).get(dateIndex));
+//			dateStr = SMSAnalysisDateUtil.cutDateStr(dateStr, type);
+//			Integer data_val = Integer.parseInt(contents.get(i).get(dataIndex));
+//			Integer cur_val = dateMap.get(dateStr);
+//			dateMap.put(dateStr, cur_val + data_val);
+//		}
+		//return dateMap;
+		return getDateColumnSumByCondition(dateHeader, dataHeader, dateType, null, null);
+	}
+	
+	public Map<String, Integer> getDateColumnSumByCondition(String dateHeader, String dataHeader, int dateType, String condHeader, String condValue){
+		int dateIndex = -1;
+		int dataIndex = -1;
+		int condIndex = -1;
+		for(int i = 0 ; i < headers.size(); i++){
+			if(headers.get(i).equalsIgnoreCase(dateHeader))
+				dateIndex = i;
+			if(headers.get(i).equalsIgnoreCase(dataHeader))
+				dataIndex = i;
+			if(condHeader != null){
+				if(headers.get(i).equalsIgnoreCase(condHeader))
+					condIndex = i;
+			}
+		}
+		
+		if(dateIndex == -1 || dataIndex == -1){
+			System.out.println("Headers (data or date) mismatched!");
+			return null;
+		}
+
+		if(condHeader != null){
+			if(condIndex == -1){
+				System.out.println("Header (Cond) mismatched!");
+				return null;
+			}
+			
+		}
+		
+		
+		
+		TreeMap<LocalDate, Integer> inputDateMap = new TreeMap<LocalDate, Integer>(SMSAnalysisDateUtil.dateComp);
+		for(int i = 0 ; i < contents.size(); i++){
+			//sum += Integer.parseInt(contents.get(i).get(columnIndex));
+			String dateStr = SMSAnalysisDateUtil.convertJodaDateFormat(contents.get(i).get(dateIndex));
+			inputDateMap.put(new LocalDate(dateStr), 0);
+		}
+		
+		Map<String, Integer> dateMap = SMSAnalysisDateUtil.getDateArray(inputDateMap, dateType);
+		for(int i = 0 ; i < contents.size(); i++){
+			if(condHeader != null){
+				if(!condValue.equalsIgnoreCase(contents.get(i).get(condIndex))){
+					continue;
+				}
+			}
+			String dateStr = SMSAnalysisDateUtil.convertJodaDateFormat(contents.get(i).get(dateIndex));
+			dateStr = SMSAnalysisDateUtil.cutDateStr(dateStr, dateType);
+			Integer data_val = Integer.parseInt(contents.get(i).get(dataIndex));
+			Integer cur_val = dateMap.get(dateStr);
+			dateMap.put(dateStr, cur_val + data_val);
+		}
+		return dateMap;
+	}
+	
+	public Vector<String> getDataByCondition(String dataHeader, String condHeader, String condValue){
+		Vector<String> result = new Vector<String>();
+		
+		int dataIndex = -1;
+		int condIndex = -1;
+		for(int i = 0 ; i < headers.size(); i++){
+			if(headers.get(i).equalsIgnoreCase(dataHeader))
+				dataIndex = i;
+			if(headers.get(i).equalsIgnoreCase(condHeader))
+				condIndex = i;
+		}
+		if(dataIndex == -1 || condIndex == -1){
+			return null;
+		}
+		
+		for(int i = 0 ; i < contents.size(); i++){
+			if(condValue.equalsIgnoreCase(contents.get(i).get(condIndex))){
+				String value = contents.get(i).get(dataIndex);
+				result.add(value);
+			}
+		}
+		
+		return result;
+	}
+	
 	public Vector<String> getHeaders() {
 		return headers;
 	}

@@ -1,5 +1,11 @@
 package ac.kaist.sms.utils;
 
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
+
+import org.joda.time.LocalDate;
+
 import ac.kaist.sms.model.SMSAnalysisDocumentModel;
 
 import ac.kaist.sms.model.SMSAnalysisSheetModel;
@@ -37,29 +43,95 @@ public class SMSAnalyzer {
 		//Frequency of occurrences (Not directly connected. Skip)
 		
 		//Accident/serious incident/incident frequency 
+		Vector<String> frequencyTypes = new Vector<String>();
+		frequencyTypes.add("accident");
+		frequencyTypes.add("serious incident");
+		frequencyTypes.add("incident");
+		
 		SMSAnalysisSheetModel nrModel = _parser.getSheetByName("의무보고 report");
+		Map<String, Map<String, Integer> > nrDataSum = new TreeMap<String, Map<String, Integer> >();
+		
+		for(String fType : frequencyTypes){
+			nrDataSum.put(fType, nrModel.getDateColumnSum("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth));
+		}
+		
+		System.out.println("nrDataSum :"+nrDataSum);
 		
 		//Very important indicator frequency 
+		//Get very important abbreviation
+		SMSAnalysisSheetModel acModel = _parser.getSheetByName("00accident code");
+		Vector<String> viCodes = acModel.getDataByCondition("Abbreviation", "importance", "very importance");
+		System.out.println(viCodes);
+		Map<String, Map<String, Map<String, Integer> > > nrVICodeBasedDataSum = new TreeMap<String, Map<String, Map<String, Integer> > >();
+		for (String code : viCodes){
+			Map<String, Map<String, Integer> > resultBean = new TreeMap<String, Map<String, Integer> >();
+			nrVICodeBasedDataSum.put(code, resultBean);
+			for(String fType : frequencyTypes){
+				nrVICodeBasedDataSum.get(code).put(fType, nrModel.getDateColumnSumByCondition("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth, "type", code));
+			}	
+		}
+		System.out.println("nrVICodeBasedDataSum :"+nrVICodeBasedDataSum);
 		
 		//Average important indicator frequency 
+		Vector<String> aiCodes = acModel.getDataByCondition("Abbreviation", "importance", "average importance");
+		System.out.println(aiCodes);
+		Map<String, Map<String, Map<String, Integer> > > nrAICodeBasedDataSum = new TreeMap<String, Map<String, Map<String, Integer> > >();
+		for (String code : viCodes){
+			Map<String, Map<String, Integer> > resultBean = new TreeMap<String, Map<String, Integer> >();
+			nrAICodeBasedDataSum.put(code, resultBean);
+			for(String fType : frequencyTypes){
+				nrAICodeBasedDataSum.get(code).put(fType, nrModel.getDateColumnSumByCondition("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth, "type", code));
+			}	
+		}
+		System.out.println("nrAICodeBasedDataSum :"+nrAICodeBasedDataSum);
 		
 		//Initial/residual risk 
+		//column used as intermediate result (skip)
 		
 		//Corrective action 
+		//action field for categorization (skip)
 		
 		//Hazard Count
 		SMSAnalysisSheetModel hzModel = _parser.getSheetByName("Hazard report");
 		results.setHazardCount(hzModel.getColumnSumByHeader("hazard 숫자"));
 		
 		//Accident trend 
-		
 		//Serious incident trend 
-		
 		//Incident trend 
+		LocalDate today = new LocalDate("2008-02-10");
+		//System.out.println("today?"+today);
+		int recentMonthInterval = 4;
+		Vector<String> recentMonthsList = new Vector<String>();
+		for(int i = 0 ; i < recentMonthInterval ; i++){
+			String monthStr = SMSAnalysisDateUtil.cutDateStr(today, SMSAnalysisDateUtil.dateTypeMonth);
+			recentMonthsList.add(monthStr);
+			today = today.plusMonths(-1);
+		}
+		//System.out.println("recentMonthsList : "+recentMonthsList);
+		
+		TreeMap<String, Double> trends = new TreeMap<String, Double>();
+		for(String fType : frequencyTypes){
+			Double average = 0.0;
+			for(String monthStr : recentMonthsList){
+				if(nrDataSum.get(fType) != null){
+					Integer value = nrDataSum.get(fType).get(monthStr);
+					if(value != null){
+						average += nrDataSum.get(fType).get(monthStr);
+					}
+				}
+			}
+			average /= recentMonthInterval;
+			trends.put(fType, average);
+			//nrDataSum.put(fType, nrModel.getDateColumnSum("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth));
+		}
+		System.out.println("trends : "+trends);
+		
 		
 		//Very important indicator trend 
+		TreeMap<String, Map<String, Double> > viTremds = new TreeMap<String, Map<String, Double> >();
 		
 		//Average important indicator trend 
+		TreeMap<String, Map<String, Double> > aiTremds = new TreeMap<String, Map<String, Double> >();
 		
 		//Top/bottom five occurrence 
 		
