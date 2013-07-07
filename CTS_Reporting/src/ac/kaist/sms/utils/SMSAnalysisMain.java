@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 import org.joda.time.LocalDate;
 
-import ac.kaist.sms.utils.SMSAnalysisResults;
+import ac.kaist.sms.model.SMSAnalysisResults;
 import ac.kaist.sms.utils.SMSAnalyzer;
 import jxl.*; 
 import jxl.read.biff.BiffException;

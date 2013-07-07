@@ -1,4 +1,4 @@
-package ac.kaist.sms.utils;
+package ac.kaist.sms.model;
 
 /**
  * @author mh.lee
