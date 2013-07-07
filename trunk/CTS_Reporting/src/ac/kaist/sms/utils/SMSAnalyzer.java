@@ -15,6 +15,7 @@ import ac.kaist.sms.model.SMSAnalysisResultInvestigation;
 import ac.kaist.sms.model.SMSAnalysisResultMonitoringAndTrendAnalysis;
 import ac.kaist.sms.model.SMSAnalysisResultSafetyReport;
 import ac.kaist.sms.model.SMSAnalysisResultTraining;
+import ac.kaist.sms.model.SMSAnalysisResults;
 
 import ac.kaist.sms.model.SMSAnalysisSheetModel;
 import jxl.*; 
