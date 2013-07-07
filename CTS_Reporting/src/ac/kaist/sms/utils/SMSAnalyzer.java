@@ -7,6 +7,14 @@ import java.util.Vector;
 import org.joda.time.LocalDate;
 
 import ac.kaist.sms.model.SMSAnalysisDocumentModel;
+import ac.kaist.sms.model.SMSAnalysisResultAudit;
+import ac.kaist.sms.model.SMSAnalysisResultClassification;
+import ac.kaist.sms.model.SMSAnalysisResultEffectivenessAnalysis;
+import ac.kaist.sms.model.SMSAnalysisResultHazard;
+import ac.kaist.sms.model.SMSAnalysisResultInvestigation;
+import ac.kaist.sms.model.SMSAnalysisResultMonitoringAndTrendAnalysis;
+import ac.kaist.sms.model.SMSAnalysisResultSafetyReport;
+import ac.kaist.sms.model.SMSAnalysisResultTraining;
 
 import ac.kaist.sms.model.SMSAnalysisSheetModel;
 import jxl.*; 
@@ -76,7 +84,7 @@ public class SMSAnalyzer {
 		Vector<String> aiCodes = acModel.getDataByCondition("Abbreviation", "importance", "average importance");
 		System.out.println(aiCodes);
 		Map<String, Map<String, Map<String, Integer> > > nrAICodeBasedDataSum = new TreeMap<String, Map<String, Map<String, Integer> > >();
-		for (String code : viCodes){
+		for (String code : aiCodes){
 			Map<String, Map<String, Integer> > resultBean = new TreeMap<String, Map<String, Integer> >();
 			nrAICodeBasedDataSum.put(code, resultBean);
 			for(String fType : frequencyTypes){
@@ -128,10 +136,50 @@ public class SMSAnalyzer {
 		
 		
 		//Very important indicator trend 
-		TreeMap<String, Map<String, Double> > viTremds = new TreeMap<String, Map<String, Double> >();
+		TreeMap<String, Map<String, Double> > viTrends = new TreeMap<String, Map<String, Double> >();
+		
+		for (String code : viCodes){
+			viTrends.put(code, new TreeMap<String, Double>());
+			if (nrVICodeBasedDataSum.get(code) != null){
+				for(String fType : frequencyTypes){
+					Double average = 0.0;
+					for(String monthStr : recentMonthsList){
+						if(nrVICodeBasedDataSum.get(code).get(fType) != null){
+							Integer value = nrVICodeBasedDataSum.get(code).get(fType).get(monthStr);
+							if(value != null){
+								average += nrVICodeBasedDataSum.get(code).get(fType).get(monthStr);
+							}
+						}
+					}
+					average /= recentMonthInterval;
+					viTrends.get(code).put(fType, average);
+				}
+			}
+		}
+		System.out.println("viTrends : "+viTrends);
 		
 		//Average important indicator trend 
-		TreeMap<String, Map<String, Double> > aiTremds = new TreeMap<String, Map<String, Double> >();
+		TreeMap<String, Map<String, Double> > aiTrends = new TreeMap<String, Map<String, Double> >();
+		
+		for (String code : aiCodes){
+			aiTrends.put(code, new TreeMap<String, Double>());
+			if (nrAICodeBasedDataSum.get(code) != null){
+				for(String fType : frequencyTypes){
+					Double average = 0.0;
+					for(String monthStr : recentMonthsList){
+						if(nrAICodeBasedDataSum.get(code).get(fType) != null){
+							Integer value = nrAICodeBasedDataSum.get(code).get(fType).get(monthStr);
+							if(value != null){
+								average += nrAICodeBasedDataSum.get(code).get(fType).get(monthStr);
+							}
+						}
+					}
+					average /= recentMonthInterval;
+					aiTrends.get(code).put(fType, average);
+				}
+			}
+		}
+		System.out.println("aiTrends : "+aiTrends);
 		
 		//Top/bottom five occurrence 
 		
@@ -193,6 +241,39 @@ public class SMSAnalyzer {
 		return results;
 	}
 
+	
+	public SMSAnalysisResultSafetyReport SafetyReport(SMSAnalysisSheetModel nrSheet, SMSAnalysisSheetModel frSheet, SMSAnalysisSheetModel surveySheet){
+		return null;
+	}
+	
+	public SMSAnalysisResultHazard Hazard(SMSAnalysisSheetModel hazardSheet){
+		return null;
+	}
+	
+	public SMSAnalysisResultAudit Audit(SMSAnalysisSheetModel iaReport, SMSAnalysisSheetModel eaReport){
+		return null;
+	}
+	
+	public SMSAnalysisResultClassification Classification(Map<String, Integer> frequencyOfOccurrence, Map<String, String> iCode, Map<String, String> oCode, Map<String, String> asCode ){
+		return null;
+	}
+	
+	public SMSAnalysisResultInvestigation Investigation(SMSAnalysisSheetModel iiReport, SMSAnalysisSheetModel eiReport){
+		return null;
+	}
+	
+	public SMSAnalysisResultTraining Training(SMSAnalysisSheetModel tReport){
+		return null;
+	}
+	
+	public SMSAnalysisResultMonitoringAndTrendAnalysis MonitoringAndTrendAnalysis(){
+		return null;
+	}
+	
+	public SMSAnalysisResultEffectivenessAnalysis EffectivenessAnalysis(){
+		return null;
+	}
+	 
 	
 
 	public SMSAnalysisDocumentModel getContents() {
