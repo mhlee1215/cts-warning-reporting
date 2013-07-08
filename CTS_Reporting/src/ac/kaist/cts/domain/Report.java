@@ -7,9 +7,60 @@ public class Report {
 	
 	private int idReport = 0;
 	private int User_idUser = 0;
-	private String report_date = "";
 	private int status = 0;
 	
+	private String title = "";
+	private String report_no = "";
+	private String report_date = "";
+	private String aircraft_damage = "";
+	private String injury = "";
+	private String delay_time = "";
+	private String priority = "";
+	private String state = "";
+	
+	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getReport_no() {
+		return report_no;
+	}
+	public void setReport_no(String report_no) {
+		this.report_no = report_no;
+	}
+	public String getAircraft_damage() {
+		return aircraft_damage;
+	}
+	public void setAircraft_damage(String aircraft_damage) {
+		this.aircraft_damage = aircraft_damage;
+	}
+	public String getInjury() {
+		return injury;
+	}
+	public void setInjury(String injury) {
+		this.injury = injury;
+	}
+	public String getDelay_time() {
+		return delay_time;
+	}
+	public void setDelay_time(String delay_time) {
+		this.delay_time = delay_time;
+	}
+	public String getPriority() {
+		return priority;
+	}
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public int getIdReport() {
 		return idReport;
 	}

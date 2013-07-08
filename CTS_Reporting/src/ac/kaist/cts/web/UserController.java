@@ -98,8 +98,9 @@ public class UserController {
 		
 		String id = ServletRequestUtils.getStringParameter(request, "id", "");
 		String password = ServletRequestUtils.getStringParameter(request, "password", "");
-		String work_type = ServletRequestUtils.getStringParameter(request, "work_type", "");
-		String user_type = ServletRequestUtils.getStringParameter(request, "user_type", "");
+		String work_type = ServletRequestUtils.getStringParameter(request, "name_work_type_radio", "");
+		String user_type_reporting  = ServletRequestUtils.getStringParameter(request, "user_type_reporting", "");
+		String user_type_management = ServletRequestUtils.getStringParameter(request, "user_type_management", "");
 		String language = ServletRequestUtils.getStringParameter(request, "language", "");
 			
 		logger.debug("public ModelAndView login");
@@ -107,7 +108,13 @@ public class UserController {
 		logger.debug("id : "+id);
 		logger.debug("password : "+password);
 		logger.debug("work_type : "+work_type);
-		logger.debug("user_type : "+user_type);
+		logger.debug("user_type_reporting : "+user_type_reporting);
+		logger.debug("user_type_management : "+user_type_management);
+		
+		System.out.println("work_type : "+work_type);
+		System.out.println("user_type_reporting : "+user_type_reporting);
+		System.out.println("user_type_management : "+user_type_management);
+		
 		logger.debug("language : "+language);
 		User user = new User();
 		user.setUserId(id);
@@ -138,11 +145,15 @@ public class UserController {
 			//request.getSession().setAttribute("externalid", userIdMap.getExternalId());
 			request.getSession().setAttribute("islogin", "true");
 			request.getSession().setAttribute("user_name", readed.getName());
-			request.getSession().setAttribute("user_type", user_type);
+			request.getSession().setAttribute("work_type", work_type);
+			if("report".equals(work_type))
+				request.getSession().setAttribute("user_type", user_type_reporting);
+			else if("management".equals(work_type))
+				request.getSession().setAttribute("user_type", user_type_management);
 			request.getSession().setAttribute("lang", language);
 			
 			if(work_type.equals("report")){
-				model = new ModelAndView("redirect:report.do");
+				model = new ModelAndView("redirect:index.do");
 			}else if(work_type.equals("management")){
 				model = new ModelAndView("redirect:management.do");
 			}

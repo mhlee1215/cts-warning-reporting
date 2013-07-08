@@ -1,5 +1,8 @@
 package ac.kaist.cts.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
@@ -7,20 +10,36 @@ import javax.servlet.http.HttpServletResponse;
 import language.LanguagePack;
 import language.LanguageServiceImpl;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import ac.kaist.cts.domain.Report;
+import ac.kaist.cts.service.ReportService;
+import ac.kaist.cts.service.UserService;
+
 @Controller
 public class ReportController {
+	
+private Logger logger = Logger.getLogger(getClass());
+	
+	@Autowired
+	private final ReportService reportService = null;
 
 	@RequestMapping("/report.do")
     public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportMain");
 		model.addObject("page_title", lang.getStringPilotReport());
+		model.addObject("report_no", report_no);
 		model.addObject("lang", lang);
 		return model;
 	}
@@ -28,10 +47,14 @@ public class ReportController {
 	@RequestMapping("/reportBasic.do")
     public ModelAndView reportBasic(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_basic");
 		model.addObject("page_title", lang.getStringPilotReport());
+		model.addObject("report_no", report_no);
 		model.addObject("lang", lang);
 		return model;
 	}
@@ -39,9 +62,13 @@ public class ReportController {
 	@RequestMapping("/reportTaxiOut.do")
     public ModelAndView reportTaxiOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_taxi-out");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -50,9 +77,13 @@ public class ReportController {
 	@RequestMapping("/reportTakeOff.do")
     public ModelAndView reportTakeOff(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_take-off");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -61,9 +92,13 @@ public class ReportController {
 	@RequestMapping("/reportClimb.do")
     public ModelAndView reportClimb(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_climb");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -72,9 +107,13 @@ public class ReportController {
 	@RequestMapping("/report_en_route.do")
     public ModelAndView reportEnRoute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_en-route");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -83,9 +122,13 @@ public class ReportController {
 	@RequestMapping("/reportDecent.do")
     public ModelAndView reportDecent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_decent");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -94,9 +137,13 @@ public class ReportController {
 	@RequestMapping("/reportApproach.do")
     public ModelAndView reportApproach(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_approach");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -105,9 +152,13 @@ public class ReportController {
 	@RequestMapping("/reportLanding.do")
     public ModelAndView reportLanding(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_landing");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -116,9 +167,13 @@ public class ReportController {
 	@RequestMapping("/reportTaxiIn.do")
     public ModelAndView reportTaxiIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		System.out.println("report no : "+report_no);
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("report/reportItem_taxi-in");
+		model.addObject("report_no", report_no);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("lang", lang);
 		return model;
@@ -127,6 +182,7 @@ public class ReportController {
 	@RequestMapping("/management.do")
     public ModelAndView management(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("management/managementMain");
@@ -144,12 +200,60 @@ public class ReportController {
 		return model;
 	}
 	
+	@RequestMapping("/managementReviewReportList.do")
+    public ModelAndView managementReviewReportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String status = ServletRequestUtils.getStringParameter(request, "status", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		List<Report> list = reportService.readReportListReviewAll();
+		
+		List<Report> filteredList = new ArrayList<Report>();
+		
+		for (Report report : list){
+			if(status.equalsIgnoreCase("all"))
+				filteredList.add(report);
+			else if(status.equalsIgnoreCase(report.getState()))
+				filteredList.add(report);
+		}
+		
+//		List<Report> list = null;
+//		if("All".equals(status))
+//			list = reportService.readReportListReviewAll();
+//		else if("Review".equals(status))
+//			list = reportService.readReportListReviewReview();
+//		else if("Accepted".equals(status))
+//			list = reportService.readReportListReviewAccepted();
+//		else if("Rejected".equals(status))
+//			list = reportService.readReportListReviewRejected();
+//		else if("Investigation".equals(status))
+//			list = reportService.readReportListReviewInvestigation();
+//		else if("Registered".equals(status))
+//			list = reportService.readReportListReviewRegistered();
+		
+		ModelAndView model = new ModelAndView("management/reportToIdentifyList");
+		model.addObject("lang", lang);
+		model.addObject("page", 1);
+		model.addObject("total_pages", 1);
+		model.addObject("total_count", list.size());
+		model.addObject("reports", filteredList);
+		
+		return model;
+	}
+	
 	@RequestMapping("/reportToIdentifyList.do")
     public ModelAndView reportToIdentifyList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		List<Report> list = reportService.readReportListReviewAll();
 		ModelAndView model = new ModelAndView("management/reportToIdentifyList");
 		model.addObject("lang", lang);
+		model.addObject("page", 1);
+		model.addObject("total_pages", 1);
+		model.addObject("total_count", list.size());
+		model.addObject("reports", list);
+		
 		return model;
 	}
 	
