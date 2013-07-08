@@ -12,4 +12,24 @@ public interface ReportService {
 	public int 			editReport(Report report);
 	public int 			deleteReport(Report report);
 	
+	public List<Report> readReportListReviewAll();
+	public List<Report> readReportListReviewReview();
+	public List<Report> readReportListReviewAccepted();
+	public List<Report> readReportListReviewRejected();
+	public List<Report> readReportListReviewInvestigation();
+	public List<Report> readReportListReviewRegistered();
+	
+	public List<Report> readReportListHazardIdentificationReportsToIdentify();
+	public List<Report> readReportListHazardIdentificationIdentifiedReports();
+	
+	public List<Report> readReportListRiskAnalysisHazardToBeAnalyzed();
+	public List<Report> readReportListRiskAnalysisAnalyzedHazards();
+	
+	public List<Report> readReportListRiskAssessmentHazardsToBeAssessed();
+	public List<Report> readReportListRiskAssessmentAssessedHazards();
+	
+	public List<Report> readReportListMitigationHazardsToBeMitigated();
+	public List<Report> readReportListMitigationMitigatedHazards();
+	
+	
 }
