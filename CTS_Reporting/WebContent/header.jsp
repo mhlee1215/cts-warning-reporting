@@ -3,7 +3,8 @@
 <%@page import="org.springframework.web.bind.ServletRequestUtils"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%
-    
+  
+	String work_type = (String)session.getAttribute("work_type");
 	String user_name = (String)session.getAttribute("user_name");
 	String user_type = (String)session.getAttribute("user_type");
 
@@ -49,19 +50,7 @@
 		 document.location = '${pageContext.request.contextPath}/index.do';
 		});
 		
-		$("#id_header_reporting_system_btn")
-		.button()
-		.click(function( event ) {
-		 event.preventDefault();
-		 document.location = '${pageContext.request.contextPath}/report.do';
-		});
 		
-		$("#id_header_management_system_btn")
-		.button()
-		.click(function( event ) {
-		 event.preventDefault();
-		 document.location = '${pageContext.request.contextPath}/management.do';
-		});
 		
 		$("#id_header_logout_btn")
 		.button()
@@ -95,11 +84,12 @@
 	
 	<tr>
 	<td width="100" align="left">
+		<% if(!"management".equals(work_type)){ %>
 		<a id="id_header_home_btn" href="#">${lang.getStringHome()}</a>
+		<%} %>
 	</td>
-	<td  align="center">
-    	<a id="id_header_reporting_system_btn" href="#">${lang.getStringHazardReportingSystem()}</a>
-    	<a id="id_header_management_system_btn" href="#">${lang.getStringHazardManagementSystem()}</a>
+	<td  align="center" width="500">
+    	
     </td>
     
     <td align="right">
@@ -110,13 +100,12 @@
 				<option value="Eng" ${lang.getLanguage() == "Eng" ? "selected=\"selected\"" : ""}>English</option>
 				<option value="Kor" ${lang.getLanguage() == "Kor" ? "selected=\"selected\"" : ""}>Korean</option>
 		</select>
-    </td>
-    <td>
-		<span class="header_user_name">[<%=user_name %> (<%=user_type %>)]</span>
-	</td>
-	<td align="right"> <a id="id_header_logout_btn" href="#">${lang.getStringLogout()}</a>
 		
+		<span class="header_user_name">[<%=user_name %> (<%=user_type %>)]</span>
+		
+		<a id="id_header_logout_btn" href="#">${lang.getStringLogout()}</a>
     </td>
+    
     </tr>
     
     <%}%>

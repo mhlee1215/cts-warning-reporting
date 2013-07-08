@@ -8,7 +8,7 @@
   <records>10</records>
 <c:forEach items="${reports}" var="report" varStatus="status">
 <row id='${report.report_no}'>
-      <cell>${report.report_no}</cell>
+      <cell>${report.title}</cell>
       <cell>${report.report_date}</cell>
       <cell>${report.aircraft_damage}</cell>
       <cell>${report.injury}</cell>

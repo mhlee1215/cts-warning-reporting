@@ -34,6 +34,24 @@
   
   .example{color:#666;}
   </style>
+
+
+<!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
+
+<!-- Ativando o jQuery lightBox plugin -->
+<script type="text/javascript">
+	$(function() {
+		//$('#map a').lightBox();
+	});
+</script>
+
+</head>
+<body>
+	<div id="templatemo_body_wrapper">
+		<div id="templatemo_wrapper">
+
+			<%@include file="header.jsp"%>
+
 <script language="javascript" type="text/javascript">
 
 	$(function() {
@@ -58,6 +76,26 @@
 		  document.location = '${pageContext.request.contextPath}/logout.do';
 		   event.preventDefault();
 		});
+		
+		$("#id_type_selector_reporting").show();
+        $("#id_type_selector_management").hide();
+         
+		$("input[name='name_work_type_radio']").change(function() {
+			
+			if ($("input[name='name_work_type_radio']:checked").val() == 'report'){
+                //alert('report activate!');
+                $("#id_type_selector_reporting").show();
+                $("#id_type_selector_management").hide();
+			}
+            else if ($("input[name='name_work_type_radio']:checked").val() == 'management'){
+            	//alert('management activate!');
+            	$("#id_type_selector_reporting").hide();
+                $("#id_type_selector_management").show();
+			}
+            
+		});
+		
+		     
 	});
 
 	function clearText(field) {
@@ -107,31 +145,15 @@
 		  	loadComplete: function(){ 
 		  		$("#id_login_flight_information_ListTable").jqGrid('setGridWidth', $('#id_login_flight_information_ListTable_parentDiv').width(), true);
 		  	},
-		  	onSelectRow: function(id){ 
-		  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
-		  	    //alert(localRowData);
-		    }
+		  	onSelectRow: function(rowid, status, e) {  			
+		        <%if("true".equals(islogin)){ %>
+		  		document.location = '${pageContext.request.contextPath}/report.do?'+'report_no='+rowid;
+		  		<%}%>
+			}
 		  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 		  
 	  }
 </script>
-
-
-<!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
-
-<!-- Ativando o jQuery lightBox plugin -->
-<script type="text/javascript">
-	$(function() {
-		//$('#map a').lightBox();
-	});
-</script>
-
-</head>
-<body>
-	<div id="templatemo_body_wrapper">
-		<div id="templatemo_wrapper">
-
-			<%@include file="header.jsp"%>
 
 			<div id="">
 
@@ -145,14 +167,14 @@
 								<table width="250">
 									<tbody>
 										<tr>
-											<td><input type="radio" name="work_type"
-												id="approach_new_hazard_yes" value="report"
+											<td><input type="radio" name="name_work_type_radio"
+												id="id_work_type_reporting_radio" value="report"
 												checked="checked" /></td>
 											<td style="width: 300px; text-align: left;">${lang.getStringHazardReportingSystem()}</td>
 										</tr>
 										<tr>
-											<td><input type="radio" name="work_type"
-												id="approach_new_hazard_no" value="management" /></td>
+											<td><input type="radio" name="name_work_type_radio"
+												id="id_work_type_management_radio" value="management" /></td>
 											<td style="width: 300px; text-align: left;">${lang.getStringHazardManagementSystem()}</td>
 										</tr>
 									</tbody>
@@ -173,7 +195,7 @@
 										</tr>
 										<tr>
 											<td class="leftmost_label">${lang.getStringType()}</td>
-											<td><select id="id_type_selector" name="user_type"
+											<td><select id="id_type_selector_reporting" name="user_type_reporting"
 												class="form_selector">
 													<option value="0">select</option>
 													<option value="P" selected="selected">Pilot</option>
@@ -181,7 +203,15 @@
 													<option value="G">Ground</option>
 													<option value="M">Maintenance</option>
 													<option value="D">Dispatcher</option>
-											</select></td>
+											</select>
+											
+											<select id="id_type_selector_management" name="user_type_management"
+												class="form_selector">
+													<option value="0">select</option>
+													<option value="SM" selected="selected">Safety manager</option>
+											</select>
+											
+											</td>
 										</tr>
 										<tr>
 											<td class="leftmost_label">${lang.getStringLanguage()}</td>
