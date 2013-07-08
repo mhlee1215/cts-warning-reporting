@@ -44,7 +44,8 @@
   }
   
   $(function() {
-	$('#id_basic_report_No').attr("value", report_prefix);
+	//$('#id_basic_report_No').attr("value", report_prefix);
+	$('#id_basic_report_No').attr("value", '${report_no}');
     $("#id_basic_report_date_datepicker").datepicker();
     $("#id_basic_flight_date_datepicker").datepicker();
    

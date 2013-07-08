@@ -25,12 +25,12 @@
 <script>
   $(function() {
 	  $( "#tabs_review" ).tabs();
-	   management_review_load_report("id_management_review_all_ListTable", "reportToIdentifyList.do");
-	   management_review_load_report("id_management_review_review_ListTable", "reportToIdentifyList.do");
-	   management_review_load_report("id_management_review_accepted_ListTable", "reportToIdentifyList.do");
-	   management_review_load_report("id_management_review_rejected_ListTable", "reportToIdentifyList.do");
-	   management_review_load_report("id_management_review_investigation_ListTable", "reportToIdentifyList.do");
-	   management_review_load_report("id_management_review_registered_ListTable", "reportToIdentifyList.do");
+	   management_review_load_report("id_management_review_all_ListTable", 				"managementReviewReportList.do?status=all");
+	   management_review_load_report("id_management_review_review_ListTable", 			"managementReviewReportList.do?status=review");
+	   management_review_load_report("id_management_review_accepted_ListTable", 		"managementReviewReportList.do?status=accepted");
+	   management_review_load_report("id_management_review_rejected_ListTable", 		"managementReviewReportList.do?status=rejected");
+	   management_review_load_report("id_management_review_investigation_ListTable", 	"managementReviewReportList.do?status=in investigation");
+	   management_review_load_report("id_management_review_registered_ListTable", 		"managementReviewReportList.do?status=registered");
   });
   
    
@@ -38,18 +38,18 @@
 	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
 	  jQuery("#"+id).jqGrid({
 	  	url:'${pageContext.request.contextPath}/'+url, 
-	  	height: 120,
+	  	height: 500,
 	  	width:800,
 	  	datatype: "xml", 
 	     	colNames:['${lang.getStringReportNo()}','${lang.getStringDate()} (UTC)', '${lang.getStringAircraftDamage()}', '${lang.getStringInjury()}','${lang.getStringDelay()} ${lang.getStringTime()}','${lang.getStringPriority()}','${lang.getStringState()}'],
 	     	colModel:[
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:120	,align:"left"	,sortable: true},
-	     	    		{name:'date'		,index:'date'		,width:90	,align:"center"	,sortable: true},
-	     	    		{name:'ac_damage'	,index:'ac_damage'	,width:70	,align:"center"	,sortable: true},
-	     	    		{name:'injury'		,index:'injury'		,width:90	,align:"center"	,sortable: true},
-	     	    		{name:'delay_time'	,index:'delay_time'	,width:90	,align:"center"	,sortable: true},
-	     	    		{name:'priority'	,index:'priority'	,width:80	,align:"center"	,sortable: true},		
-	     	    		{name:'state'		,index:'state'		,width:85	,align:"center" ,sortable: true}		
+	     	    		{name:'date'		,index:'date'		,width:90	,align:"left"	,sortable: true},
+	     	    		{name:'ac_damage'	,index:'ac_damage'	,width:70	,align:"left"	,sortable: true},
+	     	    		{name:'injury'		,index:'injury'		,width:90	,align:"left"	,sortable: true},
+	     	    		{name:'delay_time'	,index:'delay_time'	,width:90	,align:"left"	,sortable: true},
+	     	    		{name:'priority'	,index:'priority'	,width:80	,align:"left"	,sortable: true},		
+	     	    		{name:'state'		,index:'state'		,width:85	,align:"left" ,sortable: true}		
 	     	    	],
 	     	shrinkToFit:true,
 	     	//altRows:true,

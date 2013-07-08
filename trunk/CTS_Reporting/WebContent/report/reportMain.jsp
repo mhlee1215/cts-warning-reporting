@@ -161,6 +161,8 @@
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
+	  
+	  $("#id_main_previous_btn").hide();
   });
   </script>
 </head>
@@ -220,6 +222,15 @@
         
         $("#tabs a").on("click",function(e) {
             e.preventDefault();
+
+            currentTab = eval($(this).attr("id").substring(6, 7));
+            
+            if($(this).attr("id") == 'id_tab1'){
+            	$("#id_main_previous_btn").hide();
+            }else{
+            	$("#id_main_previous_btn").show();
+            }
+            
             if ($(this).attr("class") == "current"){ //detection for current tab
             	return;       
             }
@@ -230,15 +241,15 @@
             }
         });
         
-        $("#tab1").load("${pageContext.request.contextPath}/reportBasic.do");
-    	$("#tab2").load("${pageContext.request.contextPath}/reportTaxiOut.do");
-    	$("#tab3").load("${pageContext.request.contextPath}/reportTakeOff.do");
-    	$("#tab4").load("${pageContext.request.contextPath}/reportClimb.do");
-    	$("#tab5").load("${pageContext.request.contextPath}/report_en_route.do");
-    	$("#tab6").load("${pageContext.request.contextPath}/reportDecent.do");
-    	$("#tab7").load("${pageContext.request.contextPath}/reportApproach.do");
-    	$("#tab8").load("${pageContext.request.contextPath}/reportLanding.do");
-    	$("#tab9").load("${pageContext.request.contextPath}/reportTaxiIn.do");
+        $("#tab1").load("${pageContext.request.contextPath}/reportBasic.do?report_no=${report_no}");
+    	$("#tab2").load("${pageContext.request.contextPath}/reportTaxiOut.do?report_no=${report_no}");
+    	$("#tab3").load("${pageContext.request.contextPath}/reportTakeOff.do?report_no=${report_no}");
+    	$("#tab4").load("${pageContext.request.contextPath}/reportClimb.do?report_no=${report_no}");
+    	$("#tab5").load("${pageContext.request.contextPath}/report_en_route.do?report_no=${report_no}");
+    	$("#tab6").load("${pageContext.request.contextPath}/reportDecent.do?report_no=${report_no}");
+    	$("#tab7").load("${pageContext.request.contextPath}/reportApproach.do?report_no=${report_no}");
+    	$("#tab8").load("${pageContext.request.contextPath}/reportLanding.do?report_no=${report_no}");
+    	$("#tab9").load("${pageContext.request.contextPath}/reportTaxiIn.do?report_no=${report_no}");
 
     	//changeTab(2);
     })();
@@ -265,6 +276,14 @@
     	$("#id_tab"+num).attr("class","current"); // Activate this
     	$($("#id_tab"+num).attr('name')).fadeIn(); // Show content for current tab
     	$('html,body').scrollTop(0);
+    	
+    	if(num == 1){
+    		$("#id_main_previous_btn").hide();
+    	}
+    	else{
+    		$("#id_main_previous_btn").show();
+    	}
+    	
     }
   </script>
 </body>
