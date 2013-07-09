@@ -14,6 +14,7 @@
   <script>
   $(function() {
 	  $( "#tabs_management_detail_main" ).tabs({
+		//  disabled: [0, 1, 2, 3, 4, 5],
 	        beforeLoad: function( event, ui ) {
 	          ui.jqXHR.error(function() {
 	            ui.panel.html(
@@ -37,7 +38,18 @@
                 //alert(ui.newTab.index());
             }
 	      });
-	 $( "#tabs_management_detail_main" ).tabs("option", "active", 0);
+	 $( "#tabs_management_detail_main" ).tabs("option", "active", ${activateTab});
+	 var disabledList = new Array(4);
+	 var length = 0;
+	 for(var i = 0 ; i < 6 ; i++){
+		 if( i != ${activateTab}){
+			 disabledList[length] = i;
+			 length++;	 
+		 }
+		 
+	 }
+	 //alert(disabledList);
+	 $( "#tabs_management_detail_main" ).tabs({ disabled: disabledList });
     // fix the classes
     $( ".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *" )
       .removeClass( "ui-corner-all ui-corner-top" )

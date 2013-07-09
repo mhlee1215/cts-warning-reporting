@@ -336,7 +336,7 @@
 	    <td>
 	    <fieldset>
 	    <legend>${lang.getStringNarrative()}</legend>
-	    <textarea rows="3" style="width:100%" id="id_management_hazard_identification_narrative"></textarea>
+	    <textarea  readonly="readonly" rows="3" style="width:100%" id="id_management_hazard_identification_narrative"></textarea>
 	    </fieldset>
 	    </td>
 	    </tr>
@@ -345,7 +345,7 @@
 	    <td>
 	    <fieldset>
 	    <legend>${lang.getStringRecommendation()}</legend>
-	    <textarea rows="3" style="width:100%" id="id_management_hazard_identification_recommendation"></textarea>
+	    <textarea readonly="readonly" rows="3" style="width:100%" id="id_management_hazard_identification_recommendation"></textarea>
 	    </fieldset>
 	    </td>
 	    </tr>
@@ -428,27 +428,58 @@
 		<tr>
 			<td class="leftmost_label">Occurrence: </td>
 			<td><select style="width:100%" id="id_management_hazard_identification_occurrence_selector" name="method" class="hazard_item_selector">
-				<option value="0">ex) ABNORMAL RUNWAY CONTACT</option>	
-				<option value="1">PASSENGER/CARGO</option>
-				<option value="2">PASSENGER</option>
-				<option value="3">CARGO</option>
-				<option value="4">MAIL</option>		
+				<option value="0">select</option>	
+				<option value="1">ABNORMAL RUNWAY CONTACT</option>
+				<option value="2">ABRUPT MANEUVER</option>
+				<option value="3">AERODROME</option>
+				<option value="4">AIRPROX/TCAS ALERT/LOSS OF SEPARATION/NEAR MIDAIR COLLISIONS/MIDAIR COLLISIONS</option>	
+				<option value="5">ATM/CNS</option>	
+				<option value="6">BIRD</option>
+				<option value="7">CABIN SAFETY EVENTS</option>
+				<option value="8">COLLISION WITH OBSTACLE(S) DURING TAKE‐OFF AND LANDING</option>
+				<option value="9">CONTROLLED FLIGHT INTO OR TOWARD TERRAIN</option>	
+				<option value="10">EVACUATION</option>	
+				<option value="11">EXTERNAL LOAD RELATED OCCURRENCES</option>
+				<option value="12">FIRE/SMOKE (NON‐IMPACT)</option>
+				<option value="13">FIRE/SMOKE (POST‐IMPACT)</option>
+				<option value="14">FUEL RELATED</option>	
+				<option value="15">GLIDER TOWING RELATED EVENTS</option>	
+				<option value="16">GROUND HANDLING</option>
+				<option value="17">GROUND COLLISION</option>
+				<option value="18">ICING</option>
+				<option value="19">LOSS OF CONTROL – GROUND</option>	
+				<option value="20">LOSS OF CONTROL – INFLIGHT</option>	
+				<option value="21">LOSS OF LIFTING CONDITIONS EN‐ROUTE</option>
+				<option value="22">LOW ALTITUDE OPERATIONS</option>
+				<option value="23">OTHER</option>
+				<option value="24">RUNWAY EXCURSION</option>	
+				<option value="25">RUNWAY INCURSION – ANIMAL</option>	
+				<option value="26">RUNWAY INCURSION – VEHICLE, AIRCRAFT OR PERSON</option>
+				<option value="27">SECURITY RELATED</option>
+				<option value="28">SYSTEM/COMPONENT FAILURE OR MALFUNCTION (NON‐POWERPLANT)</option>
+				<option value="29">SYSTEM/COMPONENT FAILURE OR MALFUNCTION (POWERPLANT)</option>
+				<option value="30">TURBULENCE ENCOUNTER</option>	
+				<option value="31">UNDERSHOOT/OVERSHOOT</option>	
+				<option value="32">UNINTENDED FLIGHT IN IMC</option>
+				<option value="33">UNKNOWN OR UNDETERMINED</option>
+				<option value="34">WIND SHEAR OR THUNDERSTORM</option>		
 			</select> </td>
 		</tr>
 		<tr>
 			<td class="leftmost_label">${lang.getStringInjury()}: </td>
 			<td><select style="width:100%" id="id_management_hazard_identification_injury_selector"  name="method" class="hazard_item_selector">
-			<option value="0">ex) Fatal</option>	
-				<option value="1">PASSENGER/CARGO</option>
-				<option value="2">PASSENGER</option>
-				<option value="3">CARGO</option>
-				<option value="4">MAIL</option>
+			<option value="0">select</option>	
+				<option value="1">None</option>
+				<option value="2">Minor Injury</option>
+				<option value="3">Serious Injury</option>
+				<option value="4">One Fatality</option>
+				<option value="5">Mutiple Fatalities</option>
 			</select> </td>
 		</tr>
 		<tr>
 			<td class="leftmost_label">${lang.getStringDamage()}: </td>
 			<td><select style="width:100%" id="id_management_hazard_identification_damage_selector"  name="method" class="hazard_item_selector">
-				<option value="0">ex) Substantial</option>	
+				<option value="0">select</option>	
 				<option value="1">NONE</option>
 				<option value="2">MINOR</option>
 				<option value="3">SUBSTANTIAL</option>
@@ -458,7 +489,7 @@
 		<tr>
 			<td class="leftmost_label">${lang.getStringDelay()}: </td>
 			<td><select style="width:100%" id="id_management_hazard_identification_delay_selector"  name="method" class="hazard_item_selector">
-			<option value="0">ex) Flight Cancel</option>	
+			<option value="0">select</option>	
 				<option value="1">No Delay</option>
 				<option value="2">Within 30 min</option>
 				<option value="3">30 min ~ 1 hour</option>
