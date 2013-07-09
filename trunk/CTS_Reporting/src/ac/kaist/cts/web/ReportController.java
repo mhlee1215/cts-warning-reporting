@@ -438,6 +438,24 @@ private Logger logger = Logger.getLogger(getClass());
 		return model;
 	}
 	
+	@RequestMapping("/managementDetailReviewReport.do")
+    public ModelAndView managementDetailReviewReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String category = ServletRequestUtils.getStringParameter(request, "category", "");
+		String type = ServletRequestUtils.getStringParameter(request, "type", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		
+		
+		ModelAndView model = new ModelAndView("management/detail/managementDetailReviewReport");
+		model.addObject("lang", lang);
+		model.addObject("report_no", report_no);
+		model.addObject("category", category);
+		model.addObject("type", type);
+		return model;
+	}
+	
 	@RequestMapping("/managementDetailHazardIdentification.do")
     public ModelAndView managementDetailHazardIdentification(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
