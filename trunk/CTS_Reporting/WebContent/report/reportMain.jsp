@@ -128,6 +128,22 @@
   }   
   </style>  
   <script>
+  var submitted = new Array(9);
+  for (var i = 0 ; i < 9 ; i++){
+	  submitted[i] = 0;
+  }
+  
+  function submit_page(page_index){
+	  submitted[page_index-1] = 1;
+	  //alert(page_index);
+	  var cur_text = $("#id_tab"+page_index).text();
+	   //alert(cur_text.substring(0, cur_text.length-1));
+		$("#id_tab"+page_index).text(cur_text.substring(0, cur_text.length-1)+'●');
+		$("#id_main_submit_btn").hide();
+		$("#id_main_submitted_btn").show();
+		//$("#id_main_submit_btn").button({icons: {secondary: "ui-icon-check" } });
+  }
+  
   $(function() {
 	  $("#id_main_previous_btn")
 	  .button({icons: {primary: "ui-icon-circle-triangle-w" } })
@@ -159,10 +175,20 @@
 	  $("#id_main_submit_btn")
 	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
+		  
+	   submit_page(currentTab);
+	  
+	   event.preventDefault();
+	  });
+	  
+	  $("#id_main_submitted_btn")
+	  .button({icons: {secondary: "ui-icon-check" } })
+	  .click(function( event ) {
 	   event.preventDefault();
 	  });
 	  
 	  $("#id_main_previous_btn").hide();
+	  $("#id_main_submitted_btn").hide();
   });
   </script>
 </head>
@@ -170,15 +196,15 @@
 <%@include file="/header.jsp"%>
 
   <ul id="tabs">
-      <li><a href="#" id="id_tab1" name="#tab1">BASIC</a></li>
-      <li><a href="#" id="id_tab2" name="#tab2">TAXI-OUT</a></li>
-      <li><a href="#" id="id_tab3" name="#tab3">TAKE-OFF</a></li>
-      <li><a href="#" id="id_tab4" name="#tab4">CLIMB</a></li>    
-      <li><a href="#" id="id_tab5" name="#tab5">EN-ROUTE</a></li>
-      <li><a href="#" id="id_tab6" name="#tab6">DECENT</a></li>
-      <li><a href="#" id="id_tab7" name="#tab7">APPROACH</a></li>
-      <li><a href="#" id="id_tab8" name="#tab8">LANDING</a></li>
-      <li><a href="#" id="id_tab9" name="#tab9">TAXI-IN</a></li>
+      <li><a href="#" id="id_tab1" name="#tab1">BASIC ○</a></li>
+      <li><a href="#" id="id_tab2" name="#tab2">TAXI-OUT ○</a></li>
+      <li><a href="#" id="id_tab3" name="#tab3">TAKE-OFF ○</a></li>
+      <li><a href="#" id="id_tab4" name="#tab4">CLIMB ○</a></li>    
+      <li><a href="#" id="id_tab5" name="#tab5">EN-ROUTE ○</a></li>
+      <li><a href="#" id="id_tab6" name="#tab6">DECENT ○</a></li>
+      <li><a href="#" id="id_tab7" name="#tab7">APPROACH ○</a></li>
+      <li><a href="#" id="id_tab8" name="#tab8">LANDING ○</a></li>
+      <li><a href="#" id="id_tab9" name="#tab9">TAXI-IN ○</a></li>
   </ul>
 
   <div id="content">
@@ -198,7 +224,11 @@
   	<table width="100%">
   		<tr>
   			<td align="left"><a id="id_main_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
-  			<td align="center"><a id="id_main_edit_btn" href="#">${lang.getStringEdit()}</a><a id="id_main_save_btn" href="#">${lang.getStringSave()}</a><a id="id_main_delete_btn" href="#">Delete</a><a id="id_main_submit_btn" href="#">Submit</a></td>
+  			<td align="center"><a id="id_main_edit_btn" href="#">${lang.getStringEdit()}</a>
+  			<a id="id_main_save_btn" href="#">${lang.getStringSave()}</a>
+  			<a id="id_main_delete_btn" href="#">Delete</a>
+  			<a id="id_main_submit_btn" href="#">Submit</a>
+  			<a id="id_main_submitted_btn" href="#">Submitted</a></td>
   			<td align="right"><a id="id_main_next_btn" href="#">${lang.getStringNext()}</a></td>
   		</tr>
   	</table>
@@ -230,6 +260,14 @@
             }else{
             	$("#id_main_previous_btn").show();
             }
+            
+            if(submitted[currentTab-1] == 1){
+        		$("#id_main_submit_btn").hide();
+        		$("#id_main_submitted_btn").show();
+        	}else{
+        		$("#id_main_submit_btn").show();
+        		$("#id_main_submitted_btn").hide();
+        	}
             
             if ($(this).attr("class") == "current"){ //detection for current tab
             	return;       
@@ -283,6 +321,15 @@
     	else{
     		$("#id_main_previous_btn").show();
     	}
+    	
+    	if(submitted[num-1] == 1){
+    		$("#id_main_submit_btn").hide();
+    		$("#id_main_submitted_btn").show();
+    	}else{
+    		$("#id_main_submit_btn").show();
+    		$("#id_main_submitted_btn").hide();
+    	}
+    	
     	
     }
   </script>
