@@ -24,28 +24,7 @@
 		    heightStyle: "content"
 	  });
 	  
-	$("#id_management_review_edit_btn")
-	  .button({icons: {secondary: "ui-icon-document" } })
-	  .click(function( event ) {
-	   event.preventDefault();
-	  });
-	  $("#id_management_review_save_btn")
-	  .button({icons: {secondary: "ui-icon-disk" } })
-	  .click(function( event ) {
-	   event.preventDefault();
-	});
-	  $("#id_management_review_delete_btn")
-	  .button({icons: {secondary: "ui-icon-trash" } })
-	  .click(function( event ) {
-	   event.preventDefault();
-	});
-	  $("#id_management_review_submit_btn")
-	  .button({icons: {secondary: "ui-icon-check" } })
-	  .click(function( event ) {
-	   event.preventDefault();
-	   
-	  
-	});
+	
 	
 	 $( "#management_review_basic_menu" ).menu();
 	 $( "#management_review_taxi_out_menu" ).menu();
@@ -58,7 +37,7 @@
 	 $( "#management_review_taxi_in_menu" ).menu();
 	  
 	  management_review_load_hazard_item();
-	  
+	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/reportBasic.do?report_no=RP2604137C1234");
 	  //alert($('#id_taxi_out_hazardListTable_parentDiv').width());
   });
    
@@ -107,6 +86,15 @@
 	    }
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
   }
+  
+  function loadBasicInfo(){
+	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/reportBasic.do?report_no=RP2604137C1234");
+	  //alert('hi');
+  }
+  
+  function management_review_loadReport(category, type){
+	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/managementDetailReviewReport.do?report_no=RP2604137C1234&category="+category+"&type="+type);
+  }
   </script>
   <style>
   body {
@@ -127,14 +115,14 @@
   <h3>${lang.getStringBasicInformation()}</h3>
   <div style="padding:0 0 0 15px;">
 		<ul id="management_review_basic_menu" style="border:none">
-		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringShowBasicInfo()}</a></li>
+		  <li><a href="javascript:loadBasicInfo();"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringShowBasicInfo()}</a></li>
 		</ul>
 	</div>
   <h3>Taxi-Out (2)</h3>
 	<div style="padding:0 0 0 15px;">
 		<ul id="management_review_taxi_out_menu" style="border:none">
-		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringPilot()} (1)</a></li>
-		  <li><a href="#"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringCabin()} (1)</a></li>
+		  <li><a href="javascript:management_review_loadReport('texi-out', 'pilot');"><span id="id_menu_item_texi-out_pilot" class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (1)</a></li>
+		  <li><a href="javascript:management_review_loadReport('texi-out', 'cabin');"><span id="id_menu_item_texi-out_cabin" class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (1)</a></li>
 		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
 		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
 		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
@@ -214,96 +202,7 @@
 
 </td>
 <td id="id_management_detail_main_right_panel" >
-	<fieldset >
-	    <legend>${lang.getStringTitle()} : Pax door impated airbridge while opening</legend>
-	    <div class="ui-widget-header">${lang.getStringPilot()}</div>
-	    <div class="ui-widget-content" style="padding: 5px;">
-	    <table width="100%">
-	    <tr>
-	    <td>
-	    <fieldset>
-	    <legend>${lang.getStringNarrative()}</legend>
-	    <textarea rows="6" style="width:100%" id="id_management_review_narrative"></textarea>
-	    </fieldset>
-	    </td>
-	    </tr>
-	    
-	    <tr>
-	    <td>
-	    <fieldset>
-	    <legend>${lang.getStringRecommendation()}</legend>
-	    <textarea rows="6" style="width:100%" id="id_management_review_recommendation"></textarea>
-	    </fieldset>
-	    </td>
-	    </tr>
-	    
-	    <tr>
-	    <td>
-	    <div id="id_taxi_out_hazardListTable_parentDiv">
-	    <table id="id_taxi_out_hazardListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
-	    </div>
-		<div id="pager1" class="scroll"></div>    
-	    </td>
-	    </tr>
-	    
-	    <tr>
-	    <td>
-	    <fieldset>
-	    <legend>${lang.getStringSafetyOfficer()} Only</legend>
-	    <fieldset>
-	    <legend>Comments</legend>
-	    <textarea rows="6" style="width:100%" id="id_management_review_comments"></textarea>
-	    </fieldset>
-	    <table width="100%">
-	    	<tr>
-	    	
-	    	
-	    	<tr>
-											
-										
-	    	
-	    		<td width="30%" align="left"><input type="radio" name="safety_officer_opinion"
-												id="id_management_review_accept" value="accept"
-												checked="checked" /> ${lang.getStringAccept()}</td>
-	    		<td width="30%" align="center"><input type="radio" name="safety_officer_opinion"
-												id="id_management_review_reject" value="reject"
-												checked="checked" /> ${lang.getStringReject()}</td>
-	    		<td width="40%" align="right"><input type="radio" name="safety_officer_opinion"
-												id="id_management_review_need_an_investigation" value="need_more_investigation"
-												checked="checked" /> ${lang.getStringNeedAnInvestigation()}</td>
-	    	</tr>
-	    	<tr>
-	    		<td></td>
-	    		<td></td>
-	    		<td align="right">${lang.getStringPriority()} <select id="id_management_review_priority_selector" name="method" class="form_selector">
-				<option value="1">High</option>	
-				<option value="2">Medium</option>
-				<option value="3">Low</option>
-			</select></td>
-	    	</tr>
-	    </table>
-	    </fieldset>
-	    </td>
-	    </tr>
-	    
-	    <tr>
-			<td align="center">
-			<a id="id_management_review_edit_btn" href="#">${lang.getStringEdit()}</a> <a id="id_management_review_save_btn" href="#">${lang.getStringSave()}</a> 
-			<a id="id_management_review_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_review_submit_btn" href="#">${lang.getStringSubmit()}</a>
-			</td>
-		</tr>
-				
-	    </table>
-	    
-	    
-	    
-		
-	    
-	    
-	    
-	    
-	    </div>
-	</fieldset>
+	
 </td>
 </tr>
 </table>
