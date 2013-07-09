@@ -110,4 +110,156 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		return list;
 	}
 
+	@Override
+	public List<Report> readReportListHazardIdentification() {
+		// TODO Auto-generated method stub
+		
+		
+		return null;
+	}
+
+	@Override
+	public List<Report> readReportListRiskAnalysis() {
+		List<Report> list = new ArrayList<Report>();
+		Report a = null;
+		
+		a = new Report();
+		a.setTitle			("Pax door impated airbridge while");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Identified");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The passenger's lack of ");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Identified");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The pilot's misidentification");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Identified");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("Collision with a truck");
+		a.setReport_date	("April 25 2013");
+		a.setAircraft_damage("None");
+		a.setInjury			("Minor");
+		a.setDelay_time		("Within 30 min");
+		a.setPriority		("Medium");
+		a.setState			("Identified");
+		list.add(a);
+		
+		return list;
+	}
+
+	@Override
+	public List<Report> readReportListRiskAssessment() {
+		List<Report> list = new ArrayList<Report>();
+		Report a = null;
+		
+		a = new Report();
+		a.setTitle			("Pax door impated airbridge while opening");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Analyzed");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The passenger's lack of compiliance");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Analyzed");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The pilot's misidentification of the airport's");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Analyzed");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The pilot's selection of unsuitable terrain for");
+		a.setReport_date	("April 25 2013");
+		a.setAircraft_damage("None");
+		a.setInjury			("Minor");
+		a.setDelay_time		("Within 30 min");
+		a.setPriority		("Medium");
+		a.setState			("Analyzed");
+		list.add(a);
+		
+		return list;
+	}
+
+	@Override
+	public List<Report> readReportListMitigation() {
+		List<Report> list = new ArrayList<Report>();
+		Report a = null;
+		
+		a = new Report();
+		a.setTitle			("Pax door impated airbridge while opening");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Risk");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The passenger's lack of compiliance");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Risk");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The pilot's misidentification of the airport's");
+		a.setReport_date	("April 26 2013");
+		a.setAircraft_damage("Destoryed");
+		a.setInjury			("Fatal");
+		a.setDelay_time		("Flight Cancel");
+		a.setPriority		("High");
+		a.setState			("Risk");
+		list.add(a);
+		
+		a = new Report();
+		a.setTitle			("The pilot's selection of unsuitable terrain for");
+		a.setReport_date	("April 25 2013");
+		a.setAircraft_damage("None");
+		a.setInjury			("Minor");
+		a.setDelay_time		("Within 30 min");
+		a.setPriority		("Low");
+		a.setState			("Risk");
+		list.add(a);
+		
+		return list;
+	}
+
 }
