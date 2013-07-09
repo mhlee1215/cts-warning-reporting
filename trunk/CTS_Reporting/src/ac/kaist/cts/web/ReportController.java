@@ -419,9 +419,13 @@ private Logger logger = Logger.getLogger(getClass());
 	@RequestMapping("/managementDetailMain.do")
     public ModelAndView managementDetailMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String activateTab = ServletRequestUtils.getStringParameter(request, "activateTab", "0");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		ModelAndView model = new ModelAndView("management/detail/managementDetailMain");
+		
+		System.out.println("activate Tab : "+activateTab);
 		model.addObject("lang", lang);
+		model.addObject("activateTab", activateTab);
 		return model;
 	}
 	
