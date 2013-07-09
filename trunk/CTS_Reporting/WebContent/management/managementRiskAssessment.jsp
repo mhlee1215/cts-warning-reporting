@@ -25,57 +25,27 @@
 <script>
   $(function() {
 	  $( "#tabs_risk_assessment" ).tabs();
-	   texi_out_load_hazard_item();
+	  management_risk_assessment_load_report("id_managment_risk_assessment_hazard_to_be_analyzed_ListTable", "managementRiskAssessmentReportList.do?status=all");
+	  management_risk_assessment_load_report("id_managment_risk_assessment_analyzed_hazards_ListTable", 	  "managementRiskAssessmentReportList.do?status=all");
   });
   
   
-  
-  function texi_out_dateFormatter( cellvalue, options, rowObject )
-  {
-  	if(cellvalue != undefined && cellvalue != ''){
-  		var year = cellvalue.substring(0, 4);
-  		var month = cellvalue.substring(4, 6);
-  		var date = cellvalue.substring(6, 8);
-  		var hour = cellvalue.substring(8, 10);
-  		var min = cellvalue.substring(10, 12);
-  		var sec = cellvalue.substring(12, 14);
-  		return year+'-'+month+'-'+date+' '+hour+':'+min+':'+sec;
-  	}
-  	return '-';
-  }
-  
-  function texi_out_fnFormatter( cellvalue, options, rowObject )
-  {
-	var return_str = '<a id="id_taxi_out_seq_'+cellvalue+'_edit_hazard" href="#">Edit</a><a id="id_taxi_out_seq_'+cellvalue+'_delete_hazard" href="#">Delete</a>';
-	return_str += '<script>';
-	return_str += '$("#id_taxi_out_seq_'+cellvalue+'_edit_hazard").button().click(function( event ) {'
-	return_str += '    	event.preventDefault();';
-	return_str += '});';
-	return_str += '$("#id_taxi_out_seq_'+cellvalue+'_delete_hazard").button().click(function( event ) {'
-	return_str += '    	event.preventDefault();';
-	return_str += '});';
-	return_str += '</scr'+'ipt>';
-  	return return_str;
-  }
-  
-  
-  
-  function texi_out_load_hazard_item(){
+  function management_risk_assessment_load_report(id, url){
 	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_taxi_out_hazardListTable").jqGrid({
-	  	url:'${pageContext.request.contextPath}/reportToIdentifyList.do', 
-	  	height: 120,
+	  jQuery("#"+id).jqGrid({
+	  	url:'${pageContext.request.contextPath}/'+url, 
+	  	height: 500,
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Report No.','Date (UTC)', 'Aircraft Damage11', 'Injury','Delay Time','Priority','State'],
+	     	colNames:['${lang.getStringTitle()}','${lang.getStringDate()} (UTC)', '${lang.getStringAircraftDamage()}', '${lang.getStringInjury()}','${lang.getStringDelay()} ${lang.getStringTime()}','${lang.getStringPriority()}','${lang.getStringState()}'],
 	     	colModel:[
-	     	 			{name:'rp_no'		,index:'rp_no'		,width:120	,align:"left"	,sortable: true},
-	     	    		{name:'date'		,index:'date'		,width:90	,align:"center"	,sortable: true},
-	     	    		{name:'ac_damage'	,index:'ac_damage'	,width:70	,align:"center"	,sortable: true},
-	     	    		{name:'injury'		,index:'injury'		,width:90	,align:"center"	,sortable: true},
-	     	    		{name:'delay_time'	,index:'delay_time'	,width:90	,align:"center"	,sortable: true},
-	     	    		{name:'priority'	,index:'priority'	,width:80	,align:"center"	,sortable: true},		
-	     	    		{name:'state'		,index:'state'		,width:85	,align:"center" ,sortable: true}		
+	     	 			{name:'rp_no'		,index:'rp_no'		,width:200	,align:"left"	,sortable: true},
+	     	    		{name:'date'		,index:'date'		,width:90	,align:"left"	,sortable: true},
+	     	    		{name:'ac_damage'	,index:'ac_damage'	,width:70	,align:"left"	,sortable: true},
+	     	    		{name:'injury'		,index:'injury'		,width:90	,align:"left"	,sortable: true},
+	     	    		{name:'delay_time'	,index:'delay_time'	,width:90	,align:"left"	,sortable: true},
+	     	    		{name:'priority'	,index:'priority'	,width:80	,align:"left"	,sortable: true},		
+	     	    		{name:'state'		,index:'state'		,width:85	,align:"left" ,sortable: true}		
 	     	    	],
 	     	shrinkToFit:true,
 	     	//altRows:true,
@@ -94,21 +64,21 @@
 	     	//viewrecords: true, 
 	     	emptyrecords:'no report data',
 	     	//caption: "Task List",
-	     	toolbar: [false,"top"],
-	     	loadError : function(xhr,st,err) { 
-	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
-	  	},
+	     	//toolbar: [false,"top"],
+	     	//loadError : function(xhr,st,err) { 
+	  	   	//jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
+	  	//},
 	  	loadComplete: function(){ 
 	  		
 	  	},
 	  	onSelectRow: function(id){ 
-	  		var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
-	  	    alert(localRowData);
+	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
+	  	    //alert(localRowData);
+	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	    }
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 	  
   }
-  
 
   </script>
 <body>
@@ -118,11 +88,11 @@
     <li><a href="#tabs-1">${lang.getStringHazardsToBeAssessed()}</a></li>
     <li><a href="#tabs-2">${lang.getStringAssessedHazards()}</a></li>
   </ul>
-  <div id="tabs-1">
+   <div id="tabs-1">
     <table>
 <tbody>
 <tr>
-	<td align="center" width="723px;" ><table id="id_taxi_out_hazardListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+	<td align="center" width="723px;" ><table id="id_managment_risk_assessment_hazard_to_be_analyzed_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
 	<div id="pager1" class="scroll"></div>
 	</td>
 </tr>
@@ -130,7 +100,15 @@
 </table>
   </div>
   <div id="tabs-2">
-    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+        <table>
+<tbody>
+<tr>
+	<td align="center" width="723px;" ><table id="id_managment_risk_assessment_analyzed_hazards_ListTable" class="scroll" cellpadding="0" cellspacing="0"></table>
+	<div id="pager1" class="scroll"></div>
+	</td>
+</tr>
+</tbody>
+</table>
   </div>
 
 </div>
