@@ -216,22 +216,116 @@ private Logger logger = Logger.getLogger(getClass());
 			else if(status.equalsIgnoreCase(report.getState()))
 				filteredList.add(report);
 		}
-		
-//		List<Report> list = null;
-//		if("All".equals(status))
-//			list = reportService.readReportListReviewAll();
-//		else if("Review".equals(status))
-//			list = reportService.readReportListReviewReview();
-//		else if("Accepted".equals(status))
-//			list = reportService.readReportListReviewAccepted();
-//		else if("Rejected".equals(status))
-//			list = reportService.readReportListReviewRejected();
-//		else if("Investigation".equals(status))
-//			list = reportService.readReportListReviewInvestigation();
-//		else if("Registered".equals(status))
-//			list = reportService.readReportListReviewRegistered();
-		
+			
 		ModelAndView model = new ModelAndView("management/reportToIdentifyList");
+		model.addObject("lang", lang);
+		model.addObject("page", 1);
+		model.addObject("total_pages", 1);
+		model.addObject("total_count", list.size());
+		model.addObject("reports", filteredList);
+		
+		return model;
+	}
+	
+	@RequestMapping("/managementHazardIdentificationReportList.do")
+    public ModelAndView managementHazardIdentificationReportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String status = ServletRequestUtils.getStringParameter(request, "status", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		List<Report> list = reportService.readReportListReviewAll();
+		
+		List<Report> filteredList = new ArrayList<Report>();
+		
+		for (Report report : list){
+			if(status.equalsIgnoreCase("all"))
+				filteredList.add(report);
+			else if(status.equalsIgnoreCase(report.getState()))
+				filteredList.add(report);
+		}
+			
+		ModelAndView model = new ModelAndView("management/reportToIdentifyList");
+		model.addObject("lang", lang);
+		model.addObject("page", 1);
+		model.addObject("total_pages", 1);
+		model.addObject("total_count", list.size());
+		model.addObject("reports", filteredList);
+		
+		return model;
+	}
+	
+	@RequestMapping("/managementRiskAnalysisReportList.do")
+    public ModelAndView managementRiskAnalysisReportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String status = ServletRequestUtils.getStringParameter(request, "status", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		List<Report> list = reportService.readReportListRiskAnalysisHazardToBeAnalyzed();
+		
+		List<Report> filteredList = new ArrayList<Report>();
+		
+		for (Report report : list){
+			if(status.equalsIgnoreCase("all"))
+				filteredList.add(report);
+			else if(status.equalsIgnoreCase(report.getState()))
+				filteredList.add(report);
+		}
+			
+		ModelAndView model = new ModelAndView("management/reportToIdentifyList2");
+		model.addObject("lang", lang);
+		model.addObject("page", 1);
+		model.addObject("total_pages", 1);
+		model.addObject("total_count", list.size());
+		model.addObject("reports", filteredList);
+		
+		return model;
+	}
+	
+	@RequestMapping("/managementRiskAssessmentReportList.do")
+    public ModelAndView managementRiskAssessmentReportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String status = ServletRequestUtils.getStringParameter(request, "status", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		List<Report> list = reportService.readReportListRiskAssessmentHazardsToBeAssessed();
+		
+		List<Report> filteredList = new ArrayList<Report>();
+		
+		for (Report report : list){
+			if(status.equalsIgnoreCase("all"))
+				filteredList.add(report);
+			else if(status.equalsIgnoreCase(report.getState()))
+				filteredList.add(report);
+		}
+			
+		ModelAndView model = new ModelAndView("management/reportToIdentifyList2");
+		model.addObject("lang", lang);
+		model.addObject("page", 1);
+		model.addObject("total_pages", 1);
+		model.addObject("total_count", list.size());
+		model.addObject("reports", filteredList);
+		
+		return model;
+	}
+	
+	@RequestMapping("/managementMitigationReportList.do")
+    public ModelAndView managementMitigationReportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String status = ServletRequestUtils.getStringParameter(request, "status", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		List<Report> list = reportService.readReportListMitigationHazardsToBeMitigated();
+		
+		List<Report> filteredList = new ArrayList<Report>();
+		
+		for (Report report : list){
+			if(status.equalsIgnoreCase("all"))
+				filteredList.add(report);
+			else if(status.equalsIgnoreCase(report.getState()))
+				filteredList.add(report);
+		}
+			
+		ModelAndView model = new ModelAndView("management/reportToIdentifyList2");
 		model.addObject("lang", lang);
 		model.addObject("page", 1);
 		model.addObject("total_pages", 1);
@@ -289,7 +383,7 @@ private Logger logger = Logger.getLogger(getClass());
 		String language = (String)request.getSession().getAttribute("lang");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		ModelAndView model = new ModelAndView("management/managementRiskAnalysis");
-		model.addObject("lang", lang);
+		model.addObject("lang", lang); 
 		return model;
 	}
 	

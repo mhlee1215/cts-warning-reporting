@@ -101,7 +101,7 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<Report> readReportListHazardIdentificationReportsToIdentify() {
 		// TODO Auto-generated method stub
-		return null;
+		return reportDao.readReportListHazardIdentification();
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<Report> readReportListRiskAnalysisHazardToBeAnalyzed() {
 		// TODO Auto-generated method stub
-		return null;
+		return reportDao.readReportListRiskAnalysis();
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<Report> readReportListRiskAssessmentHazardsToBeAssessed() {
 		// TODO Auto-generated method stub
-		return null;
+		return reportDao.readReportListRiskAssessment();
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<Report> readReportListMitigationHazardsToBeMitigated() {
 		// TODO Auto-generated method stub
-		return null;
+		return reportDao.readReportListMitigation();
 	}
 
 	@Override
