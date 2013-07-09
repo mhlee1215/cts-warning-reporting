@@ -26,8 +26,8 @@
   $(function() {
 	  $( "#tabs_hazard_identification" ).tabs();
 	   //texi_out_load_hazard_item();
-	   management_hazard_identification_load_report("id_hazard_identification_reports_to_identify_ListTable", 		"managementReviewReportList.do?status=accepted");
-	   management_hazard_identification_load_report("id_hazard_identification_identified_reports_ListTable", 		"managementReviewReportList.do?status=accepted");
+	   management_hazard_identification_load_report("id_hazard_identification_reports_to_identify_ListTable", 		"managementHazardIdentificationReportList.do?status=accepted");
+	   management_hazard_identification_load_report("id_hazard_identification_identified_reports_ListTable", 		"managementHazardIdentificationReportList.do?status=accepted");
   });
   
   
