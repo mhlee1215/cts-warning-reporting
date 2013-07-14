@@ -127,12 +127,14 @@
       color: #777;
   }   
   </style>  
+    
   <script>
   var submitted = new Array(9);
-  for (var i = 0 ; i < 9 ; i++){
-	  submitted[i] = 0;
-  }
   
+  <c:forEach items="${rpItemList}" var="report_item" varStatus="list_status">
+  submitted[${list_status.index}] = ${report_item.status == report_item.getSTATE_SUBMITTED() ? "1" : "0"};
+  </c:forEach>
+    
   function submit_page(page_index){
 	  submitted[page_index-1] = 1;
 	  //alert(page_index);
@@ -189,6 +191,11 @@
 	  
 	  $("#id_main_previous_btn").hide();
 	  $("#id_main_submitted_btn").hide();
+	  
+	  for(var i = 0 ; i < 9 ; i++){
+		  if(submitted[i] == 1)
+			  submit_page(i+1);
+	  }
   });
   </script>
 </head>

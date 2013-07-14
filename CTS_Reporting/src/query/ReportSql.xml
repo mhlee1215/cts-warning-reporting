@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ReportSql">
+
+	<resultMap id="Report" class="ac.kaist.cts.domain.Report">
+		<result column="ID" property="id" />
+		<result column="REPORT_DATE" property="report_date" />
+		<result column="STATE" property="state" />
+		<result column="REPORT_NO" property="report_no" />
+		<result column="CREW_FATALITIES" property="crew_fatalities" />
+		<result column="CREW_INJURIES" property="crew_injuries" />
+		<result column="CABIN_FATALITIES" property="cabin_fatalities" />
+		<result column="CABIN_INJURIES" property="cabin_injuries" />
+		<result column="PASSENGER_FATALITIES" property="passenger_fatalities" />
+		<result column="PASSENGER_INJURIES" property="passenger_injuries" />
+		<result column="AIRCRAFT_DAMAGE" property="aircraft_damage" />
+		<result column="DELAY_TIME" property="delay_time" />
+		<result column="FLIGHT_INFO_ID" property="flight_info_id" />
+ 	</resultMap>
+ 	
+ 	
+ 	<select id="readReportList" resultMap="Report">
+ 		SELECT `id`, `report_date`, `state`, `report_no`, `crew_fatalities`, `crew_injuries`, `cabin_fatalities`, `cabin_injuries`, `passenger_fatalities`, `passenger_injuries`, `aircraft_damage`, `delay_time`, `flight_info_id`
+ 		FROM report
+ 	</select>
+ 	 	
+	<select id="readReport" resultMap="Report">
+       SELECT `id`, `report_date`, `state`, `report_no`, `crew_fatalities`, `crew_injuries`, `cabin_fatalities`, `cabin_injuries`, `passenger_fatalities`, `passenger_injuries`, `aircraft_damage`, `delay_time`, `flight_info_id`
+ 	   FROM report
+       WHERE report_no = #report_no#
+       
+	</select>
+
+	<insert id="createReport" parameterClass="ac.kaist.cts.domain.Report">
+		 INSERT INTO `report` 
+		 (`report_date`, `state`, `report_no`, `crew_fatalities`, `crew_injuries`, `cabin_fatalities`, `cabin_injuries`, `passenger_fatalities`, `passenger_injuries`, `aircraft_damage`, `delay_time`, `flight_info_id`) VALUES 
+		 (#report_date#, #state#, #report_no#, #crew_fatalities#, #crew_injuries#, #cabin_fatalities#, #cabin_injuries#, #passenger_fatalities#, #passenger_injuries#, #aircraft_damage#, #delay_time#, #flight_info_id#)
+	</insert>
+	
+	
+	
+</sqlMap>
+
+

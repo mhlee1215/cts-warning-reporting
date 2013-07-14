@@ -10,7 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 
+import ac.kaist.cts.domain.AircraftInfo;
+import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Report;
+import ac.kaist.cts.domain.ReportItem;
+import ac.kaist.cts.domain.User;
+import ac.kaist.cts.domain.UserInfo;
 
 @Repository
 public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
@@ -260,6 +265,125 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		list.add(a);
 		
 		return list;
+	}
+
+	@Override
+	public void createAircraftInformation(
+			AircraftInfo aircraftInformation) {
+		getSqlMapClientTemplate().insert("AircraftInfoSql.createAircraftInfo", aircraftInformation);
+		
+	}
+
+	@Override
+	public List<AircraftInfo> readAircraftInformationList() {
+		// TODO Auto-generated method stub
+		List<AircraftInfo> array = getSqlMapClientTemplate().queryForList("AircraftInfoSql.readAircraftInfoList");
+		return array;
+	}
+
+	@Override
+	public AircraftInfo readAIrcraftInformation(AircraftInfo aircraftInformation) {
+		AircraftInfo result = (AircraftInfo)getSqlMapClientTemplate().queryForObject("AircraftInfoSql.readAircraftInfo", aircraftInformation);
+		return result;
+	}
+
+	@Override
+	public void updateAircraftInformation(
+			AircraftInfo aircraftInformation) {
+		getSqlMapClientTemplate().update("AircraftInfoSql.updateAircraftInfo", aircraftInformation);
+	}
+
+	@Override
+	public void deleteAircraftInformation(
+			AircraftInfo aircraftInformation) {
+		getSqlMapClientTemplate().delete("AircraftInfoSql.deleteAircraftInfo", aircraftInformation);
+	}
+
+	@Override
+	public FlightInfo readFlightInfo(FlightInfo userInfo) {
+		FlightInfo result = (FlightInfo)getSqlMapClientTemplate().queryForObject("FlightInfoSql.readFlightInfo", userInfo);
+		return result;
+	}
+
+
+	@Override
+	public void createFlightInfo(FlightInfo userInfo) {
+		getSqlMapClientTemplate().insert("FlightInfoSql.createFlightInfo", userInfo);
+	}
+
+
+	@Override
+	public void deleteFlightInfo(FlightInfo userInfo) {
+		getSqlMapClientTemplate().delete("FlightInfoSql.deleteFlightInfo", userInfo);
+		
+	}
+
+
+	@Override
+	public void updateFlightInfo(FlightInfo userInfo) {
+		getSqlMapClientTemplate().update("FlightInfoSql.updateFlightInfo", userInfo);
+	}
+
+	@Override
+	public Report readReport(Report report) {
+		Report result = (Report)getSqlMapClientTemplate().queryForObject("ReportSql.readReport", report);
+		return result;
+	}
+
+
+	@Override
+	public void createReport(Report report) {
+		getSqlMapClientTemplate().insert("ReportSql.createReport", report);
+	}
+
+
+	@Override
+	public void deleteReport(Report report) {
+		getSqlMapClientTemplate().delete("ReportSql.deleteReport", report);
+		
+	}
+
+
+	@Override
+	public void updateReport(Report report) {
+		getSqlMapClientTemplate().update("ReportSql.updateReport", report);
+	}
+
+	@Override
+	public List<FlightInfo> readFLightInfoList() {
+		List<FlightInfo> array = getSqlMapClientTemplate().queryForList("FlightInfoSql.readFlightInfoList");
+		return array;
+	}
+
+	@Override
+	public ReportItem readReportItem(ReportItem reportItem) {
+		ReportItem result = (ReportItem)getSqlMapClientTemplate().queryForObject("ReportItemSql.readReportItem", reportItem);
+		return result;
+	}
+
+
+	@Override
+	public void createReportItem(ReportItem reportItem) {
+		getSqlMapClientTemplate().insert("ReportItemSql.createReportItem", reportItem);
+	}
+
+
+	@Override
+	public void deleteReportItem(ReportItem reportItem) {
+		getSqlMapClientTemplate().delete("ReportItemSql.deleteReportItem", reportItem);
+		
+	}
+
+
+	@Override
+	public void updateReportItem(ReportItem reportItem) {
+		getSqlMapClientTemplate().update("ReportItemSql.updateReportItem", reportItem);
+	}
+
+	@Override
+	public List<ReportItem> readReportItemList(ReportItem reportItem) {
+		List<ReportItem> array = getSqlMapClientTemplate().queryForList("ReportItemSql.readReportItemList", reportItem);
+		return array;
 	}
 
 }

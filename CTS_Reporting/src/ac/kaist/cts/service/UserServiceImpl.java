@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ac.kaist.cts.dao.UserDao;
 import ac.kaist.cts.domain.User;
+import ac.kaist.cts.domain.UserInfo;
 import ac.kaist.cts.utils.Crypto;
 
 @Service
@@ -146,5 +147,29 @@ public class UserServiceImpl implements UserService {
 		}
 		// Delete fail.
 		return User.STATUS_NOT_FOUNDED;
+	}
+
+	@Override
+	public UserInfo readUserInfo(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		return userDao.readUserInfo(userInfo);
+	}
+
+	@Override
+	public void createUserInfo(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		userDao.createUserInfo(userInfo);
+	}
+
+	@Override
+	public void deleteUserInfo(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		userDao.deleteUserInfo(userInfo);
+	}
+
+	@Override
+	public void updateUserInfo(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		userDao.updateUserInfo(userInfo);
 	}
 }

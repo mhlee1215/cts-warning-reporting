@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.mail.EmailException;
 
 import ac.kaist.cts.domain.User;
+import ac.kaist.cts.domain.UserInfo;
 
 public interface UserService {
 	public int readUser(User user) throws Exception;
@@ -19,4 +20,9 @@ public interface UserService {
 	public int deleteUser(String id);
 	public int deleteUser(String id, boolean isDeleteRow);
 	public int findPassword(String id) throws EmailException, MalformedURLException;
+	
+	public UserInfo readUserInfo(UserInfo userInfo);
+	public void createUserInfo(UserInfo userInfo);
+	public void deleteUserInfo(UserInfo userInfo);
+	public void updateUserInfo(UserInfo userInfo);
 }

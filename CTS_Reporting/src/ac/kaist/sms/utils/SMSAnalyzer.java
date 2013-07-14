@@ -226,7 +226,7 @@ public class SMSAnalyzer {
 		Map<String, Map<String, Map<String, Integer> > > nrVICodeBasedDataSum = classificationResult.getVeryImportantFrequency();
 		Map<String, Map<String, Map<String, Integer> > > nrAICodeBasedDataSum = classificationResult.getAverageFrequency();
 		
-		LocalDate today = new LocalDate("2008-02-10");
+		LocalDate today = new LocalDate();
 		//System.out.println("today?"+today);
 		int recentMonthInterval = 4;
 		Vector<String> recentMonthsList = new Vector<String>();

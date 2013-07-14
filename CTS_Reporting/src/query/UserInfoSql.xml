@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserInfoSql">
+
+	<resultMap id="UserInfo" class="ac.kaist.cts.domain.UserInfo">
+		<result column="ID" property="id" />
+		<result column="User_id" property="User_id" />
+		<result column="id_no" property="id_no" />
+		<result column="name" property="name" />
+		<result column="date_of_birth" property="date_of_birth" />
+		<result column="medical_certification" property="medical_certification" />
+		<result column="date_of_last_medical" property="date_of_last_medical" />
+		<result column="flight_time" property="flight_time" />
+		<result column="this_make_model" property="this_make_model" />
+ 	</resultMap>
+ 	
+ 	
+ 	<select id="readUserInfoList" resultMap="UserInfo">
+ 		SELECT 
+ 		`id`, `User_id`, `id_no`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
+ 		FROM user_info
+ 	</select>
+ 	 	
+	<select id="readUserInfo" resultMap="UserInfo">
+       SELECT 
+       `id`, `User_id`, `id_no`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
+ 	   FROM user_info
+       WHERE User_id = #User_id#
+       
+	</select>
+
+	<insert id="createUserInfo" parameterClass="ac.kaist.cts.domain.UserInfo">
+		 INSERT INTO `user_info` 
+		 (`User_id`, `id_no`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`) VALUES 
+		 (#User_id#, #id_no#, #name#, #date_of_birth#, #medical_certification#, #date_of_last_medical#, #flight_time#, #this_make_model#)
+	</insert>
+	
+	
+	
+</sqlMap>
+
+

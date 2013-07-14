@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import ac.kaist.cts.domain.User;
+import ac.kaist.cts.domain.UserInfo;
 
 public interface UserDao {
 	public User readUser(User user);
@@ -11,4 +12,10 @@ public interface UserDao {
 	public void deleteUser(User user);
 	public void updateUser(User user);
 	public List<User> findAll();
+	
+	public UserInfo readUserInfo(UserInfo userInfo);
+	public void createUserInfo(UserInfo userInfo);
+	public void deleteUserInfo(UserInfo userInfo);
+	public void updateUserInfo(UserInfo userInfo);
+	
 }
