@@ -91,290 +91,44 @@ public class SMSAnalyzer {
 		SMSAnalysisSheetModel vrSheet = _parser.getSheetByName("자율보고 report");
 		SMSAnalysisSheetModel surveySheet = _parser.getSheetByName("Survey");
 		SMSAnalysisResultSafetyReport safetyReportResult = SafetyReport(nrSheet, vrSheet, surveySheet);
-		System.out.println(safetyReportResult);
+		results.setSafetyReportResult(safetyReportResult);
 		
 		//Hazard A2
 		SMSAnalysisSheetModel hzSheet = _parser.getSheetByName("Hazard report");
 		SMSAnalysisResultHazard hazardResult = Hazard(hzSheet);
-		System.out.println(hazardResult);
+		results.setHazardResult(hazardResult);
 		
 		//Audit A3
 		SMSAnalysisSheetModel iaSheet = _parser.getSheetByName("Internal audit report");
 		SMSAnalysisSheetModel eaSheet = _parser.getSheetByName("External audit report");
 		SMSAnalysisResultAudit auditResult = Audit(iaSheet, eaSheet);
-		System.out.println(auditResult);
+		results.setAuditResult(auditResult);
 		
 		//Investigation A4
 		SMSAnalysisSheetModel iiSheet = _parser.getSheetByName("internal investigation report");
 		SMSAnalysisSheetModel eiSheet = _parser.getSheetByName("external investigation report");
 		SMSAnalysisResultInvestigation investigationResult = Investigation(iiSheet, eiSheet);
-		System.out.println(investigationResult);
-		
+		results.setInvestigationResult(investigationResult);
 		
 		//Training A5
 		SMSAnalysisSheetModel trSheet = _parser.getSheetByName("Training Report");
 		SMSAnalysisResultTraining trainingResult = Training(trSheet);
-		System.out.println(trainingResult);
+		results.setTrainingResult(trainingResult);
 		
 		//Classification B3
 		SMSAnalysisSheetModel acSheet = _parser.getSheetByName("00accident code");
 		SMSAnalysisResultClassification classificationResult = Classification(safetyReportResult, acSheet);
-		System.out.println(classificationResult);
+		results.setClassificationResult(classificationResult);
 		
 		//Monitoring and trend analysis B1
 		SMSAnalysisSheetModel tgSheet = _parser.getSheetByName("Target level");
 		SMSAnalysisSheetModel alSheet = _parser.getSheetByName("Alert level");
 		SMSAnalysisResultMonitoringAndTrendAnalysis monitoringAndTrendAnalysisResult = MonitoringAndTrendAnalysis(classificationResult, tgSheet, alSheet);
-		System.out.println(monitoringAndTrendAnalysisResult);
+		results.setMonitoringAndTrendAnalysisResult(monitoringAndTrendAnalysisResult);
 		
 		//Effectiveness analysis B2
 		SMSAnalysisResultEffectivenessAnalysis effectivenessAnalysisResult = EffectivenessAnalysis(classificationResult, auditResult, investigationResult);
-		System.out.println(effectivenessAnalysisResult);
-		
-		
-		
-		
-		SMSAnalysisSheetModel nrModel = _parser.getSheetByName("의무보고 report");
-		SMSAnalysisSheetModel vrModel = _parser.getSheetByName("자율보고 report");
-		SMSAnalysisSheetModel sModel = _parser.getSheetByName("Survey");
-		
-		SMSAnalysisSheetModel iirModel = _parser.getSheetByName("internal investigation report");
-		SMSAnalysisSheetModel eirModel = _parser.getSheetByName("external investigation report");
-		
-		//Volunteer report count
-		
-		//results.setVolunteerReportCount(vrModel.getColumnSumByHeader("incident"));
-		
-		//Survey count
-		
-		//results.setServeyCount(sModel.getColumnSumByHeader("참여자 수"));
-		
-		//Survey Volunteer count
-		//results.setServeyVolunteerCount(sModel.getColumnSumByHeader("보고 숫자"));
-		
-		//Frequency of occurrences (Not directly connected. Skip)
-		
-		//Accident/serious incident/incident frequency 
-		Vector<String> frequencyTypes = new Vector<String>();
-		frequencyTypes.add("accident");
-		frequencyTypes.add("serious incident");
-		frequencyTypes.add("incident");
-		
-		
-		Map<String, Map<String, Integer> > nrDataSum = new TreeMap<String, Map<String, Integer> >();
-		
-		for(String fType : frequencyTypes){
-			nrDataSum.put(fType, nrModel.getDateColumnSum("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth));
-		}
-		
-		System.out.println("nrDataSum :"+nrDataSum);
-		
-		//Very important indicator frequency 
-		//Get very important abbreviation
-		SMSAnalysisSheetModel acModel = _parser.getSheetByName("00accident code");
-		Vector<String> viCodes = acModel.getDataByCondition("Abbreviation", "importance", "very importance");
-		System.out.println(viCodes);
-		Map<String, Map<String, Map<String, Integer> > > nrVICodeBasedDataSum = new TreeMap<String, Map<String, Map<String, Integer> > >();
-		for (String code : viCodes){
-			Map<String, Map<String, Integer> > resultBean = new TreeMap<String, Map<String, Integer> >();
-			nrVICodeBasedDataSum.put(code, resultBean);
-			for(String fType : frequencyTypes){
-				nrVICodeBasedDataSum.get(code).put(fType, nrModel.getDateColumnSumByCondition("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth, "type", code));
-			}	
-		}
-		System.out.println("nrVICodeBasedDataSum :"+nrVICodeBasedDataSum);
-		
-		//Average important indicator frequency 
-		Vector<String> aiCodes = acModel.getDataByCondition("Abbreviation", "importance", "average importance");
-		System.out.println(aiCodes);
-		Map<String, Map<String, Map<String, Integer> > > nrAICodeBasedDataSum = new TreeMap<String, Map<String, Map<String, Integer> > >();
-		for (String code : aiCodes){
-			Map<String, Map<String, Integer> > resultBean = new TreeMap<String, Map<String, Integer> >();
-			nrAICodeBasedDataSum.put(code, resultBean);
-			for(String fType : frequencyTypes){
-				nrAICodeBasedDataSum.get(code).put(fType, nrModel.getDateColumnSumByCondition("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth, "type", code));
-			}	
-		}
-		System.out.println("nrAICodeBasedDataSum :"+nrAICodeBasedDataSum);
-		
-		//Initial/residual risk 
-		//column used as intermediate result (skip)
-		
-		//Corrective action 
-		//action field for categorization (skip)
-		
-		//Hazard Count
-		//SMSAnalysisSheetModel hzModel = _parser.getSheetByName("Hazard report");
-		//results.setHazardCount(hzModel.getColumnSumByHeader("hazard 숫자"));
-		
-		//Accident trend 
-		//Serious incident trend 
-		//Incident trend 
-		LocalDate today = new LocalDate("2008-02-10");
-		//System.out.println("today?"+today);
-		int recentMonthInterval = 4;
-		Vector<String> recentMonthsList = new Vector<String>();
-		for(int i = 0 ; i < recentMonthInterval ; i++){
-			String monthStr = SMSAnalysisDateUtil.cutDateStr(today, SMSAnalysisDateUtil.dateTypeMonth);
-			recentMonthsList.add(monthStr);
-			today = today.plusMonths(-1);
-		}
-		//System.out.println("recentMonthsList : "+recentMonthsList);
-		
-		TreeMap<String, Double> trends = new TreeMap<String, Double>();
-		for(String fType : frequencyTypes){
-			Double average = 0.0;
-			for(String monthStr : recentMonthsList){
-				if(nrDataSum.get(fType) != null){
-					Integer value = nrDataSum.get(fType).get(monthStr);
-					if(value != null){
-						average += nrDataSum.get(fType).get(monthStr);
-					}
-				}
-			}
-			average /= recentMonthInterval;
-			trends.put(fType, average);
-			//nrDataSum.put(fType, nrModel.getDateColumnSum("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth));
-		}
-		System.out.println("trends : "+trends);
-		
-		
-		//Very important indicator trend 
-		TreeMap<String, Map<String, Double> > viTrends = new TreeMap<String, Map<String, Double> >();
-		
-		for (String code : viCodes){
-			viTrends.put(code, new TreeMap<String, Double>());
-			if (nrVICodeBasedDataSum.get(code) != null){
-				for(String fType : frequencyTypes){
-					Double average = 0.0;
-					for(String monthStr : recentMonthsList){
-						if(nrVICodeBasedDataSum.get(code).get(fType) != null){
-							Integer value = nrVICodeBasedDataSum.get(code).get(fType).get(monthStr);
-							if(value != null){
-								average += nrVICodeBasedDataSum.get(code).get(fType).get(monthStr);
-							}
-						}
-					}
-					average /= recentMonthInterval;
-					viTrends.get(code).put(fType, average);
-				}
-			}
-		}
-		System.out.println("viTrends : "+viTrends);
-		
-		//Average important indicator trend 
-		TreeMap<String, Map<String, Double> > aiTrends = new TreeMap<String, Map<String, Double> >();
-		
-		for (String code : aiCodes){
-			aiTrends.put(code, new TreeMap<String, Double>());
-			if (nrAICodeBasedDataSum.get(code) != null){
-				for(String fType : frequencyTypes){
-					Double average = 0.0;
-					for(String monthStr : recentMonthsList){
-						if(nrAICodeBasedDataSum.get(code).get(fType) != null){
-							Integer value = nrAICodeBasedDataSum.get(code).get(fType).get(monthStr);
-							if(value != null){
-								average += nrAICodeBasedDataSum.get(code).get(fType).get(monthStr);
-							}
-						}
-					}
-					average /= recentMonthInterval;
-					aiTrends.get(code).put(fType, average);
-				}
-			}
-		}
-		System.out.println("aiTrends : "+aiTrends);
-		
-		//Top/bottom five occurrence 
-		Map<String, Double> averageInitialRisk = nrModel.getDateColumnAverageByCondition("날짜", "initial risk", SMSAnalysisDateUtil.dateTypeMonth, null, null);
-		Map<String, Double> averageResitualRisk = nrModel.getDateColumnAverageByCondition("날짜", "Resitual risk", SMSAnalysisDateUtil.dateTypeMonth, null, null);
-		System.out.println("averageInitialRisk : "+averageInitialRisk);
-		System.out.println("averageResitualRisk : "+averageResitualRisk);
-		SMSAnalysisSheetModel tlModel = _parser.getSheetByName("Target level");
-		SMSAnalysisSheetModel alModel = _parser.getSheetByName("Alert level");
-		Map<String, Double> targetCode = tlModel.getDataMap("Occurrence code", "Target");
-		
-		Map<String, Vector<String> > topOccurrence = new TreeMap<String, Vector<String> >();
-		Map<String, Vector<String> > bottomOccurrence = new TreeMap<String, Vector<String> >();
-		for(String date : averageInitialRisk.keySet()){
-			topOccurrence.put(date, new Vector<String>());
-			bottomOccurrence.put(date, new Vector<String>());
-			Map<String, Double> distanceMap = new TreeMap<String, Double>();
-			for (String code : targetCode.keySet()){
-				distanceMap.put(code, Math.abs(targetCode.get(code) - averageInitialRisk.get(date)));
-			}
-			SortedSet<Map.Entry<String, Double> > sortedAsc = entriesSortedByValuesAsc(targetCode);
-			SortedSet<Map.Entry<String, Double> > sortedDsc = entriesSortedByValuesDsc(targetCode);
-			
-			//System.out.println("distanceMapAsc : "+sortedAsc);
-			//System.out.println("distanceMapDsc : "+sortedDsc);
-			
-			for(int i = 0 ; i < 5 ; i++){
-				Map.Entry<String, Double> a = (Entry<String, Double>) sortedAsc.toArray()[i];
-				topOccurrence.get(date).add(a.getKey());
-			}
-			
-			for(int i = 0 ; i < 5 ; i++){
-				Map.Entry<String, Double> a = (Entry<String, Double>) sortedDsc.toArray()[i];
-				bottomOccurrence.get(date).add(a.getKey());
-			}
-		}
-		
-		System.out.println("topOccurrence : "+topOccurrence);
-		System.out.println("bottomOccurrence : "+bottomOccurrence);
-		
-		
-		//Internal audit count
-		SMSAnalysisSheetModel iaModel = _parser.getSheetByName("Internal audit report");
-		results.setInternalAuditCount(iaModel.getColumnSumByHeader("Audit NO"));
-		
-		//Internal audit finding  count
-		results.setInternalAuditFindingCount(iaModel.getColumnSumByHeader("Finding NO"));
-		
-		//External audit count
-		SMSAnalysisSheetModel eaModel = _parser.getSheetByName("External audit report");
-		results.setExternalAuditCount(eaModel.getColumnSumByHeader("Audit NO"));
-		
-		//External audit finding count
-		results.setExternalAuditFindingCount(eaModel.getColumnSumByHeader("Finding NO"));
-		
-		
-		//Initial/residual risk 
-		
-		//Corrective action 
-		
-		//Effectiveness of safety report
-		System.out.println("nreffectiveness : "+nrModel.getEffectiveness("날짜", "initial risk", "Resitual risk", "action"));
-		//Effectiveness of internal audit 
-		System.out.println("iaeffectiveness : "+iaModel.getEffectiveness("날짜", "initial risk", "Resitual risk", "action"));
-		//Effectiveness of external audit 
-		System.out.println("eaeffectiveness : "+eaModel.getEffectiveness("날짜", "initial risk", "Resitual risk", "action"));
-		//Effectiveness of internal investigation 
-		System.out.println("iieffectiveness : "+iirModel.getEffectiveness("날짜", "initial risk", "Resitual risk", "action"));
-		//Effectiveness of external investigation 
-		System.out.println("eieffectiveness : "+eirModel.getEffectiveness("날짜", "initial risk", "Resitual risk", "action"));
-		
-		
-		//Internal investigation count
-		SMSAnalysisSheetModel iiModel = _parser.getSheetByName("Internal investigation report");
-		results.setInternalInvestigationCount(iiModel.getColumnSumByHeader("Investigation NO"));
-		
-		//Internal investigation finding count
-		results.setInternalInvestigationFindingCount(iiModel.getColumnSumByHeader("Finding NO"));
-		
-		//External investigation count
-		SMSAnalysisSheetModel eiModel = _parser.getSheetByName("External investigation report");
-		results.setExternalInvestigationCount(eiModel.getColumnSumByHeader("Investigation NO"));
-		
-		//External investigation finding
-		results.setExternalInvestigationFindingCount(iiModel.getColumnSumByHeader("Finding NO"));
-		
-		//Continuation courese (Skipped)
-		//Recurrent training (Skipped)
-		
-		//Traning Score
-		SMSAnalysisSheetModel trModel = _parser.getSheetByName("Training Report");
-		results.setTrainingScore(trModel.getColumnAverage(2));
+		results.setEffectivenessAnalysisResult(effectivenessAnalysisResult);
 		
 		return results;
 	}
@@ -596,13 +350,6 @@ public class SMSAnalyzer {
 		frequencyCodes.add("incident");
 		
 		result.setFrequencyTypes(frequencyCodes);
-		//result.setAccidentFrequency(nrSheet.getDateColumnSum("날짜", "accident", SMSAnalysisDateUtil.dateTypeMonth));
-		//result.setSeriousIncidentFrequency(nrSheet.getDateColumnSum("날짜", "serious incident", SMSAnalysisDateUtil.dateTypeMonth));
-		//result.setIncidentFrequency(nrSheet.getDateColumnSum("날짜", "accident", SMSAnalysisDateUtil.dateTypeMonth));
-		
-		//frequencyTypes.add("accident");
-		//frequencyTypes.add("serious incident");
-		//frequencyTypes.add("incident");
 		Map<String, Map<String, Integer> > nrDataSum = new TreeMap<String, Map<String, Integer> >();
 		
 		for(String fType : frequencyCodes){
@@ -610,8 +357,7 @@ public class SMSAnalyzer {
 		}
 		
 		result.setFrequency(nrDataSum);
-		//System.out.println("nrDataSum :"+nrDataSum);
-		
+			
 		//Very important indicator frequency 
 		//Get very important abbreviation
 		SMSAnalysisSheetModel acModel = _parser.getSheetByName("00accident code");
@@ -627,7 +373,6 @@ public class SMSAnalyzer {
 			}	
 		}
 		result.setVeryImportantFrequency(nrVICodeBasedDataSum);
-		//System.out.println("nrVICodeBasedDataSum :"+nrVICodeBasedDataSum);
 		
 		//Average important indicator frequency 
 		Vector<String> aiCodes = acModel.getDataByCondition("Abbreviation", "importance", "average importance");
@@ -641,10 +386,10 @@ public class SMSAnalyzer {
 				nrAICodeBasedDataSum.get(code).put(fType, nrSheet.getDateColumnSumByCondition("날짜", fType, SMSAnalysisDateUtil.dateTypeMonth, "type", code));
 			}	
 		}
-		//System.out.println("nrAICodeBasedDataSum :"+nrAICodeBasedDataSum);
+
 		result.setAverageFrequency(nrAICodeBasedDataSum);
-		
 		result.setSafetyReportResult(safetyReportResult);
+		
 		return result;
 	}
 	 
@@ -663,11 +408,7 @@ public class SMSAnalyzer {
 		Map<String, Map<String, Vector<String> > > ocurrence = new TreeMap<String, Map<String, Vector<String> > >();
 		
 		Map<String, Double> averageInitialRisk = reportSheet.getDateColumnAverageByCondition("날짜", "initial risk", SMSAnalysisDateUtil.dateTypeMonth, null, null);
-		//Map<String, Double> averageResitualRisk = nrSheet.getDateColumnAverageByCondition("날짜", "Resitual risk", SMSAnalysisDateUtil.dateTypeMonth, null, null);
-		//System.out.println("averageInitialRisk : "+averageInitialRisk);
-		//System.out.println("averageResitualRisk : "+averageResitualRisk);
-		//SMSAnalysisSheetModel tlModel = _parser.getSheetByName("Target level");
-		//SMSAnalysisSheetModel alModel = _parser.getSheetByName("Alert level");
+	
 		Map<String, Double> targetCode = tgSheet.getDataMap("Occurrence code", "Target");
 		Map<String, Double> alertCode = alSheet.getDataMap("Occurrence code", "Alert level");
 		
@@ -687,9 +428,7 @@ public class SMSAnalyzer {
 			SortedSet<Map.Entry<String, Double> > targetSortedAsc = entriesSortedByValuesAsc(targetDistanceMap);
 			SortedSet<Map.Entry<String, Double> > alertSortedAsc = entriesSortedByValuesAsc(alertDistanceMap);
 			
-			//System.out.println("distanceMapAsc : "+sortedAsc);
-			//System.out.println("distanceMapDsc : "+sortedDsc);
-			
+		
 			for(int i = 0 ; i < 5 ; i++){
 				Map.Entry<String, Double> a = (Entry<String, Double>) targetSortedAsc.toArray()[i];
 				topOccurrence.get(date).add(a.getKey());
@@ -705,7 +444,5 @@ public class SMSAnalyzer {
 		ocurrence.put("bottom", bottomOccurrence);
 		
 		return ocurrence;
-	}
-	
-	
+	}	
 }
