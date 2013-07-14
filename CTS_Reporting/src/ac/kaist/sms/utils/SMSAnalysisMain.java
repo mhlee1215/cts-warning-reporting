@@ -46,7 +46,7 @@ public class SMSAnalysisMain {
 		
 		if(1==1) return;*/
 		//Read workbook in xls format using jxl external library
-		Workbook workbook = Workbook.getWorkbook(new File("/Users/mhlee1215/Desktop/workspace/CTS_Reporting/src/ac/kaist/sms/model/data_field_new.xls"));
+		Workbook workbook = Workbook.getWorkbook(new File("E:/ext_work/ReportingSystem/workspace/CTS_Reporting/src/ac/kaist/sms/model/data_field_new.xls"));
 		
 		//Create Analyzer instance and Parse xls file in constructor
 		SMSAnalyzer analyzer = new SMSAnalyzer(workbook);
