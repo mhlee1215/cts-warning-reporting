@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -72,6 +73,7 @@
      event.preventDefault();
   });
    
+    $("#id_basic_report_date_datepicker").datepicker('setDate', new Date()).datepicker('hide');
    
   });
   
@@ -160,11 +162,11 @@ ${lang.getStringReportingNo()} </td>
 <tbody>
 <tr>
 	<td class="leftmost_label">${lang.getStringFlightDate()}:</td>
-	<td><input type="text" id="id_basic_flight_date_datepicker" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_flight_date_datepicker" class="form_input_text" value="${flight_info.getFlight_date() }" /></td>
 	<td width="100px;"  align="right">${lang.getStringFlightNo()}:</td>
-	<td><input type="text" onchange="update_rp_no();" id="id_basic_flight_no" class="form_input_text"/></td>
+	<td><input type="text" onchange="update_rp_no();" id="id_basic_flight_no" class="form_input_text" value="${flight_info.getFlight_no() }"/></td>
 	<td width="100px;" align="right">${lang.getStringAirline()}:</td>
-	<td><input type="text" id="id_basic_air_line" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_air_line" class="form_input_text" value="${flight_info.getAirline() }"/></td>
 </tr>
 
 </tbody>
@@ -173,11 +175,11 @@ ${lang.getStringReportingNo()} </td>
 <tbody>
 <tr>
 	<td class="leftmost_label">${lang.getStringRoute()}:</td>
-	<td><input type="text" id="id_basic_route_from" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_route_from" class="form_input_text" value="${flight_info.getRoute_from() }"/></td>
 	<td width="100px;" align="right">${lang.getStringTo()}</td>
-	<td><input type="text" id="id_basic_route_to" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_route_to" class="form_input_text" value="${flight_info.getRoute_to() }"/></td>
 	<td width="100px;" align="right">${lang.getStringDiverted()}:</td>
-	<td><input type="text" id="id_basic_route_diverted" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_route_diverted" class="form_input_text" value="${flight_info.getRoute_diverted() }"/></td>
 </tr>
 </tbody>
 </table>
@@ -188,8 +190,8 @@ ${lang.getStringReportingNo()} </td>
 	<td class="leftmost_label">${lang.getStringFlightType()}:</td>
 	<td><select id="id_basic_flight_type_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">SCHEDULED</option>
-				<option value="2">NON-SCHEDULED</option>
+				<option value="SCHEDULED" ${flight_info.getFlight_type() == "SCHEDULED" ? "selected=\"selected\"" : ""}>SCHEDULED</option>
+				<option value="NON-SCHEDULED" ${flight_info.getFlight_type() == "NON-SCHEDULED" ? "selected=\"selected\"" : ""}>NON-SCHEDULED</option>
 			</select></td>
 </tr>
 </tbody>
@@ -201,16 +203,16 @@ ${lang.getStringReportingNo()} </td>
 	<td class="leftmost_label">${lang.getStringDomesticInternational()}:</td>
 	<td><select id="id_basic_dom_or_int_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">INTERNATIONAL</option>
-				<option value="2">DOMESTIC</option>
+				<option value="INTERNATIONAL" ${flight_info.getDom_int_type() == "INTERNATIONAL" ? "selected=\"selected\"" : ""}>INTERNATIONAL</option>
+				<option value="DOMESTIC" ${flight_info.getDom_int_type() == "DOMESTIC" ? "selected=\"selected\"" : ""}>DOMESTIC</option>
 			</select></td>
 	<td style="width:100px;text-align:right;">${lang.getStringCargoOperation()}:</td>
 	<td><select id="id_basic_cargo_oper_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">PASSENGER/CARGO</option>
-				<option value="2">PASSENGER</option>
-				<option value="3">CARGO</option>
-				<option value="4">MAIL</option>
+				<option value="PASSENGER/CARGO" ${flight_info.getCargo_operation() == "PASSENGER/CARGO" ? "selected=\"selected\"" : ""}>PASSENGER/CARGO</option>
+				<option value="PASSENGER" ${flight_info.getCargo_operation() == "PASSENGER" ? "selected=\"selected\"" : ""}>PASSENGER</option>
+				<option value="CARGO" ${flight_info.getCargo_operation() == "CARGO" ? "selected=\"selected\"" : ""}>CARGO</option>
+				<option value="MAIL" ${flight_info.getCargo_operation() == "MAIL" ? "selected=\"selected\"" : ""}>MAIL</option>
 			</select></td>
 </tr>
 </tbody>
@@ -220,11 +222,11 @@ ${lang.getStringReportingNo()} </td>
 <tbody>
 <tr>
 	<td class="leftmost_label">${lang.getStringNoOfFlightCrew()}:</td>
-	<td><input type="text" id="id_basic_no_of_flight_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_no_of_flight_crew" class="form_input_text" value="${flight_info.getNo_crew() }"/></td>
 	<td style="width:100px;text-align:right;">${lang.getStringNoOfCabinCrew()}:</td>
-	<td><input type="text" id="id_basic_no_of_cabin_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_no_of_cabin_crew" class="form_input_text" value="${flight_info.getNo_cabin() }"/></td>
 	<td style="width:100px;text-align:right;">${lang.getStringNoOfPassengers()}:</td>
-	<td><input type="text" id="id_basic_no_of_passengers" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_no_of_passengers" class="form_input_text" value="${flight_info.getNo_passenger() }"/></td>
 </tr>
 </tbody>
 </table> 
@@ -280,44 +282,23 @@ ${lang.getStringReportingNo()} </td>
 	<td class="leftmost_label">${lang.getStringManufacturer()}:</td>
 	<td><select id="id_basic_manufacturer_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">BOEING</option>
-				<option value="2">AIRBUS</option>
+				<option value="BOEING" ${aircraft_info.getManufacturer() == "BOEING" ? "selected=\"selected\"" : ""}>BOEING</option>
+				<option value="AIRBUS" ${aircraft_info.getManufacturer() == "AIRBUS" ? "selected=\"selected\"" : ""}>AIRBUS</option>
 			</select></td>
 	<td style="width:135px;text-align:right;">${lang.getStringModel()}:</td>
 	<td><select id="id_basic_model_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">A300-600</option>
-				<option value="2">A320-200</option>
-				<option value="3">A321-100</option>
-				<option value="4">A321-200</option>
-				<option value="5">A330-200</option>
-				<option value="6">A330-300</option>
-				<option value="7">A380-800</option>
-				<option value="8">B737-400</option>
-				<option value="9">B737-500</option>
-				<option value="10">B737-600</option>
-				<option value="11">B737-700</option>
-				<option value="12">B737-800</option>
-				<option value="13">B737-900</option>
-				<option value="14">B737-900ER</option>
-				<option value="15">B747-400</option>
-				<option value="16">B767-300</option>
-				<option value="17">B777-200ER</option>
-				<option value="18">B777-300</option>
-				<option value="19">B777-300ER</option>
-				<option value="20">B747-400 Combi</option>
-				<option value="21">B747-400SF</option>
-				<option value="22">B747-400F</option>
-				<option value="23">B747-8F</option>
-				<option value="24">B767-300F</option>
-				<option value="25">B777F</option>
+		<c:forEach items="${acModelList}" var="acModel" varStatus="list_status">
+				<option value="${acModel}" ${aircraft_info.getModel() == acModel ? "selected=\"selected\"" : ""}>${acModel}</option>
+		</c:forEach>
+				
 			</select></td>
 </tr>
 <tr>
 	<td class="leftmost_label">${lang.getStringSerialNumber()}:</td>
-	<td><input type="text" id="id_basic_serial_number" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_serial_number" class="form_input_text" value="${aircraft_info.getSerial_no()}"/></td>
 	<td style="width:135px;text-align:right;">${lang.getStringRegistrationNumber()}:</td>
-	<td><input type="text" id="id_basic_registration_number" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_registration_number" class="form_input_text" value="${aircraft_info.getRegi_no()}"/></td>
 </tr>
 </tbody>
 </table> 
@@ -327,11 +308,11 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td>${lang.getStringNoOfSeats()}: </td>
 	<td class="leftmost_label">${lang.getStringFlightCrews()}:</td>
-	<td><input type="text" id="id_basic_flight_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_flight_crew" class="form_input_text" value="${aircraft_info.getNo_seat_crew()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringCabinCrews()}:</td>
-	<td><input type="text" id="id_basic_cabin_crew" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_cabin_crew" class="form_input_text" value="${aircraft_info.getNo_seat_cabin()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringPassengers()}:</td>
-	<td><input type="text" id="id_basic_passengers" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_passengers" class="form_input_text" value="${aircraft_info.getNo_seat_passenger()}"/></td>
 </tr>
 </tbody>
 </table> 
@@ -342,15 +323,15 @@ ${lang.getStringReportingNo()} </td>
 	<td class="leftmost_label">${lang.getStringLastInspectionType()}:</td>
 	<td><select id="id_basic_last_inspection_type_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">100HOUR</option>
-				<option value="2">AAIP</option>
-				<option value="3">ANNUAL</option>
-				<option value="4">CONTINUOUS AIRWORTHINESS</option>
-				<option value="5">CONDITIONAL INSPECTION</option>
-				<option value="6">UNKNOWN</option>
+				<option value="100HOUR" ${aircraft_info.getLast_inspection_type() == "100HOUR" ? "selected=\"selected\"" : ""}>100HOUR</option>
+				<option value="AAIP"	${aircraft_info.getLast_inspection_type() == "AAIP" ? "selected=\"selected\"" : ""}>AAIP</option>
+				<option value="ANNUAL"	${aircraft_info.getLast_inspection_type() == "ANNUAL" ? "selected=\"selected\"" : ""}>ANNUAL</option>
+				<option value="CONTINUOUS AIRWORTHINESS" ${aircraft_info.getLast_inspection_type() == "CONTINUOUS AIRWORTHINESS" ? "selected=\"selected\"" : ""}>CONTINUOUS AIRWORTHINESS</option>
+				<option value="CONDITIONAL INSPECTION" ${aircraft_info.getLast_inspection_type() == "CONDITIONAL INSPECTION" ? "selected=\"selected\"" : ""}>CONDITIONAL INSPECTION</option>
+				<option value="UNKNOWN" ${aircraft_info.getLast_inspection_type() == "UNKNOWN" ? "selected=\"selected\"" : ""}>UNKNOWN</option>
 			</select></td>
 	<td style="width:130px;text-align:right;">${lang.getStringDateLastInspection()}:</td>
-	<td><input type="text" id="id_basic_date_last_inspection_datepicker" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_date_last_inspection_datepicker" class="form_input_text" value="${aircraft_info.getLast_inspection_date()}"/></td>
 </tr>
 </tbody>
 </table> 	
@@ -364,23 +345,23 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label2">${lang.getStringFlightCrew()}</td>
 	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
-	<td><input type="text" id="id_basic_flight_crew_no_of_fatalities" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_flight_crew_no_of_fatalities" class="form_input_text" value="${report.getCrew_fatalities()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
-	<td><input type="text" id="id_basic_flight_crew_no_of_injuries" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_flight_crew_no_of_injuries" class="form_input_text" value="${report.getCrew_injuries()}"/></td>
 </tr>
 <tr>
 	<td class="leftmost_label2">${lang.getStringCabinCrew()}</td>
 	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
-	<td><input type="text" id="id_basic_cabin_crew_no_of_fatalities" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_cabin_crew_no_of_fatalities" class="form_input_text" value="${report.getCabin_fatalities()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
-	<td><input type="text" id="id_basic_cabin_crew_no_of_injuries" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_cabin_crew_no_of_injuries" class="form_input_text" value="${report.getCabin_injuries()}"/></td>
 </tr>
 <tr>
 	<td class="leftmost_label2">${lang.getStringPassenger()}</td>
 	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
-	<td><input type="text" id="id_basic_passengers_no_of_fatalities" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_passengers_no_of_fatalities" class="form_input_text" value="${report.getPassenger_fatalities()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
-	<td><input type="text" id="id_basic_passengers_no_of_injuries" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_passengers_no_of_injuries" class="form_input_text" value="${report.getPassenger_injuries()}"/></td>
 </tr>
 </tbody>
 </table> 
@@ -391,21 +372,21 @@ ${lang.getStringReportingNo()} </td>
 	<td class="leftmost_label">${lang.getStringAircraftDamages()}:</td>
 	<td><select id="id_basic_damage_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">NONE</option>
-				<option value="2">MINOR</option>
-				<option value="3">SUBSTANTIAL</option>
-				<option value="4">DESTROYED</option>
+				<option value="NONE" ${report.getAircraft_damage() == "NONE" ? "selected=\"selected\"" : ""}>NONE</option>
+				<option value="MINOR" ${report.getAircraft_damage() == "MINOR" ? "selected=\"selected\"" : ""}>MINOR</option>
+				<option value="SUBSTANTIAL" ${report.getAircraft_damage() == "SUBSTANTIAL" ? "selected=\"selected\"" : ""}>SUBSTANTIAL</option>
+				<option value="DESTROYED" ${report.getAircraft_damage() == "DESTROYED" ? "selected=\"selected\"" : ""}>DESTROYED</option>
 			</select></td>
 		
 	<td style="width:70px;text-align:right;">${lang.getStringDelay()}${lang.getStringTime()}:</td>
 	<td><select id="id_basic_delay_time_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>					
-				<option value="1">${lang.getStringNone()}</option>
-				<option value="2">${lang.getStringNoDelay()}</option>
-				<option value="3">${lang.getStringWithin30Min()}</option>
-				<option value="4">${lang.getStringMoreThan1Hour()}</option>
-				<option value="5">${lang.getStringFlightCancel()}</option>
-				<option value="6">${lang.getStringACChange()}</option>
+				<option value="NONE" ${report.getDelay_time() == "NONE" ? "selected=\"selected\"" : ""}>${lang.getStringNone()}</option>
+				<option value="NoDelay" ${report.getDelay_time() == "NoDelay" ? "selected=\"selected\"" : ""}>${lang.getStringNoDelay()}</option>
+				<option value="Within30Min" ${report.getDelay_time() == "Within30Min" ? "selected=\"selected\"" : ""}>${lang.getStringWithin30Min()}</option>
+				<option value="MoreThan1Hour" ${report.getDelay_time() == "MoreThan1Hour" ? "selected=\"selected\"" : ""}>${lang.getStringMoreThan1Hour()}</option>
+				<option value="FlightCancel" ${report.getDelay_time() == "FlightCancel" ? "selected=\"selected\"" : ""}>${lang.getStringFlightCancel()}</option>
+				<option value="ACChange" ${report.getDelay_time() == "ACChange" ? "selected=\"selected\"" : ""}>${lang.getStringACChange()}</option>
 			</select></td>
 </tr>
 </tbody>

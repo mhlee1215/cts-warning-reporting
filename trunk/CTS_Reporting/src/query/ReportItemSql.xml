@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ReportItemSql">
+
+	<resultMap id="ReportItem" class="ac.kaist.cts.domain.ReportItem">
+		<result column="ID" property="id" />
+		<result column="TYPE" property="type" />
+		<result column="TITLE" property="title" />
+		<result column="TIME" property="time" />
+		<result column="TIME_TYPE" property="time_type" />
+		<result column="NARRATIVE" property="narrative" />
+		<result column="RECOMMENDATION" property="recommendation" />
+		<result column="STATUS" property="status" />
+		<result column="PRIORITY" property="priority" />
+		<result column="REPORT_ID" property="report_id" />
+		<result column="REPORT_NO" property="report_no" />
+ 	</resultMap>
+ 	
+ 	
+ 	<select id="readReportItemList" resultMap="ReportItem">
+	SELECT ri.`id`, `report_no`, `type`, `title`, `time`, `time_type`, `narrative`, `recommendation`, `status`, `priority`, `report_id`
+ 	FROM report_item ri INNER JOIN report rp on ri.report_id = rp.id
+	WHERE
+	rp.`report_no` = #report_no#
+	order by ri.`id` asc
+ 	</select>
+ 	 	
+	<select id="readReportItem" resultMap="ReportItem">
+	SELECT ri.`id`, `report_no`, `type`, `title`, `time`, `time_type`, `narrative`, `recommendation`, `status`, `priority`, `report_id`
+ 	FROM report_item ri INNER JOIN report rp on ri.report_id = rp.id
+	WHERE
+	rp.`report_no` = #report_no#
+	and
+   	type = #type#
+	</select>
+
+	<insert id="createReportItem" parameterClass="ac.kaist.cts.domain.ReportItem">
+		 INSERT INTO `report_item` 
+		 (`type`, `title`, `time`, `time_type`, `narrative`, `recommendation`, `status`, `priority`, `report_id`) VALUES 
+		 (#type#, #title#, #time#, #time_type#, #narrative#, #recommendation#, #status#, #priority#, #report_id#);
+	</insert>
+	
+	
+	
+</sqlMap>
+
+

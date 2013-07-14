@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="FlightInfoSql">
+
+	<resultMap id="FlightInfoListItem" class="ac.kaist.cts.domain.FlightInfo">
+		<result column="ID" property="id" />
+		<result column="REPORT_NO" property="report_no" />
+		<result column="REPORT_STATE" property="report_state" />
+		<result column="AC_MODEL" property="ac_model" />
+		<result column="REPORTID" property="reportId" />
+		<result column="FLIGHT_DATE" property="flight_date" />
+		<result column="FLIGHT_NO" property="flight_no" />
+		<result column="AIRLINE" property="airline" />
+		<result column="ROUTE_FROM" property="route_from" />
+		<result column="ROUTE_TO" property="route_to" />
+		<result column="ROUTE_DIVERTED" property="route_diverted" />
+		<result column="FLIGHT_TYPE" property="flight_type" />
+		<result column="DOM_INT_TYPE" property="dom_int_type" />
+		<result column="CARGO_OPERATION" property="cargo_operation" />
+		<result column="NO_CREW" property="no_crew" />
+		<result column="NO_CABIN" property="no_cabin" />
+		<result column="NO_PASSENGER" property="no_passenger" />
+		<result column="AIRCRAFT_INFO_ID" property="aircraft_info_id" />
+ 	</resultMap>
+ 	
+ 	<resultMap id="FlightInfo" class="ac.kaist.cts.domain.FlightInfo">
+		<result column="ID" property="id" />
+		<result column="REPORTID" property="reportId" />
+		<result column="FLIGHT_DATE" property="flight_date" />
+		<result column="FLIGHT_NO" property="flight_no" />
+		<result column="AIRLINE" property="airline" />
+		<result column="ROUTE_FROM" property="route_from" />
+		<result column="ROUTE_TO" property="route_to" />
+		<result column="ROUTE_DIVERTED" property="route_diverted" />
+		<result column="FLIGHT_TYPE" property="flight_type" />
+		<result column="DOM_INT_TYPE" property="dom_int_type" />
+		<result column="CARGO_OPERATION" property="cargo_operation" />
+		<result column="NO_CREW" property="no_crew" />
+		<result column="NO_CABIN" property="no_cabin" />
+		<result column="NO_PASSENGER" property="no_passenger" />
+		<result column="AIRCRAFT_INFO_ID" property="aircraft_info_id" />
+ 	</resultMap>
+ 	
+ 	<select id="readFlightInfoList" resultMap="FlightInfoListItem">
+ 		SELECT fi.`id`, rp.`report_no`, rp.`state` as `report_state`, ai.`model` as `ac_model`, `reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `aircraft_info_id`
+ 		FROM flight_info fi INNER JOIN report rp on fi.id = rp.flight_info_id INNER JOIN aircraft_info ai on ai.id = fi.aircraft_info_id;
+ 	</select>
+ 	 	
+	<select id="readFlightInfo" resultMap="FlightInfo">
+       SELECT `id`, `reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `aircraft_info_id`
+ 	   FROM flight_info
+       WHERE 
+       <isNotEmpty property="flight_no">
+       		flight_no = #flight_no#
+       </isNotEmpty>
+       <isEmpty property="flight_no">
+       		id = #id#
+       </isEmpty>
+       
+	</select>
+
+	<insert id="createFlightInfo" parameterClass="ac.kaist.cts.domain.FlightInfo">
+		 INSERT INTO `flight_info` 
+		 (`reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `aircraft_info_id`) VALUES 
+		 (#reportId#, #flight_date#, #flight_no#, #airline#, #route_from#, #route_to#, #route_diverted#, #flight_type#, #dom_int_type#, #cargo_operation#, #no_crew#, #no_cabin#, #no_passenger#, #aircraft_info_id#);
+	</insert>
+	
+	
+	
+</sqlMap>
+
+

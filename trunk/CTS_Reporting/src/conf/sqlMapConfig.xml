@@ -29,6 +29,11 @@
         </dataSource>
     </transactionManager>
   
+  <sqlMap resource="query/AircraftInfoSql.xml"/>
+  <sqlMap resource="query/FlightInfoSql.xml"/>
+  <sqlMap resource="query/UserInfoSql.xml"/>
+  <sqlMap resource="query/ReportSql.xml"/>
+  <sqlMap resource="query/ReportItemSql.xml"/>
   <sqlMap resource="query/UserSql.xml"/>
   <sqlMap resource="query/HazardItemListSql.xml"/>
   <sqlMap resource="query/HazardItemSql.xml"/>

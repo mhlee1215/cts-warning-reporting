@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ac.kaist.cts.dao.ReportDao;
+import ac.kaist.cts.domain.AircraftInfo;
+import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Report;
+import ac.kaist.cts.domain.ReportItem;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -19,7 +22,7 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Override
 	public int createReport(Report report) {
-		// TODO Auto-generated method stub
+		reportDao.createReport(report);
 		return 0;
 	}
 
@@ -38,19 +41,24 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public Report readReport(Report report) {
 		// TODO Auto-generated method stub
-		return null;
+		return reportDao.readReport(report);
 	}
 
 	@Override
 	public int editReport(Report report) {
-		// TODO Auto-generated method stub
+		reportDao.updateReport(report);
 		return 0;
 	}
 
 	@Override
 	public int deleteReport(Report report) {
-		// TODO Auto-generated method stub
+		reportDao.deleteReport(report);
 		return 0;
+	}
+	
+	@Override
+	public void updateReport(Report report) {
+		reportDao.updateReport(report);
 	}
 
 	@Override
@@ -145,5 +153,95 @@ public class ReportServiceImpl implements ReportService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void createAircraftInformation(
+			AircraftInfo aircraftInformation) {
+		reportDao.createAircraftInformation(aircraftInformation);
+	}
+
+	@Override
+	public void updateAircraftInformation(
+			AircraftInfo aircraftInformation) {
+		// TODO Auto-generated method stub
+		reportDao.updateAircraftInformation(aircraftInformation);
+	}
+
+	@Override
+	public void deleteAircraftInformation(
+			AircraftInfo aircraftInformation) {
+		reportDao.deleteAircraftInformation(aircraftInformation);
+	}
+
+	@Override
+	public List<AircraftInfo> readAircraftInformationList() {
+		return reportDao.readAircraftInformationList();
+	}
+
+	@Override
+	public AircraftInfo readAIrcraftInformation(AircraftInfo aircraftInformation) {
+		return reportDao.readAIrcraftInformation(aircraftInformation);
+	}
+
+	@Override
+	public FlightInfo readFlightInfo(FlightInfo userInfo) {
+		// TODO Auto-generated method stub
+		return reportDao.readFlightInfo(userInfo);
+	}
+
+	@Override
+	public void createFlightInfo(FlightInfo userInfo) {
+		// TODO Auto-generated method stub
+		reportDao.createFlightInfo(userInfo);
+	}
+
+	@Override
+	public void deleteFlightInfo(FlightInfo userInfo) {
+		// TODO Auto-generated method stub
+		reportDao.deleteFlightInfo(userInfo);
+	}
+
+	@Override
+	public void updateFlightInfo(FlightInfo userInfo) {
+		// TODO Auto-generated method stub
+		reportDao.updateFlightInfo(userInfo);
+	}
+
+	@Override
+	public List<FlightInfo> readFLightInfoList() {
+		// TODO Auto-generated method stub
+		return reportDao.readFLightInfoList();
+	}
+
+	@Override
+	public ReportItem readReportItem(ReportItem reportItem) {
+		// TODO Auto-generated method stub
+		return reportDao.readReportItem(reportItem);
+	}
+
+	@Override
+	public void createReportItem(ReportItem reportItem) {
+		// TODO Auto-generated method stub
+		reportDao.createReportItem(reportItem);
+	}
+
+	@Override
+	public void deleteReportItem(ReportItem reportItem) {
+		// TODO Auto-generated method stub
+		reportDao.deleteReportItem(reportItem);
+	}
+
+	@Override
+	public void updateReportItem(ReportItem reportItem) {
+		// TODO Auto-generated method stub
+		reportDao.updateReportItem(reportItem);
+	}
+
+	@Override
+	public List<ReportItem> readReportItemList(ReportItem reportItem) {
+		return reportDao.readReportItemList(reportItem);
+	}
+
+
 
 }

@@ -32,19 +32,6 @@ public class SMSAnalysisMain {
 
 	public static void main(String[] args) throws BiffException, IOException, ParseException {
 
-		/*LocalDate dateStart = new LocalDate("2012.1.15".replace(".", "-"));
-		LocalDate dateEnd = new LocalDate("2015.02.23".replace(".", "-"));
-		// day by day:
-		Map<String, Integer> dataCnt = SMSAnalysisDateUtil.getDateArray(dateStart, dateEnd, SMSAnalysisDateUtil.dateTypeMonth);
-		
-		for (int i = 0 ; i < dataCnt.keySet().size() ; i++){
-		//for (LocalDate date : dataCnt.keySet()){
-			System.out.println(dataCnt.keySet().toArray()[i]);//dateStart+", "+dataCnt.get(date));
-		}
-		
-		
-		
-		if(1==1) return;*/
 		//Read workbook in xls format using jxl external library
 		Workbook workbook = Workbook.getWorkbook(new File("E:/ext_work/ReportingSystem/workspace/CTS_Reporting/src/ac/kaist/sms/model/data_field_new.xls"));
 		
