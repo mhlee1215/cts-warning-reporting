@@ -33,7 +33,7 @@ $(document).ready(function() {
     <input id="addFile" type="button" value="Add File" />
     <table id="fileTable">
         <tr>
-            <td><input name="files" type="file" /></td>
+            <td><input name="files[0]" type="file" /></td>
         </tr>
         
     </table>

@@ -1,28 +1,19 @@
 package ac.kaist.cts.web;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpServletResponse;
 
-import language.LanguagePack;
-import language.LanguageServiceImpl;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -30,22 +21,28 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import ac.kaist.cts.domain.FileUploadForm;
-import jxl.*; 
-import jxl.read.biff.BiffException;
 
 @Controller
 public class FileUploadController extends HttpServlet{
 	
+	
+	@RequestMapping(value = "/testFileWrite.do", method = RequestMethod.GET)
+    public String testFileWrite(HttpServletRequest request) {
+		System.out.println("Hi! testFileWrite.do");
+		String realPath = request.getSession().getServletContext().getRealPath("/report/");
+		File a = new File(realPath+"/testFolder");
+		System.out.println("success ? :"+a.mkdir());
+		
+        return "file_upload_form";
+    }
 	
 	@RequestMapping(value = "/show.do", method = RequestMethod.GET)
     public String displayForm() {
@@ -57,16 +54,19 @@ public class FileUploadController extends HttpServlet{
     public String save(
     		
             @ModelAttribute("uploadForm") FileUploadForm uploadForm,
-                    Model map) throws IOException, BiffException {
+                    Model map, HttpServletRequest request) throws IOException, BiffException {
     	System.out.println("Hi! save.do");
         List<MultipartFile> files = uploadForm.getFiles();
  
         List<String> fileNames = new ArrayList<String>();
-         System.out.println("size:"+fileNames.size());
+        System.out.println("size:"+files.size());
+        String realPath = request.getSession().getServletContext().getRealPath("/report/attachedFiles");
+		System.out.println(realPath);
         if(null != files && files.size() > 0) {
             for (MultipartFile multipartFile : files) {
  
                 String fileName = multipartFile.getOriginalFilename();
+                System.out.println("File name : "+fileName);
                 fileNames.add(fileName);
                 
                 InputStream is = multipartFile.getInputStream();
@@ -74,12 +74,12 @@ public class FileUploadController extends HttpServlet{
                 Workbook workbook = Workbook.getWorkbook(is);
         		System.out.println("sheet number : " + workbook.getSheets().length);
         		
-        		for(int i = 0 ; i < workbook.getSheets().length ; i++){
-        			System.out.println("sheet name["+i+"] : "+workbook.getSheets()[i].getName());
-        			Sheet sheet = workbook.getSheets()[i];
-        			System.out.println("content 0,0 "+sheet.getCell(0, 0).getContents());
-        		
-        		}
+//        		for(int i = 0 ; i < workbook.getSheets().length ; i++){
+//        			System.out.println("sheet name["+i+"] : "+workbook.getSheets()[i].getName());
+//        			Sheet sheet = workbook.getSheets()[i];
+//        			System.out.println("content 0,0 "+sheet.getCell(0, 0).getContents());
+//        		
+//        		}
         		
 //                Reader      reader      = new InputStreamReader(is);
 //
