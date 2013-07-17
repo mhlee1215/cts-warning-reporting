@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="AttachedItemSql">
+	
+	<resultMap id="AttachedItem" class="ac.kaist.cts.domain.AttachedItem">
+		<result column="ID" property="id" />
+		<result column="filename" property="filename" />
+		<result column="filesize" property="filesize" />
+		<result column="filetype" property="filetype" />
+		<result column="modifieddate" property="modifieddate" />
+		<result column="filepath" property="filepath" />
+		<result column="state" property="state" />
+		<result column="report_item_id" property="report_item_id" />
+ 	</resultMap>
+ 	
+ 	
+ 	<select id="readAttachedItemList" resultMap="AttachedItem">
+	SELECT `id`, `filename`, `filesize`, `filetype`, `modifieddate`, `filepath`, `state`, `report_item_id`
+ 	FROM attached_item
+	WHERE
+	`report_item_id` = #report_item_id#
+	order by id asc
+ 	</select>
+ 	 	
+	<select id="readAttachedItem" resultMap="AttachedItem">
+	SELECT `id`, `filename`, `filesize`, `filetype`, `modifieddate`, `filepath`, `state`, `report_item_id`
+ 	FROM attached_item
+	WHERE
+	`id` = #id#
+	</select>
+	
+	<delete id="deleteAttachedItem" parameterClass="ac.kaist.cts.domain.AttachedItem">
+	delete
+ 	FROM attached_item
+	WHERE
+	`id` = #id#
+	</delete>
+
+	<insert id="createAttachedItem" parameterClass="ac.kaist.cts.domain.AttachedItem">
+		 INSERT INTO `attached_item` 
+		 (`filename`, `filesize`, `filetype`, `modifieddate`, `filepath`, `state`, `report_item_id`) VALUES 
+		 (#filename#, #filesize#, #filetype#, #modifieddate#, #filepath#, #state#, #report_item_id#);
+	</insert>
+	
+	
+	
+</sqlMap>
+
+
