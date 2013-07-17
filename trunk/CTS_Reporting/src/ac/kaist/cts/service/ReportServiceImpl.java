@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ac.kaist.cts.dao.ReportDao;
 import ac.kaist.cts.domain.AircraftInfo;
+import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
@@ -242,6 +243,32 @@ public class ReportServiceImpl implements ReportService {
 		return reportDao.readReportItemList(reportItem);
 	}
 
+	@Override
+	public AttachedItem readAttachedItem(AttachedItem attachedItem) {
+		// TODO Auto-generated method stub
+		return reportDao.readAttachedItem(attachedItem);
+	}
 
+	@Override
+	public void createAttachedItem(AttachedItem attachedItem) {
+		// TODO Auto-generated method stub
+		reportDao.createAttachedItem(attachedItem);
+	}
 
+	@Override
+	public void deleteAttachedItem(AttachedItem attachedItem) {
+		// TODO Auto-generated method stub
+		reportDao.deleteAttachedItem(attachedItem);
+	}
+
+	@Override
+	public void updateAttachedItem(AttachedItem attachedItem) {
+		// TODO Auto-generated method stub
+		reportDao.updateAttachedItem(attachedItem);
+	}
+
+	@Override
+	public List<AttachedItem> readAttachedItemList(AttachedItem attachedItem) {
+		return reportDao.readAttachedItemList(attachedItem);
+	}
 }

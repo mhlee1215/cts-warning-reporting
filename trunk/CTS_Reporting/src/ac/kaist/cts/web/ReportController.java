@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ac.kaist.cts.domain.AircraftInfo;
+import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
@@ -133,6 +134,7 @@ private Logger logger = Logger.getLogger(getClass());
 		
 		ModelAndView model = new ModelAndView("report/reportItem_taxi-out");
 		model.addObject("report_no", report_no);
+		model.addObject("report_item_type", ReportItem.TYPE_TAXI_OUT);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("reportItem", reportItem);
 		model.addObject("lang", lang);
@@ -827,6 +829,28 @@ private Logger logger = Logger.getLogger(getClass());
 		return model;
 	}
 
+	@RequestMapping("/fileUploadForm.do")
+    public ModelAndView fileUploadForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
+		String language = (String)request.getSession().getAttribute("lang");
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setType(report_item_type);
+		ReportItem rri = reportService.readReportItem(ri);
+		AttachedItem ai = new AttachedItem();
+		ai.setReport_item_id(rri.getId());
+		List<AttachedItem> itemList = reportService.readAttachedItemList(ai);
+		
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		ModelAndView model = new ModelAndView("report/file_upload_form");
+		model.addObject("lang", lang);
+		model.addObject("report_no", report_no);
+		model.addObject("report_item_type", report_item_type);
+		model.addObject("attachedItemList", itemList);
+		return model;
+	}
 	
 	
 }
