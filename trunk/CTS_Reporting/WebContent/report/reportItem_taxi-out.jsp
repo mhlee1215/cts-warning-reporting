@@ -13,6 +13,10 @@
   <script src="${pageContext.request.contextPath}/js/jquery.example.min.js" type="text/javascript"></script>
   <script src="${pageContext.request.contextPath}/js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/ckeditor/ckeditor_4.1.2_standard/ckeditor.js"></script>
+  
+  <script src="${pageContext.request.contextPath}/js/fileupload/jquery.fileupload.js"></script>
+  <script src="${pageContext.request.contextPath}/js/fileupload/jquery.fileupload-fp.js"></script>
+  <script src="${pageContext.request.contextPath}/js/fileupload/jquery.fileupload-ui.js"></script>
   <style>
     
   .l1_fieldset { border:2px solid rgb(40, 40, 40) }
@@ -34,6 +38,17 @@
   }
   
   .example{color:#666;}
+  
+  .attachedTable {
+	max-width: 100%;
+	background-color: transparent;
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	color: #333333;
+  }
   </style>
 </head>
 <script>
@@ -49,112 +64,17 @@
    $("#id_report_taxi_out_hazard_time").timepicker();
   
    
-   texi_out_load_hazard_item();
+   //texi_out_load_hazard_item();
    
    CKEDITOR.replace( 'report_taxi_out_narrative_ckeditor' );
    CKEDITOR.replace( 'report_taxi_out_recommendation_ckeditor' );
+   
+   //$("#taxi_out_attached_file_table").load('${pageContext.request.contextPath}/report/file_upload_form2.jsp');
   });
   
  
+ 
   
-  function texi_out_dateFormatter( cellvalue, options, rowObject )
-  {
-  	if(cellvalue != undefined && cellvalue != ''){
-  		var year = cellvalue.substring(0, 4);
-  		var month = cellvalue.substring(4, 6);
-  		var date = cellvalue.substring(6, 8);
-  		var hour = cellvalue.substring(8, 10);
-  		var min = cellvalue.substring(10, 12);
-  		var sec = cellvalue.substring(12, 14);
-  		return year+'-'+month+'-'+date+' '+hour+':'+min+':'+sec;
-  	}
-  	return '-';
-  }
-  
-  function texi_out_fnFormatter( cellvalue, options, rowObject )
-  {
-	var return_str = '<a id="id_taxi_out_seq_'+cellvalue+'_delete_hazard" href="#">${lang.getStringDelete()}</a>';
-	return_str += '<script>';
-	return_str += '$("#id_taxi_out_seq_'+cellvalue+'_delete_hazard").button({icons: {secondary: "ui-icon-trash" } }).click(function( event ) {'
-	return_str += '    	event.preventDefault();';
-	return_str += '});';
-	return_str += '</scr'+'ipt>';
-  	return return_str;
-  }
-  
-  
-  
-  function texi_out_load_hazard_item(){
-	  var gridimgpath = '${pageContext.request.contextPath}/jqueryui-1.10.2/themes/base/images';
-	  jQuery("#id_taxi_out_attached_file_list_table").jqGrid({
-	  	url:'${pageContext.request.contextPath}/attachedFileListFN.do', 
-	  	height: 120,
-	  	width:720,
-	  	//autowidth:true,
-	  	datatype: "xml", 
-	     	colNames:['${lang.getStringFileName()}','${lang.getStringSize()}', '${lang.getStringModified()}', ''],
-	     	colModel:[
-	     	 			{name:'file_name'		,index:'file_name'			,width:90	,align:"center"},
-	     	    		{name:'file_size'		,index:'file_size'			,width:90	,align:"center"},
-	     	    		{name:'modified_date'	,index:'modified_date'		,width:90	,align:"center"},
-	     	    		{name:'fn'				,index:'fn'					,width:70	,align:"center", formatter:texi_out_fnFormatter	}		
-	     	    	],
-	     	shrinkToFit:true,
-	     	//altRows:true,
-	     	hoverrows:false,
-	     	rownumbers: true, 
-	     	rowNum:10, 
-	     	loadtext:'&nbsp;Loading hazard items..',
-	     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
-	     	rowList:[10,20,30], 
-	     	//pager: jQuery('#pager1'), 
-	     	pagerpos:'center',
-	     	sortname: 'id', 
-	     	sortorder: 'desc',
-	     	imgpath: gridimgpath,
-	     	//multiselect: true,
-	     	viewrecords: true, 
-	     	emptyrecords:'no task data',
-	     	//caption: "Task List",
-	     	toolbar: [false,"top"],
-	     	loadError : function(xhr,st,err) { 
-	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
-	  	},
-	  	loadComplete: function(){ 
-	  	    
-	  		
-	  			//jQuery("#id_taxi_out_attached_file_list_table").setRowData(ids[i],{detail:detailHtml});				
-	  			//$("#detail_button_"+recordArry['id']).click(function() {fncDetailTask(recordArry['id']);});
-	 			//$("#step4_next_button_"+recordArry['id']).click(function() {fncShowCoord(recordArry['id']);});
-	  			//$("#step4_stop_button_"+recordArry['id']).click(function() {stopTask(recordArry['id']); });
-	  			
-	  		
-	  	}  
-	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
-	  
-	  /*jQuery("#id_taxi_out_attached_file_list_table").jqGrid({
-		   	url:'${pageContext.request.contextPath}/getHazardItems.do', 
-			datatype: "xml",
-		   	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
-		   	colModel:[
-		   		{name:'id',index:'id', width:75},
-		   		{name:'invdate',index:'invdate', width:90},
-		   		{name:'name',index:'name', width:100},
-		   		{name:'amount',index:'amount', width:80, align:"right"},
-		   		{name:'tax',index:'tax', width:80, align:"right"},		
-		   		{name:'total',index:'total', width:80,align:"right"},		
-		   		{name:'note',index:'note', width:150, sortable:false}		
-		   	],
-		   	rowNum:10,
-		   	autowidth: true,
-		   	rowList:[10,20,30],
-		   	pager: jQuery('#pager1'),
-		   	sortname: 'id',
-		    viewrecords: true,
-		    sortorder: "desc",
-		    caption:"XML Example"
-		}).navGrid('#pager1',{edit:false,add:false,del:false});		*/
-  }
   
 
   </script>
@@ -208,10 +128,12 @@
 			<td colspan="2">
 			<fieldset class="l2_fieldset">
 				<legend class="l2_fieldset_legend">${lang.getStringAttachment()}</legend>
-				<div style="width:100%;" align="right"><a id="id_report_taxi_out_attach_file_btn" href="#">${lang.getStringAttachFiles()}</a></div>
-				<div style="height:6px;"></div>
-				<table id="id_taxi_out_attached_file_list_table" class="scroll" cellpadding="0" cellspacing="0"></table>
-				<div id="id_taxi_out_attached_file_list_pager" class="scroll"></div>
+					
+				<iframe id="taxi_out_attached_file_table" src="${pageContext.request.contextPath}/fileUploadForm.do?report_no=${report_no}&report_item_type=${report_item_type}" width="100%" style="height:200px;padding:0px;border:0px;" >
+
+				
+				</iframe>
+				
 			</fieldset>
 			</td>
 		</tr>

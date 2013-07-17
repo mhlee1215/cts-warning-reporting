@@ -8,6 +8,7 @@
     pageEncoding="UTF-8" import="java.sql.*" %>
 <%@page import="org.springframework.web.bind.ServletRequestUtils"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -45,7 +46,7 @@
             </blockquote>
             <br>
             <!-- The file upload form used as target for the file upload widget -->
-            <form id="fileupload" action="${pageContext.request.contextPath}/save1.do" method="POST" enctype="multipart/form-data">
+            <form:form id="fileupload" action="${pageContext.request.contextPath}/save1.do" method="POST" modelAttribute="uploadForm" enctype="multipart/form-data">
                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                 <div class="row fileupload-buttonbar">
                     <div class="span7">
@@ -84,7 +85,7 @@
                 <br>
                 <!-- The table listing the files available for upload/download -->
                 <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-            </form>
+            </form:form>
             <br>
             
         </div>
