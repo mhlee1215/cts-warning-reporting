@@ -242,6 +242,23 @@
   </div>
 
   <script>
+  
+  	var urlSet = new Array(9);
+  	urlSet[0] = "${pageContext.request.contextPath}/reportBasic.do?report_no=${report_no}";
+  	urlSet[1] = "${pageContext.request.contextPath}/reportTaxiOut.do?report_no=${report_no}";
+  	urlSet[2] = "${pageContext.request.contextPath}/reportTakeOff.do?report_no=${report_no}";
+  	urlSet[3] = "${pageContext.request.contextPath}/reportClimb.do?report_no=${report_no}";
+  	urlSet[4] = "${pageContext.request.contextPath}/report_en_route.do?report_no=${report_no}";
+  	urlSet[5] = "${pageContext.request.contextPath}/reportDecent.do?report_no=${report_no}";
+  	urlSet[6] = "${pageContext.request.contextPath}/reportApproach.do?report_no=${report_no}";
+  	urlSet[7] = "${pageContext.request.contextPath}/reportLanding.do?report_no=${report_no}";
+  	urlSet[8] = "${pageContext.request.contextPath}/reportTaxiIn.do?report_no=${report_no}";
+  
+    var haveActivated = new Array(9);
+    
+    for(var i = 0 ; i < 9 ; i++)
+    	haveActivated[i] = false;
+    
     function resetTabs(){
         $("#content > div").hide(); //Hide all content
         $("#tabs a").attr("class",""); //Reset id's      
@@ -254,13 +271,23 @@
     (function(){
 
         $("#content > div").hide(); // Initially hide all content
+        
+        haveActivated[0] = true;
         $("#tabs li:first a").attr("class","current"); // Activate first tab
+        
         $("#content > div:first").fadeIn(); // Show first tab content
         
         $("#tabs a").on("click",function(e) {
             e.preventDefault();
 
             currentTab = eval($(this).attr("id").substring(6, 7));
+            if(!haveActivated[currentTab-1])
+            {
+            	//alert('first!');
+            	haveActivated[currentTab-1] = true;
+            	$('#tab'+currentTab).load(urlSet[currentTab-1]);
+            }
+            
             
             if($(this).attr("id") == 'id_tab1'){
             	$("#id_main_previous_btn").hide();
@@ -317,6 +344,13 @@
     		changeTab(currentTab);
     }
     function changeTab(num){
+    	if(!haveActivated[currentTab-1])
+        {
+        	//alert('first!');
+        	haveActivated[num-1] = true;
+        	$('#tab'+currentTab).load(urlSet[currentTab-1]);
+        }
+    	
     	resetTabs();
     	$("#id_tab"+num).attr("class","current"); // Activate this
     	$($("#id_tab"+num).attr('name')).fadeIn(); // Show content for current tab
