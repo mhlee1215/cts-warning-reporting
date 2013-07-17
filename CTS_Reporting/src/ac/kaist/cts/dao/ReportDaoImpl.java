@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import ac.kaist.cts.domain.AircraftInfo;
+import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
@@ -383,6 +384,37 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 	@Override
 	public List<ReportItem> readReportItemList(ReportItem reportItem) {
 		List<ReportItem> array = getSqlMapClientTemplate().queryForList("ReportItemSql.readReportItemList", reportItem);
+		return array;
+	}
+
+	@Override
+	public AttachedItem readAttachedItem(AttachedItem attachedItem) {
+		AttachedItem result = (AttachedItem)getSqlMapClientTemplate().queryForObject("AttachedItemSql.readAttachedItem", attachedItem);
+		return result;
+	}
+
+
+	@Override
+	public void createAttachedItem(AttachedItem attachedItem) {
+		getSqlMapClientTemplate().insert("AttachedItemSql.createAttachedItem", attachedItem);
+	}
+
+
+	@Override
+	public void deleteAttachedItem(AttachedItem attachedItem) {
+		getSqlMapClientTemplate().delete("AttachedItemSql.deleteAttachedItem", attachedItem);
+		
+	}
+
+
+	@Override
+	public void updateAttachedItem(AttachedItem attachedItem) {
+		getSqlMapClientTemplate().update("AttachedItemSql.updateAttachedItem", attachedItem);
+	}
+
+	@Override
+	public List<AttachedItem> readAttachedItemList(AttachedItem attachedItem) {
+		List<AttachedItem> array = getSqlMapClientTemplate().queryForList("AttachedItemSql.readAttachedItemList", attachedItem);
 		return array;
 	}
 

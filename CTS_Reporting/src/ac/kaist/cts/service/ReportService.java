@@ -3,6 +3,7 @@ package ac.kaist.cts.service;
 import java.util.List;
 
 import ac.kaist.cts.domain.AircraftInfo;
+import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
@@ -58,5 +59,11 @@ public interface ReportService {
 	public void createReportItem(ReportItem reportItem);
 	public void deleteReportItem(ReportItem reportItem);
 	public void updateReportItem(ReportItem reportItem);
+	
+	public List<AttachedItem> readAttachedItemList(AttachedItem attachedItem);
+	public AttachedItem readAttachedItem(AttachedItem attachedItem);
+	public void createAttachedItem(AttachedItem attachedItem);
+	public void deleteAttachedItem(AttachedItem attachedItem);
+	public void updateAttachedItem(AttachedItem attachedItem);
 	
 }
