@@ -1,17 +1,16 @@
 package ac.kaist.cts.service;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import ac.kaist.cts.dao.UserDao;
 import ac.kaist.cts.domain.User;
+import ac.kaist.cts.domain.UserHasReport;
 import ac.kaist.cts.domain.UserInfo;
 import ac.kaist.cts.utils.Crypto;
 
@@ -171,5 +170,29 @@ public class UserServiceImpl implements UserService {
 	public void updateUserInfo(UserInfo userInfo) {
 		// TODO Auto-generated method stub
 		userDao.updateUserInfo(userInfo);
+	}
+	
+	@Override
+	public UserHasReport readUserHasReport(UserHasReport userHasReport) {
+		// TODO Auto-generated method stub
+		return userDao.readUserHasReport(userHasReport);
+	}
+
+	@Override
+	public void createUserHasReport(UserHasReport userHasReport) {
+		// TODO Auto-generated method stub
+		userDao.createUserHasReport(userHasReport);
+	}
+
+	@Override
+	public void deleteUserHasReport(UserHasReport userHasReport) {
+		// TODO Auto-generated method stub
+		userDao.deleteUserHasReport(userHasReport);
+	}
+
+	@Override
+	public void updateUserHasReport(UserHasReport userHasReport) {
+		// TODO Auto-generated method stub
+		userDao.updateUserHasReport(userHasReport);
 	}
 }

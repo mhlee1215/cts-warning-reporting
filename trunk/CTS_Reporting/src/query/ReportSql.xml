@@ -39,6 +39,41 @@
 		 (#report_date#, #state#, #report_no#, #crew_fatalities#, #crew_injuries#, #cabin_fatalities#, #cabin_injuries#, #passenger_fatalities#, #passenger_injuries#, #aircraft_damage#, #delay_time#, #flight_info_id#)
 	</insert>
 	
+	<update id="updateReport" parameterClass="ac.kaist.cts.domain.Report">
+       UPDATE `report` 
+       SET 
+       `report_no` = #report_no#
+       <isNotEmpty property="report_date">
+       , `report_date`= #report_date#
+       </isNotEmpty>
+       <isNotEmpty property="state">
+       , `state`= #state#
+       </isNotEmpty>
+       <isNotEmpty property="crew_fatalities">
+       , `crew_fatalities`= #crew_fatalities#
+       </isNotEmpty>
+       <isNotEmpty property="crew_injuries">
+       , `crew_injuries`= #crew_injuries#
+       </isNotEmpty>
+       <isNotEmpty property="cabin_fatalities">
+       , `cabin_fatalities`= #cabin_fatalities#
+       </isNotEmpty>
+       <isNotEmpty property="cabin_injuries">
+       , `cabin_injuries`= #cabin_injuries#
+       </isNotEmpty>
+       <isNotEmpty property="passenger_fatalities">
+       , `passenger_fatalities`= #passenger_fatalities#
+       </isNotEmpty>
+       <isNotEmpty property="aircraft_damage">
+       , `aircraft_damage`= #aircraft_damage#
+       </isNotEmpty>
+       <isNotEmpty property="delay_time">
+       , `delay_time`= #delay_time#
+       </isNotEmpty>
+       
+       WHERE report_no = #report_no#
+       
+	</update>
 	
 	
 </sqlMap>

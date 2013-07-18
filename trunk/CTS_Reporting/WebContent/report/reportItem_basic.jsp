@@ -65,6 +65,8 @@
     .button()
     .click(function( event ) {
      event.preventDefault();
+   
+   
     });
     $("#id_basic_next_btn")
     .button()
@@ -128,6 +130,10 @@
 </head>
 <body>
 
+<form id="report_item_basic_form" >
+
+
+
 <fieldset class="l1_fieldset">
 <legend class="l1_fieldset_legend">${lang.getStringBasicInformation()}</legend>
 <table width="100%">
@@ -139,11 +145,11 @@
 <tr>
 <td class="leftmost_label">
 ${lang.getStringReportingDate()}: </td>
-<td><input type="text" id="id_basic_report_date_datepicker" class="form_input_text"/>
+<td><input type="text" id="id_basic_report_date_datepicker" name="reportingDate" class="form_input_text"/>
 </td>
 <td width="100px;" align="right">
 ${lang.getStringReportingNo()} </td>
-<td><input readonly="readonly" type="text" id="id_basic_report_No" class="form_input_text"/>
+<td><input readonly="readonly" type="text" id="id_basic_report_No" name="reportingNo" class="form_input_text"/>
 </td>
 </tr>
 </tbody>
@@ -162,9 +168,9 @@ ${lang.getStringReportingNo()} </td>
 <tbody>
 <tr>
 	<td class="leftmost_label">${lang.getStringFlightDate()}:</td>
-	<td><input type="text" id="id_basic_flight_date_datepicker" class="form_input_text" value="${flight_info.getFlight_date() }" /></td>
+	<td><input type="text" id="id_basic_flight_date_datepicker" name="flight_date" class="form_input_text" value="${flight_info.getFlight_date() }" /></td>
 	<td width="100px;"  align="right">${lang.getStringFlightNo()}:</td>
-	<td><input type="text" onchange="update_rp_no();" id="id_basic_flight_no" class="form_input_text" value="${flight_info.getFlight_no() }"/></td>
+	<td><input type="text" onchange="update_rp_no();" id="id_basic_flight_no" name="flight_no" class="form_input_text" value="${flight_info.getFlight_no() }"/></td>
 	<td width="100px;" align="right">${lang.getStringAirline()}:</td>
 	<td><input type="text" id="id_basic_air_line" class="form_input_text" value="${flight_info.getAirline() }"/></td>
 </tr>
@@ -238,11 +244,11 @@ ${lang.getStringReportingNo()} </td>
 <tbody>
 <tr>
 	<td class="leftmost_label">${lang.getStringIDNo()}:</td>
-	<td><input type="text" id="id_basic_id_basic_number" class="form_input_text" /></td>
+	<td><input type="text" id="id_basic_id_basic_number" class="form_input_text" value="${user_info.id_no}"/></td>
 	<td style="width:100px;text-align:right;">${lang.getStringName()}:</td>
-	<td><input type="text" id="id_basic_name" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_name" class="form_input_text" value="${user_info.name}"/></td>
 	<td style="width:100px;text-align:right;">${lang.getStringDateOfBirth()}:</td>
-	<td><input type="text" id="id_basic_date_of_birth_datapicker" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_date_of_birth_datapicker" class="form_input_text" value="${user_info.date_of_birth}"/></td>
 </tr>
 </tbody>
 </table> 
@@ -252,14 +258,14 @@ ${lang.getStringReportingNo()} </td>
 	<td class="leftmost_label_wide">${lang.getStringMedicalCertification()}:</td>
 	<td><select id="id_basic_medical_certification_selector" name="method" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
-				<option value="1">NONE</option>
-				<option value="2">CLASS1</option>
-				<option value="3">CLASS2</option>
-				<option value="4">CLASS3</option>
-				<option value="5">UNKNOWN</option>
+				<option value="NONE" ${user_info.medical_certification == "NONE" ? "selected=\"selected\"" : ""}>NONE</option>
+				<option value="CLASS1" ${user_info.medical_certification == "CLASS1" ? "selected=\"selected\"" : ""}>CLASS1</option>
+				<option value="CLASS2" ${user_info.medical_certification == "CLASS2" ? "selected=\"selected\"" : ""}>CLASS2</option>
+				<option value="CLASS3" ${user_info.medical_certification == "CLASS3" ? "selected=\"selected\"" : ""}>CLASS3</option>
+				<option value="UNKNOWN" ${user_info.medical_certification == "UNKNOWN" ? "selected=\"selected\"" : ""}>UNKNOWN</option>
 			</select></td>
 	<td style="width:135px;text-align:right;">${lang.getStringDateOfLastMedical()}:</td>
-	<td><input type="text" id="id_basic_date_of_last_medical_datapicker" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_date_of_last_medical_datapicker" class="form_input_text" value="${user_info.date_of_last_medical}"/></td>
 </tr>
 </tbody>
 </table> 
@@ -267,9 +273,9 @@ ${lang.getStringReportingNo()} </td>
 <tbody>
 <tr>
 	<td class="leftmost_label">${lang.getStringFlightTime()}:</td>
-	<td><input type="text" id="id_basic_total_time" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_total_time" class="form_input_text" value="${user_info.flight_time}"/></td>
 	<td style="width:135px;text-align:right;">${lang.getStringThisMakeModel()}:</td>
-	<td><input type="text" id="id_basic_this_mask_model" class="form_input_text"/></td>
+	<td><input type="text" id="id_basic_this_mask_model" class="form_input_text" value="${user_info.this_make_model}"/></td>
 </tr>
 </tbody>
 </table> 
@@ -345,23 +351,23 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label2">${lang.getStringFlightCrew()}</td>
 	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
-	<td><input type="text" id="id_basic_flight_crew_no_of_fatalities" class="form_input_text" value="${report.getCrew_fatalities()}"/></td>
+	<td><input type="text" id="id_basic_flight_crew_no_of_fatalities" name="crew_fatalities" class="form_input_text" value="${report.getCrew_fatalities()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
-	<td><input type="text" id="id_basic_flight_crew_no_of_injuries" class="form_input_text" value="${report.getCrew_injuries()}"/></td>
+	<td><input type="text" id="id_basic_flight_crew_no_of_injuries" name="crew_injuries" class="form_input_text" value="${report.getCrew_injuries()}"/></td>
 </tr>
 <tr>
 	<td class="leftmost_label2">${lang.getStringCabinCrew()}</td>
 	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
-	<td><input type="text" id="id_basic_cabin_crew_no_of_fatalities" class="form_input_text" value="${report.getCabin_fatalities()}"/></td>
+	<td><input type="text" id="id_basic_cabin_crew_no_of_fatalities" name="cabin_fatalities" class="form_input_text" value="${report.getCabin_fatalities()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
-	<td><input type="text" id="id_basic_cabin_crew_no_of_injuries" class="form_input_text" value="${report.getCabin_injuries()}"/></td>
+	<td><input type="text" id="id_basic_cabin_crew_no_of_injuries" name="cabin_injuries" class="form_input_text" value="${report.getCabin_injuries()}"/></td>
 </tr>
 <tr>
 	<td class="leftmost_label2">${lang.getStringPassenger()}</td>
 	<td style="width:130px;text-align:right;">${lang.getStringFatalities()}:</td>
-	<td><input type="text" id="id_basic_passengers_no_of_fatalities" class="form_input_text" value="${report.getPassenger_fatalities()}"/></td>
+	<td><input type="text" id="id_basic_passengers_no_of_fatalities" name="passenger_fatalities" class="form_input_text" value="${report.getPassenger_fatalities()}"/></td>
 	<td style="width:130px;text-align:right;">${lang.getStringInjuries()}:</td>
-	<td><input type="text" id="id_basic_passengers_no_of_injuries" class="form_input_text" value="${report.getPassenger_injuries()}"/></td>
+	<td><input type="text" id="id_basic_passengers_no_of_injuries" name="passenger_injuries" class="form_input_text" value="${report.getPassenger_injuries()}"/></td>
 </tr>
 </tbody>
 </table> 
@@ -370,7 +376,7 @@ ${lang.getStringReportingNo()} </td>
 <tbody>
 <tr>
 	<td class="leftmost_label">${lang.getStringAircraftDamages()}:</td>
-	<td><select id="id_basic_damage_selector" name="method" class="form_selector">
+	<td><select id="id_basic_damage_selector" name="aircraft_damage" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>	
 				<option value="NONE" ${report.getAircraft_damage() == "NONE" ? "selected=\"selected\"" : ""}>NONE</option>
 				<option value="MINOR" ${report.getAircraft_damage() == "MINOR" ? "selected=\"selected\"" : ""}>MINOR</option>
@@ -379,7 +385,7 @@ ${lang.getStringReportingNo()} </td>
 			</select></td>
 		
 	<td style="width:70px;text-align:right;">${lang.getStringDelay()}${lang.getStringTime()}:</td>
-	<td><select id="id_basic_delay_time_selector" name="method" class="form_selector">
+	<td><select id="id_basic_delay_time_selector" name="delay_time" class="form_selector">
 				<option value="0">${lang.getStringSelect()}</option>					
 				<option value="NONE" ${report.getDelay_time() == "NONE" ? "selected=\"selected\"" : ""}>${lang.getStringNone()}</option>
 				<option value="NoDelay" ${report.getDelay_time() == "NoDelay" ? "selected=\"selected\"" : ""}>${lang.getStringNoDelay()}</option>
@@ -393,6 +399,6 @@ ${lang.getStringReportingNo()} </td>
 </table>
 </fieldset>
 			 
-
+</form>
 </body>
 </html>

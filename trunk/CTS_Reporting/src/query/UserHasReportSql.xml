@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserHasReportSql">
+
+	
+ 	<resultMap id="UserHasReport" class="ac.kaist.cts.domain.UserHasReport">
+		<result column="USER_ID" property="User_id" />
+		<result column="REPORT_ID" property="Report_id" />
+ 	</resultMap>
+ 	
+ 	<select id="readUserHasReport" resultMap="UserHasReport">
+ 		SELECT USER_ID, REPORT_ID
+ 		FROM User_has_Report
+ 		WHERE
+ 		<isNotEqual property="User_id" compareValue="0">
+ 		User_id = #User_id#
+ 		</isNotEqual>
+ 		<isNotEqual property="Report_id" compareValue="0">
+ 		Report_id = #Report_id#
+ 		</isNotEqual>
+ 	</select>
+ 	
+ 	<insert id="createUserHasReport" parameterClass="ac.kaist.cts.domain.UserHasReport">
+		 INSERT INTO
+		 User_has_Report (User_id, Report_id)
+		 VALUES (#User_id#, #Report_id#)
+	</insert>
+	
+	<delete id="deleteUserHasReport" parameterClass="ac.kaist.cts.domain.UserHasReport">
+ 		DELETE
+ 		FROM User_has_Report
+ 		WHERE
+ 		<isNotEmpty property="User_id">
+ 		User_id = #User_id#
+ 		</isNotEmpty>
+ 		<isNotEmpty property="Report_id">
+ 		Report_id = #Report_id#
+ 		</isNotEmpty>
+ 	</delete>
+</sqlMap>
+
+
