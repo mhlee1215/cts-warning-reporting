@@ -26,8 +26,8 @@ package ac.kaist.cts.domain;
 
 
 public class Report {
-	public static int	STATUS_REPORTED			= 1;
-	public static int	STATUS_NOT_REPORTED			= 2;
+	public static String	STATUS_REPORTED				= "Reported";
+	public static String	STATUS_NOT_REPORTED			= "Not Reported";
 	
 	private int id 						= 0;
 	private String report_date 			= "";

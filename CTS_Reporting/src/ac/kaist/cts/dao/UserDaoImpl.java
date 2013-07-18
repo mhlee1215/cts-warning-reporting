@@ -9,6 +9,7 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import ac.kaist.cts.domain.User;
+import ac.kaist.cts.domain.UserHasReport;
 import ac.kaist.cts.domain.UserInfo;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -74,5 +75,31 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	@Override
 	public void updateUserInfo(UserInfo userInfo) {
 		getSqlMapClientTemplate().update("UserInfoSql.updateUserInfo", userInfo);
+	}
+
+
+	@Override
+	public UserHasReport readUserHasReport(UserHasReport userHasReport) {
+		UserHasReport result = (UserHasReport)getSqlMapClientTemplate().queryForObject("UserHasReportSql.readUserHasReport", userHasReport);
+		return result;
+	}
+
+
+	@Override
+	public void createUserHasReport(UserHasReport userHasReport) {
+		getSqlMapClientTemplate().insert("UserHasReportSql.createUserHasReport", userHasReport);
+	}
+
+
+	@Override
+	public void deleteUserHasReport(UserHasReport userHasReport) {
+		getSqlMapClientTemplate().delete("UserHasReportSql.deleteUserHasReport", userHasReport);
+		
+	}
+
+
+	@Override
+	public void updateUserHasReport(UserHasReport userHasReport) {
+		getSqlMapClientTemplate().update("UserHasReportSql.updateUserHasReport", userHasReport);
 	}
 }

@@ -113,36 +113,33 @@
 		  	//width:600,
 		  	autowidth:true,
 		  	datatype: "xml", 
-		     	colNames:['${lang.getStringReportNo()}','${lang.getStringFlightDate()} (UTC)', '${lang.getStringFlightNo()}', '${lang.getStringACType()}','${lang.getStringState()}'],
-		     	colModel:[
-		     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
-		     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
-		     	    		{name:'flight_no'	,index:'flight_no'	,width:60	,align:"center"	,sortable: true},
-		     	    		{name:'ac_type'		,index:'ac_type'	,width:80	,align:"center"	,sortable: true},
-		     	    		{name:'state'		,index:'state'		,width:75	,align:"center" ,sortable: true}		
-		     	    	],
-		     	//shrinkToFit:false,
-		     	//altRows:true,
-		     	hoverrows:false,
-		     	rownumbers: false, 
-		     	rowNum:10, 
-		     	loadtext:'&nbsp;Loading report items..',
-		     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
-		     	rowList:[10,20,30], 
-		     	//pager: '#pager1', 
-		     	//pagerpos:'center',
-		     	sortname: 'id', 
-		     	sortorder: 'desc',
-		     	imgpath: gridimgpath,
-		     	//multiselect: true,
-		     	//viewrecords: true, 
-		     	emptyrecords:'no report data',
-		     	//caption: "Task List",
-		     	toolbar: [false,"top"],
-		     	loadError : function(xhr,st,err) { 
-		  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
-		  	},
-		  	loadComplete: function(){ 
+	     	colNames:['${lang.getStringReportNo()}','${lang.getStringFlightDate()} (UTC)', '${lang.getStringFlightNo()}', '${lang.getStringACType()}','${lang.getStringState()}'],
+	     	colModel:[
+	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
+	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
+	     	    		{name:'flight_no'	,index:'flight_no'	,width:60	,align:"center"	,sortable: true},
+	     	    		{name:'ac_type'		,index:'ac_type'	,width:80	,align:"center"	,sortable: true},
+	     	    		{name:'state'		,index:'state'		,width:75	,align:"center" ,sortable: true}		
+	     	    	],
+	     	//shrinkToFit:false,
+	     	//altRows:true,
+	     	hoverrows:false,
+	     	rownumbers: false, 
+	     	//rowNum:10, 
+	     	loadtext:'&nbsp;Loading report items..',
+	     	//loadtext:'<img src="/images/icons/icon_processing1.gif" width="16" height="16" title="Processing"></img>&nbsp;Loading task data..',
+	     	rowList:[10,20,30], 
+	     	//pager: jQuery('#pager1'), 
+	     	//pagerpos:'center',
+	     	sortname: 'id', 
+	     	sortorder: 'desc',
+	     	imgpath: gridimgpath,
+	     	//multiselect: true,
+	     	//viewrecords: true, 
+	     	emptyrecords:'no report data',
+	     	//caption: "Task List",
+	     	toolbar: [false,"top"],
+	     	loadComplete: function(){ 
 		  		$("#id_login_flight_information_ListTable").jqGrid('setGridWidth', $('#id_login_flight_information_ListTable_parentDiv').width(), true);
 		  	},
 		  	onSelectRow: function(rowid, status, e) {  			
@@ -150,7 +147,7 @@
 		  		document.location = '${pageContext.request.contextPath}/report.do?'+'report_no='+rowid;
 		  		<%}%>
 			}
-		  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
+		  });//.navGrid('#pager1',{edit:false,add:false,del:false}); 
 		  
 	  }
 </script>
@@ -283,4 +280,6 @@
 	<%@include file="footer.jsp"%>
 
 </body>
+
+
 </html>

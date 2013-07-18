@@ -3,9 +3,12 @@ package ac.kaist.cts.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.ServletRequestUtils;
 
 import ac.kaist.cts.dao.ReportDao;
 import ac.kaist.cts.domain.AircraftInfo;
@@ -271,4 +274,55 @@ public class ReportServiceImpl implements ReportService {
 	public List<AttachedItem> readAttachedItemList(AttachedItem attachedItem) {
 		return reportDao.readAttachedItemList(attachedItem);
 	}
+
+	@Override
+	public void updateReportItemBasic(Report rp, HttpServletRequest request) {
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String reportingDate = ServletRequestUtils.getStringParameter(request, "reportingDate", "");
+		String reportingNo = ServletRequestUtils.getStringParameter(request, "reportingNo", "");
+		int crew_fatalities = ServletRequestUtils.getIntParameter(request, "crew_fatalities", 0);
+		int crew_injuries = ServletRequestUtils.getIntParameter(request, "crew_injuries",  0);
+		int cabin_fatalities = ServletRequestUtils.getIntParameter(request, "cabin_fatalities",  0);
+		int cabin_injuries = ServletRequestUtils.getIntParameter(request, "cabin_injuries", 0);
+		int passenger_fatalities = ServletRequestUtils.getIntParameter(request, "passenger_fatalities", 0);
+		int passenger_injuries = ServletRequestUtils.getIntParameter(request, "passenger_injuries", 0);
+		String aircraft_damage = ServletRequestUtils.getStringParameter(request, "aircraft_damage", "");
+		String delay_time = ServletRequestUtils.getStringParameter(request, "delay_time", "");
+		
+		rp.setReport_no(report_no);
+		rp.setReport_date(reportingDate);
+		rp.setCrew_fatalities(crew_fatalities);
+		rp.setCrew_injuries(crew_injuries);
+		rp.setCabin_fatalities(cabin_fatalities);
+		rp.setCabin_injuries(cabin_injuries);
+		rp.setPassenger_fatalities(passenger_fatalities);
+		rp.setPassenger_injuries(passenger_injuries);
+		rp.setAircraft_damage(aircraft_damage);
+		rp.setDelay_time(delay_time);
+		
+		reportDao.updateReport(rp);
+		
+	}
+
+	@Override
+	public void updateReportItem(ReportItem ri, HttpServletRequest request, String type){
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
+		String title = ServletRequestUtils.getStringParameter(request, "report_"+type+"_title", "");
+		String time = ServletRequestUtils.getStringParameter(request, "report_"+type+"_time", "");
+		String time_type = ServletRequestUtils.getStringParameter(request, "report_"+type+"_time_type", "");
+		String narrative = ServletRequestUtils.getStringParameter(request, "report_"+type+"_narrative", "");
+		String recommendation = ServletRequestUtils.getStringParameter(request, "report_"+type+"_recommendation", "");
+		
+		ri.setType(report_item_type);
+		ri.setTitle(title);
+		ri.setTime(time);
+		ri.setTime_type(time_type);
+		ri.setNarrative(narrative);
+		ri.setRecommendation(recommendation);
+		
+		this.updateReportItem(ri);
+	}
+	
+	
+	
 }

@@ -144,6 +144,8 @@ public class UserController {
 			//request.getSession().setAttribute("userid", Integer.toString(userIdMap.getInternalId()));
 			//request.getSession().setAttribute("externalid", userIdMap.getExternalId());
 			request.getSession().setAttribute("islogin", "true");
+			request.getSession().setAttribute("user_id_no", readed.getId());
+			request.getSession().setAttribute("user_id", readed.getUserId());
 			request.getSession().setAttribute("user_name", readed.getName());
 			request.getSession().setAttribute("work_type", work_type);
 			if("report".equals(work_type))

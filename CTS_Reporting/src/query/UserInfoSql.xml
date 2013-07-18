@@ -25,16 +25,16 @@
  	 	
 	<select id="readUserInfo" resultMap="UserInfo">
        SELECT 
-       `id`, `User_id`, `id_no`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
- 	   FROM user_info
+       ui.`id`, `User_id`, u.userid as `id_no`, u.name as `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
+ 	   FROM user_info ui INNER JOIN user u on ui.User_id = u.id
        WHERE User_id = #User_id#
        
 	</select>
 
 	<insert id="createUserInfo" parameterClass="ac.kaist.cts.domain.UserInfo">
 		 INSERT INTO `user_info` 
-		 (`User_id`, `id_no`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`) VALUES 
-		 (#User_id#, #id_no#, #name#, #date_of_birth#, #medical_certification#, #date_of_last_medical#, #flight_time#, #this_make_model#)
+		 (`User_id`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`) VALUES 
+		 (#User_id#, #date_of_birth#, #medical_certification#, #date_of_last_medical#, #flight_time#, #this_make_model#)
 	</insert>
 	
 	

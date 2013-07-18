@@ -42,7 +42,36 @@
 		 (#type#, #title#, #time#, #time_type#, #narrative#, #recommendation#, #status#, #priority#, #report_id#);
 	</insert>
 	
-	
+	<update id="updateReportItem" parameterClass="ac.kaist.cts.domain.ReportItem">
+		UPDATE `report_item` 
+		SET 
+			`type` = #type#
+			<isNotEmpty property="title">
+			, `title`= #title#
+			</isNotEmpty>
+			<isNotEmpty property="time">
+			, `time`= #time#
+			</isNotEmpty>
+			<isNotEmpty property="time_type">
+			, `time_type`= #time_type#
+			</isNotEmpty>
+			<isNotEmpty property="narrative">
+			, `narrative`= #narrative#
+			</isNotEmpty>
+			<isNotEmpty property="recommendation">
+			, `recommendation`= #recommendation#
+			</isNotEmpty>
+			<isNotEmpty property="status">
+			, `status`= #status#
+			</isNotEmpty>
+			<isNotEmpty property="priority">
+			, `priority`= #priority# 
+			</isNotEmpty>
+		WHERE
+		`type` = #type#
+		and
+		`report_id`= #report_id#
+	</update>
 	
 </sqlMap>
 

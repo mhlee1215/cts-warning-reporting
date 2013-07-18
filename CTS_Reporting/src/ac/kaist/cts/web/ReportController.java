@@ -14,8 +14,10 @@ import language.LanguageServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ac.kaist.cts.domain.AircraftInfo;
@@ -23,6 +25,8 @@ import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
+import ac.kaist.cts.domain.UserHasReport;
+import ac.kaist.cts.domain.UserInfo;
 import ac.kaist.cts.service.ReportService;
 import ac.kaist.cts.service.UserService;
 
@@ -33,12 +37,15 @@ private Logger logger = Logger.getLogger(getClass());
 	
 	@Autowired
 	private final ReportService reportService = null;
+	
+	@Autowired
+	private final UserService userService = null;
 
 	@RequestMapping("/report.do")
     public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
+		//System.out.println("report no : "+report_no);
 		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
@@ -54,10 +61,11 @@ private Logger logger = Logger.getLogger(getClass());
 		return model;
 	}
 	
-	@RequestMapping("/reportBasic.do")
+	@RequestMapping("/reportBASIC.do")
     public ModelAndView reportBasic(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
 		System.out.println("report no : "+report_no);
 		
 		Report rp = new Report();
@@ -107,186 +115,278 @@ private Logger logger = Logger.getLogger(getClass());
 		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
 		
 		
+		UserHasReport uhr = new UserHasReport();
+		uhr.setReport_id(report.getId());
+		UserHasReport ruhr = userService.readUserHasReport(uhr);
+		
+		UserInfo uri = null;
+		if(ruhr != null){
+			System.out.println("Found user map.");
+			UserInfo ui = new UserInfo();
+			ui.setUser_id(ruhr.getUser_id());
+			uri = userService.readUserInfo(ui);
+		}else{
+			System.out.println("Couldn't find user map. This report is newly writed.");
+			UserInfo ui = new UserInfo();
+			int user_id_no = (int) request.getSession().getAttribute("user_id_no");
+			ui.setUser_id(user_id_no);
+			uri = userService.readUserInfo(ui);
+		}
+		//ui.setUser_id(reportItem.get)
+		
+		
 		ModelAndView model = new ModelAndView("report/reportItem_basic");
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("report_no", report_no);
 		model.addObject("report", report);
 		model.addObject("flight_info", rfi);
 		model.addObject("aircraft_info", rai);
+		model.addObject("user_info", uri);
 		model.addObject("reportItem", reportItem);
 		model.addObject("acModelList", acModelList);
 		model.addObject("lang", lang);
 		return model;
 	}
 	
-	@RequestMapping("/reportTaxiOut.do")
+	@RequestMapping("/reportBasicUpdate.do")
+    public @ResponseBody String reportBasicUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+		
+		Report rp = new Report();
+		reportService.updateReportItemBasic(rp, request);
+
+		return "Update Success.";
+	}
+	
+	@RequestMapping("/reportBasicSubmit.do")
+    public @ResponseBody String reportBasicSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+		
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		
+		Report rp = new Report();
+		rp.setState(Report.STATUS_REPORTED);
+		reportService.updateReportItemBasic(rp, request);
+		
+		Report rp2 = new Report();
+		rp2.setReport_no(report_no);
+		Report rrp = reportService.readReport(rp);
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_id(rrp.getId());
+		ri.setStatus(ReportItem.STATE_SUBMITTED);
+		reportService.updateReportItem(ri, request, ReportItem.TYPE_BASIC);
+		
+		return "Submit Success.";
+	}
+	
+	@RequestMapping("/reportItem.do")
     public ModelAndView reportTaxiOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
 		System.out.println("report no : "+report_no);
 		
 		ReportItem reportItemQuery = new ReportItem();
 		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_TAXI_OUT);
+		reportItemQuery.setType(report_item_type);
 		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
 		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		ModelAndView model = new ModelAndView("report/reportItem_taxi-out");
+		ModelAndView model = new ModelAndView("report/reportItem_generic");
 		model.addObject("report_no", report_no);
-		model.addObject("report_item_type", ReportItem.TYPE_TAXI_OUT);
+		model.addObject("report_item_type", report_item_type);
 		model.addObject("page_title", lang.getStringPilotReport());
 		model.addObject("reportItem", reportItem);
 		model.addObject("lang", lang);
 		return model;
 	}
 	
-	@RequestMapping("/reportTakeOff.do")
-    public ModelAndView reportTakeOff(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
+	@RequestMapping("/reportItemUpdate.do")
+    public @ResponseBody String reportItemUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
 		
-		ReportItem reportItemQuery = new ReportItem();
-		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_TAKE_OFF);
-		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		Report rrp = reportService.readReport(rp);
 		
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
-		
-		ModelAndView model = new ModelAndView("report/reportItem_take-off");
-		model.addObject("report_no", report_no);
-		model.addObject("page_title", lang.getStringPilotReport());
-		model.addObject("reportItem", reportItem);
-		model.addObject("lang", lang);
-		return model;
+		ReportItem ri = new ReportItem();
+		ri.setReport_id(rrp.getId());
+		reportService.updateReportItem(ri, request, report_item_type);
+
+		return "Save Success.";
 	}
 	
-	@RequestMapping("/reportClimb.do")
-    public ModelAndView reportClimb(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
+	@RequestMapping("/reportItemSubmit.do")
+    public @ResponseBody String reportItemSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
 		
-		ReportItem reportItemQuery = new ReportItem();
-		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_CLIMB);
-		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		Report rrp = reportService.readReport(rp);
 		
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		ReportItem ri = new ReportItem();
+		ri.setReport_id(rrp.getId());
+		ri.setStatus(ReportItem.STATE_SUBMITTED);
+		reportService.updateReportItem(ri, request, report_item_type);
 		
-		ModelAndView model = new ModelAndView("report/reportItem_climb");
-		model.addObject("report_no", report_no);
-		model.addObject("page_title", lang.getStringPilotReport());
-		model.addObject("reportItem", reportItem);
-		model.addObject("lang", lang);
-		return model;
+		return "Submit success.";
 	}
 	
-	@RequestMapping("/report_en_route.do")
-    public ModelAndView reportEnRoute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
-		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
-		
-		ReportItem reportItemQuery = new ReportItem();
-		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_EN_ROUTE);
-		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
-		
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
-		
-		ModelAndView model = new ModelAndView("report/reportItem_en-route");
-		model.addObject("report_no", report_no);
-		model.addObject("page_title", lang.getStringPilotReport());
-		model.addObject("reportItem", reportItem);
-		model.addObject("lang", lang);
-		return model;
-	}
-	
-	@RequestMapping("/reportDecent.do")
-    public ModelAndView reportDecent(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
-		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
-		
-		ReportItem reportItemQuery = new ReportItem();
-		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_DECENT);
-		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
-		
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
-		
-		ModelAndView model = new ModelAndView("report/reportItem_decent");
-		model.addObject("report_no", report_no);
-		model.addObject("page_title", lang.getStringPilotReport());
-		model.addObject("reportItem", reportItem);
-		model.addObject("lang", lang);
-		return model;
-	}
-	
-	@RequestMapping("/reportApproach.do")
-    public ModelAndView reportApproach(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
-		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
-		
-		ReportItem reportItemQuery = new ReportItem();
-		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_APPROACH);
-		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
-		
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
-		
-		ModelAndView model = new ModelAndView("report/reportItem_approach");
-		model.addObject("report_no", report_no);
-		model.addObject("page_title", lang.getStringPilotReport());
-		model.addObject("reportItem", reportItem);
-		model.addObject("lang", lang);
-		return model;
-	}
-	
-	@RequestMapping("/reportLanding.do")
-    public ModelAndView reportLanding(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
-		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
-		
-		ReportItem reportItemQuery = new ReportItem();
-		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_LANDING);
-		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
-		
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
-		
-		ModelAndView model = new ModelAndView("report/reportItem_landing");
-		model.addObject("report_no", report_no);
-		model.addObject("page_title", lang.getStringPilotReport());
-		model.addObject("reportItem", reportItem);
-		model.addObject("lang", lang);
-		return model;
-	}
-	
-	@RequestMapping("/reportTaxiIn.do")
-    public ModelAndView reportTaxiIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
-		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
-		System.out.println("report no : "+report_no);
-		
-		ReportItem reportItemQuery = new ReportItem();
-		reportItemQuery.setReport_no(report_no);
-		reportItemQuery.setType(ReportItem.TYPE_TAXI_IN);
-		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
-		
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
-		
-		ModelAndView model = new ModelAndView("report/reportItem_taxi-in");
-		model.addObject("report_no", report_no);
-		model.addObject("page_title", lang.getStringPilotReport());
-		model.addObject("reportItem", reportItem);
-		model.addObject("lang", lang);
-		return model;
-	}
+//	@RequestMapping("/reportTAKE-OFF.do")
+//    public ModelAndView reportTakeOff(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String language = (String)request.getSession().getAttribute("lang");
+//		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+//		System.out.println("report no : "+report_no);
+//		
+//		ReportItem reportItemQuery = new ReportItem();
+//		reportItemQuery.setReport_no(report_no);
+//		reportItemQuery.setType(ReportItem.TYPE_TAKE_OFF);
+//		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+//		
+//		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+//		
+//		ModelAndView model = new ModelAndView("report/reportItem_generic");
+//		model.addObject("report_no", report_no);
+//		model.addObject("report_item_type", ReportItem.TYPE_TAKE_OFF);
+//		model.addObject("page_title", lang.getStringPilotReport());
+//		model.addObject("reportItem", reportItem);
+//		model.addObject("lang", lang);
+//		return model;
+//	}
+//	
+//	@RequestMapping("/reportCLIMB.do")
+//    public ModelAndView reportClimb(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String language = (String)request.getSession().getAttribute("lang");
+//		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+//		System.out.println("report no : "+report_no);
+//		
+//		ReportItem reportItemQuery = new ReportItem();
+//		reportItemQuery.setReport_no(report_no);
+//		reportItemQuery.setType(ReportItem.TYPE_CLIMB);
+//		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+//		
+//		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+//		
+//		ModelAndView model = new ModelAndView("report/reportItem_generic");
+//		model.addObject("report_no", report_no);
+//		model.addObject("report_item_type", ReportItem.TYPE_CLIMB);
+//		model.addObject("page_title", lang.getStringPilotReport());
+//		model.addObject("reportItem", reportItem);
+//		model.addObject("lang", lang);
+//		return model;
+//	}
+//	
+//	@RequestMapping("/reportEN-ROUTE.do")
+//    public ModelAndView reportEnRoute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String language = (String)request.getSession().getAttribute("lang");
+//		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+//		System.out.println("report no : "+report_no);
+//		
+//		ReportItem reportItemQuery = new ReportItem();
+//		reportItemQuery.setReport_no(report_no);
+//		reportItemQuery.setType(ReportItem.TYPE_EN_ROUTE);
+//		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+//		
+//		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+//		
+//		ModelAndView model = new ModelAndView("report/reportItem_generic");
+//		model.addObject("report_no", report_no);
+//		model.addObject("report_item_type", ReportItem.TYPE_EN_ROUTE);
+//		model.addObject("page_title", lang.getStringPilotReport());
+//		model.addObject("reportItem", reportItem);
+//		model.addObject("lang", lang);
+//		return model;
+//	}
+//	
+//	@RequestMapping("/reportDECENT.do")
+//    public ModelAndView reportDecent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String language = (String)request.getSession().getAttribute("lang");
+//		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+//		System.out.println("report no : "+report_no);
+//		
+//		ReportItem reportItemQuery = new ReportItem();
+//		reportItemQuery.setReport_no(report_no);
+//		reportItemQuery.setType(ReportItem.TYPE_DECENT);
+//		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+//		
+//		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+//		
+//		ModelAndView model = new ModelAndView("report/reportItem_generic");
+//		model.addObject("report_no", report_no);
+//		model.addObject("report_item_type", ReportItem.TYPE_DECENT);
+//		model.addObject("page_title", lang.getStringPilotReport());
+//		model.addObject("reportItem", reportItem);
+//		model.addObject("lang", lang);
+//		return model;
+//	}
+//	
+//	@RequestMapping("/reportAPPROACH.do")
+//    public ModelAndView reportApproach(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String language = (String)request.getSession().getAttribute("lang");
+//		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+//		System.out.println("report no : "+report_no);
+//		
+//		ReportItem reportItemQuery = new ReportItem();
+//		reportItemQuery.setReport_no(report_no);
+//		reportItemQuery.setType(ReportItem.TYPE_APPROACH);
+//		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+//		
+//		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+//		
+//		ModelAndView model = new ModelAndView("report/reportItem_generic");
+//		model.addObject("report_no", report_no);
+//		model.addObject("report_item_type", ReportItem.TYPE_APPROACH);
+//		model.addObject("page_title", lang.getStringPilotReport());
+//		model.addObject("reportItem", reportItem);
+//		model.addObject("lang", lang);
+//		return model;
+//	}
+//	
+//	@RequestMapping("/reportLANDING.do")
+//    public ModelAndView reportLanding(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String language = (String)request.getSession().getAttribute("lang");
+//		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+//		System.out.println("report no : "+report_no);
+//		
+//		ReportItem reportItemQuery = new ReportItem();
+//		reportItemQuery.setReport_no(report_no);
+//		reportItemQuery.setType(ReportItem.TYPE_LANDING);
+//		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+//		
+//		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+//		
+//		ModelAndView model = new ModelAndView("report/reportItem_generic");
+//		model.addObject("report_no", report_no);
+//		model.addObject("report_item_type", ReportItem.TYPE_LANDING);
+//		model.addObject("page_title", lang.getStringPilotReport());
+//		model.addObject("reportItem", reportItem);
+//		model.addObject("lang", lang);
+//		return model;
+//	}
+//	
+//	@RequestMapping("/reportTAXI-IN.do")
+//    public ModelAndView reportTaxiIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String language = (String)request.getSession().getAttribute("lang");
+//		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+//		System.out.println("report no : "+report_no);
+//		
+//		ReportItem reportItemQuery = new ReportItem();
+//		reportItemQuery.setReport_no(report_no);
+//		reportItemQuery.setType(ReportItem.TYPE_TAXI_IN);
+//		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
+//		
+//		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+//		
+//		ModelAndView model = new ModelAndView("report/reportItem_generic");
+//		model.addObject("report_no", report_no);
+//		model.addObject("report_item_type", ReportItem.TYPE_TAXI_IN);
+//		model.addObject("page_title", lang.getStringPilotReport());
+//		model.addObject("reportItem", reportItem);
+//		model.addObject("lang", lang);
+//		return model;
+//	}
 	
 	@RequestMapping("/management.do")
     public ModelAndView management(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -767,7 +867,7 @@ private Logger logger = Logger.getLogger(getClass());
 		report.setPassenger_injuries(31);
 		report.setAircraft_damage("NONE");
 		report.setDelay_time("NONE");
-		report.setState("NOT REPORTED");
+		report.setState(Report.STATUS_NOT_REPORTED);
 		report.setFlight_info_id(rfi.getId());
 		
 		reportService.createReport(report);

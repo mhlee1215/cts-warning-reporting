@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.mail.EmailException;
 
 import ac.kaist.cts.domain.User;
+import ac.kaist.cts.domain.UserHasReport;
 import ac.kaist.cts.domain.UserInfo;
 
 public interface UserService {
@@ -25,4 +26,9 @@ public interface UserService {
 	public void createUserInfo(UserInfo userInfo);
 	public void deleteUserInfo(UserInfo userInfo);
 	public void updateUserInfo(UserInfo userInfo);
+	
+	public UserHasReport readUserHasReport(UserHasReport userHasReport);
+	public void createUserHasReport(UserHasReport userHasReport);
+	public void deleteUserHasReport(UserHasReport userHasReport);
+	public void updateUserHasReport(UserHasReport userHasReport);
 }

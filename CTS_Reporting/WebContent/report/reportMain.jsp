@@ -130,9 +130,11 @@
     
   <script>
   var submitted = new Array(9);
+  var report_item_title = new Array(9);
   
   <c:forEach items="${rpItemList}" var="report_item" varStatus="list_status">
   submitted[${list_status.index}] = ${report_item.status == report_item.getSTATE_SUBMITTED() ? "1" : "0"};
+  report_item_title[${list_status.index}] = '${report_item.type}';
   </c:forEach>
     
   function submit_page(page_index){
@@ -141,8 +143,10 @@
 	  var cur_text = $("#id_tab"+page_index).text();
 	   //alert(cur_text.substring(0, cur_text.length-1));
 		$("#id_tab"+page_index).text(cur_text.substring(0, cur_text.length-1)+'●');
-		$("#id_main_submit_btn").hide();
-		$("#id_main_submitted_btn").show();
+		if( page_index == currentTab){
+			$("#id_main_submit_btn").hide();
+			$("#id_main_submitted_btn").show();
+  		}
 		//$("#id_main_submit_btn").button({icons: {secondary: "ui-icon-check" } });
   }
   
@@ -168,6 +172,35 @@
 	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   if(currentTab == 1){
+		   var str = $("#report_item_basic_form").serialize();
+		   $.ajax({
+			    type:"post",
+			    data:str+'&report_no=${report_no}',
+			    url:"reportBasicUpdate.do",
+			    async: false,
+			    success: function(msg){
+			       alert(msg);
+			    }
+			});
+	   }else{
+		  
+		   var narrativeText = CKEDITOR.instances["id_report_"+report_item_title[currentTab-1]+"_narrative"].getData();
+		   var recomText = CKEDITOR.instances["id_report_"+report_item_title[currentTab-1]+"_recommendation"].getData();
+		   $("#id_report_"+report_item_title[currentTab-1]+"_narrative").val(narrativeText);
+		   $("#id_report_"+report_item_title[currentTab-1]+"_recommendation").val(recomText);
+		   var str = $("#report_"+report_item_title[currentTab-1]+"_form").serialize(); 
+		   $.ajax({
+			    type:"post",
+			    data:str+'&report_no=${report_no}&report_item_type='+report_item_title[currentTab-1],
+			    url:"reportItemUpdate.do",
+			    async: false,
+			    success: function(msg){
+			       alert(msg);
+			    }
+			});
+	   }
+	   
 	  });
 	  $("#id_main_delete_btn")
 	  .button({icons: {secondary: "ui-icon-trash" } })
@@ -177,8 +210,38 @@
 	  $("#id_main_submit_btn")
 	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
+		  if(currentTab == 1){
+			   var str = $("#report_item_basic_form").serialize();
+			   $.ajax({
+				    type:"post",
+				    data:str+'&report_no=${report_no}&report_item_type=BASIC',
+				    url:"reportBasicSubmit.do",
+				    async: false,
+				    success: function(msg){
+				       alert(msg);
+				       submit_page(currentTab);
+				    }
+				});
+		   }else{
+			  
+			   var narrativeText = CKEDITOR.instances["id_report_"+report_item_title[currentTab-1]+"_narrative"].getData();
+			   var recomText = CKEDITOR.instances["id_report_"+report_item_title[currentTab-1]+"_recommendation"].getData();
+			   $("#id_report_"+report_item_title[currentTab-1]+"_narrative").val(narrativeText);
+			   $("#id_report_"+report_item_title[currentTab-1]+"_recommendation").val(recomText);
+			   var str = $("#report_"+report_item_title[currentTab-1]+"_form").serialize(); 
+			   $.ajax({
+				    type:"post",
+				    data:str+'&report_no=${report_no}&report_item_type='+report_item_title[currentTab-1],
+				    url:"reportItemSubmit.do",
+				    async: false,
+				    success: function(msg){
+				       alert(msg);
+				       submit_page(currentTab);
+				    }
+				});
+		   }
 		  
-	   submit_page(currentTab);
+	  
 	  
 	   event.preventDefault();
 	  });
@@ -192,15 +255,33 @@
 	  $("#id_main_previous_btn").hide();
 	  $("#id_main_submitted_btn").hide();
 	  
+	  //alert(submitted);
 	  for(var i = 0 ; i < 9 ; i++){
 		  if(submitted[i] == 1)
 			  submit_page(i+1);
 	  }
   });
+  
+  function printObject(o) {
+	  var out = '';
+	  for (var p in o) {
+	    out += p + ': ' + o[p] + '\n';
+	  }
+	  alert(out);
+	}
   </script>
 </head>
 <body>
 <%@include file="/header.jsp"%>
+<script>
+
+<%if(!"true".equals(islogin)){ %>
+document.location = '${pageContext.request.contextPath}/index.do';
+<%}%>
+
+</script>
+
+
 
   <ul id="tabs">
       <li><a href="#" id="id_tab1" name="#tab1">BASIC ○</a></li>
@@ -244,7 +325,12 @@
   <script>
   
   	var urlSet = new Array(9);
-  	urlSet[0] = "${pageContext.request.contextPath}/reportBasic.do?report_no=${report_no}";
+  	urlSet[0] = "${pageContext.request.contextPath}/reportBASIC.do?report_no=${report_no}&report_item_type="+report_item_title[0];
+  	for(var i = 1 ; i < 9 ; i++){
+  		urlSet[i] = "${pageContext.request.contextPath}/reportItem.do?report_no=${report_no}&report_item_type="+report_item_title[i];	
+  	}
+  	
+  	/*
   	urlSet[1] = "${pageContext.request.contextPath}/reportTaxiOut.do?report_no=${report_no}";
   	urlSet[2] = "${pageContext.request.contextPath}/reportTakeOff.do?report_no=${report_no}";
   	urlSet[3] = "${pageContext.request.contextPath}/reportClimb.do?report_no=${report_no}";
@@ -253,7 +339,8 @@
   	urlSet[6] = "${pageContext.request.contextPath}/reportApproach.do?report_no=${report_no}";
   	urlSet[7] = "${pageContext.request.contextPath}/reportLanding.do?report_no=${report_no}";
   	urlSet[8] = "${pageContext.request.contextPath}/reportTaxiIn.do?report_no=${report_no}";
-  
+  */
+  	
     var haveActivated = new Array(9);
     
     for(var i = 0 ; i < 9 ; i++)
@@ -285,6 +372,7 @@
             {
             	//alert('first!');
             	haveActivated[currentTab-1] = true;
+            	//alert('load : '+urlSet[currentTab-1]);
             	$('#tab'+currentTab).load(urlSet[currentTab-1]);
             }
             
@@ -313,6 +401,8 @@
             }
         });
         
+        $("#tab1").load(urlSet[0]);
+        /*
         $("#tab1").load("${pageContext.request.contextPath}/reportBasic.do?report_no=${report_no}");
     	$("#tab2").load("${pageContext.request.contextPath}/reportTaxiOut.do?report_no=${report_no}");
     	$("#tab3").load("${pageContext.request.contextPath}/reportTakeOff.do?report_no=${report_no}");
@@ -322,7 +412,7 @@
     	$("#tab7").load("${pageContext.request.contextPath}/reportApproach.do?report_no=${report_no}");
     	$("#tab8").load("${pageContext.request.contextPath}/reportLanding.do?report_no=${report_no}");
     	$("#tab9").load("${pageContext.request.contextPath}/reportTaxiIn.do?report_no=${report_no}");
-
+		*/
     	//changeTab(2);
     })();
     

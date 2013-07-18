@@ -2,6 +2,8 @@ package ac.kaist.cts.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
@@ -53,6 +55,10 @@ public interface ReportService {
 	
 	//Report
 	public void updateReport(Report report);
+	
+	public void updateReportItemBasic(Report rp, HttpServletRequest request);
+	public void updateReportItem(ReportItem ri, HttpServletRequest request, String type);
+	
 	//Report Item
 	public List<ReportItem> readReportItemList(ReportItem reportItem);
 	public ReportItem readReportItem(ReportItem reportItem);
