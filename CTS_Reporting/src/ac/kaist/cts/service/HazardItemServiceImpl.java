@@ -31,7 +31,7 @@ public class HazardItemServiceImpl implements HazardItemService {
 		Integer item_num = hazardItemDao.readHazardItemNum(item);
 		for (int i = 0 ; i < item_num ; i++){
 			item.setSeq_num(i+1);
-			List<HazardItem> read_item = hazardItemDao.readHazardItem(item);
+			List<HazardItem> read_item = hazardItemDao.readHazardItemList(item);
 			for (int j = 0 ; j < read_item.size() ; j++){
 				HazardItemList q_item = new HazardItemList();			
 				q_item.setId(read_item.get(j).getItem_id());
@@ -42,6 +42,41 @@ public class HazardItemServiceImpl implements HazardItemService {
 			item_list.add(i, read_item);
 		}
 		return item_list;
+	}
+
+
+	@Override
+	public HazardItem readHazardItem(HazardItem hazardItem) {
+		// TODO Auto-generated method stub
+		return hazardItemDao.readHazardItem(hazardItem);
+	}
+
+
+	@Override
+	public void createHazardItem(HazardItem hazardItem) {
+		// TODO Auto-generated method stub
+		hazardItemDao.createHazardItem(hazardItem);
+	}
+
+
+	@Override
+	public void deleteHazardItem(HazardItem hazardItem) {
+		// TODO Auto-generated method stub
+		hazardItemDao.deleteHazardItem(hazardItem);
+	}
+
+
+	@Override
+	public void updateHazardItem(HazardItem hazardItem) {
+		// TODO Auto-generated method stub
+		hazardItemDao.updateHazardItem(hazardItem);
+	}
+
+
+	@Override
+	public List<HazardItem> readHazardItemList(HazardItem hazardItem) {
+		// TODO Auto-generated method stub
+		return hazardItemDao.readHazardItemList(hazardItem);
 	}
 	
 	

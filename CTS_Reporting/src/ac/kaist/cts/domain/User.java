@@ -1,5 +1,11 @@
 package ac.kaist.cts.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
+
 /**
  * CTS Reporting System at KAIST
  * 
@@ -9,6 +15,27 @@ package ac.kaist.cts.domain;
  */
 
 public class User {
+	
+	public static List<String> getUserTypeList(){
+		List<String> userTypeList = new ArrayList<String>();
+		userTypeList.add(User.TYPE_PILOT);
+		userTypeList.add(User.TYPE_CABIN);
+		userTypeList.add(User.TYPE_GROUND);
+		userTypeList.add(User.TYPE_MAINTENANCE);
+		userTypeList.add(User.TYPE_DISPATCHER);
+		return userTypeList;
+		
+	}
+	
+	public static Map<String, String> getUserTypeNameMap(){
+		Map<String, String> userTypeNameMap = new TreeMap<String, String>();
+		userTypeNameMap.put(User.TYPE_PILOT, "Pilot");
+		userTypeNameMap.put(User.TYPE_CABIN, "Cabin");
+		userTypeNameMap.put(User.TYPE_GROUND, "Ground");
+		userTypeNameMap.put(User.TYPE_MAINTENANCE, "Maintenance");
+		userTypeNameMap.put(User.TYPE_DISPATCHER, "Dispatcher");
+		return userTypeNameMap;
+	}
 	
 	public static int	STATUS_NOT_FOUNDED			= 1;
 	public static int	STATUS_FOUNDED				= 2;
@@ -20,6 +47,13 @@ public class User {
 	public static int	STATUS_ALREADY_DELETED		= 8;
 	public static int	STATUS_SUCCESS_SEND_FINDPASSWORD = 9;
 	public static int	STATUS_FAIL_SEND_FINDPASSWORD = 10;
+	
+	public static String TYPE_PILOT = "P";
+	public static String TYPE_CABIN = "C";
+	public static String TYPE_GROUND = "G";
+	public static String TYPE_MAINTENANCE = "M";
+	public static String TYPE_DISPATCHER = "D";
+	public static String TYPE_SAFETYMANAGER = "SM";
 	
 	private int		id				=0;
 	private String 	userId			="";

@@ -7,36 +7,87 @@
 	<resultMap id="Report" class="ac.kaist.cts.domain.Report">
 		<result column="ID" property="id" />
 		<result column="REPORT_DATE" property="report_date" />
-		<result column="STATE" property="state" />
+		<result column="REPORT_STATE" property="report_state" />
+		<result column="TYPE" property="type" />
+		<result column="MANAGEMENT_STATE" property="management_state" />
 		<result column="REPORT_NO" property="report_no" />
 		<result column="CREW_FATALITIES" property="crew_fatalities" />
-		<result column="CREW_INJURIES" property="crew_injuries" />
+		<result column="CREW_MINOR_INJURIES" property="crew_minor_injuries" />
+		<result column="CREW_SERIOUS_INJURIES" property="crew_serious_injuries" />
 		<result column="CABIN_FATALITIES" property="cabin_fatalities" />
-		<result column="CABIN_INJURIES" property="cabin_injuries" />
+		<result column="CABIN_MINOR_INJURIES" property="cabin_minor_injuries" />
+		<result column="CABIN_SERIOUS_INJURIES" property="cabin_serious_injuries" />
 		<result column="PASSENGER_FATALITIES" property="passenger_fatalities" />
-		<result column="PASSENGER_INJURIES" property="passenger_injuries" />
+		<result column="PASSENGER_MINOR_INJURIES" property="passenger_minor_injuries" />
+		<result column="PASSENGER_SERIOUS_INJURIES" property="passenger_serious_injuries" />
 		<result column="AIRCRAFT_DAMAGE" property="aircraft_damage" />
+		<result column="INJURY" property="injury" />
 		<result column="DELAY_TIME" property="delay_time" />
-		<result column="FLIGHT_INFO_ID" property="flight_info_id" />
+		<result column="REPORT_PARENT_ID" property="report_parent_id" />
  	</resultMap>
  	
  	
- 	<select id="readReportList" resultMap="Report">
- 		SELECT `id`, `report_date`, `state`, `report_no`, `crew_fatalities`, `crew_injuries`, `cabin_fatalities`, `cabin_injuries`, `passenger_fatalities`, `passenger_injuries`, `aircraft_damage`, `delay_time`, `flight_info_id`
+ 	<select id="readReportList" resultMap="Report" parameterClass="ac.kaist.cts.domain.Report">
+ 		/*readReportList*/
+ 		SELECT `id`, `report_date`, `report_state`, `type`, `management_state`, `report_no`, `crew_fatalities`, `crew_minor_injuries`, `crew_serious_injuries`, `cabin_fatalities`, `cabin_minor_injuries`, `cabin_serious_injuries`, `passenger_fatalities`, `passenger_minor_injuries`, `passenger_serious_injuries`, `aircraft_damage`, `injury`, `delay_time`, `report_parent_id`
  		FROM report
+ 		WHERE
+ 		1=1
+ 		<isNotEmpty property="report_state">
+ 		and `report_state` = #report_state# 
+ 		</isNotEmpty>
+ 		<isNotEmpty property="management_state">
+ 		and `management_state` = #management_state# 
+ 		</isNotEmpty>
  	</select>
  	 	
-	<select id="readReport" resultMap="Report">
-       SELECT `id`, `report_date`, `state`, `report_no`, `crew_fatalities`, `crew_injuries`, `cabin_fatalities`, `cabin_injuries`, `passenger_fatalities`, `passenger_injuries`, `aircraft_damage`, `delay_time`, `flight_info_id`
+	<select id="readReport" resultMap="Report" parameterClass="ac.kaist.cts.domain.Report">
+		/*readReport*/
+       SELECT `id`, `report_date`, `report_state`, `type`, `management_state`, `report_no`, `crew_fatalities`, `crew_minor_injuries`, `crew_serious_injuries`, `cabin_fatalities`, `cabin_minor_injuries`, `cabin_serious_injuries`, `passenger_fatalities`, `passenger_minor_injuries`, `passenger_serious_injuries`, `aircraft_damage`, `injury`, `delay_time`, `report_parent_id`
  	   FROM report
-       WHERE report_no = #report_no#
-       
+       WHERE 
+       1=1
+       <isNotEqual property="id" compareValue="0">
+       and id = #id#
+       </isNotEqual>
+       <isNotEmpty property="report_no">
+       and report_no = #report_no#
+       </isNotEmpty>
+	</select>
+	
+	<select id="readReportChildrenList" resultMap="Report" parameterClass="ac.kaist.cts.domain.Report">
+		/*readReportChildrenList*/
+       SELECT r.`id`, r.`report_date`, r.`report_state`, r.`type`, r.`management_state`, r.`report_no`, `crew_fatalities`, `crew_minor_injuries`, `crew_serious_injuries`, `cabin_fatalities`, `cabin_minor_injuries`, `cabin_serious_injuries`, `passenger_fatalities`, `passenger_minor_injuries`, `passenger_serious_injuries`, `aircraft_damage`, `injury`, `delay_time`, `report_parent_id`
+ 	   FROM report r inner join report_parent rp on r.report_parent_id = rp.id
+       WHERE rp.report_no = #report_no#
+       <isNotEmpty property="management_state">
+ 		and r.`management_state` in (#management_state#) 
+ 		</isNotEmpty>
+	</select>
+	
+	<select id="readReportWorstSituation" resultMap="Report" parameterClass="ac.kaist.cts.domain.Report">
+		/*readReportWorstSituation*/
+       SELECT r.`id`, `report_date`, `report_state`, `type`, `management_state`, `report_no`, `crew_fatalities`, `crew_minor_injuries`, `crew_serious_injuries`, `cabin_fatalities`, `cabin_minor_injuries`, `cabin_serious_injuries`, `passenger_fatalities`, `passenger_minor_injuries`, `passenger_serious_injuries`, sia.name as `aircraft_damage`, sii.name as `injury`, sid.name as `delay_time`, `report_parent_id`
+		FROM 
+			report r 
+			INNER JOIN select_items sia ON r.aircraft_damage = sia.value 
+			INNER JOIN select_items sii ON r.injury = sii.value
+			INNER JOIN select_items sid ON r.delay_time = sid.value
+		where 
+		sia.category = 'aircraft_damage'
+		and
+		sii.category = 'injury'
+		and
+		sid.category = 'delay_time'
+        and report_parent_id = #report_parent_id#
+        ORDER BY $order_column$ desc
+        limit 0, 1
 	</select>
 
 	<insert id="createReport" parameterClass="ac.kaist.cts.domain.Report">
 		 INSERT INTO `report` 
-		 (`report_date`, `state`, `report_no`, `crew_fatalities`, `crew_injuries`, `cabin_fatalities`, `cabin_injuries`, `passenger_fatalities`, `passenger_injuries`, `aircraft_damage`, `delay_time`, `flight_info_id`) VALUES 
-		 (#report_date#, #state#, #report_no#, #crew_fatalities#, #crew_injuries#, #cabin_fatalities#, #cabin_injuries#, #passenger_fatalities#, #passenger_injuries#, #aircraft_damage#, #delay_time#, #flight_info_id#)
+		 (`report_date`, `report_state`, `type`, `management_state`, `report_no`, `crew_fatalities`, `crew_minor_injuries`, `crew_serious_injuries`, `cabin_fatalities`, `cabin_minor_injuries`, `cabin_serious_injuries`, `passenger_fatalities`, `passenger_minor_injuries`, `passenger_serious_injuries`, `aircraft_damage`, `injury`, `delay_time`, `report_parent_id`) VALUES 
+		 (#report_date#, #report_state#, #type#, #management_state#, #report_no#, #crew_fatalities#, #crew_minor_injuries#, #crew_serious_injuries#, #cabin_fatalities#, #cabin_minor_injuries#, #cabin_serious_injuries#, #passenger_fatalities#, #passenger_minor_injuries#, #passenger_serious_injuries#, #aircraft_damage#, #injury#, #delay_time#, #report_parent_id#)
 	</insert>
 	
 	<update id="updateReport" parameterClass="ac.kaist.cts.domain.Report">
@@ -46,26 +97,47 @@
        <isNotEmpty property="report_date">
        , `report_date`= #report_date#
        </isNotEmpty>
-       <isNotEmpty property="state">
-       , `state`= #state#
+       <isNotEmpty property="report_state">
+       , `report_state`= #report_state#
+       </isNotEmpty>
+        <isNotEmpty property="type">
+       , `type`= #type#
+       </isNotEmpty>
+       <isNotEmpty property="management_state">
+       , `management_state`= #management_state#
        </isNotEmpty>
        <isNotEmpty property="crew_fatalities">
        , `crew_fatalities`= #crew_fatalities#
        </isNotEmpty>
-       <isNotEmpty property="crew_injuries">
-       , `crew_injuries`= #crew_injuries#
+       <isNotEmpty property="crew_minor_injuries">
+       , `crew_minor_injuries`= #crew_minor_injuries#
+       </isNotEmpty>
+       <isNotEmpty property="crew_serious_injuries">
+       , `crew_serious_injuries`= #crew_serious_injuries#
        </isNotEmpty>
        <isNotEmpty property="cabin_fatalities">
        , `cabin_fatalities`= #cabin_fatalities#
        </isNotEmpty>
-       <isNotEmpty property="cabin_injuries">
-       , `cabin_injuries`= #cabin_injuries#
+       <isNotEmpty property="cabin_minor_injuries">
+       , `cabin_minor_injuries`= #cabin_minor_injuries#
+       </isNotEmpty>
+       <isNotEmpty property="cabin_serious_injuries">
+       , `cabin_serious_injuries`= #cabin_serious_injuries#
        </isNotEmpty>
        <isNotEmpty property="passenger_fatalities">
        , `passenger_fatalities`= #passenger_fatalities#
        </isNotEmpty>
+       <isNotEmpty property="passenger_minor_injuries">
+       , `passenger_minor_injuries`= #passenger_minor_injuries#
+       </isNotEmpty>
+       <isNotEmpty property="passenger_serious_injuries">
+       , `passenger_serious_injuries`= #passenger_serious_injuries#
+       </isNotEmpty>
        <isNotEmpty property="aircraft_damage">
        , `aircraft_damage`= #aircraft_damage#
+       </isNotEmpty>
+       <isNotEmpty property="injury">
+       , `injury`= #injury#
        </isNotEmpty>
        <isNotEmpty property="delay_time">
        , `delay_time`= #delay_time#

@@ -6,7 +6,7 @@ public class HazardItem {
 	private int item_id;
 	private String item_name;
 	private int item_level;
-	private int report_id;
+	private int hazard_id;
 	
 	public int getId() {
 		return id;
@@ -32,11 +32,12 @@ public class HazardItem {
 	public void setItem_level(int item_level) {
 		this.item_level = item_level;
 	}
-	public int getReport_id() {
-		return report_id;
+	
+	public int getHazard_id() {
+		return hazard_id;
 	}
-	public void setReport_id(int report_id) {
-		this.report_id = report_id;
+	public void setHazard_id(int hazard_id) {
+		this.hazard_id = hazard_id;
 	}
 	public String getItem_name() {
 		return item_name;
@@ -47,9 +48,10 @@ public class HazardItem {
 	
 	@Override
 	public String toString() {
-		return "HazardItem [id=" + id + ", seq_num=" + seq_num + ", item_id="
-				+ item_id + ", item_name=" + item_name + ", item_level="
-				+ item_level + ", report_id=" + report_id + "]";
+		return "{\"id\":\"" + id + "\", \"seq_num\":\"" + seq_num
+				+ "\", \"item_id\":\"" + item_id + "\", \"item_name\":\""
+				+ item_name + "\", \"item_level\":\"" + item_level
+				+ "\", \"hazard_id\":\"" + hazard_id + "\"}";
 	}
 	
 	

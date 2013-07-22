@@ -34,6 +34,7 @@ public class FlightInfo {
 	private int id 						= 0;
 	private String report_no			= "";
 	private String report_state			= "";
+	private String report_type			= "";
 	private String ac_model				= "";
 	private String reportId 			= "";
 	private String flight_date 			= "";
@@ -48,11 +49,16 @@ public class FlightInfo {
 	private int no_crew 				= 0;
 	private int no_cabin 				= 0;
 	private int no_passenger 			= 0;
-	private int aircraft_info_id = 0;
+	private int Report_id					= 0;
 	
 	
 	
-	
+	public String getReport_type() {
+		return report_type;
+	}
+	public void setReport_type(String report_type) {
+		this.report_type = report_type;
+	}
 	public String getReport_state() {
 		return report_state;
 	}
@@ -156,23 +162,25 @@ public class FlightInfo {
 	public void setNo_passenger(int no_passenger) {
 		this.no_passenger = no_passenger;
 	}
-	public int getAircraft_info_id() {
-		return aircraft_info_id;
+	
+	public int getReport_id() {
+		return Report_id;
 	}
-	public void setAircraft_info_id(int aircraft_info_id) {
-		this.aircraft_info_id = aircraft_info_id;
+	public void setReport_id(int report_id) {
+		Report_id = report_id;
 	}
 	@Override
 	public String toString() {
 		return "FlightInfo [id=" + id + ", report_no=" + report_no
-				+ ", report_state=" + report_state + ", ac_model=" + ac_model
-				+ ", reportId=" + reportId + ", flight_date=" + flight_date
-				+ ", flight_no=" + flight_no + ", airline=" + airline
-				+ ", route_from=" + route_from + ", route_to=" + route_to
-				+ ", route_diverted=" + route_diverted + ", flight_type="
-				+ flight_type + ", dom_int_type=" + dom_int_type
-				+ ", cargo_operation=" + cargo_operation + ", no_crew="
-				+ no_crew + ", no_cabin=" + no_cabin + ", no_passenger="
-				+ no_passenger + ", aircraft_info_id=" + aircraft_info_id + "]";
+				+ ", report_state=" + report_state + ", report_type="
+				+ report_type + ", ac_model=" + ac_model + ", reportId="
+				+ reportId + ", flight_date=" + flight_date + ", flight_no="
+				+ flight_no + ", airline=" + airline + ", route_from="
+				+ route_from + ", route_to=" + route_to + ", route_diverted="
+				+ route_diverted + ", flight_type=" + flight_type
+				+ ", dom_int_type=" + dom_int_type + ", cargo_operation="
+				+ cargo_operation + ", no_crew=" + no_crew + ", no_cabin="
+				+ no_cabin + ", no_passenger=" + no_passenger + ", Report_id="
+				+ Report_id + "]";
 	}
 }

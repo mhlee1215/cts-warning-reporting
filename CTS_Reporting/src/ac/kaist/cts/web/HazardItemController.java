@@ -30,7 +30,7 @@ private Logger logger = Logger.getLogger(getClass());
 	@RequestMapping("/getHazardItems.do")
     public ModelAndView getHazardItemListTop(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HazardItem item = new HazardItem();
-		item.setReport_id(1);
+		item.setHazard_id(1);
 		
 		
 		int page = ServletRequestUtils.getIntParameter(request, "page", 0);// get the requested page

@@ -81,8 +81,10 @@ public interface LanguagePack {
 	String getStringSave();
 	String getStringDelete();
 	String getStringSubmit();
+	String getStringSubmitted();
 	String getStringNext();
 	String getStringPrevious();
+	String getStringMore();
 	String getStringNoDelay();
 	String getStringWithin30Min();
 	String getString30Minto1Hour();
@@ -172,4 +174,8 @@ public interface LanguagePack {
 	String getStringDivisionGround();
 	String getStringDivisionCargo();
 	String getStringDivisionTraining();
+	String getStringPrint();
+	
+	String getStringMinorInjuries();
+	String getStringSeriousInjuries();
 }

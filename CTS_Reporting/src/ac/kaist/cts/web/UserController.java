@@ -36,6 +36,8 @@ public class UserController {
 		String registerComplete = ServletRequestUtils.getStringParameter(request, "registerComplete", "false");
 		String registerFail = ServletRequestUtils.getStringParameter(request, "registerFail", "false");
 	    String userid = (String)request.getSession().getAttribute("userid");
+	    String user_type = (String) request.getSession().getAttribute("user_type");
+	    
 	    
 	    if(userid == null){
     		String remoteHost = request.getRemoteHost();
@@ -74,7 +76,7 @@ public class UserController {
 		model.addObject("registerFail", registerFail);
 		model.addObject("submittedUserId", submittedUserId);
 		model.addObject("isUseController", "true");
-		
+		model.addObject("user_type", user_type);
 		
 		
 		model.addObject("lang", lang);
@@ -85,11 +87,28 @@ public class UserController {
 		return model;
     }
 	
+	@RequestMapping("/changeUserType.do")
+    public ModelAndView changeWorkType(HttpServletRequest request, HttpServletResponse response) {
+		String user_type = ServletRequestUtils.getStringParameter(request, "user_type", "");
+		request.getSession().setAttribute("user_type", user_type);
+		ModelAndView model = new ModelAndView("redirect:index.do");
+		return model;
+    }
+	
 	@RequestMapping("/changeLang.do")
     public ModelAndView changeLang(HttpServletRequest request, HttpServletResponse response) {
+		String work_type = (String) request.getSession().getAttribute("work_type");
+		String next_url = "";
+		if("management".equals(work_type)){
+			next_url = "redirect:management.do";
+		}else{
+			next_url = "redirect:index.do";
+		}
+		
 		String language = ServletRequestUtils.getStringParameter(request, "language", "");
 		request.getSession().setAttribute("lang", language);
-		ModelAndView model = new ModelAndView("redirect:index.do");
+		
+		ModelAndView model = new ModelAndView(next_url);
 		return model;
     }
 	
@@ -149,7 +168,7 @@ public class UserController {
 			request.getSession().setAttribute("user_name", readed.getName());
 			request.getSession().setAttribute("work_type", work_type);
 			if("report".equals(work_type))
-				request.getSession().setAttribute("user_type", user_type_reporting);
+				request.getSession().setAttribute("user_type", user_type_reporting+Integer.toString(readed.getType()));
 			else if("management".equals(work_type))
 				request.getSession().setAttribute("user_type", user_type_management);
 			request.getSession().setAttribute("lang", language);

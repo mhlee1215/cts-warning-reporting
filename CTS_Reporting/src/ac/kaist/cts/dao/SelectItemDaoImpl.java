@@ -23,7 +23,7 @@ public class SelectItemDaoImpl extends SqlMapClientDaoSupport implements SelectI
 	@SuppressWarnings("unchecked")
 	public List<SelectItem> readSelectItemList(SelectItem item) {
 	
-		List<SelectItem> array = getSqlMapClientTemplate().queryForList("SelectItemSql.readSelectItemList");
+		List<SelectItem> array = getSqlMapClientTemplate().queryForList("SelectItemSql.readSelectItemList", item);
 		return array;
 	}
 

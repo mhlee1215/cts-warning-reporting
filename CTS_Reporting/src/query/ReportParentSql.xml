@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ReportParentSql">
+
+	<resultMap id="ReportParent" class="ac.kaist.cts.domain.ReportParent">
+		<result column="ID" property="id" />
+		<result column="REPORT_NO" property="report_no" />
+		<result column="REPORT_DATE" property="report_date" />
+		<result column="REPORT_STATE" property="report_state" />
+		<result column="MANAGEMENT_STATE" property="management_state" />
+ 	</resultMap>
+
+ 	<select id="readReportParentList" resultMap="ReportParent" parameterClass="ac.kaist.cts.domain.ReportParent">
+ 		/*readReportParentList*/
+ 		SELECT `id`, `report_no`, `report_date`, `report_state`, `management_state`
+ 		FROM report_parent
+ 		WHERE
+ 		1=1
+ 		<isNotEmpty property="report_state">
+ 		and `report_state` = #report_state# 
+ 		</isNotEmpty>
+ 		<isNotEmpty property="management_state">
+ 		and `management_state` = #management_state# 
+ 		</isNotEmpty>
+ 	</select>
+ 	 	
+	<select id="readReportParent" resultMap="ReportParent" parameterClass="ac.kaist.cts.domain.ReportParent">
+       SELECT `id`, `report_no`, `report_date`, `report_state`, `management_state`
+ 	   FROM report_parent
+       WHERE 
+       1=1
+       <isNotEmpty property="report_no">
+       and report_no = #report_no#
+       </isNotEmpty>
+       <isNotEqual property="id" compareValue="0">
+       and id = #id#
+       </isNotEqual>
+	</select>
+
+	<insert id="createReportParent" parameterClass="ac.kaist.cts.domain.ReportParent">
+		 INSERT INTO `report_parent` 
+		 (`report_no`, `report_date`, `report_state`, `management_state`) VALUES 
+		 (#report_no#, #report_date#, #report_state#, #management_state#);
+
+	</insert>
+	
+	<update id="updateReportParent" parameterClass="ac.kaist.cts.domain.ReportParent">
+       UPDATE `report_parent` 
+       SET 
+       id = #id#
+       <isNotEmpty property="report_no">
+       , `report_no`= #report_no#
+       </isNotEmpty>
+       <isNotEmpty property="report_date">
+       , `report_date`= #report_date#
+       </isNotEmpty>
+       <isNotEmpty property="report_state">
+       , `report_state`= #report_state#
+       </isNotEmpty>
+       <isNotEmpty property="management_state">
+       , `management_state`= #management_state#
+       </isNotEmpty>
+       WHERE id = #id#
+       
+	</update>
+	
+	
+</sqlMap>
+
+

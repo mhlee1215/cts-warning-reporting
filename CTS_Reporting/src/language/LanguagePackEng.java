@@ -427,6 +427,12 @@ public class LanguagePackEng implements LanguagePack {
 		// TODO Auto-generated method stub
 		return "Submit";
 	}
+	
+	@Override
+	public String getStringSubmitted() {
+		// TODO Auto-generated method stub
+		return "Submitted";
+	}
 
 	@Override
 	public String getStringNext() {
@@ -438,6 +444,12 @@ public class LanguagePackEng implements LanguagePack {
 	public String getStringPrevious() {
 		// TODO Auto-generated method stub
 		return "Previous";
+	}
+	
+	@Override
+	public String getStringMore() {
+		// TODO Auto-generated method stub
+		return "More..";
 	}
 
 	@Override
@@ -912,6 +924,24 @@ public class LanguagePackEng implements LanguagePack {
 	public String getLanguage() {
 		// TODO Auto-generated method stub
 		return "Eng";
+	}
+
+	@Override
+	public String getStringPrint() {
+		// TODO Auto-generated method stub
+		return "Print";
+	}
+
+	@Override
+	public String getStringMinorInjuries() {
+		// TODO Auto-generated method stub
+		return "Minor Injuries";
+	}
+
+	@Override
+	public String getStringSeriousInjuries() {
+		// TODO Auto-generated method stub
+		return "Serious Injuries";
 	}
 
 	

@@ -9,21 +9,57 @@
 		<result column="SEQ_NUM" property="seq_num" />
 		<result column="ITEM_ID" property="item_id" />
 		<result column="ITEM_LEVEL" property="item_level" />
-		<result column="REPORT_ID" property="report_id" />
+		<result column="HAZARD_ID" property="hazard_id" />
  	</resultMap>
  	
  	
  	<select id="readHazardItemNum" resultClass="Integer">
  		SELECT max(SEQ_NUM) FROM HAZARD_ITEM
- 		WHERE REPORT_ID = #report_id# 
+ 		WHERE HAZARD_ID = #hazard_id# 
  	</select>
  	
  	<select id="readHazardItem" resultMap="HazardItem">
- 		SELECT ID, SEQ_NUM, ITEM_ID, ITEM_LEVEL, REPORT_ID FROM HAZARD_ITEM
- 		WHERE REPORT_ID = #report_id# and SEQ_NUM = #seq_num#
+ 		/*readHazardItemList*/
+ 		SELECT ID, SEQ_NUM, ITEM_ID, ITEM_LEVEL, HAZARD_ID FROM HAZARD_ITEM
+ 		WHERE 
+ 		HAZARD_ID = #hazard_id#
+ 		<isNotEqual property="seq_num" compareValue="0"> 
+ 		and SEQ_NUM = #seq_num#
+ 		</isNotEqual>
+ 		<isNotEqual property="item_level" compareValue="0">
+ 		and ITEM_LEVEL = #item_level#
+ 		</isNotEqual>
  		ORDER BY ITEM_LEVEL
  	</select>
 
+	<insert id="createHazardItem" parameterClass="ac.kaist.cts.domain.HazardItem">
+		 INSERT INTO `HAZARD_ITEM` 
+		 (`seq_num`, `item_id`, `item_level`, `hazard_id`) VALUES 
+		 (#seq_num#, #item_id#, #item_level#, #hazard_id#)
+	</insert>
+	
+	<update id="updateHazardItem" parameterClass="ac.kaist.cts.domain.HazardItem">
+       UPDATE `HAZARD_ITEM` 
+       SET 
+       `hazard_id` = #hazard_id#
+       <isNotEmpty property="seq_num">
+       , `seq_num`= #seq_num#
+       </isNotEmpty>
+       <isNotEmpty property="item_id">
+       , `item_id`= #item_id#
+       </isNotEmpty>
+       <isNotEmpty property="item_level">
+       , `item_level`= #item_level#
+       </isNotEmpty>
+      
+       WHERE hazard_id = #hazard_id#
+        <isNotEmpty property="seq_num"> 
+ 		and SEQ_NUM = #seq_num#
+ 		</isNotEmpty>
+ 		<isNotEmpty property="item_level">
+ 		and ITEM_LEVEL = #item_level#
+ 		</isNotEmpty>
+    </update>
 	
 </sqlMap>
 
