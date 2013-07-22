@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %> 
 <html>
 <head>
 <meta charset="utf-8">
@@ -108,9 +109,9 @@
 				{name:'no',			index:'no', width:20, align:"center",sorttype:"int"},
 	       		{name:'filename',	index:'filename', width:120, align:"left", sorttype:"text", formatter:nameLinkfnFormatter},
 	       		{name:'filesize',	index:'filesize', width:50, align:"center", sorttype:"text"},
-	       		{name:'filetype',	index:'filetype', width:100, align:"center", sorttype:"text"},
+	       		{name:'filetype',	index:'filetype', width:100, align:"center", sorttype:"text" ${isReadOnly == "Y" ? ",hidden:true" : ""}},
 	       		{name:'modifieddate',index:'modifieddate', width:80, align:"center",sorttype:"text"},
-	       		{name:'deleteFn',	index:'deleteFn', width:30, align:"center", formatter:deleteBtnfnFormatter}
+	       		{name:'deleteFn',	index:'deleteFn', width:30, align:"center", formatter:deleteBtnfnFormatter ${isReadOnly == "Y" ? ",hidden:true" : ""}}
 	       	],
 	       	multiselect: false,
 	       	caption: "Attached File List"
@@ -256,11 +257,13 @@
 	<table width="100%">
 	<tr>
 	<td align="right">
+	<c:if test="${isReadOnly == 'N'}">
 	<span class="btn btn-success fileinput-button" style="float:right">
        <i class="icon-plus icon-white"></i>
        <span>Add files...</span>
        <input id="fileupload" type="file" name="files[]" data-url="${pageContext.request.contextPath}/fileUpload.do?report_no=${report_no}&report_item_type=${report_item_type}" multiple>
    </span>
+   </c:if>
    </td>
    </tr>
 	</table>

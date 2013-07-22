@@ -6,15 +6,15 @@
   <page>1</page>
   <total>1</total>
   <records>10</records>
-<c:forEach items="${reports}" var="report" varStatus="status">
-<row id='${report.report_no}'>
-      <cell>${report.title}</cell>
-      <cell>${report.report_date}</cell>
-      <cell>${report.aircraft_damage}</cell>
-      <cell>${report.injury}</cell>
-      <cell>${report.delay_time}</cell>
-      <cell>${report.priority}</cell>
-      <cell>${report.state}</cell>
+<c:forEach items="${hazards}" var="hazard" varStatus="status">
+<row id='${hazard.hazard_no}'>
+      <cell>${hazard.title}</cell>
+      <cell>${hazard.hazard_date}</cell>
+      <cell>${hazard.damage}</cell>
+      <cell>${hazard.injury}</cell>
+      <cell>${hazard.delay}</cell>
+      <cell>${hazard.priority}</cell>
+      <cell>${hazard.state}</cell>
 </row>
 </c:forEach>
 </rows>

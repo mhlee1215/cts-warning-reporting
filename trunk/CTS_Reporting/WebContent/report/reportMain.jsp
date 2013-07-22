@@ -167,6 +167,8 @@
 	  .button({icons: {secondary: "ui-icon-document" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   //PrintElem('#tab'+currentTab);
+	   window.print();
 	  });
 	  $("#id_main_save_btn")
 	  .button({icons: {secondary: "ui-icon-disk" } })
@@ -247,7 +249,7 @@
 	  });
 	  
 	  $("#id_main_submitted_btn")
-	  .button({icons: {secondary: "ui-icon-check" } })
+	  .button({icons: {secondary: "ui-icon-rocked" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
@@ -312,7 +314,7 @@ document.location = '${pageContext.request.contextPath}/index.do';
   	<table width="100%">
   		<tr>
   			<td align="left"><a id="id_main_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
-  			<td align="center"><a id="id_main_edit_btn" href="#">${lang.getStringEdit()}</a>
+  			<td align="center"><a id="id_main_edit_btn" href="#">${lang.getStringPrint()}</a>
   			<a id="id_main_save_btn" href="#">${lang.getStringSave()}</a>
   			<a id="id_main_delete_btn" href="#">Delete</a>
   			<a id="id_main_submit_btn" href="#">Submit</a>
@@ -462,7 +464,28 @@ document.location = '${pageContext.request.contextPath}/index.do';
     	}
     	
     	
+    };
+    
+    function PrintElem(elem)
+    {
+        Popup($(elem).html());
     }
+
+    function Popup(data) 
+    {
+        var mywindow = window.open('', 'my div', 'height=400,width=600');
+        mywindow.document.write('<html><head><title>my div</title>');
+        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+
   </script>
 </body>
 </html>

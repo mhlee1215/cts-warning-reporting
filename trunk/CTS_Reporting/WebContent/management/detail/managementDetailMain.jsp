@@ -6,11 +6,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>jQuery UI Tabs - Tabs at bottom</title>
+  <title>Management</title>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+  
+  
   <script>
   $(function() {
 	  $( "#tabs_management_detail_main" ).tabs({
@@ -58,13 +60,18 @@
     // move the nav to the bottom
     $( ".tabs-bottom .ui-tabs-nav" ).appendTo( ".tabs-bottom" );
     
-    
-    $("#tab1").load("${pageContext.request.contextPath}/managementDetailReview.do");
-	$("#tab2").load("${pageContext.request.contextPath}/managementDetailHazardIdentification.do");
-	$("#tab3").load("${pageContext.request.contextPath}/managementDetailRiskAnalysis.do");
-	$("#tab4").load("${pageContext.request.contextPath}/managementDetailRiskAssessment.do");
-	$("#tab5").load("${pageContext.request.contextPath}/managementDetailMitigation.do");
-	$("#tab6").load("${pageContext.request.contextPath}/managementDetailRegistered.do");
+    if(${activateTab} == 0)
+    	$("#tab1").load("${pageContext.request.contextPath}/managementDetailReview.do?report_no=${report_no}");
+    	else if(${activateTab} == 1)
+	$("#tab2").load("${pageContext.request.contextPath}/managementDetailHazardIdentification.do?report_no=${report_no}");
+    	else if(${activateTab} == 2)
+	$("#tab3").load("${pageContext.request.contextPath}/managementDetailRiskAnalysis.do?hazard_no=${hazard_no}");
+    	else if(${activateTab} == 3)
+	$("#tab4").load("${pageContext.request.contextPath}/managementDetailRiskAssessment.do?hazard_no=${hazard_no}");
+    	else if(${activateTab} == 4)
+	$("#tab5").load("${pageContext.request.contextPath}/managementDetailMitigation.do?hazard_no=${hazard_no}");
+    	else if(${activateTab} == 5)
+	$("#tab6").load("${pageContext.request.contextPath}/managementDetailRegistered.do?hazard_no=${hazard_no}");
   });
   </script>
   <style>

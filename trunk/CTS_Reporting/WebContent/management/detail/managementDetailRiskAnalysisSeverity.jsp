@@ -35,13 +35,15 @@
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
+	  $("#id_management_risk_analysis_severity_edit_btn").hide();
 	  $("#id_management_risk_analysis_severity_save_btn")
 	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   updateAnalysisSeverity('n');
 	});
 	  $("#id_management_risk_analysis_severity_delete_btn")
-	  .button({icons: {secondary: "ui-icon-trash" } })
+	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	});
@@ -49,12 +51,55 @@
 	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   updateAnalysisSeverity('y');
 	});
+	  
+	  $("#id_management_risk_analysis_severity_submitted_btn")
+	  .button({icons: {secondary: "ui-icon-locked" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	  });
+	  
+	  $("#id_management_risk_analysis_severity_submitted_btn").hide();
 	  
 	  management_risk_analysis_severity_likelihood_item();
 	  management_risk_analysis_severity_new_controls_item();
 	  management_risk_analysis_severity_existing_controls_item();
+	  
+	  <c:if test="${hazard.state_severity == 'SUBMITTED'}" >
+	  $("#id_management_risk_analysis_severity_submitted_btn").show();
+	   $("#id_management_risk_analysis_severity_submit_btn").hide();   
+	   
+	   $('input.severity').attr('disabled', 'disabled');
+		$('select.severity').attr('disabled', 'disabled');
+		$('textarea.severity').attr('disabled', 'disabled');
+	</c:if>
   });
+  
+  function updateAnalysisSeverity (issubmit){
+		 var str = $("#management_risk_analysis_severity_form").serialize();
+		   //alert(str);
+		   
+		   $.ajax({
+			    type:"post",
+			    data:str+'&hazard_no=${hazard_no}&type=severity&issubmit='+issubmit,
+			    url:"managementDetailRiskAnalysisLikelihoodUpdate.do",
+			    async: false,
+			    success: function(msg){
+			       alert(msg);
+			       if(issubmit == 'y'){
+			    	   $("#id_management_risk_analysis_severity_submitted_btn").show();
+				 	   $("#id_management_risk_analysis_severity_submit_btn").hide();   
+				 	   
+				 	  $('input.severity').attr('disabled', 'disabled');
+						$('select.severity').attr('disabled', 'disabled');
+						$('textarea.severity').attr('disabled', 'disabled');
+			       }
+			       
+			    }
+			});
+	}
+  
   function printObject(o) {
 	  var out = '';
 	  for (var p in o) {
@@ -81,12 +126,10 @@
   {
 	  //alert(rowObject[0]);
 	  //printObject(rowObject.attributes);
-	  var return_str = '<select style="width:100%" id="id_management_risk_analysis_likelihood_initial_likelihood_selector" name="method" class="hazard_item_selector">'+
-		'<option value="1">Catastrophic</option>'+
-		'<option value="2">Hazardous</option>'+
-		'<option value="3">Major</option>'+
-		'<option value="4">Minor</option>'+		
-		'<option value="5">Negligible</option>'+
+	  var return_str = '<select style="width:100%" id="id_management_risk_analysis_severity_initial_likelihood_selector" name="method" class="hazard_item_selector">'+
+	  <c:forEach items="${severityList}" var="selectItem" varStatus="list_status">
+		'<option value="${selectItem.value }" selected="selected">${selectItem.name}</option>'+
+		</c:forEach>
 		'</select>';
 	  	return return_str;
   }
@@ -232,7 +275,7 @@
   
 </head>
 <body>
- 
+ <form id="management_risk_analysis_severity_form">
  
 	<fieldset>
 	<legend>${lang.getStringRiskAnalysis()}</legend>
@@ -329,20 +372,18 @@
 	<table width="100%">
 	<tbody>
 		<tr>
-			<td>Initial ${lang.getStringSeverity()}: <select style="width:50%" id="id_management_risk_analysis_severity_initial_likelihood_selector" name="method" class="hazard_item_selector">
-				<option value="1">Catastrophic</option>
-				<option value="2">Hazardous</option>
-				<option value="3">Major</option>
-				<option value="4">Minor</option>		
-				<option value="5">Negligible</option>
+			<td>Initial ${lang.getStringSeverity()}: <select class="severity" style="width:50%" id="id_management_risk_analysis_severity_initial_likelihood_selector" name="risk_analysis_severity_initial_likelihood" class="hazard_item_selector">
+				<option value="0">Select</option>
+			    <c:forEach items="${severityList}" var="selectItem" varStatus="list_status">
+	 			<option value="${selectItem.value }" ${hazard.severity_initial_likelihood == selectItem.value ? "selected=\"selected\"" : ""}>${selectItem.name}</option>
+	 			</c:forEach>
 			</select></td>
 			<td></td>
-			<td>Residual ${lang.getStringSeverity()}: <select style="width:50%" id="id_management_risk_analysis_severity_residual_likelihood_selector" name="method" class="hazard_item_selector">
-				<option value="1">Catastrophic</option>
-				<option value="2">Hazardous</option>
-				<option value="3">Major</option>
-				<option value="4">Minor</option>		
-				<option value="5">Negligible</option>
+			<td>Residual ${lang.getStringSeverity()}: <select class="severity" style="width:50%" id="id_management_risk_analysis_severity_residual_likelihood_selector" name="risk_analysis_severity_residual_likelihood" class="hazard_item_selector">
+				<option value="0">Select</option>
+			    <c:forEach items="${severityList}" var="selectItem" varStatus="list_status">
+	 			<option value="${selectItem.value }" ${hazard.severity_residual_likelihood == selectItem.value ? "selected=\"selected\"" : ""}>${selectItem.name}</option>
+	 			</c:forEach>
 			</select> </td>
 		</tr>
 	</tbody>
@@ -351,7 +392,7 @@
 	
 	<fieldset>
 	<legend>Comments</legend>
-	<textarea rows="3" style="width:100%" id="id_management_risk_analysis_severity_comments"></textarea>
+	<textarea class="severity" rows="3" style="width:100%" name="risk_analysis_severity_comments" id="id_management_risk_analysis_severity_comments">${hazard.severity_comments}</textarea>
 	</fieldset>
 	
 	<table width="100%">
@@ -359,13 +400,13 @@
 	<tr>
 		<td align="center">
 		<a id="id_management_risk_analysis_severity_edit_btn" href="#">${lang.getStringEdit()}</a> <a id="id_management_risk_analysis_severity_save_btn" href="#">${lang.getStringSave()}</a> 
-		<a id="id_management_risk_analysis_severity_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_risk_analysis_severity_submit_btn" href="#">${lang.getStringSubmit()}</a>
+		<a id="id_management_risk_analysis_severity_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_risk_analysis_severity_submit_btn" href="#">${lang.getStringSubmit()}</a> <a id="id_management_risk_analysis_severity_submitted_btn" href="#">${lang.getStringSubmitted()}</a>
 		</td>
 	</tr>
 			
     </table>
 	
  
- 
+ </form>
 </body>
 </html>

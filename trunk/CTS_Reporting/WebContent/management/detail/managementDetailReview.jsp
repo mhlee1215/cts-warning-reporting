@@ -13,6 +13,11 @@
   <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/ui/jquery-ui.js"></script>
   <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+  
+  <script src="js/jquery.treeview.js" type="text/javascript"></script>
+  <script src="js/jquery.cookie.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.treeview.css" />
+  
   <script>
   $(function() {
 	  $( "#management_review_accordion" ).accordion({
@@ -33,11 +38,54 @@
 	 $( "#management_review_decent_menu" ).menu();
 	 $( "#management_review_approach_menu" ).menu();
 	 $( "#management_review_landing_menu" ).menu();
-	 $( "#management_review_taxi_in_menu" ).menu();
+	 
+	 <c:forEach items="${reportItemNameList}" var="reportItemName" varStatus="list_status">
+	 $( "#management_review_${reportItemName}_menu" ).menu();
+	 </c:forEach>
+	 
+	 <c:forEach items="${userTypeList}" var="userType" varStatus="list_status">
+			<c:if test="${classifiedRpList[userType].size() > 0}" >
+			$("#id_management_review_basic_${userType}_sub_menu").menu();
+			</c:if>
+	 </c:forEach>
 	  
-	  management_review_load_hazard_item();
-	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/reportBasic.do?report_no=RP2604137C1234");
+	  //management_review_load_hazard_item();
+	  //loadBasicInfo();
 	  //alert($('#id_taxi_out_hazardListTable_parentDiv').width());
+	  
+	  $("#id_management_review_basicinfo_tree").treeview({
+			animated: "fast",
+			collapsed: true,
+			unique: true
+		});
+	  <c:forEach items="${reportItemNameList}" var="reportItemName" varStatus="list_status">
+	  $("#id_management_review_${reportItemName}_info_tree").treeview({
+			animated: "fast",
+			collapsed: true,
+			unique: true
+	  });
+	  
+	  <c:forEach items="${userTypeList}" var="userType" varStatus="list_status">
+		<c:if test="${classifiedRpList[userType].size() > 0}" >
+		$("#id_management_review_${reportItemName}_${userType}_sub_menu").menu();
+		</c:if>
+	  </c:forEach>
+	 </c:forEach>
+	 
+		<c:forEach items="${userTypeList}" var="userType" varStatus="list_status">
+		
+			<c:if test="${classifiedRpList[userType].size() > 0}" >
+			
+				<c:forEach items="${classifiedRpList[userType]}" var="report" varStatus="list_status_sub">
+					<c:if test="${list_status_sub.index == 0}" >
+						loadBasicInfo('${report.report_no}');
+					</c:if>
+				</c:forEach>
+		
+			</c:if>
+			
+	</c:forEach>
+	 
   });
    
   function management_review_load_hazard_item(){
@@ -86,117 +134,75 @@
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
   }
   
-  function loadBasicInfo(){
-	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/reportBasic.do?report_no=RP2604137C1234");
+  function loadBasicInfo(report_no){
+	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/reportBASIC.do?isReadOnly=Y&report_no="+report_no);
 	  //alert('hi');
   }
   
-  function management_review_loadReport(category, type){
-	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/managementDetailReviewReport.do?report_no=RP2604137C1234&category="+category+"&type="+type);
+  function management_review_loadReport(report_no, category, type){
+	  $("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/managementDetailReviewReport.do?report_no="+report_no+"&category="+category+"&type="+type);
   }
+  
+  
   </script>
   <style>
   body {
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: 70%;
 }
-.ui-menu { width: 150px; }
   </style>
 </head>
 <body>
  
-<div class="ui-widget-header">${lang.getStringReportNo()} : RP2604137C1234</div>
+<div class="ui-widget-header">${lang.getStringReportNo()} : ${report_no }</div>
 <div class="ui-widget-content" style="padding: 5px;">
 <table width="100%">
 <tr>
 <td id="id_management_detail_main_left_panel" width="180" valign="top">
+
+
 <div id="management_review_accordion">
   <h3>${lang.getStringBasicInformation()}</h3>
   <div style="padding:0 0 0 15px;">
-		<ul id="management_review_basic_menu" style="border:none">
-		  <li><a href="javascript:loadBasicInfo();"><span class="ui-icon ui-icon-bullet"></span>${lang.getStringShowBasicInfo()}</a></li>
+		<ul id="id_management_review_basicinfo_tree" class="">
+			<c:forEach items="${userTypeList}" var="userType" varStatus="list_status">
+				<li><span class="folder">${userTypeNameList[userType]} (${classifiedRpList[userType].size()})</span>
+					<c:if test="${classifiedRpList[userType].size() > 0}" >
+					<ul id="id_management_review_basic_${userType}_sub_menu" style="width:120px;">
+						<c:forEach items="${classifiedRpList[userType]}" var="report" varStatus="list_status">
+							<li class=""><a href="javascript:loadBasicInfo('${report.report_no}')"><span class="ui-icon ui-icon-radio-off"></span>${report.type}</a></li>
+						</c:forEach>
+					</ul>
+					</c:if>
+				</li>	
+			</c:forEach>
 		</ul>
 	</div>
-  <h3>Taxi-Out (2)</h3>
+  <c:forEach items="${reportItemNameList}" var="reportItemName" varStatus="list_status">
+  <h3>${reportItemName} (${reportItemSize[reportItemName]})</h3>
 	<div style="padding:0 0 0 15px;">
-		<ul id="management_review_taxi_out_menu" style="border:none">
-		  <li><a href="javascript:management_review_loadReport('texi-out', 'pilot');"><span id="id_menu_item_texi-out_pilot" class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (1)</a></li>
-		  <li><a href="javascript:management_review_loadReport('texi-out', 'cabin');"><span id="id_menu_item_texi-out_cabin" class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (1)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
+	
+		<ul id="id_management_review_${reportItemName}_info_tree" class="">
+			<c:forEach items="${userTypeList}" var="userType" varStatus="list_status">
+			
+				<li><span class="folder">${userTypeNameList[userType]} (${reportItemList[reportItemName][userType].size()})</span>
+					<c:if test="${reportItemList[reportItemName][userType].size() > 0}" >
+					
+					<ul id="id_management_review_${reportItemName}_${userType}_sub_menu" style="width:120px;">
+						<c:forEach items="${reportItemList[reportItemName][userType]}" var="reportItem" varStatus="list_status">
+							<li class=""><a href="javascript:management_review_loadReport('${reportItem.report_no}', '${userType}', '${reportItem.type}')"><span id="id_management_review_menu_${reportItem.type}_${userType}" class="ui-icon ${reportItem.status_review == "SUBMITTED" ? "ui-icon-bullet" : "ui-icon-radio-off"}"></span>${userType}${reportItem.type_index}</a></li>
+						</c:forEach>
+					</ul>
+					
+					</c:if>
+				</li>	
+				
+			</c:forEach>
 		</ul>
+		
 	</div>
-  <h3>Take-Off (0)</h3>
-  	<div style="padding:0 0 0 15px;">
-		<ul id="management_review_take_off_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
-		</ul>
-	</div>
-  <h3>Climb (0)</h3>
-  <div style="padding:0 0 0 15px;">
-		<ul id="management_review_climb_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
-		</ul>
-	</div>
-   <h3>En-Route (0)</h3>
-  <div style="padding:0 0 0 15px;">
-		<ul id="management_review_en_route_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
-		</ul>
-	</div>
-   <h3>Decent (0)</h3>
-  <div style="padding:0 0 0 15px;">
-		<ul id="management_review_decent_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
-		</ul>
-	</div>
-   <h3>Approach (0)</h3>
-  <div style="padding:0 0 0 15px;">
-		<ul id="management_review_approach_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
-		</ul>
-	</div>
-   <h3>Landing (0)</h3>
-  <div style="padding:0 0 0 15px;">
-		<ul id="management_review_landing_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
-		</ul>
-	</div>
-   <h3>Taxi-In (0)</h3>
-  <div style="padding:0 0 0 15px;">
-		<ul id="management_review_taxi_in_menu" style="border:none">
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringPilot()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringCabin()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringGround()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringMaintenance()} (0)</a></li>
-		  <li class="ui-state-disabled"><a href="#"><span class="ui-icon ui-icon-radio-off"></span>${lang.getStringDispatcher()} (0)</a></li>
-		</ul>
-	</div>
+	
+  </c:forEach>
 </div>
 
 </td>
