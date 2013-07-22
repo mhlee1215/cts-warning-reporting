@@ -26,8 +26,8 @@
   $(function() {
 	  $( "#tabs_risk_analysis" ).tabs();
 	  // texi_out_load_hazard_item();
-	  management_risk_analysis_load_report("id_managment_risk_analsys_hazard_to_be_analyzed_ListTable", "managementRiskAnalysisReportList.do?status=all");
-	  management_risk_analysis_load_report("id_managment_risk_analsys_analyzed_hazards_ListTable", 		"managementRiskAnalysisReportList.do?status=all");
+	  management_risk_analysis_load_report("id_managment_risk_analsys_hazard_to_be_analyzed_ListTable", "managementRiskAnalysisReportList.do?status=Identified");
+	  management_risk_analysis_load_report("id_managment_risk_analsys_analyzed_hazards_ListTable", 		"managementRiskAnalysisReportList.do?status=Analyzed");
   });
   
   
@@ -101,10 +101,10 @@
 	  	loadComplete: function(){ 
 	  		
 	  	},
-	  	onSelectRow: function(id){ 
+	  	onSelectRow: function(rowid, status, e) {  		
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
-	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=2','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=2&hazard_no='+rowid,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	    }
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 	  

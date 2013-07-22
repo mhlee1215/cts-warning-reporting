@@ -6,10 +6,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>jQuery UI Tabs - Tabs at bottom</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <title>Risk Assessment</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/css/ui.jqgrid.css" />
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/jquery-1.9.1.js"></script>
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/ui/jquery-ui.js"></script>
+  <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <style>
   .ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text {
@@ -30,15 +32,13 @@
 	   event.preventDefault();
 	  });
 	  
-	  $("#id_management_risk_assessment_edit_btn")
-	  .button({icons: {secondary: "ui-icon-document" } })
-	  .click(function( event ) {
-	   event.preventDefault();
-	  });
+	  
 	  $("#id_management_risk_assessment_save_btn")
 	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   updateAssessment('n');
 	});
 	  $("#id_management_risk_assessment_delete_btn")
 	  .button({icons: {secondary: "ui-icon-trash" } })
@@ -49,24 +49,77 @@
 	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   updateAssessment('y');
 	});
+	  
+	  $("#id_management_risk_assessment_submitted_btn")
+	  .button({icons: {secondary: "ui-icon-rocked" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	  
+	});
+	  
+	  $("#id_management_risk_assessment_submitted_btn").hide();
 	  
 	  $("#id_management_risk_assessment_view_report_btn")
 	  .button({icons: {secondary: "ui-icon-forder-open" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=RP200713KE1203-1&category=&type=TAXI-OUT&readonly=Y','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	   
+	   
 	  });
 	  
 	  $("#id_management_risk_assessment_view_standard_btn")
 	  .button({icons: {secondary: "ui-icon-forder-open" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   window.open('${pageContext.request.contextPath}/managementDetailViewStandardt.do','viewStandardWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=650');
+	   
 	  });
 	  
 	 
 	  management_risk_assessment_new_controls_item();
 	  management_risk_assessment_existing_controls_item();
+	  
+	  
+	  <c:if test="${hazard.state_assessment == 'SUBMITTED'}" >
+	  $("#id_management_risk_assessment_submitted_btn").show();
+	   $("#id_management_risk_assessment_submit_btn").hide();   
+	   
+	   $('input').attr('disabled', 'disabled');
+
+		$('textarea').attr('disabled', 'disabled');
+	</c:if>
   });
+  
+  function updateAssessment (issubmit){
+		 var str = $("#management_detail_risk_assessment_form").serialize();
+		  // alert(str);
+		   
+		   $.ajax({
+			    type:"post",
+			    data:str+'&hazard_no=${hazard_no}&issubmit='+issubmit,
+			    url:"managementDetailRiskAssessmentUpdate.do",
+			    async: false,
+			    success: function(msg){
+			       alert(msg);
+			       if(issubmit == 'y'){
+			    	   $("#id_management_risk_assessment_submitted_btn").show();
+				 	   $("#id_management_risk_assessment_submit_btn").hide();
+				 	   
+				 	  $('input').attr('disabled', 'disabled');
+
+						$('textarea').attr('disabled', 'disabled');
+			       }
+			       
+			    }
+			});
+	}
+  
   function printObject(o) {
 	  var out = '';
 	  for (var p in o) {
@@ -199,10 +252,13 @@
   
 </head>
 <body>
+<form id="management_detail_risk_assessment_form">
  	<table width="100%" cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
-				
+				<td>
+				<div class="ui-widget-header">${lang.getStringHazardNo()} : ${hazard_no}</div>
+				</td>
 				<td align="right" ><a id="id_management_risk_assessment_view_report_btn" href="#">${lang.getStringViewReport()}</a>
 				
 				<a id="id_management_risk_assessment_view_standard_btn" href="#">View Standard</a>
@@ -211,7 +267,7 @@
 			</tr>
 		</tbody>
 	</table>
- 	
+ 	<div style="height:5px;"></div>
 	<fieldset>
 	<legend>${lang.getStringRiskAssessment()}</legend>
 	<table width="100%" cellpadding="0" cellspacing="0">
@@ -222,18 +278,18 @@
 					<legend>Initial ${lang.getStringRisk()}</legend>
 						<table width="100%" cellpadding="2" cellspacing="10">
 							<tbody>
-								<tr>
+								<tr>	
 									<td align="left">${lang.getStringLikelihood()}</td>
-									<td><b>${lang.getStringFrequency()}</b></td>
+									<td><b>${likelihoodNameMap[hazard.likelihood_initial_likelihood]}</b></td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
 									<td align="left">${lang.getStringSeverity()}</td>
-									<td><b>Major</b></td>
+									<td><b>${severityNameMap[hazard.severity_initial_likelihood]}</b></td>
 								</tr>
 								<tr>
 									<td align="left">Tolerability</td>
-									<td bgcolor="red"><font color="white"><b>High Risk : Unacceptable</b></font></td>
+									<td bgcolor="${initial_acceptable_color}"><font color="${initial_text_color}"><b>${initial_risk_text} : ${initial_acceptable_text}</b></font></td>
 								</tr>
 							</tbody>
 						</table>
@@ -247,16 +303,16 @@
 							<tbody>
 								<tr>
 									<td align="left">${lang.getStringLikelihood()}</td>
-									<td><b>Remote</b></td>
+									<td><b>${likelihoodNameMap[hazard.likelihood_residual_likelihood]}</b></td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
 									<td align="left">${lang.getStringSeverity()}</td>
-									<td><b>Minor</b></td>
+									<td><b>${severityNameMap[hazard.severity_residual_likelihood]}</b></td>
 								</tr>
 								<tr>
 									<td align="left">Tolerability</td>
-									<td bgcolor="green"><font color="white"><b>Medium Risk : Unacceptable</b></font></td>
+									<td bgcolor="${residual_acceptable_color}"><font color="${residual_text_color}"><b>${residual_risk_text} : ${residual_acceptable_text}</b></font></td>
 								</tr>
 							</tbody>
 						</table>
@@ -318,21 +374,33 @@
 	
 	<fieldset>
 	<legend>Comments</legend>
-	<textarea rows="15" style="width:100%" id="id_management_risk_assessment_comments"></textarea>
-	</fieldset>
+	<table width="100%" cellpadding="0px;">
+		<tr>
+			<th>${lang.getStringLikelihood()}</th>
+			<th width="10px;"></th>
+			<th>${lang.getStringSeverity()}</th>
+		</tr>
+		<tr>
+			<td><textarea rows="13" style="width:100%" name="management_risk_assessment_likelihood_comments" id="id_management_risk_assessment_likelihood_comments">${hazard.likelihood_comments}</textarea></td>
+			<td></td>
+			<td><textarea rows="13" style="width:100%" name="management_risk_assessment_severity_comments" id="id_management_risk_assessment_severity_comments">${hazard.severity_comments}</textarea></td>
+		</tr>
+	</table>
 	
+	</fieldset>
+	<div style="height:5px;"></div>
 	<table width="100%">
 	
 	<tr>
 		<td align="center">
-		<a id="id_management_risk_assessment_edit_btn" href="#">${lang.getStringEdit()}</a> <a id="id_management_risk_assessment_save_btn" href="#">${lang.getStringSave()}</a> 
-		<a id="id_management_risk_assessment_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_risk_assessment_submit_btn" href="#">${lang.getStringSubmit()}</a>
+		<a id="id_management_risk_assessment_save_btn" href="#">${lang.getStringSave()}</a> 
+		<a id="id_management_risk_assessment_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_risk_assessment_submit_btn" href="#">${lang.getStringSubmit()}</a> <a id="id_management_risk_assessment_submitted_btn" href="#">${lang.getStringSubmitted()}</a>
 		</td>
 	</tr>
 			
     </table>
 	
  
- 
+ </form>
 </body>
 </html>

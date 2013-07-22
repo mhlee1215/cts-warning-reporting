@@ -26,8 +26,8 @@
   $(function() {
 	  $( "#tabs_hazard_identification" ).tabs();
 	   //texi_out_load_hazard_item();
-	   management_hazard_identification_load_report("id_hazard_identification_reports_to_identify_ListTable", 		"managementHazardIdentificationReportList.do?status=accepted");
-	   management_hazard_identification_load_report("id_hazard_identification_identified_reports_ListTable", 		"managementHazardIdentificationReportList.do?status=accepted");
+	   management_hazard_identification_load_report("id_hazard_identification_reports_to_identify_ListTable", 		"managementHazardIdentificationReportList.do?status=Accepted");
+	   management_hazard_identification_load_report("id_hazard_identification_identified_reports_ListTable", 		"managementHazardIdentificationReportList.do?status=Identified");
   });
   
   
@@ -101,10 +101,10 @@
 	  	loadComplete: function(){ 
 	  		
 	  	},
-	  	onSelectRow: function(id){ 
+	  	onSelectRow: function(rowid, status, e) {  		
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
-	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=1','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=1&report_no='+rowid,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	    }
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 	  

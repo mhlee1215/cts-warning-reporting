@@ -6,10 +6,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>jQuery UI Tabs - Tabs at bottom</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <title>Risk Analysis</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/css/ui.jqgrid.css" />
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/jquery-1.9.1.js"></script>
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/ui/jquery-ui.js"></script>
+  <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <script>
   $(function() {
@@ -17,6 +19,9 @@
 	  .button({icons: {secondary: "ui-icon-forder-open" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=RP200713KE1203-1&category=&type=TAXI-OUT&readonly=Y','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	   
 	  });
 	  
 	  
@@ -47,8 +52,8 @@
 	            }
 	        });
 	        
-	        $("#management_risk_analysis_tab1").load("${pageContext.request.contextPath}/managementDetailRiskAnalysisLikelihood.do");
-	    	$("#management_risk_analysis_tab2").load("${pageContext.request.contextPath}/managementDetailRiskAnalysisSeverity.do");
+	        $("#management_risk_analysis_tab1").load("${pageContext.request.contextPath}/managementDetailRiskAnalysisLikelihood.do?hazard_no=${hazard_no}");
+	    	$("#management_risk_analysis_tab2").load("${pageContext.request.contextPath}/managementDetailRiskAnalysisSeverity.do?hazard_no=${hazard_no}");
 	    })();
   });
   </script>
@@ -176,7 +181,7 @@
 <table width="100%"> 
 <tr>
 <td>
-<div class="ui-widget-header">${lang.getStringHazardNo()} : H2604137C1234</div>
+<div class="ui-widget-header">${lang.getStringHazardNo()} : ${hazard_no}</div>
 </td>
 <td align="right"><a id="id_management_risk_analysis_view_report_btn" href="#">${lang.getStringViewReport()}</a></td>
 </tr>

@@ -132,9 +132,11 @@
 <body>
 <%@include file="/header.jsp"%>
 
+<script>
 <%if(!"true".equals(islogin)){ %>
 document.location = '${pageContext.request.contextPath}/index.do';
 <%}%>
+</script>
 
   <ul id="tabs">
       <li><a href="#" id="id_tab1" name="#tab1">${lang.getStringReview()}</a></li>

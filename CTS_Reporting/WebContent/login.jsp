@@ -98,6 +98,9 @@
 		     
 	});
 
+	function changeUserType(userType){
+		document.location = '${pageContext.request.contextPath}/changeUserType.do?user_type='+userType;
+	}
 	function clearText(field) {
 		if (field.defaultValue == field.value)
 			field.value = '';
@@ -192,14 +195,14 @@
 										</tr>
 										<tr>
 											<td class="leftmost_label">${lang.getStringType()}</td>
-											<td><select id="id_type_selector_reporting" name="user_type_reporting"
+											<td><select id="id_type_selector_reporting" name="user_type_reporting" onchange="changeUserType(this.value);"
 												class="form_selector">
 													<option value="0">select</option>
-													<option value="P" selected="selected">Pilot</option>
-													<option value="C">Cabin</option>
-													<option value="G">Ground</option>
-													<option value="M">Maintenance</option>
-													<option value="D">Dispatcher</option>
+													<option value="P" ${user_type == "P" ? "selected=\"selected\"" : ""}>Pilot</option>
+													<option value="C" ${user_type == "C" ? "selected=\"selected\"" : ""}>Cabin</option>
+													<option value="G" ${user_type == "G" ? "selected=\"selected\"" : ""}>Ground</option>
+													<option value="M" ${user_type == "M" ? "selected=\"selected\"" : ""}>Maintenance</option>
+													<option value="D" ${user_type == "D" ? "selected=\"selected\"" : ""}>Dispatcher</option>
 											</select>
 											
 											<select id="id_type_selector_management" name="user_type_management"

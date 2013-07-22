@@ -25,8 +25,8 @@
 <script>
   $(function() {
 	  $( "#tabs_risk_assessment" ).tabs();
-	  management_risk_assessment_load_report("id_managment_risk_assessment_hazard_to_be_analyzed_ListTable", "managementRiskAssessmentReportList.do?status=all");
-	  management_risk_assessment_load_report("id_managment_risk_assessment_analyzed_hazards_ListTable", 	  "managementRiskAssessmentReportList.do?status=all");
+	  management_risk_assessment_load_report("id_managment_risk_assessment_hazard_to_be_analyzed_ListTable", "managementRiskAssessmentReportList.do?status=Analyzed");
+	  management_risk_assessment_load_report("id_managment_risk_assessment_analyzed_hazards_ListTable", 	  "managementRiskAssessmentReportList.do?status=Risk");
   });
   
   
@@ -71,10 +71,10 @@
 	  	loadComplete: function(){ 
 	  		
 	  	},
-	  	onSelectRow: function(id){ 
+	  	onSelectRow: function(rowid, status, e) {  		 
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
-	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=3','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=3&hazard_no='+rowid,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	    }
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 	  

@@ -14,7 +14,7 @@
       <cell>${report.injury}</cell>
       <cell>${report.delay_time}</cell>
       <cell>${report.priority}</cell>
-      <cell>${report.state}</cell>
+      <cell>${report.management_state}</cell>
 </row>
 </c:forEach>
 </rows>

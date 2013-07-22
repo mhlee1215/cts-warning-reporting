@@ -25,12 +25,12 @@
 <script>
   $(function() {
 	  $( "#tabs_review" ).tabs();
-	   management_review_load_report("id_management_review_all_ListTable", 				"managementReviewReportList.do?status=all");
-	   management_review_load_report("id_management_review_review_ListTable", 			"managementReviewReportList.do?status=review");
-	   management_review_load_report("id_management_review_accepted_ListTable", 		"managementReviewReportList.do?status=accepted");
-	   management_review_load_report("id_management_review_rejected_ListTable", 		"managementReviewReportList.do?status=rejected");
-	   management_review_load_report("id_management_review_investigation_ListTable", 	"managementReviewReportList.do?status=in investigation");
-	   management_review_load_report("id_management_review_registered_ListTable", 		"managementReviewReportList.do?status=registered");
+	   management_review_load_report("id_management_review_all_ListTable", 				"managementReviewReportList.do?status=All");
+	   management_review_load_report("id_management_review_review_ListTable", 			"managementReviewReportList.do?status=Review");
+	   management_review_load_report("id_management_review_accepted_ListTable", 		"managementReviewReportList.do?status=Accepted");
+	   management_review_load_report("id_management_review_rejected_ListTable", 		"managementReviewReportList.do?status=Rejected");
+	   management_review_load_report("id_management_review_investigation_ListTable", 	"managementReviewReportList.do?status=In Investigation");
+	   management_review_load_report("id_management_review_registered_ListTable", 		"managementReviewReportList.do?status=Registered");
   });
   
    
@@ -75,10 +75,11 @@
 	  	loadComplete: function(){ 
 	  		
 	  	},
-	  	onSelectRow: function(id){ 
+	  	
+	  	onSelectRow: function(rowid, status, e) {  		
 	  		//var localRowData = $(this).jqGrid('getGridParam', "rp_no" );  
 	  	    //alert(localRowData);
-	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=0','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	  		window.open('${pageContext.request.contextPath}/managementDetailMain.do?activateTab=0&report_no='+rowid,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	    }
 	  }).navGrid('#pager1',{edit:false,add:false,del:false}); 
 	  

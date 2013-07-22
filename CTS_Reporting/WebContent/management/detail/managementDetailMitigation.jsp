@@ -6,10 +6,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>jQuery UI Tabs - Tabs at bottom</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <title>Mitigation</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/css/ui.jqgrid.css" />
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/jquery-1.9.1.js"></script>
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/ui/jquery-ui.js"></script>
+  <script src="${pageContext.request.contextPath}/jquery/jquery.jqGrid-4.4.5/js/jquery.jqGrid.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <style>
   .ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text {
@@ -35,10 +37,13 @@
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
+	  $("#id_management_mitigation_edit_btn").hide();
 	  $("#id_management_mitigation_save_btn")
 	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   updateMitigation('n');
 	});
 	  $("#id_management_mitigation_delete_btn")
 	  .button({icons: {secondary: "ui-icon-trash" } })
@@ -49,18 +54,34 @@
 	  .button({icons: {secondary: "ui-icon-check" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   updateMitigation('y');
 	});
+	  
+	  $("#id_management_mitigation_submitted_btn")
+	  .button({icons: {secondary: "ui-icon-rocked" } })
+	  .click(function( event ) {
+	   event.preventDefault();
+	});
+	  
+	  $("#id_management_mitigation_submitted_btn").hide();
 	  
 	  $("#id_management_mitigation_view_report_btn")
 	  .button({icons: {secondary: "ui-icon-forder-open" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=RP200713KE1203-1&category=&type=TAXI-OUT','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	   
 	  });
 	  
 	  $("#id_management_mitigation_view_standard_btn")
 	  .button({icons: {secondary: "ui-icon-forder-open" } })
 	  .click(function( event ) {
 	   event.preventDefault();
+	   
+	   window.open('${pageContext.request.contextPath}/managementDetailViewStandardt.do','viewStandardWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=650');
+	   
 	  });
 	  
 	  $("#id_management_risk_mitigation_owner1_requested_date").datepicker({
@@ -87,7 +108,38 @@
 	  
 	  management_mitigation_new_controls_item();
 	  management_mitigation_existing_controls_item();
+	  
+	 
+	  <c:if test="${hazard.state_mitigation == 'SUBMITTED'}" >
+	    $("#id_management_mitigation_submitted_btn").show();
+	    $("#id_management_mitigation_submit_btn").hide();   
+	   
+	   	$('input').attr('disabled', 'disabled');
+		$('select').attr('disabled', 'disabled');
+		$('textarea').attr('disabled', 'disabled');
+	</c:if>
   });
+  
+  function updateMitigation (issubmit){
+		 var str = $("#management_detail_mitigation_form").serialize();
+		  //alert(str);
+		   
+		   $.ajax({
+			    type:"post",
+			    data:str+'&hazard_no=${hazard_no}&issubmit='+issubmit,
+			    url:"managementDetailMitigationUpdate.do",
+			    async: false,
+			    success: function(msg){
+			       alert(msg);
+			       if(issubmit == 'y'){
+			    	   $("#id_management_mitigation_submitted_btn").show();
+				 	   $("#id_management_mitigation_submit_btn").hide();   
+			       }
+			       
+			    }
+			});
+	}
+  
   function printObject(o) {
 	  var out = '';
 	  for (var p in o) {
@@ -129,7 +181,7 @@
 	  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';
 	  jQuery("#id_management_mitigation_new_controls_ListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisSeverityNewControlsList.do', 
-	  	height: 100, 
+	  	height: 80, 
 	  	width:800,
 	  	datatype: "xml", 
 		  	colNames:['${lang.getStringControlNo()}','${lang.getStringTitle()}', '${lang.getStringState()}', '${lang.getStringStartDate()}','${lang.getStringEndDate()}'],
@@ -175,7 +227,7 @@
 	  var gridimgpath = '${pageContext.request.contextPath}/jquery/jqueryui-1.10.2/themes/base/images';
 	  jQuery("#id_management_mitigation_existing_controls_ListTable").jqGrid({
 	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisSeverityExistingControlsList.do', 
-	  	height: 100, 
+	  	height: 80, 
 	  	width:800,
 	  	datatype: "xml", 
 	  		colNames:['${lang.getStringControlNo()}','${lang.getStringTitle()}', '${lang.getStringState()}', '${lang.getStringStartDate()}','${lang.getStringEndDate()}'],
@@ -220,10 +272,13 @@
   
 </head>
 <body>
+<form id="management_detail_mitigation_form">
  	<table width="100%" cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
-				
+				<td>
+				<div class="ui-widget-header">${lang.getStringHazardNo()} : ${hazard_no}</div>
+				</td>
 				<td align="right" ><a id="id_management_mitigation_view_report_btn" href="#">View Report</a>
 				
 				<a id="id_management_mitigation_view_standard_btn" href="#">View Standard</a>
@@ -241,20 +296,20 @@
 				<td width="49%">
 					<fieldset>
 					<legend>Initial ${lang.getStringRisk()}</legend>
-						<table width="100%" cellpadding="2" cellspacing="10">
+						<table width="100%" cellpadding="2" cellspacing="5">
 							<tbody>
 								<tr>
 									<td align="left">${lang.getStringLikelihood()}</td>
-									<td><b>${lang.getStringFrequency()}</b></td>
+									<td><b>${likelihoodNameMap[hazard.likelihood_initial_likelihood]}</b></td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
 									<td align="left">${lang.getStringSeverity()}</td>
-									<td><b>Major</b></td>
+									<td><b>${severityNameMap[hazard.severity_initial_likelihood]}</b></td>
 								</tr>
 								<tr>
 									<td align="left">Tolerability</td>
-									<td bgcolor="red"><font color="white"><b>High Risk : Unacceptable</b></font></td>
+									<td bgcolor="${initial_acceptable_color}"><font color="${initial_text_color}"><b>${initial_risk_text} : ${initial_acceptable_text}</b></font></td>
 								</tr>
 							</tbody>
 						</table>
@@ -264,20 +319,20 @@
 				<td width="49%">
 					<fieldset>
 					<legend>Residual ${lang.getStringRisk()}</legend>
-						<table width="100%" cellpadding="2" cellspacing="10">
+						<table width="100%" cellpadding="2" cellspacing="5">
 							<tbody>
 								<tr>
 									<td align="left">${lang.getStringLikelihood()}</td>
-									<td><b>Remote</b></td>
+									<td><b>${likelihoodNameMap[hazard.likelihood_residual_likelihood]}</b></td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
 									<td align="left">${lang.getStringSeverity()}</td>
-									<td><b>Minor</b></td>
+									<td><b>${severityNameMap[hazard.severity_residual_likelihood]}</b></td>
 								</tr>
 								<tr>
 									<td align="left">Tolerability</td>
-									<td bgcolor="green"><font color="white"><b>Medium Risk : Unacceptable</b></font></td>
+									<td bgcolor="${residual_acceptable_color}"><font color="${residual_text_color}"><b>${residual_risk_text} : ${residual_acceptable_text}</b></font></td>
 								</tr>
 							</tbody>
 						</table>
@@ -335,6 +390,22 @@
     	</tbody>
     </table>
     </div>	
+    
+    <fieldset>
+    <legend>Comments</legend>
+    <table width="100%" cellpadding="0px;">
+		<tr>
+			<th>${lang.getStringLikelihood()}</th>
+			<th width="10px;"></th>
+			<th>${lang.getStringSeverity()}</th>
+		</tr>
+		<tr>
+			<td><textarea rows="3" style="width:100%" name="management_mitigation_likelihood_comments" id="id_management_mitigation_likelihood_comments">${hazard.likelihood_comments}</textarea></td>
+			<td></td>
+			<td><textarea rows="3" style="width:100%" name="management_mitigation_severity_comments" id="id_management_mitigation_severity_comments">${hazard.severity_comments}</textarea></td>
+		</tr>
+	</table>
+    </fieldset>
 	</fieldset>
 	
 	<fieldset>
@@ -347,14 +418,14 @@
 				<table width="100%" cellpadding="2" cellspacing="0">
 					<tr>
 						<td width="80px;" align="left">Control No.</td>
-						<td align="left"><input type="text" name="name_managment_risk_mitigation" id="id_managment_risk_mitigation" disabled="disabled" value="C2604117C1234-03"/></td>
+						<td align="left"><input type="text" name="management_mitigation_contorol_no" id="id_managment_risk_mitigation" disabled="disabled" value="C2604117C1234-03"/></td>
 						<td width="130px;" align="left">To be tracked by</td>
-						<td align="left"><select style="width:100%" id="id_management_risk_mitigation_tracked_by_selector" name="method" class="">
-							<option value="1">Ohhoon Kwon</option>
-							<option value="2">Yoonjin Yoon</option>
-							<option value="3">Hwasu Yeo</option>
-							<option value="4">Sahee Lee</option>
-							<option value="5">Taeho Yoon</option>
+						<td align="left"><select style="width:100%" id="id_management_risk_mitigation_tracked_by_selector" name="management_mitigation_tracked_by" class="">
+							<option value="Ohhoon Kwon" ${hazard.tracked_by == "Ohhoon Kwon" ? "selected=\"selected\"" : ""}>Ohhoon Kwon</option>
+							<option value="Yoonjin Yoon" ${hazard.tracked_by == "Yoonjin Yoon" ? "selected=\"selected\"" : ""}>Yoonjin Yoon</option>
+							<option value="Hwasu Yeo" ${hazard.tracked_by == "Hwasu Yeo" ? "selected=\"selected\"" : ""}>Hwasu Yeo</option>
+							<option value="Sahee Lee" ${hazard.tracked_by == "Sahee Lee" ? "selected=\"selected\"" : ""}>Sahee Lee</option>
+							<option value="Taeho Yoon" ${hazard.tracked_by == "Taeho Yoon" ? "selected=\"selected\"" : ""}>Taeho Yoon</option>
 							</select>
 						</td>
 					</tr>
@@ -362,48 +433,44 @@
 				</td>
 			</tr>
 			<tr>
+			    <c:forEach items="${riskOwnerList}" var="riskOwner" varStatus="list_status">
 				<td width="49%">
 					<fieldset>
-					<legend>${lang.getStringOwner()} 1</legend>
+					<legend>${lang.getStringOwner()} ${list_status.index+1}</legend>
 						<table width="100%" cellpadding="2" cellspacing="2">
 							<tbody>
 								<tr>
 									<td align="left">${lang.getStringDivision()}</td>
-									<td><select style="width:100%" id="id_management_risk_mitigation_owner1_division_selector" name="method" class="">
-										<option value="1">${lang.getStringDivisionFlight()}</option>
-										<option value="2">${lang.getStringDivisionOperations()}</option>
-										<option value="3">${lang.getStringDivisionDispatch()}</option>
-										<option value="4">${lang.getStringDivisionMaintenance()}</option>
-										<option value="5">${lang.getStringDivisionCabin()}</option>
-										<option value="6">${lang.getStringDivisionGround()}</option>
-										<option value="7">${lang.getStringDivisionCargo()}</option>
-										<option value="8" selected="selected">${lang.getStringDivisionTraining()}</option>
+									<td><select style="width:100%" id="id_management_risk_mitigation_owner1_division_selector" name="management_mitigation_division_${list_status.index+1}" class="">
+									    <c:forEach items="${divisionList}" var="selectItem" varStatus="division_list_status">
+	 									<option value="${selectItem.value }" ${riskOwner.division == selectItem.value ? "selected=\"selected\"" : ""}>${selectItem.name}</option> -->
+	 									</c:forEach>
 										</select>
 									</td>
 									<td width="10%"></td>
 								</tr>
 								<tr>
 									<td align="left">${lang.getStringAssignedTo()}</td>
-									<td><select style="width:100%" id="id_management_risk_mitigation_owner1_assigned_to_selector" name="method" class="">
-							<option value="1">Yuna Noh</option>
-							<option value="2">Jiseon Lee</option>
-							<option value="3" selected="selected">Sangeon Seo</option>
-							<option value="4">Eunhye Kim</option>
-							</select></td>
+									<td><select style="width:100%" id="id_management_risk_mitigation_owner1_assigned_to_selector" name="management_mitigation_assigned_to_${list_status.index+1}" class="">
+									<option value="Yuna Noh" ${riskOwner.assigned_to == "Yuna Noh" ? "selected=\"selected\"" : ""}>Yuna Noh</option>
+									<option value="Jiseon Lee" ${riskOwner.assigned_to == "Jiseon Lee" ? "selected=\"selected\"" : ""}>Jiseon Lee</option>
+									<option value="Sangeon Seo" ${riskOwner.assigned_to == "Sangeon Seo" ? "selected=\"selected\"" : ""}>Sangeon Seo</option>
+									<option value="Eunhye Kim" ${riskOwner.assigned_to == "Eunhye Kim" ? "selected=\"selected\"" : ""}>Eunhye Kim</option>
+									</select></td>
 								</tr>
 								<tr>
 									<td align="left">${lang.getStringRequestedDate()}</td>
-									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner1_requested_date" id="id_management_risk_mitigation_owner1_requested_date"/></td>
+									<td><input type="text" style="width:90%" name="management_mitigation_requested_date_${list_status.index+1}" id="id_management_risk_mitigation_owner${list_status.index+1}_requested_date" value="${riskOwner.requested_date}"/></td>
 								</tr>
 								<tr>
 									<td align="left">${lang.getStringDueDate2()}</td>
-									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner1_due_date" id="id_management_risk_mitigation_owner1_due_date"/></td>
+									<td><input type="text" style="width:90%" name="management_mitigation_due_date_${list_status.index+1}" id="id_management_risk_mitigation_owner${list_status.index+1}_due_date" value="${riskOwner.due_date}"/></td>
 								</tr>
 								<tr>
 									<td colspan="3">
 									<fieldset>
 									<legend>Comments</legend>
-										<textarea rows="3" style="width:100%" id="id_management_mitigation_owner1_comments"></textarea>
+										<textarea rows="3" style="width:100%" name="management_mitigation_comments_${list_status.index+1}" id="id_management_mitigation_owner${list_status.index+1}_comments">${riskOwner.comments}</textarea>
 									</fieldset>
 									</td>
 									
@@ -412,57 +479,8 @@
 						</table>
 					</fieldset>
 				</td>
-				<td width="2%"></td>
-				<td width="49%">
-					<fieldset>
-					<legend>${lang.getStringOwner()} 2</legend>
-						<table width="100%" cellpadding="2" cellspacing="2">
-							<tbody>
-								<tr>
-									<td align="left">${lang.getStringDivision()}</td>
-									<td><select style="width:100%" id="id_management_risk_mitigation_owner2_division_selector" name="method" class="">
-										<option value="1">${lang.getStringDivisionFlight()}</option>
-										<option value="2">${lang.getStringDivisionOperations()}</option>
-										<option value="3">${lang.getStringDivisionDispatch()}</option>
-										<option value="4">${lang.getStringDivisionMaintenance()}</option>
-										<option value="5">${lang.getStringDivisionCabin()}</option>
-										<option value="6">${lang.getStringDivisionGround()}</option>
-										<option value="7">${lang.getStringDivisionCargo()}</option>
-										<option value="8" selected="selected">${lang.getStringDivisionTraining()}</option>
-										</select>
-									</td>
-									<td width="10%"></td>
-								</tr>
-								<tr>
-									<td align="left">${lang.getStringAssignedTo()}</td>
-									<td><select style="width:100%" id="id_management_risk_mitigation_owner2_assigned_to_selector" name="method" class="">
-							<option value="1">Yuna Noh</option>
-							<option value="2">Jiseon Lee</option>
-							<option value="3" selected="selected">Sangeon Seo</option>
-							<option value="4">Eunhye Kim</option>
-							</select></td>
-								</tr>
-								<tr>
-									<td align="left">${lang.getStringRequestedDate()}</td>
-									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner2_requested_date" id="id_management_risk_mitigation_owner2_requested_date"/></td>
-								</tr>
-								<tr>
-									<td align="left">${lang.getStringDueDate2()}</td>
-									<td><input type="text" style="width:90%" name="name_management_risk_mitigation_owner2_due_date" id="id_management_risk_mitigation_owner2_due_date"/></td>
-								</tr>
-								<tr>
-									<td colspan="3">
-									<fieldset>
-									<legend>Comments</legend>
-										<textarea rows="3" style="width:100%" id="id_management_mitigation_owner2_comments"></textarea>
-									</fieldset>
-									</td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</fieldset>
-				</td>
+				</c:forEach>
+
 			</tr>
 		</tbody>
 	</table>
@@ -475,13 +493,13 @@
 	<tr>
 		<td align="center">
 		<a id="id_management_mitigation_edit_btn" href="#">${lang.getStringEdit()}</a> <a id="id_management_mitigation_save_btn" href="#">${lang.getStringSave()}</a> 
-		<a id="id_management_mitigation_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_mitigation_submit_btn" href="#">${lang.getStringSubmit()}</a>
+		<a id="id_management_mitigation_delete_btn" href="#">${lang.getStringDelete()}</a> <a id="id_management_mitigation_submit_btn" href="#">${lang.getStringSubmit()}</a> <a id="id_management_mitigation_submitted_btn" href="#">${lang.getStringSubmitted()}</a>
 		</td>
 	</tr>
 			
     </table>
 	
  
- 
+</form> 
 </body>
 </html>
