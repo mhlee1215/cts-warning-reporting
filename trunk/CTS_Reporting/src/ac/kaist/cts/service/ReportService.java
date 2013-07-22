@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
+import ac.kaist.cts.domain.Hazard;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
+import ac.kaist.cts.domain.ReportParent;
+import ac.kaist.cts.domain.RiskOwner;
+import ac.kaist.cts.domain.SelectItem;
 
 public interface ReportService {
 	public int 			createReport(Report report);
@@ -17,6 +21,9 @@ public interface ReportService {
 	public Report 		readReport(Report report);
 	public int 			editReport(Report report);
 	public int 			deleteReport(Report report);
+	
+	public List<Report> readReportList(Report report);
+	public List<Report> readReportChildrenList(Report report);
 	
 	public List<Report> readReportListReviewAll();
 	public List<Report> readReportListReviewReview();
@@ -47,7 +54,7 @@ public interface ReportService {
 	public AircraftInfo readAIrcraftInformation(AircraftInfo aircraftInformation);
 	
 	//Flight Information
-	public List<FlightInfo> readFLightInfoList();
+	public List<FlightInfo> readFLightInfoList(FlightInfo flightInfo);
 	public FlightInfo readFlightInfo(FlightInfo userInfo);
 	public void createFlightInfo(FlightInfo userInfo);
 	public void deleteFlightInfo(FlightInfo userInfo);
@@ -58,6 +65,7 @@ public interface ReportService {
 	
 	public void updateReportItemBasic(Report rp, HttpServletRequest request);
 	public void updateReportItem(ReportItem ri, HttpServletRequest request, String type);
+	public void updateReportItemReview(ReportItem ri, HttpServletRequest request, String type);
 	
 	//Report Item
 	public List<ReportItem> readReportItemList(ReportItem reportItem);
@@ -72,4 +80,30 @@ public interface ReportService {
 	public void deleteAttachedItem(AttachedItem attachedItem);
 	public void updateAttachedItem(AttachedItem attachedItem);
 	
+	public List<Hazard> readHazardList(Hazard hazard);
+	public List<Hazard> readHazardPureList(Hazard hazard);
+	public Integer readHazardTotalCount(Hazard hazard);
+	public Hazard readHazard(Hazard hazard);
+	public void createHazard(Hazard hazard);
+	public void deleteHazard(Hazard hazard);
+	public void updateHazard(Hazard hazard);
+	public void hazardViewContentUpdate(Hazard hazard, HttpServletRequest request);
+	public void managementDetailRiskAnalysisUpdate(Hazard hazard, HttpServletRequest request, String type);	
+	public void managementDetailRiskAssessmentUpdate(Hazard hazard, HttpServletRequest request);
+	public void managementDetailMitigationUpdate(Hazard hazard, HttpServletRequest request);
+	
+	public List<ReportParent> readReportParentList(ReportParent reportParent);
+	public ReportParent readReportParent(ReportParent reportParent);
+	public void createReportParent(ReportParent reportParent);
+	public void deleteReportParent(ReportParent reportParent);
+	public void updateReportParent(ReportParent reportParent);
+	
+	List<SelectItem> readSelectItemList(SelectItem item);
+	SelectItem readSelectItem(SelectItem item);
+	
+	public List<RiskOwner> readRiskOwnerList(RiskOwner riskOwner);
+	public RiskOwner readRiskOwner(RiskOwner riskOwner);
+	public void createRiskOwner(RiskOwner riskOwner);
+	public void deleteRiskOwner(RiskOwner riskOwner);
+	public void updateRiskOwner(RiskOwner riskOwner);
 }

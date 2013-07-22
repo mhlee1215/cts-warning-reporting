@@ -28,13 +28,16 @@ public class UserInfo {
 	
 	private int id 							= 0;
 	private int User_id 					= 0;
+	private int Report_id					= 0;
 	private String id_no 					= "";
+	private String userid					= "";
 	private String name 					= "";
 	private String date_of_birth 			= "";
 	private String medical_certification 	= "";
 	private String date_of_last_medical 	= "";
 	private int flight_time 				= 0;
 	private int this_make_model 			= 0;
+	
 	public int getId() {
 		return id;
 	}
@@ -90,10 +93,24 @@ public class UserInfo {
 		this.this_make_model = this_make_model;
 	}
 	
+	public int getReport_id() {
+		return Report_id;
+	}
+	public void setReport_id(int report_id) {
+		Report_id = report_id;
+	}
+	
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 	@Override
 	public String toString() {
-		return "UserInfo [id=" + id + ", User_id=" + User_id + ", id_no="
-				+ id_no + ", name=" + name + ", date_of_birth=" + date_of_birth
+		return "UserInfo [id=" + id + ", User_id=" + User_id + ", Report_id="
+				+ Report_id + ", id_no=" + id_no + ", userid=" + userid
+				+ ", name=" + name + ", date_of_birth=" + date_of_birth
 				+ ", medical_certification=" + medical_certification
 				+ ", date_of_last_medical=" + date_of_last_medical
 				+ ", flight_time=" + flight_time + ", this_make_model="

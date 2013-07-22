@@ -1,10 +1,21 @@
 package ac.kaist.cts.domain;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class SelectItem {
+	
+	public static Map<String, String> getPriorityColorMap(){
+		Map<String, String> priorityColorMap = new TreeMap<String, String>();
+		priorityColorMap.put("High", "red");
+		priorityColorMap.put("Medium", "yellow");
+		priorityColorMap.put("Low", "green");
+		return priorityColorMap;
+	}
 	
 	private int id;
 	private String name;
-	private int value;
+	private String value;
 	private String category;
 	
 	public int getId() {
@@ -19,10 +30,10 @@ public class SelectItem {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getValue() {
+	public String getValue() {
 		return value;
 	}
-	public void setValue(int value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 	public String getCategory() {

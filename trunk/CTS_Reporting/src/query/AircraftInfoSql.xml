@@ -15,33 +15,65 @@
 		<result column="NO_SEAT_PASSENGER" property="no_seat_passenger" />
 		<result column="LAST_INSPECTION_TYPE" property="last_inspection_type" />
 		<result column="LAST_INSPECTION_DATE" property="last_inspection_date" />
+		<result column="REPORT_ID" property="Report_id" />
  	</resultMap>
  	
  	
  	<select id="readAircraftInfoList" resultMap="AircraftInfo">
- 		SELECT `id`, `manufacturer`, `model`, `serial_no`, `regi_no`, `no_seat_crew`, `no_seat_cabin`, `no_seat_passenger`, `last_inspection_type`, `last_inspection_date`
+ 		SELECT `id`, `manufacturer`, `model`, `serial_no`, `regi_no`, `no_seat_crew`, `no_seat_cabin`, `no_seat_passenger`, `last_inspection_type`, `last_inspection_date`, `Report_id`
  		FROM aircraft_info
  	</select>
  	 	
-	<select id="readAircraftInfo" resultMap="AircraftInfo">
-       SELECT `id`, `manufacturer`, `model`, `serial_no`, `regi_no`, `no_seat_crew`, `no_seat_cabin`, `no_seat_passenger`, `last_inspection_type`, `last_inspection_date`
+	<select id="readAircraftInfo" resultMap="AircraftInfo" parameterClass="ac.kaist.cts.domain.AircraftInfo">
+       SELECT `id`, `manufacturer`, `model`, `serial_no`, `regi_no`, `no_seat_crew`, `no_seat_cabin`, `no_seat_passenger`, `last_inspection_type`, `last_inspection_date`, `Report_id`
  	   FROM aircraft_info
        WHERE
-       <isNotEmpty property="serial_no">
-       		serial_no = #serial_no#
+       <isNotEmpty property="Report_id">
+       		Report_id = #Report_id#
        </isNotEmpty>
-       <isEmpty property="serial_no">
-       		id = #id#
-       </isEmpty>
-       
 	</select>
 
 	<insert id="createAircraftInfo" parameterClass="ac.kaist.cts.domain.AircraftInfo">
 		 INSERT INTO 
-		 aircraft_info (`manufacturer`, `model`, `serial_no`, `regi_no`, `no_seat_crew`, `no_seat_cabin`, `no_seat_passenger`, `last_inspection_type`, `last_inspection_date`) 
-		 VALUES (#manufacturer#, #model#, #serial_no#, #regi_no#, #no_seat_crew#, #no_seat_cabin#, #no_seat_passenger#, #last_inspection_type#, #last_inspection_date#);
+		 aircraft_info (`manufacturer`, `model`, `serial_no`, `regi_no`, `no_seat_crew`, `no_seat_cabin`, `no_seat_passenger`, `last_inspection_type`, `last_inspection_date`, `Report_id`) 
+		 VALUES (#manufacturer#, #model#, #serial_no#, #regi_no#, #no_seat_crew#, #no_seat_cabin#, #no_seat_passenger#, #last_inspection_type#, #last_inspection_date#, #Report_id#);
 	</insert>
 	
+	<update id="updateAircraftInfo" parameterClass="ac.kaist.cts.domain.AircraftInfo">
+		UPDATE `aircraft_info` 
+		SET 
+			`Report_id` = #Report_id#
+			<isNotEmpty property="manufacturer">
+			, `manufacturer`= #manufacturer#
+			</isNotEmpty>
+			<isNotEmpty property="model">
+			, `model`= #model#
+			</isNotEmpty>
+			<isNotEmpty property="serial_no">
+			, `serial_no`= #serial_no#
+			</isNotEmpty>
+			<isNotEmpty property="regi_no">
+			, `regi_no`= #regi_no#
+			</isNotEmpty>
+			<isNotEmpty property="no_seat_crew">
+			, `no_seat_crew`= #no_seat_crew#
+			</isNotEmpty>
+			<isNotEmpty property="no_seat_cabin">
+			, `no_seat_cabin`= #no_seat_cabin#
+			</isNotEmpty>
+			<isNotEmpty property="no_seat_passenger">
+			, `no_seat_passenger`= #no_seat_passenger#
+			</isNotEmpty>
+			<isNotEmpty property="last_inspection_type">
+			, `last_inspection_type`= #last_inspection_type#
+			</isNotEmpty>
+			<isNotEmpty property="last_inspection_date">
+			, `last_inspection_date`= #last_inspection_date#
+			</isNotEmpty>
+			
+		WHERE
+		`Report_id`= #Report_id#
+	</update>
 	
 	
 </sqlMap>

@@ -6,8 +6,8 @@
 
 	<resultMap id="UserInfo" class="ac.kaist.cts.domain.UserInfo">
 		<result column="ID" property="id" />
-		<result column="User_id" property="User_id" />
-		<result column="id_no" property="id_no" />
+		<result column="Report_id" property="Report_id" />
+		<result column="userid" property="userid" />
 		<result column="name" property="name" />
 		<result column="date_of_birth" property="date_of_birth" />
 		<result column="medical_certification" property="medical_certification" />
@@ -19,24 +19,50 @@
  	
  	<select id="readUserInfoList" resultMap="UserInfo">
  		SELECT 
- 		`id`, `User_id`, `id_no`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
+ 		`id`, `Report_id`, `id_no`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
  		FROM user_info
  	</select>
  	 	
 	<select id="readUserInfo" resultMap="UserInfo">
        SELECT 
-       ui.`id`, `User_id`, u.userid as `id_no`, u.name as `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
- 	   FROM user_info ui INNER JOIN user u on ui.User_id = u.id
-       WHERE User_id = #User_id#
-       
+       `id`, `Report_id`, `userid`, `name`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`
+ 	   FROM user_info
+       WHERE Report_id = #Report_id#
 	</select>
 
 	<insert id="createUserInfo" parameterClass="ac.kaist.cts.domain.UserInfo">
 		 INSERT INTO `user_info` 
-		 (`User_id`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`) VALUES 
-		 (#User_id#, #date_of_birth#, #medical_certification#, #date_of_last_medical#, #flight_time#, #this_make_model#)
+		 (`Report_id`, `date_of_birth`, `medical_certification`, `date_of_last_medical`, `flight_time`, `this_make_model`) VALUES 
+		 (#Report_id#, #date_of_birth#, #medical_certification#, #date_of_last_medical#, #flight_time#, #this_make_model#)
 	</insert>
 	
+	<update id="updateUserInfo" parameterClass="ac.kaist.cts.domain.UserInfo">
+       UPDATE `user_info` 
+       SET 
+       `Report_id` = #Report_id#
+       <isNotEmpty property="name">
+       , `name`= #name#
+       </isNotEmpty>
+       <isNotEmpty property="id_no">
+       , `userid`= #id_no#
+       </isNotEmpty>
+       <isNotEmpty property="date_of_birth">
+       , `date_of_birth`= #date_of_birth#
+       </isNotEmpty>
+       <isNotEmpty property="medical_certification">
+       , `medical_certification`= #medical_certification#
+       </isNotEmpty>
+       <isNotEmpty property="date_of_last_medical">
+       , `date_of_last_medical`= #date_of_last_medical#
+       </isNotEmpty>
+       <isNotEmpty property="flight_time">
+       , `flight_time`= #flight_time#
+       </isNotEmpty>
+       <isNotEmpty property="this_make_model">
+       , `this_make_model`= #this_make_model#
+       </isNotEmpty>
+       WHERE Report_id = #Report_id#
+    </update>
 	
 	
 </sqlMap>

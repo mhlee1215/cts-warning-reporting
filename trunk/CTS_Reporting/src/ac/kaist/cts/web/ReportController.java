@@ -2,6 +2,8 @@ package ac.kaist.cts.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import language.LanguagePack;
 import language.LanguageServiceImpl;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -23,10 +26,17 @@ import org.springframework.web.servlet.ModelAndView;
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
+import ac.kaist.cts.domain.Hazard;
+import ac.kaist.cts.domain.HazardItem;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
+import ac.kaist.cts.domain.ReportParent;
+import ac.kaist.cts.domain.RiskOwner;
+import ac.kaist.cts.domain.SelectItem;
+import ac.kaist.cts.domain.User;
 import ac.kaist.cts.domain.UserHasReport;
 import ac.kaist.cts.domain.UserInfo;
+import ac.kaist.cts.service.HazardItemService;
 import ac.kaist.cts.service.ReportService;
 import ac.kaist.cts.service.UserService;
 
@@ -40,6 +50,9 @@ private Logger logger = Logger.getLogger(getClass());
 	
 	@Autowired
 	private final UserService userService = null;
+	
+	@Autowired
+	private final HazardItemService hazardItemService = null;
 
 	@RequestMapping("/report.do")
     public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -66,6 +79,7 @@ private Logger logger = Logger.getLogger(getClass());
 		String language = (String)request.getSession().getAttribute("lang");
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
 		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
+		String isReadOnly = ServletRequestUtils.getStringParameter(request, "isReadOnly", "N");
 		System.out.println("report no : "+report_no);
 		
 		Report rp = new Report();
@@ -73,41 +87,34 @@ private Logger logger = Logger.getLogger(getClass());
 		Report report = reportService.readReport(rp);
 		
 		FlightInfo fi = new FlightInfo();
-		fi.setId(report.getFlight_info_id());
+		fi.setReport_id(report.getId());
+		//fi.setId(report.getFlight_info_id());
 		FlightInfo rfi = reportService.readFlightInfo(fi);
 		
 		AircraftInfo ai = new AircraftInfo();
-		ai.setId(rfi.getAircraft_info_id());
+		ai.setReport_id(report.getId());
+		//ai.setId(rfi.getAircraft_info_id());
 		AircraftInfo rai = reportService.readAIrcraftInformation(ai);
 		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		Vector<String> acModelList = new Vector<String>();
-		acModelList.add("A300-600");
-		acModelList.add("A320-200");
-		acModelList.add("A321-100");
-		acModelList.add("A321-200");
-		acModelList.add("A330-200");
-		acModelList.add("A330-300");
-		acModelList.add("A380-800");
-		acModelList.add("B737-400");
-		acModelList.add("B737-500");
-		acModelList.add("B737-600");
-		acModelList.add("B737-700");
-		acModelList.add("B737-800");
-		acModelList.add("B737-900");
-		acModelList.add("B737-900ER");
-		acModelList.add("B747-400");
-		acModelList.add("B767-300");
-		acModelList.add("B777-200ER");
-		acModelList.add("B777-300");
-		acModelList.add("B777-300ER");
-		acModelList.add("B747-400 Combi");
-		acModelList.add("B747-400SF");
-		acModelList.add("B747-400F");
-		acModelList.add("B747-8F");
-		acModelList.add("B767-300F");
-		acModelList.add("B777F");
+		
+		
+		SelectItem item = new SelectItem();
+		item.setCategory("actype");
+		List<SelectItem> acModelList = reportService.readSelectItemList(item);
+
+		item.setCategory("manufacturer");
+		List<SelectItem> manufacturerList = reportService.readSelectItemList(item);
+		
+		item.setCategory("aircraft_damage");
+		List<SelectItem> aircraftDamageList = reportService.readSelectItemList(item);
+		
+		item.setCategory("injury");
+		List<SelectItem> injuryList = reportService.readSelectItemList(item);
+		
+		item.setCategory("delay_time");
+		List<SelectItem> delayTimeList = reportService.readSelectItemList(item);
 		
 		ReportItem reportItemQuery = new ReportItem();
 		reportItemQuery.setReport_no(report_no);
@@ -115,23 +122,24 @@ private Logger logger = Logger.getLogger(getClass());
 		ReportItem reportItem = reportService.readReportItem(reportItemQuery);
 		
 		
-		UserHasReport uhr = new UserHasReport();
-		uhr.setReport_id(report.getId());
-		UserHasReport ruhr = userService.readUserHasReport(uhr);
+		//UserHasReport uhr = new UserHasReport();
+		//uhr.setReport_id(report.getId());
+		//UserHasReport ruhr = userService.readUserHasReport(uhr);
 		
 		UserInfo uri = null;
-		if(ruhr != null){
+		//if(ruhr != null){
 			System.out.println("Found user map.");
 			UserInfo ui = new UserInfo();
-			ui.setUser_id(ruhr.getUser_id());
+			ui.setReport_id(report.getId());
+			//ui.setUser_id(ruhr.getUser_id());
 			uri = userService.readUserInfo(ui);
-		}else{
-			System.out.println("Couldn't find user map. This report is newly writed.");
-			UserInfo ui = new UserInfo();
-			int user_id_no = (int) request.getSession().getAttribute("user_id_no");
-			ui.setUser_id(user_id_no);
-			uri = userService.readUserInfo(ui);
-		}
+//		}else{
+//			System.out.println("Couldn't find user map. This report is newly writed.");
+//			UserInfo ui = new UserInfo();
+//			int user_id_no = (int) request.getSession().getAttribute("user_id_no");
+//			ui.setUser_id(user_id_no);
+//			uri = userService.readUserInfo(ui);
+//		}
 		//ui.setUser_id(reportItem.get)
 		
 		
@@ -143,8 +151,13 @@ private Logger logger = Logger.getLogger(getClass());
 		model.addObject("aircraft_info", rai);
 		model.addObject("user_info", uri);
 		model.addObject("reportItem", reportItem);
+		model.addObject("manufacturerList", manufacturerList);
 		model.addObject("acModelList", acModelList);
+		model.addObject("injuryList", injuryList);
+		model.addObject("aircraftDamageList", aircraftDamageList);
+		model.addObject("delayTimeList", delayTimeList);
 		model.addObject("lang", lang);
+		model.addObject("isReadOnly", isReadOnly);
 		return model;
 	}
 	
@@ -162,13 +175,11 @@ private Logger logger = Logger.getLogger(getClass());
 		
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
 		
-		Report rp = new Report();
-		rp.setState(Report.STATUS_REPORTED);
-		reportService.updateReportItemBasic(rp, request);
+		
 		
 		Report rp2 = new Report();
 		rp2.setReport_no(report_no);
-		Report rrp = reportService.readReport(rp);
+		Report rrp = reportService.readReport(rp2);
 		
 		ReportItem ri = new ReportItem();
 		ri.setReport_id(rrp.getId());
@@ -225,6 +236,22 @@ private Logger logger = Logger.getLogger(getClass());
 		Report rp = new Report();
 		rp.setReport_no(report_no);
 		Report rrp = reportService.readReport(rp);
+		
+		rp.setReport_state(Report.STATUS_REPORTED);
+		rp.setManagement_state(Report.STATUS_REVIEW);
+		reportService.updateReport(rp);
+		
+		ReportParent reportParent = new ReportParent();
+		reportParent.setId(rrp.getReport_parent_id());
+		
+		reportParent = reportService.readReportParent(reportParent);
+		
+		reportParent.setReport_state(Report.STATUS_REPORTED);
+		
+		if(reportParent.getReport_state().equals(Report.STATUS_NOT_REPORTED))
+			reportParent.setManagement_state(Report.STATUS_REVIEW);
+		
+		reportService.updateReportParent(reportParent);
 		
 		ReportItem ri = new ReportItem();
 		ri.setReport_id(rrp.getId());
@@ -403,9 +430,12 @@ private Logger logger = Logger.getLogger(getClass());
 	@RequestMapping("/readFlightInformation.do")
     public ModelAndView flightInformation(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String user_type = (String)request.getSession().getAttribute("user_type");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		List<FlightInfo> list = reportService.readFLightInfoList();
+		FlightInfo fi = new FlightInfo();
+		fi.setReport_type(user_type);
+		List<FlightInfo> list = reportService.readFLightInfoList(fi);
 			
 		ModelAndView model = new ModelAndView("report/FlightInfoList");
 		model.addObject("lang", lang);
@@ -421,23 +451,26 @@ private Logger logger = Logger.getLogger(getClass());
 		String status = ServletRequestUtils.getStringParameter(request, "status", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		List<Report> list = reportService.readReportListReviewAll();
+		//List<ReportParent> list = null;
+		//reportService.readReportParentList(reportParent);
 		
-		List<Report> filteredList = new ArrayList<Report>();
-		
-		for (Report report : list){
-			if(status.equalsIgnoreCase("all"))
-				filteredList.add(report);
-			else if(status.equalsIgnoreCase(report.getState()))
-				filteredList.add(report);
+		List<ReportParent> list = null;
+		if(status.equalsIgnoreCase("all")){
+			ReportParent rp = new ReportParent();
+			rp.setReport_state(Report.STATUS_REPORTED);
+			list = reportService.readReportParentList(rp);
+		}else{
+			ReportParent rp = new ReportParent();
+			rp.setManagement_state(status);
+			list = reportService.readReportParentList(rp);
 		}
-			
+					
 		ModelAndView model = new ModelAndView("management/reportToIdentifyList");
 		model.addObject("lang", lang);
 		model.addObject("page", 1);
 		model.addObject("total_pages", 1);
 		model.addObject("total_count", list.size());
-		model.addObject("reports", filteredList);
+		model.addObject("reports", list);
 		
 		return model;
 	}
@@ -448,23 +481,31 @@ private Logger logger = Logger.getLogger(getClass());
 		String status = ServletRequestUtils.getStringParameter(request, "status", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		List<Report> list = reportService.readReportListReviewAll();
+		List<ReportParent> list = null;
+
+		ReportParent rp = new ReportParent();
+		rp.setManagement_state(status);
+		list = reportService.readReportParentList(rp);
+	
 		
-		List<Report> filteredList = new ArrayList<Report>();
-		
-		for (Report report : list){
-			if(status.equalsIgnoreCase("all"))
-				filteredList.add(report);
-			else if(status.equalsIgnoreCase(report.getState()))
-				filteredList.add(report);
-		}
+//		
+//		List<Report> list = reportService.readReportListReviewAll();
+//		
+//		List<Report> filteredList = new ArrayList<Report>();
+//		
+//		for (Report report : list){
+//			if(status.equalsIgnoreCase("all"))
+//				filteredList.add(report);
+//			else if(status.equalsIgnoreCase(report.getReport_state()))
+//				filteredList.add(report);
+//		}
 			
 		ModelAndView model = new ModelAndView("management/reportToIdentifyList");
 		model.addObject("lang", lang);
 		model.addObject("page", 1);
 		model.addObject("total_pages", 1);
 		model.addObject("total_count", list.size());
-		model.addObject("reports", filteredList);
+		model.addObject("reports", list);
 		
 		return model;
 	}
@@ -472,26 +513,19 @@ private Logger logger = Logger.getLogger(getClass());
 	@RequestMapping("/managementRiskAnalysisReportList.do")
     public ModelAndView managementRiskAnalysisReportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
-		String status = ServletRequestUtils.getStringParameter(request, "status", "");
+		String status = ServletRequestUtils.getStringParameter(request, "status", Hazard.STATUS_IDENTIFIED);
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		List<Report> list = reportService.readReportListRiskAnalysisHazardToBeAnalyzed();
-		
-		List<Report> filteredList = new ArrayList<Report>();
-		
-		for (Report report : list){
-			if(status.equalsIgnoreCase("all"))
-				filteredList.add(report);
-			else if(status.equalsIgnoreCase(report.getState()))
-				filteredList.add(report);
-		}
+		Hazard h = new Hazard();
+		h.setState(status);
+		List<Hazard> list = reportService.readHazardList(h);
 			
 		ModelAndView model = new ModelAndView("management/reportToIdentifyList2");
 		model.addObject("lang", lang);
 		model.addObject("page", 1);
 		model.addObject("total_pages", 1);
 		model.addObject("total_count", list.size());
-		model.addObject("reports", filteredList);
+		model.addObject("hazards", list);
 		
 		return model;
 	}
@@ -502,23 +536,16 @@ private Logger logger = Logger.getLogger(getClass());
 		String status = ServletRequestUtils.getStringParameter(request, "status", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		List<Report> list = reportService.readReportListRiskAssessmentHazardsToBeAssessed();
-		
-		List<Report> filteredList = new ArrayList<Report>();
-		
-		for (Report report : list){
-			if(status.equalsIgnoreCase("all"))
-				filteredList.add(report);
-			else if(status.equalsIgnoreCase(report.getState()))
-				filteredList.add(report);
-		}
-			
+		Hazard h = new Hazard();
+		h.setState(status);
+		List<Hazard> list = reportService.readHazardList(h);
+				
 		ModelAndView model = new ModelAndView("management/reportToIdentifyList2");
 		model.addObject("lang", lang);
 		model.addObject("page", 1);
 		model.addObject("total_pages", 1);
 		model.addObject("total_count", list.size());
-		model.addObject("reports", filteredList);
+		model.addObject("hazards", list);
 		
 		return model;
 	}
@@ -529,23 +556,16 @@ private Logger logger = Logger.getLogger(getClass());
 		String status = ServletRequestUtils.getStringParameter(request, "status", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
-		List<Report> list = reportService.readReportListMitigationHazardsToBeMitigated();
-		
-		List<Report> filteredList = new ArrayList<Report>();
-		
-		for (Report report : list){
-			if(status.equalsIgnoreCase("all"))
-				filteredList.add(report);
-			else if(status.equalsIgnoreCase(report.getState()))
-				filteredList.add(report);
-		}
+		Hazard h = new Hazard();
+		h.setState(status);
+		List<Hazard> list = reportService.readHazardList(h);
 			
 		ModelAndView model = new ModelAndView("management/reportToIdentifyList2");
 		model.addObject("lang", lang);
 		model.addObject("page", 1);
 		model.addObject("total_pages", 1);
 		model.addObject("total_count", list.size());
-		model.addObject("reports", filteredList);
+		model.addObject("hazards", list);
 		
 		return model;
 	}
@@ -635,21 +655,90 @@ private Logger logger = Logger.getLogger(getClass());
     public ModelAndView managementDetailMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
 		String activateTab = ServletRequestUtils.getStringParameter(request, "activateTab", "0");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
+	
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		ModelAndView model = new ModelAndView("management/detail/managementDetailMain");
 		
 		System.out.println("activate Tab : "+activateTab);
 		model.addObject("lang", lang);
 		model.addObject("activateTab", activateTab);
+		model.addObject("report_no", report_no);
+		model.addObject("hazard_no", hazard_no);
 		return model;
 	}
 	
 	@RequestMapping("/managementDetailReview.do")
     public ModelAndView managementDetailReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		
+		System.out.println("<<report_no : "+report_no);
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp.setManagement_state(Report.STATUS_REVIEW);
+		List<Report> rpList = reportService.readReportChildrenList(rp);
+		
+		rp.setManagement_state(Report.STATUS_ACCEPTED);
+		List<Report> rpList2 = reportService.readReportChildrenList(rp);
+		
+		rpList.addAll(rpList2);
+		
+		
+		List<String> userTypeList = User.getUserTypeList();
+		Map<String, String> userTypeNameList = User.getUserTypeNameMap();
+		
+		List<String> reportItemNameList = ReportItem.getReportItemNameList();
+		
+		
+		Map<String, List<Report> > classifiedRpList = new TreeMap<String, List<Report> >();
+		for(String userType : userTypeList){
+			classifiedRpList.put(userType, new ArrayList<Report>());
+		}
+		
+		Map<String, Map<String, List<ReportItem> > > reportItemList = new TreeMap<String, Map<String, List<ReportItem> > >();
+		Map<String, Integer> reportItemSize = new TreeMap<String, Integer>();
+		
+		for(String reportTypeName : reportItemNameList){
+			System.out.println("reportTypeName: "+reportTypeName);
+			reportItemList.put(reportTypeName, new TreeMap<String, List<ReportItem> >());
+			reportItemSize.put(reportTypeName, 0);
+			for(String userType : userTypeList){
+				reportItemList.get(reportTypeName).put(userType, new ArrayList<ReportItem>());
+			}
+		}
+		
+		for(Report r : rpList){
+			classifiedRpList.get(r.getType().substring(0, 1)).add(r);
+			
+			ReportItem ri = new ReportItem();
+			ri.setReport_no(r.getReport_no());
+			ri.setStatus(ReportItem.STATE_SUBMITTED);
+			List<ReportItem> riList = reportService.readReportItemList(ri);
+			String userType = r.getType().substring(0, 1);
+			String userTypeIndex = r.getType().substring(1, 2);
+			for(ReportItem reportItem : riList){
+				if(!ReportItem.TYPE_BASIC.equalsIgnoreCase(reportItem.getType())){
+					reportItem.setType_index(userTypeIndex);
+					//System.out.println(reportItem.getType()+": "+reportItemList.get(reportItem.getType()));
+					reportItemList.get(reportItem.getType()).get(userType).add(reportItem);
+					reportItemSize.put(reportItem.getType(), reportItemSize.get(reportItem.getType())+1);
+				}
+			}
+		}
+				
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		ModelAndView model = new ModelAndView("management/detail/managementDetailReview");
 		model.addObject("lang", lang);
+		model.addObject("report_no", report_no);
+		model.addObject("reportItemNameList", reportItemNameList);
+		model.addObject("reportItemSize", reportItemSize);
+		model.addObject("userTypeList", userTypeList);
+		model.addObject("userTypeNameList", userTypeNameList);
+		model.addObject("classifiedRpList", classifiedRpList);
+		model.addObject("reportItemList", reportItemList);
+		
 		return model;
 	}
 	
@@ -661,50 +750,343 @@ private Logger logger = Logger.getLogger(getClass());
 		String type = ServletRequestUtils.getStringParameter(request, "type", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp = reportService.readReport(rp);
+		rp.setType(rp.getType().substring(0, 1));
 		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setType(type);
+		ri = reportService.readReportItem(ri);
+		
+		Map<String, String> userTypeNameList = User.getUserTypeNameMap();
+		
+		Map<String, String> statusReviewMap = new TreeMap<String, String>();
+		statusReviewMap.put("ACCEPTED", ReportItem.STATUS_REVIEW_ACCEPTED);
+		statusReviewMap.put("REJECTED", ReportItem.STATUS_REVIEW_REJECTED);
+		statusReviewMap.put("NEEDINVESTIGATION", ReportItem.STATUS_REVIEW_NEED_INVESTIGATION);
+		
+		SelectItem item = new SelectItem();
+		item.setCategory("priority");
+		List<SelectItem> priorityList = reportService.readSelectItemList(item);
 		
 		ModelAndView model = new ModelAndView("management/detail/managementDetailReviewReport");
 		model.addObject("lang", lang);
 		model.addObject("report_no", report_no);
-		model.addObject("category", category);
 		model.addObject("type", type);
+		model.addObject("category", category);
+		model.addObject("report", rp);
+		model.addObject("reportItem", ri);
+		model.addObject("userTypeNameList", userTypeNameList);
+		model.addObject("statusReviewMap", statusReviewMap);
+		model.addObject("priorityList", priorityList);
+		
 		return model;
+	}
+	
+	@RequestMapping("/managementDetailReviewReportUpdate.do")
+    public @ResponseBody String managementDetailReviewReportUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String type = ServletRequestUtils.getStringParameter(request, "type", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp = reportService.readReport(rp);
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setReport_id(rp.getId());
+		ri.setType(type);
+		reportService.updateReportItemReview(ri, request, type);
+		
+		
+		return "Update Success";
+	}
+	
+	@RequestMapping("/managementDetailReviewReportSubmit.do")
+    public @ResponseBody String managementDetailReviewReportSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String type = ServletRequestUtils.getStringParameter(request, "type", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp = reportService.readReport(rp);
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setReport_id(rp.getId());
+		ri.setType(type);
+		ri.setStatus_review(ReportItem.STATE_SUBMITTED);
+		ri.setStatus_hazard_id(ReportItem.STATE_NOT_SUBMITTED);
+		
+		reportService.updateReportItemReview(ri, request, type);
+		
+		String safety_officer_opinion = ServletRequestUtils.getStringParameter(request, "safety_officer_opinion", "");
+		if(safety_officer_opinion.equals(ReportItem.STATUS_REVIEW_ACCEPTED)){
+			ReportParent reportParent = new ReportParent();
+			reportParent.setId(rp.getReport_parent_id());
+			reportParent.setManagement_state(Report.STATUS_ACCEPTED);
+			reportService.updateReportParent(reportParent);
+			
+			Report report = new Report();
+			report.setReport_no(report_no);
+			report.setManagement_state(Report.STATUS_ACCEPTED);
+			reportService.updateReport(report);
+		}
+		
+		return "Submit Success";
 	}
 	
 	@RequestMapping("/managementDetailHazardIdentification.do")
     public ModelAndView managementDetailHazardIdentification(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		
+		System.out.println("<<report_no : "+report_no);
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp.setManagement_state(Report.STATUS_ACCEPTED);
+		List<Report> rpList = reportService.readReportChildrenList(rp);
+		
+		List<String> userTypeList = User.getUserTypeList();
+		Map<String, String> userTypeNameList = User.getUserTypeNameMap();
+		
+		List<String> reportItemNameList = ReportItem.getReportItemNameList();
+		
+		
+		Map<String, List<Report> > classifiedRpList = new TreeMap<String, List<Report> >();
+		for(String userType : userTypeList){
+			classifiedRpList.put(userType, new ArrayList<Report>());
+		}
+		
+		Map<String, Map<String, List<ReportItem> > > reportItemList = new TreeMap<String, Map<String, List<ReportItem> > >();
+		Map<String, Integer> reportItemSize = new TreeMap<String, Integer>();
+		
+		for(String reportTypeName : reportItemNameList){
+			System.out.println("reportTypeName: "+reportTypeName);
+			reportItemList.put(reportTypeName, new TreeMap<String, List<ReportItem> >());
+			reportItemSize.put(reportTypeName, 0);
+			for(String userType : userTypeList){
+				reportItemList.get(reportTypeName).put(userType, new ArrayList<ReportItem>());
+			}
+		}
+		
+		for(Report r : rpList){
+			classifiedRpList.get(r.getType().substring(0, 1)).add(r);
+			
+			ReportItem ri = new ReportItem();
+			ri.setReport_no(r.getReport_no());
+			ri.setStatus(ReportItem.STATE_SUBMITTED);
+			List<ReportItem> riList = reportService.readReportItemList(ri);
+			String userType = r.getType().substring(0, 1);
+			String userTypeIndex = r.getType().substring(1, 2);
+			for(ReportItem reportItem : riList){
+				if(!ReportItem.TYPE_BASIC.equalsIgnoreCase(reportItem.getType())){
+					reportItem.setType_index(userTypeIndex);
+					reportItemList.get(reportItem.getType()).get(userType).add(reportItem);
+					reportItemSize.put(reportItem.getType(), reportItemSize.get(reportItem.getType())+1);
+				}
+			}
+		}
+		
 		ModelAndView model = new ModelAndView("management/detail/managementDetailHazardIdentification");
 		model.addObject("lang", lang);
+		model.addObject("report_no", report_no);
+		model.addObject("reportItemNameList", reportItemNameList);
+		model.addObject("reportItemSize", reportItemSize);
+		model.addObject("userTypeList", userTypeList);
+		model.addObject("userTypeNameList", userTypeNameList);
+		model.addObject("classifiedRpList", classifiedRpList);
+		model.addObject("reportItemList", reportItemList);
 		return model;
+	}
+	
+	@RequestMapping("/managementDetailHazardIdentificationReport.do")
+    public ModelAndView managementDetailHazardIdentificationReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String category = ServletRequestUtils.getStringParameter(request, "category", "");
+		String type = ServletRequestUtils.getStringParameter(request, "type", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp = reportService.readReport(rp);
+		rp.setType(rp.getType().substring(0, 1));
+		
+		ReportParent reportParent = new ReportParent();
+		reportParent.setId(rp.getReport_parent_id());
+		reportParent = reportService.readReportParent(reportParent);
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setType(type);
+		ri = reportService.readReportItem(ri);
+		
+		Map<String, String> userTypeNameList = User.getUserTypeNameMap();
+		
+		Map<String, String> statusReviewMap = new TreeMap<String, String>();
+		statusReviewMap.put("ACCEPTED", ReportItem.STATUS_REVIEW_ACCEPTED);
+		statusReviewMap.put("REJECTED", ReportItem.STATUS_REVIEW_REJECTED);
+		statusReviewMap.put("NEEDINVESTIGATION", ReportItem.STATUS_REVIEW_NEED_INVESTIGATION);
+			
+		Map<String, String> priorityColorMap = SelectItem.getPriorityColorMap();
+		
+		SelectItem item = new SelectItem();
+		item.setCategory("priority");
+		List<SelectItem> priorityList = reportService.readSelectItemList(item);
+		
+		Map<String, String> priorityNameMap = new TreeMap<String, String>();
+		for(SelectItem selectItem : priorityList)
+			priorityNameMap.put(selectItem.getValue(), selectItem.getName());
+		
+		ModelAndView model = new ModelAndView("management/detail/managementDetailHazardIdentificationReport");
+		model.addObject("lang", lang);
+		model.addObject("report_parent_no", reportParent.getReport_no());
+		model.addObject("report_no", report_no);
+		model.addObject("type", type);
+		model.addObject("category", category);
+		model.addObject("report", rp);
+		model.addObject("reportItem", ri);
+		model.addObject("userTypeNameList", userTypeNameList);
+		model.addObject("statusReviewMap", statusReviewMap);
+		model.addObject("priorityColorMap", priorityColorMap);
+		model.addObject("priorityNameMap", priorityNameMap);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailHazardIdentificationUpdate.do")
+    public @ResponseBody String managementDetailHazardIdentificationUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String type = ServletRequestUtils.getStringParameter(request, "type", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp = reportService.readReport(rp);
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setReport_id(rp.getId());
+		ri.setType(type);
+		reportService.updateReportItemReview(ri, request, type);
+		
+		
+		return "Update Success";
+	}
+	
+	@RequestMapping("/managementDetailHazardIdentificationSubmit.do")
+    public @ResponseBody String managementDetailHazardIdentificationSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String type = ServletRequestUtils.getStringParameter(request, "type", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		Report rp = new Report();
+		rp.setReport_no(report_no);
+		rp = reportService.readReport(rp);
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setReport_id(rp.getId());
+		ri.setType(type);
+		ri.setStatus_hazard_id(ReportItem.STATE_SUBMITTED);
+		reportService.updateReportItemReview(ri, request, type);
+		
+		ri = reportService.readReportItem(ri);
+		Hazard h = new Hazard();
+		h.setReport_item_id(ri.getId());
+		h.setState(Hazard.STATUS_IDENTIFIED);
+		reportService.updateHazard(h);
+		
+		
+		return "Submit Success";
 	}
 	
 	@RequestMapping("/managementDetailRiskAnalysis.do")
     public ModelAndView managementDetailRiskAnalysis(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
+		System.out.println("hazard_no  :"+hazard_no);
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysis");
 		model.addObject("lang", lang);
+		model.addObject("hazard_no", hazard_no);
 		return model;
 	}
 	
 	@RequestMapping("/managementDetailRiskAnalysisViewReport.do")
     public ModelAndView managementDetailRiskAnalysisViewReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisViewReport");
 		model.addObject("lang", lang);
+		model.addObject("hazard_no", hazard_no);
 		return model;
 	}
 	
 	@RequestMapping("/managementDetailRiskAnalysisLikelihood.do")
     public ModelAndView managementDetailRiskAnalysisLikelihood(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		SelectItem si = new SelectItem();
+		si.setCategory("likelihood");
+		List<SelectItem> likelihoodList = reportService.readSelectItemList(si);
+		
+		Hazard h = new Hazard();
+		h.setHazard_no(hazard_no);
+		h = reportService.readHazard(h);
+		
 		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisLikelihood");
 		model.addObject("lang", lang);
+		model.addObject("hazard_no", hazard_no);
+		model.addObject("likelihoodList", likelihoodList);
+		model.addObject("hazard", h);
 		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisLikelihoodUpdate.do")
+    public @ResponseBody String managementDetailRiskAnalysisLikelihoodUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
+		String type = ServletRequestUtils.getStringParameter(request, "type", "");
+		String issubmit = ServletRequestUtils.getStringParameter(request, "issubmit", "");
+		
+		Hazard hz = new Hazard();
+		hz.setHazard_no(hazard_no);
+		if(issubmit.equalsIgnoreCase("Y")){
+			if(type.equalsIgnoreCase("likelihood"))
+				hz.setState_likelihood(Hazard.STATE_SUBMITTED);
+			else if(type.equalsIgnoreCase("severity"))
+				hz.setState_severity(Hazard.STATE_SUBMITTED);
+		}
+		reportService.managementDetailRiskAnalysisUpdate(hz, request, type);
+		
+		hz = reportService.readHazard(hz);
+		
+		if(Hazard.STATE_SUBMITTED.equals(hz.getState_likelihood()) && Hazard.STATE_SUBMITTED.equals(hz.getState_severity())){
+			Hazard hazard = new Hazard();
+			hazard.setHazard_no(hazard_no);
+			hazard.setState(Hazard.STATUS_ANALYZED);
+			reportService.updateHazard(hazard);
+		}
+		
+		if("y".equalsIgnoreCase(issubmit))
+			return "Submit Success.";
+		else if("n".equalsIgnoreCase(issubmit))
+			return "Update Success.";
+		else
+			return "parameter missed.";
 	}
 	
 	@RequestMapping("/managementDetailRiskAnalysisLikelihoodLikelihoodList.do")
@@ -734,6 +1116,35 @@ private Logger logger = Logger.getLogger(getClass());
 		return model;
 	}
 	
+	@RequestMapping("/managementDetailRiskAnalysisSeverity.do")
+    public ModelAndView managementDetailRiskAnalysisSeverity(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		SelectItem si = new SelectItem();
+		si.setCategory("severity");
+		List<SelectItem> severityList = reportService.readSelectItemList(si);
+		
+		Hazard h = new Hazard();
+		h.setHazard_no(hazard_no);
+		h = reportService.readHazard(h);
+		
+		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisSeverity");
+		model.addObject("lang", lang);
+		model.addObject("hazard_no", hazard_no);
+		model.addObject("severityList", severityList);
+		model.addObject("hazard", h);
+		return model;
+	}
+	
+	@RequestMapping("/managementDetailRiskAnalysisSeverityUpdate.do")
+    public @ResponseBody String managementDetailRiskAnalysisSeverityUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+		Hazard hz = new Hazard();
+		reportService.hazardViewContentUpdate(hz, request);
+		return "Update Success.";
+	}
+	
 	@RequestMapping("/managementDetailRiskAnalysisSeveritySeverityList.do")
     public ModelAndView managementDetailRiskAnalysisSeveritySeverityList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
@@ -761,31 +1172,352 @@ private Logger logger = Logger.getLogger(getClass());
 		return model;
 	}
 	
-	@RequestMapping("/managementDetailRiskAnalysisSeverity.do")
-    public ModelAndView managementDetailRiskAnalysisSeverity(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String language = (String)request.getSession().getAttribute("lang");
-		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
-		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAnalysisSeverity");
-		model.addObject("lang", lang);
-		return model;
-	}
+
 	
 	@RequestMapping("/managementDetailRiskAssessment.do")
     public ModelAndView managementDetailRiskAssessment(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
+		
+		Hazard h = new Hazard();
+		h.setHazard_no(hazard_no);
+		h = reportService.readHazard(h);
+		
+		
+		SelectItem item = new SelectItem();
+		item.setCategory("likelihood");
+		List<SelectItem> likelihoodList = reportService.readSelectItemList(item);
+		
+		Map<String, String> likelihoodNameMap = new TreeMap<String, String>();
+		for(SelectItem selectItem : likelihoodList)
+			likelihoodNameMap.put(selectItem.getValue(), selectItem.getName());
+		
+		item.setCategory("severity");
+		List<SelectItem> severityList = reportService.readSelectItemList(item);
+		
+		Map<String, String> severityNameMap = new TreeMap<String, String>();
+		for(SelectItem selectItem : severityList)
+			severityNameMap.put(selectItem.getValue(), selectItem.getName());
+		
+		String lii = h.getLikelihood_initial_likelihood();
+		if(lii.equals("0"))
+			lii = "1";
+		int lii_index = Integer.parseInt(lii);
+		String lri = h.getLikelihood_residual_likelihood();
+		if(lri.equals("0"))
+			lri = "1";
+		int lri_index = Integer.parseInt(lii);
+		String sii = h.getSeverity_initial_likelihood();
+		if(sii.equals("0"))
+			sii = "1";
+		int sii_index = Integer.parseInt(lii);
+		String sri = h.getSeverity_residual_likelihood();
+		if(sri.equals("0"))
+			sri = "1";
+		int sri_index = Integer.parseInt(lii);
+		
+		lii_index = 6- lii_index;
+		lri_index = 6- lri_index;
+		
+		int initial_matrix_value = lii_index + sii_index;
+		int residual_matrix_value = lri_index + sri_index;
+		
+		String initial_acceptable_text = "";
+		String residual_acceptable_text = "";
+		
+		String initial_acceptable_color = "";
+		String residual_acceptable_color = "";
+		
+		String initial_text_color = "";
+		String residual_text_color = "";
+		
+		String initial_risk_text = "";
+		String residual_risk_text = "";
+		
+		//Green zone
+		if(initial_matrix_value >= 2 && initial_matrix_value <= 4){
+			initial_acceptable_text = "Acceptable";
+			initial_acceptable_color = "Green";
+			initial_risk_text = "Low Risk";
+			initial_text_color = "white";
+		}
+		//Yellow zone
+		else if(initial_matrix_value == 5){
+			initial_acceptable_text = "Unacceptable";
+			initial_acceptable_color = "Yellow";
+			initial_risk_text = "Moderate-B";
+			initial_text_color = "black";
+		}
+		//Orange zone
+		else if(initial_matrix_value >= 6 && initial_matrix_value <= 7){
+			initial_acceptable_text = "Unacceptable";
+			initial_acceptable_color = "Orange";
+			initial_risk_text = "Moderate-A";
+			initial_text_color = "white";
+		}
+		//Red zone
+		else if(initial_matrix_value > 7){
+			initial_acceptable_text = "Unacceptable";
+			initial_acceptable_color = "Red";
+			initial_risk_text = "High Risk";
+			initial_text_color = "white";
+		}
+		
+		//Green zone
+		if(residual_matrix_value >= 2 && residual_matrix_value <= 4){
+			residual_acceptable_text = "Acceptable";
+			residual_acceptable_color = "Green";
+			residual_risk_text = "Low Risk";
+			residual_text_color = "white";
+		}
+		//Yellow zone
+		else if(residual_matrix_value == 5){
+			residual_acceptable_text = "Unacceptable";
+			residual_acceptable_color = "Yellow";
+			residual_risk_text = "Moderate-B";
+			residual_text_color = "black";
+		}
+		//Orange zone
+		else if(residual_matrix_value >= 6 && residual_matrix_value <= 7){
+			residual_acceptable_text = "Unacceptable";
+			residual_acceptable_color = "Orange";
+			residual_risk_text = "Moderate-A";
+			residual_text_color = "white";
+		}
+		//Red zone
+		else if(residual_matrix_value > 7){
+			residual_acceptable_text = "Unacceptable";
+			residual_acceptable_color = "Red";
+			residual_risk_text = "High Risk";
+			residual_text_color = "white";
+		}
+		
+		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		ModelAndView model = new ModelAndView("management/detail/managementDetailRiskAssessment");
 		model.addObject("lang", lang);
+		model.addObject("hazard_no", hazard_no);
+		model.addObject("hazard", h);
+		model.addObject("likelihoodNameMap", likelihoodNameMap);
+		model.addObject("severityNameMap", severityNameMap);
+		model.addObject("initial_acceptable_text", initial_acceptable_text);
+		model.addObject("residual_acceptable_text", residual_acceptable_text);
+		model.addObject("initial_acceptable_color", initial_acceptable_color);
+		model.addObject("residual_acceptable_color", residual_acceptable_color);
+		model.addObject("initial_risk_text", initial_risk_text);
+		model.addObject("residual_risk_text", residual_risk_text);
+		model.addObject("initial_text_color", initial_text_color);
+		model.addObject("residual_text_color", residual_text_color);
+		
+		
+		return model;
+	}
+	
+	
+	@RequestMapping("/managementDetailRiskAssessmentUpdate.do")
+    public @ResponseBody String managementDetailRiskAssessmentUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
+		String issubmit = ServletRequestUtils.getStringParameter(request, "issubmit", "");
+		
+		Hazard hz = new Hazard();
+		hz.setHazard_no(hazard_no);
+		if(issubmit.equalsIgnoreCase("Y")){
+			hz.setState_assessment(Hazard.STATE_SUBMITTED);
+			hz.setState(Hazard.STATUS_RISK);
+		}
+		reportService.managementDetailRiskAssessmentUpdate(hz, request);
+		
+		if("y".equalsIgnoreCase(issubmit))
+			return "Submit Success.";
+		else if("n".equalsIgnoreCase(issubmit))
+			return "Update Success.";
+		else
+			return "parameter missed.";
+	}
+	
+	@RequestMapping("/managementDetailViewStandardt.do")
+    public ModelAndView managementDetailViewStandardt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String language = (String)request.getSession().getAttribute("lang");
+
+
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		ModelAndView model = new ModelAndView("management/detail/viewStandard");
+		model.addObject("lang", lang);	
 		return model;
 	}
 	
 	@RequestMapping("/managementDetailMitigation.do")
     public ModelAndView managementDetailMitigation(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
 		String language = (String)request.getSession().getAttribute("lang");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		
+		Hazard h = new Hazard();
+		h.setHazard_no(hazard_no);
+		h = reportService.readHazard(h);
+		
+		SelectItem item = new SelectItem();
+		item.setCategory("likelihood");
+		List<SelectItem> likelihoodList = reportService.readSelectItemList(item);
+		
+		Map<String, String> likelihoodNameMap = new TreeMap<String, String>();
+		for(SelectItem selectItem : likelihoodList)
+			likelihoodNameMap.put(selectItem.getValue(), selectItem.getName());
+		
+		item.setCategory("severity");
+		List<SelectItem> severityList = reportService.readSelectItemList(item);
+		
+		Map<String, String> severityNameMap = new TreeMap<String, String>();
+		for(SelectItem selectItem : severityList)
+			severityNameMap.put(selectItem.getValue(), selectItem.getName());
+		
+		item = new SelectItem();
+		item.setCategory("division");
+		List<SelectItem> divisionList = reportService.readSelectItemList(item);
+		
+		RiskOwner ro = new RiskOwner();
+		ro.setHazard_id(h.getId());
+		List<RiskOwner> riskOwnerList = reportService.readRiskOwnerList(ro);
+		
+		for(int i = riskOwnerList.size(); i < 2 ; i++){
+			RiskOwner riskOwner = new RiskOwner();
+			riskOwner.setHazard_id(h.getId());
+			reportService.createRiskOwner(riskOwner);
+			riskOwnerList.add(riskOwner);
+		}
+		
+		String lii = h.getLikelihood_initial_likelihood();
+		if(lii.equals("0"))
+			lii = "1";
+		int lii_index = Integer.parseInt(lii);
+		String lri = h.getLikelihood_residual_likelihood();
+		if(lri.equals("0"))
+			lri = "1";
+		int lri_index = Integer.parseInt(lii);
+		String sii = h.getSeverity_initial_likelihood();
+		if(sii.equals("0"))
+			sii = "1";
+		int sii_index = Integer.parseInt(lii);
+		String sri = h.getSeverity_residual_likelihood();
+		if(sri.equals("0"))
+			sri = "1";
+		int sri_index = Integer.parseInt(lii);
+		
+		lii_index = 6- lii_index;
+		lri_index = 6- lri_index;
+		
+		int initial_matrix_value = lii_index + sii_index;
+		int residual_matrix_value = lri_index + sri_index;
+		
+		String initial_acceptable_text = "";
+		String residual_acceptable_text = "";
+		
+		String initial_acceptable_color = "";
+		String residual_acceptable_color = "";
+		
+		String initial_text_color = "";
+		String residual_text_color = "";
+		
+		String initial_risk_text = "";
+		String residual_risk_text = "";
+		
+		//Green zone
+		if(initial_matrix_value >= 2 && initial_matrix_value <= 4){
+			initial_acceptable_text = "Acceptable";
+			initial_acceptable_color = "Green";
+			initial_risk_text = "Low Risk";
+			initial_text_color = "white";
+		}
+		//Yellow zone
+		else if(initial_matrix_value == 5){
+			initial_acceptable_text = "Unacceptable";
+			initial_acceptable_color = "Yellow";
+			initial_risk_text = "Moderate-B";
+			initial_text_color = "black";
+		}
+		//Orange zone
+		else if(initial_matrix_value >= 6 && initial_matrix_value <= 7){
+			initial_acceptable_text = "Unacceptable";
+			initial_acceptable_color = "Orange";
+			initial_risk_text = "Moderate-A";
+			initial_text_color = "white";
+		}
+		//Red zone
+		else if(initial_matrix_value > 7){
+			initial_acceptable_text = "Unacceptable";
+			initial_acceptable_color = "Red";
+			initial_risk_text = "High Risk";
+			initial_text_color = "white";
+		}
+		
+		//Green zone
+		if(residual_matrix_value >= 2 && residual_matrix_value <= 4){
+			residual_acceptable_text = "Acceptable";
+			residual_acceptable_color = "Green";
+			residual_risk_text = "Low Risk";
+			residual_text_color = "white";
+		}
+		//Yellow zone
+		else if(residual_matrix_value == 5){
+			residual_acceptable_text = "Unacceptable";
+			residual_acceptable_color = "Yellow";
+			residual_risk_text = "Moderate-B";
+			residual_text_color = "black";
+		}
+		//Orange zone
+		else if(residual_matrix_value >= 6 && residual_matrix_value <= 7){
+			residual_acceptable_text = "Unacceptable";
+			residual_acceptable_color = "Orange";
+			residual_risk_text = "Moderate-A";
+			residual_text_color = "white";
+		}
+		//Red zone
+		else if(residual_matrix_value > 7){
+			residual_acceptable_text = "Unacceptable";
+			residual_acceptable_color = "Red";
+			residual_risk_text = "High Risk";
+			residual_text_color = "white";
+		}
+		
 		ModelAndView model = new ModelAndView("management/detail/managementDetailMitigation");
 		model.addObject("lang", lang);
+		model.addObject("divisionList", divisionList);
+		model.addObject("hazard", h);
+		model.addObject("riskOwnerList", riskOwnerList);
+		model.addObject("hazard_no", hazard_no);
+		model.addObject("likelihoodNameMap", likelihoodNameMap);
+		model.addObject("severityNameMap", severityNameMap);
+		model.addObject("initial_acceptable_text", initial_acceptable_text);
+		model.addObject("residual_acceptable_text", residual_acceptable_text);
+		model.addObject("initial_acceptable_color", initial_acceptable_color);
+		model.addObject("residual_acceptable_color", residual_acceptable_color);
+		model.addObject("initial_risk_text", initial_risk_text);
+		model.addObject("residual_risk_text", residual_risk_text);
+		model.addObject("initial_text_color", initial_text_color);
+		model.addObject("residual_text_color", residual_text_color);
+		
 		return model;
+	}
+	
+	@RequestMapping("/managementDetailMitigationUpdate.do")
+    public @ResponseBody String managementDetailMitigationUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String hazard_no = ServletRequestUtils.getStringParameter(request, "hazard_no", "");
+		String issubmit = ServletRequestUtils.getStringParameter(request, "issubmit", "");
+		
+		Hazard hz = new Hazard();
+		hz.setHazard_no(hazard_no);
+		if(issubmit.equalsIgnoreCase("Y")){
+			hz.setState_mitigation(Hazard.STATE_SUBMITTED);
+			hz.setState(Hazard.STATUS_MITIGATED);
+		}
+		reportService.managementDetailMitigationUpdate(hz, request);
+		
+		if("y".equalsIgnoreCase(issubmit))
+			return "Submit Success.";
+		else if("n".equalsIgnoreCase(issubmit))
+			return "Update Success.";
+		else
+			return "parameter missed.";
 	}
 	
 	@RequestMapping("/managementDetailRegistered.do")
@@ -848,7 +1580,7 @@ private Logger logger = Logger.getLogger(getClass());
 		fi.setNo_crew(5);
 		fi.setNo_cabin(10);
 		fi.setNo_passenger(100);
-		fi.setAircraft_info_id(rai.getId());
+		//fi.setAircraft_info_id(rai.getId());
 		
 		reportService.createFlightInfo(fi);
 		
@@ -860,15 +1592,15 @@ private Logger logger = Logger.getLogger(getClass());
 		report.setReport_date("07/13/2012");
 		report.setReport_no("RP071312"+flightNo);
 		report.setCrew_fatalities(10);
-		report.setCrew_injuries(10);
+		//report.setCrew_injuries(10);
 		report.setCabin_fatalities(20);
-		report.setCabin_injuries(20);
+		//report.setCabin_injuries(20);
 		report.setPassenger_fatalities(30);
-		report.setPassenger_injuries(31);
+		//report.setPassenger_injuries(31);
 		report.setAircraft_damage("NONE");
 		report.setDelay_time("NONE");
-		report.setState(Report.STATUS_NOT_REPORTED);
-		report.setFlight_info_id(rfi.getId());
+		report.setReport_state(Report.STATUS_NOT_REPORTED);
+		//report.setFlight_info_id(rfi.getId());
 		
 		reportService.createReport(report);
 		
@@ -903,26 +1635,109 @@ private Logger logger = Logger.getLogger(getClass());
 	@RequestMapping("/createReport.do")
     public ModelAndView createReport(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
+		String flightNo = ServletRequestUtils.getStringParameter(request, "flightNo", "KE1239");
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		System.out.println("Add report..");
 		
-		Report report = new Report();
+		ReportParent rp = new ReportParent();
+		DateTime curTime = new DateTime();
+		String dateStr = curTime.toString("ddMMyy");
+		rp.setReport_no("R"+dateStr+flightNo);
+		rp.setReport_date(curTime.toString("yyyy-MM-dd"));
+		rp.setReport_state(Report.STATUS_NOT_REPORTED);
+		rp.setManagement_state(Report.STATUS_NOT_REPORTED);
+		reportService.createReportParent(rp);
 		
-		report.setReport_date("07/13/2012");
-		report.setReport_no("RP123123");
-		report.setCrew_fatalities(10);
-		report.setCrew_injuries(10);
-		report.setCabin_fatalities(20);
-		report.setCabin_injuries(20);
-		report.setPassenger_fatalities(30);
-		report.setPassenger_injuries(31);
+		ReportParent rpp = reportService.readReportParent(rp);
+		
+		Vector<String> userTypeList = new Vector<String>();
+		userTypeList.add(User.TYPE_PILOT);
+		userTypeList.add(User.TYPE_CABIN);
+		userTypeList.add(User.TYPE_GROUND);
+		userTypeList.add(User.TYPE_MAINTENANCE);
+		userTypeList.add(User.TYPE_DISPATCHER);
+		
+		
+		Report report = new Report();
+		report.setReport_parent_id(rpp.getId());
+		report.setReport_date(rp.getReport_date());
+		report.setCrew_fatalities(0);
+		report.setCrew_minor_injuries(0);
+		report.setCrew_serious_injuries(0);
+		report.setCabin_fatalities(0);
+		report.setCabin_minor_injuries(0);
+		report.setCabin_serious_injuries(0);
+		report.setPassenger_fatalities(0);
+		report.setPassenger_minor_injuries(0);
+		report.setPassenger_serious_injuries(0);
 		report.setAircraft_damage("NONE");
 		report.setDelay_time("NONE");
-		report.setState("NOT REPORTED");
-		report.setFlight_info_id(2);
+		report.setReport_state("NOT REPORTED");
+		report.setPriority("1");
 		
-		reportService.createReport(report);
+		for(String userType : userTypeList){
+			for(int i = 0 ; i < 3 ; i++){
+				report.setReport_no("R"+userType+dateStr+flightNo+"-"+Integer.toString(i));
+				report.setType(userType+Integer.toString(i));
+				reportService.createReport(report);
+				
+				Report rpr = reportService.readReport(report);
+				
+				FlightInfo fi = new FlightInfo();
+				fi.setFlight_date(rp.getReport_date());
+				fi.setFlight_no(flightNo);
+				fi.setAirline("7C");
+				fi.setRoute_from("GMP");
+				fi.setRoute_to("KIX");
+				fi.setRoute_diverted("ITM");
+				fi.setFlight_type("SCHE");
+				fi.setDom_int_type("DOM");
+				fi.setCargo_operation("PASSENGER");
+				fi.setNo_crew(5);
+				fi.setNo_cabin(10);
+				fi.setNo_passenger(100);
+				fi.setReport_id(rpr.getId());
+				reportService.createFlightInfo(fi);
+				
+				UserInfo ui = new UserInfo();
+				ui.setReport_id(rpr.getId());
+				userService.createUserInfo(ui);
+				
+				AircraftInfo ai = new AircraftInfo();
+				ai.setManufacturer("BOEING");
+				ai.setModel("B737-8000");
+				ai.setSerial_no("51-11012");
+				ai.setRegi_no("HL7229");
+				ai.setNo_seat_crew(2);
+				ai.setNo_seat_cabin(10);
+				ai.setNo_seat_passenger(100);
+				ai.setLast_inspection_type("1");
+				ai.setLast_inspection_date("2012-12-06");
+				ai.setReport_id(rpr.getId());
+				reportService.createAircraftInformation(ai);
+				
+				Vector<String> reportItemNameList = new Vector<String>();
+				reportItemNameList.add(ReportItem.TYPE_BASIC);
+				reportItemNameList.add(ReportItem.TYPE_TAXI_OUT);
+				reportItemNameList.add(ReportItem.TYPE_TAKE_OFF);
+				reportItemNameList.add(ReportItem.TYPE_CLIMB);
+				reportItemNameList.add(ReportItem.TYPE_EN_ROUTE);
+				reportItemNameList.add(ReportItem.TYPE_DECENT);
+				reportItemNameList.add(ReportItem.TYPE_APPROACH);
+				reportItemNameList.add(ReportItem.TYPE_LANDING);
+				reportItemNameList.add(ReportItem.TYPE_TAXI_IN);
+				
+				for(String reportItemName : reportItemNameList){
+					ReportItem ri = new ReportItem();
+					ri.setType(reportItemName);
+					ri.setReport_id(rpr.getId());
+					ri.setStatus("NOTSUBMITTED");
+					reportService.createReportItem(ri);
+				}
+			}
+		}
+		
 		
 		ModelAndView model = new ModelAndView("index");
 		model.addObject("lang", lang);
@@ -933,6 +1748,7 @@ private Logger logger = Logger.getLogger(getClass());
     public ModelAndView fileUploadForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
 		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
+		String isReadOnly = ServletRequestUtils.getStringParameter(request, "isReadOnly", "N");
 		String language = (String)request.getSession().getAttribute("lang");
 		
 		ReportItem ri = new ReportItem();
@@ -947,10 +1763,168 @@ private Logger logger = Logger.getLogger(getClass());
 		ModelAndView model = new ModelAndView("report/file_upload_form");
 		model.addObject("lang", lang);
 		model.addObject("report_no", report_no);
+		model.addObject("isReadOnly", isReadOnly);
 		model.addObject("report_item_type", report_item_type);
 		model.addObject("attachedItemList", itemList);
 		return model;
 	}
 	
+	@RequestMapping("/hazardView.do")
+    public ModelAndView hazardView(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String report_parent_no = ServletRequestUtils.getStringParameter(request, "report_parent_no", "");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		int hazard_index = ServletRequestUtils.getIntParameter(request, "hazard_index", 1);
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
+		String isReadOnly = ServletRequestUtils.getStringParameter(request, "isReadOnly", "N");
+		String language = (String)request.getSession().getAttribute("lang");
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setType(report_item_type);
+		ri = reportService.readReportItem(ri);
+		
+		
+		
+		Hazard hazard = new Hazard();
+		hazard.setReport_item_id(ri.getId());
+		List<Hazard> hazardList = reportService.readHazardList(hazard);
+		
+		int hazard_num = hazardList.size();
+		if(hazard_num < 1 ) hazard_num = 1;
+
+	
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		ModelAndView model = new ModelAndView("management/detail/hazardView");
+		model.addObject("lang", lang);
+		model.addObject("report_parent_no",report_parent_no);
+		model.addObject("report_no", report_no);
+		model.addObject("report_item_type", report_item_type);
+		model.addObject("isReadOnly", isReadOnly);
+		model.addObject("report_item_type", report_item_type);
+		model.addObject("hazardNum", hazard_num);
+		model.addObject("hazard_index", hazard_index);
+		
+		return model;
+	}
+	
+	@RequestMapping("/hazardViewContent.do")
+    public ModelAndView hazardViewContent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String report_parent_no = ServletRequestUtils.getStringParameter(request, "report_parent_no", "");
+		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		int hazard_index = ServletRequestUtils.getIntParameter(request, "hazard_index", 1);
+		String report_item_type = ServletRequestUtils.getStringParameter(request, "report_item_type", "");
+		String isReadOnly = ServletRequestUtils.getStringParameter(request, "isReadOnly", "N");
+		String language = (String)request.getSession().getAttribute("lang");
+		
+		
+		
+		ReportItem ri = new ReportItem();
+		ri.setReport_no(report_no);
+		ri.setType(report_item_type);
+		ri = reportService.readReportItem(ri);
+	
+		Hazard hazard = new Hazard();
+		hazard.setReport_item_id(ri.getId());
+		List<Hazard> hazardList = reportService.readHazardPureList(hazard);
+		
+		
+		
+		Hazard h = new Hazard();
+		String hazard_no = "";
+		
+//		if(1==2 && hazard_index > hazardList.size()){
+//			hazard_no = "H"+report_parent_no.substring(1)+"-"+Integer.toString(hazardTotalCount+1);
+//			h = new Hazard();
+//			h.setReport_item_id(ri.getId());
+//			h.setHazard_no(hazard_no);
+//			h.setState_likelihood(Hazard.STATE_NOT_SUBMITTED);
+//			h.setState_severity(Hazard.STATE_NOT_SUBMITTED);
+//			h.setState_assessment(Hazard.STATE_NOT_SUBMITTED);
+//			h.setState_mitigation(Hazard.STATE_NOT_SUBMITTED);
+//			
+//			DateTime curTime = new DateTime();
+//			h.setHazard_date(curTime.toString("yyyy-MM-dd"));
+//			
+//			reportService.createHazard(h);
+//			h = reportService.readHazard(h);
+//			
+//			for(int i = 1 ; i <= 5 ; i++){
+//				HazardItem hi = new HazardItem();
+//				hi.setHazard_id(h.getId());
+//				hi.setItem_level(i);
+//				hazardItemService.createHazardItem(hi);
+//			}
+//			
+//		}else{
+//			h = hazardList.get(hazard_index-1);
+//		}
+		
+		int hazard_num = hazardList.size();
+		if(hazard_num < 1 ) hazard_num = 1;
+		
+		List<HazardItem> hazardItemList = null;
+		
+		if(hazardList.size() >= hazard_index ){
+			h = hazardList.get(hazard_index-1);
+			HazardItem hazardItem = new HazardItem();
+			hazardItem.setHazard_id(h.getId());
+			hazardItemList = hazardItemService.readHazardItemList(hazardItem);
+		}
+		if(hazardItemList == null){
+			hazardItemList = new ArrayList<HazardItem>();
+			for(int i = 0 ; i < 5 ; i++)
+				hazardItemList.add(new HazardItem());
+		}
+		
+		SelectItem item = new SelectItem();
+		item.setCategory("occurrence");
+		List<SelectItem> occurrenceList = reportService.readSelectItemList(item);
+		
+		item.setCategory("injury");
+		List<SelectItem> injuryList = reportService.readSelectItemList(item);
+		
+		item.setCategory("aircraft_damage");
+		List<SelectItem> damageList = reportService.readSelectItemList(item);
+		
+		item.setCategory("delay_time");
+		List<SelectItem> delayList = reportService.readSelectItemList(item);
+		
+		item.setCategory("priority");
+		List<SelectItem> priorityList = reportService.readSelectItemList(item);
+		
+		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
+		ModelAndView model = new ModelAndView("management/detail/hazardViewContent");
+		model.addObject("lang", lang);
+		model.addObject("report_parent_no",report_parent_no);
+		model.addObject("report_no", report_no);
+		model.addObject("occurrenceList", occurrenceList);
+		model.addObject("injuryList", injuryList);
+		model.addObject("damageList", damageList);
+		model.addObject("delayList", delayList);
+		model.addObject("priorityList", priorityList);
+		model.addObject("isReadOnly", isReadOnly);
+		model.addObject("report_item_type", report_item_type);
+		model.addObject("hazardNum", hazard_num);
+		model.addObject("hazard_index", hazard_index);
+		model.addObject("hazardItemList", hazardItemList);
+		//model.addObject("hazard_no", hazard_no);
+		model.addObject("hazard", h);
+		return model;
+	}
+	
+	@RequestMapping("/hazardViewContentUpdate.do")
+    public @ResponseBody String hazardViewContentUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+		
+		Hazard hz = new Hazard();
+	
+		reportService.hazardViewContentUpdate(hz, request);
+
+		return "Update Success.";
+	}
+	
+//	public static void main(String[] argv){
+//		DateTime curTime = new DateTime();
+//		System.out.println(curTime.toString("ddMMyy"));
+//	}
 	
 }

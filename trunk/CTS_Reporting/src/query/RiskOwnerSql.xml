@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="RiskOwnerSql">
+
+	<resultMap id="RiskOwner" class="ac.kaist.cts.domain.RiskOwner">
+		<result column="ID" property="id" />
+		<result column="division" property="division" />
+		<result column="assigned_to" property="assigned_to" />
+		<result column="requested_date" property="requested_date" />
+		<result column="due_date" property="due_date" />
+		<result column="comments" property="comments" />
+		<result column="hazard_id" property="hazard_id" />
+ 	</resultMap>
+ 	
+ 	
+ 	<select id="readRiskOwnerList" resultMap="RiskOwner" parameterClass="ac.kaist.cts.domain.RiskOwner">
+ 		SELECT 
+ 		`id`, `division`, `assigned_to`, `requested_date`, `due_date`, `comments`, `hazard_id`
+ 		FROM risk_owner
+ 		where hazard_id = #hazard_id#
+ 	</select>
+ 	 	
+	<select id="readRiskOwner" resultMap="RiskOwner">
+       SELECT 
+       `id`, `division`, `assigned_to`, `requested_date`, `due_date`, `comments`, `hazard_id`
+ 	   FROM risk_owner
+       WHERE id = #id#
+	</select>
+
+	<insert id="createRiskOwner" parameterClass="ac.kaist.cts.domain.RiskOwner">
+		 INSERT INTO `risk_owner` 
+		 (`division`, `assigned_to`, `requested_date`, `due_date`, `comments`, `hazard_id`) VALUES 
+		 (#division#, #assigned_to#, #requested_date#, #due_date#, #comments#, #hazard_id#);
+
+	</insert>
+	
+	<update id="updateRiskOwner" parameterClass="ac.kaist.cts.domain.RiskOwner">
+       UPDATE `risk_owner` 
+       SET 
+       `id` = #id#
+       <isNotEmpty property="division">
+       , `division`= #division#
+       </isNotEmpty>
+       <isNotEmpty property="assigned_to">
+       , `assigned_to`= #assigned_to#
+       </isNotEmpty>
+       <isNotEmpty property="requested_date">
+       , `requested_date`= #requested_date#
+       </isNotEmpty>
+       <isNotEmpty property="due_date">
+       , `due_date`= #due_date#
+       </isNotEmpty>
+       <isNotEmpty property="comments">
+       , `comments`= #comments#
+       </isNotEmpty>
+       <isNotEqual property="hazard_id" compareValue="0">
+       , `hazard_id`= #hazard_id#
+       </isNotEqual>
+       
+       WHERE id = #id#
+    </update>
+	
+	
+</sqlMap>
+
+

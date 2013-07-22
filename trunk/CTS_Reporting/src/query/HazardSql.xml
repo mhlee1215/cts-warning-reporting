@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="HazardSql">
+
+	<resultMap id="Hazard" class="ac.kaist.cts.domain.Hazard">
+		<result column="ID" property="id" />
+		<result column="HAZARD_NO" property="hazard_no" />
+		<result column="TITLE" property="title" />
+		<result column="HAZARD_DATE" property="hazard_date" />
+		<result column="DETAILS" property="details" />
+		<result column="STATE" property="state" />
+		<result column="ISNEW" property="isnew" />
+		<result column="OCURRENCE" property="ocurrence" />
+		<result column="INJURY" property="injury" />
+		<result column="DAMAGE" property="damage" />
+		<result column="DELAY" property="delay" />
+		<result column="PRIORITY" property="priority" />
+		<result column="STATE_LIKELIHOOD" property="state_likelihood" />
+		<result column="LIKELIHOOD_INITIAL_LIKELIHOOD" property="likelihood_initial_likelihood" />
+		<result column="LIKELIHOOD_RESIDUAL_LIKELIHOOD" property="likelihood_residual_likelihood" />
+		<result column="LIKELIHOOD_COMMENTS" property="likelihood_comments" />
+		<result column="STATE_SEVERITY" property="state_severity" />
+		<result column="SEVERITY_INITIAL_LIKELIHOOD" property="severity_initial_likelihood" />
+		<result column="SEVERITY_RESIDUAL_LIKELIHOOD" property="severity_residual_likelihood" />
+		<result column="SEVERITY_COMMENTS" property="severity_comments" />
+		<result column="CONTROL_NO" property="control_no" />
+		<result column="TRACKED_BY" property="tracked_by" />
+		<result column="STATE_ASSESSMENT" property="state_assessment" />
+		<result column="STATE_MITIGATION" property="state_mitigation" />
+		<result column="REPORT_ITEM_ID" property="report_item_id" />
+ 	</resultMap>
+ 	
+ 	<select id="readHazardTotalCount" resultClass="Integer" parameterClass="ac.kaist.cts.domain.Hazard">
+ 		select count(ri.id) from 
+		report r
+		inner join report_item ri on r.id = ri.report_id
+		inner join hazard h on ri.id = h.report_item_id
+		where 
+		report_parent_id = #report_parent_id#
+ 	</select>
+ 	
+ 	<select id="readHazardList2" resultMap="Hazard" parameterClass="ac.kaist.cts.domain.Hazard">
+ 		/*readHazardList*/
+ 		SELECT `id`, `hazard_no`, `title`, `hazard_date`, `details`, `state`, `isnew`, `ocurrence`, `injury`, `damage`, `delay`, `priority`, `state_likelihood`, `likelihood_initial_likelihood`, `likelihood_residual_likelihood`, `likelihood_comments`, `state_severity`, `severity_initial_likelihood`, `severity_residual_likelihood`, `severity_comments`, `control_no`, `tracked_by`, `report_item_id`, `state_assessment`, `state_mitigation`
+ 		FROM Hazard
+ 		WHERE
+ 		1=1
+ 		<isNotEmpty property="state">
+ 		and `state` = #state# 
+ 		</isNotEmpty>
+ 		<isNotEqual property="report_item_id" compareValue="0"> 
+        and report_item_id = #report_item_id#
+        </isNotEqual>
+        order by id asc
+ 	</select>
+ 	<select id="readHazardList" resultMap="Hazard" parameterClass="ac.kaist.cts.domain.Hazard">
+	 	 SELECT
+	        h.`id`,
+	        `hazard_no`,
+	        `title`,
+	        `hazard_date`,
+	        `details`,
+	        `state`,
+	        `isnew`,
+	         sio.name as `ocurrence`,
+			 sia.name as `damage`, 
+			 sii.name as `injury`, 
+			 sid.name as `delay`,
+	        `priority`,
+	        `state_likelihood`,
+	        `likelihood_initial_likelihood`,
+	        `likelihood_residual_likelihood`,
+	        `likelihood_comments`,
+	        `state_severity`,
+	        `severity_initial_likelihood`,
+	        `severity_residual_likelihood`,
+	        `severity_comments`,
+	        `control_no`,
+	        `tracked_by`,
+	        `report_item_id`,
+	        `state_assessment`, 
+	        `state_mitigation`    
+	    FROM
+	        Hazard h
+			RIGHT OUTER JOIN select_items sio ON h.ocurrence = sio.value 
+			RIGHT OUTER JOIN select_items sia ON h.damage = sia.value 
+			RIGHT OUTER JOIN select_items sii ON h.injury = sii.value
+			RIGHT OUTER JOIN select_items sid ON h.delay = sid.value
+	    WHERE
+	        1=1        
+	        <isNotEmpty property="state">
+	        and `state` =  #state#
+	        </isNotEmpty>
+	        <isNotEqual property="report_item_id" compareValue="0"> 
+	        and report_item_id = #report_item_id#
+	        </isNotEqual>   
+			and
+			sio.category = 'occurrence'
+			and
+			sia.category = 'aircraft_damage'
+			and
+			sii.category = 'injury'
+			and
+			sid.category = 'delay_time'
+	    order by
+	        id asc   
+    </select>
+ 	 	
+	<select id="readHazard" resultMap="Hazard" parameterClass="ac.kaist.cts.domain.Hazard">
+       SELECT `id`, `hazard_no`, `title`, `hazard_date`, `details`, `state`, `isnew`, `ocurrence`, `injury`, `damage`, `delay`, `priority`, `state_likelihood`, `likelihood_initial_likelihood`, `likelihood_residual_likelihood`, `likelihood_comments`, `state_severity`, `severity_initial_likelihood`, `severity_residual_likelihood`, `severity_comments`, `control_no`, `tracked_by`, `report_item_id`, `state_assessment`, `state_mitigation`
+ 	   FROM Hazard
+       WHERE
+       1=1
+       <isNotEmpty property="hazard_no"> 
+       and hazard_no = #hazard_no#
+       </isNotEmpty>
+	</select>
+
+	<insert id="createHazard" parameterClass="ac.kaist.cts.domain.Hazard">
+		 INSERT INTO `hazard` 
+		 (`hazard_no`, `title`, `hazard_date`, `details`, `state`, `isnew`, `ocurrence`, `injury`, `damage`, `delay`, `priority`, `state_likelihood`, `likelihood_initial_likelihood`, `likelihood_residual_likelihood`, `likelihood_comments`, `state_severity`, `severity_initial_likelihood`, `severity_residual_likelihood`, `severity_comments`, `control_no`, `tracked_by`, `report_item_id`, `state_assessment`, `state_mitigation`) VALUES 
+		 (#hazard_no#, #title#, #hazard_date#, #details#, #state#, #isnew#, #ocurrence#, #injury#, #damage#, #delay#, #priority#, #state_likelihood#, #likelihood_initial_likelihood#, #likelihood_residual_likelihood#, #likelihood_comments#, #state_severity#, #severity_initial_likelihood#, #severity_residual_likelihood#, #severity_comments#, #control_no#, #tracked_by#, #report_item_id#, #state_assessment#, #state_mitigation#);
+	</insert>
+	
+	<update id="updateHazard" parameterClass="ac.kaist.cts.domain.Hazard">
+       UPDATE `Hazard` 
+       SET 
+       <isNotEmpty property="hazard_no">
+       `hazard_no` = #hazard_no#
+       </isNotEmpty>
+       <isNotEqual property="report_item_id" compareValue="0">
+       `report_item_id` = #report_item_id#
+       </isNotEqual>
+       
+       <isNotEmpty property="title">
+       , `title`= #title#
+       </isNotEmpty>
+       <isNotEmpty property="hazard_date">
+       , `hazard_date`= #hazard_date#
+       </isNotEmpty>
+       <isNotEmpty property="details">
+       , `details`= #details#
+       </isNotEmpty>
+       <isNotEmpty property="state">
+       , `state`= #state#
+       </isNotEmpty>
+       <isNotEmpty property="isnew">
+       , `isnew`= #isnew#
+       </isNotEmpty>
+       <isNotEmpty property="ocurrence">
+       , `ocurrence`= #ocurrence#
+       </isNotEmpty>
+       <isNotEmpty property="injury">
+       , `injury`= #injury#
+       </isNotEmpty>
+       <isNotEmpty property="damage">
+       , `damage`= #damage#
+       </isNotEmpty>
+       <isNotEmpty property="delay">
+       , `delay`= #delay#
+       </isNotEmpty>
+       <isNotEmpty property="priority">
+       , `priority`= #priority#
+       </isNotEmpty>
+       <isNotEmpty property="state_likelihood">
+       , `state_likelihood`= #state_likelihood#
+       </isNotEmpty>
+       <isNotEmpty property="likelihood_initial_likelihood">
+       , `likelihood_initial_likelihood`= #likelihood_initial_likelihood#
+       </isNotEmpty>
+       <isNotEmpty property="likelihood_residual_likelihood">
+       , `likelihood_residual_likelihood`= #likelihood_residual_likelihood#
+       </isNotEmpty>
+       <isNotEmpty property="likelihood_comments">
+       , `likelihood_comments`= #likelihood_comments#
+       </isNotEmpty>
+       <isNotEmpty property="state_severity">
+       , `state_severity`= #state_severity#
+       </isNotEmpty>
+       <isNotEmpty property="severity_initial_likelihood">
+       , `severity_initial_likelihood`= #severity_initial_likelihood#
+       </isNotEmpty>
+       <isNotEmpty property="severity_residual_likelihood">
+       , `severity_residual_likelihood`= #severity_residual_likelihood#
+       </isNotEmpty>
+       <isNotEmpty property="severity_comments">
+       , `severity_comments`= #severity_comments#
+       </isNotEmpty>
+       <isNotEmpty property="control_no">
+       , `control_no`= #control_no#
+       </isNotEmpty>
+       <isNotEmpty property="tracked_by">
+       , `tracked_by`= #tracked_by#
+       </isNotEmpty>
+       <isNotEmpty property="state_assessment">
+       , `state_assessment`= #state_assessment#
+       </isNotEmpty>
+       <isNotEmpty property="state_mitigation">
+       , `state_mitigation`= #state_mitigation#
+       </isNotEmpty>
+       WHERE 
+        
+       <isNotEmpty property="hazard_no">
+       hazard_no = #hazard_no#
+       </isNotEmpty>
+       <isNotEqual property="report_item_id" compareValue="0">
+       `report_item_id` = #report_item_id#
+       </isNotEqual>
+       
+	</update>
+	
+	
+</sqlMap>
+
+

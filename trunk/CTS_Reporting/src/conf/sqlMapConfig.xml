@@ -30,17 +30,20 @@
     </transactionManager>
   
   
-  <sqlMap resource="query/UserHasReportSql.xml"/>
+  
   <sqlMap resource="query/AircraftInfoSql.xml"/>
-  <sqlMap resource="query/FlightInfoSql.xml"/>
-  <sqlMap resource="query/UserInfoSql.xml"/>
-  <sqlMap resource="query/ReportSql.xml"/>
-  <sqlMap resource="query/ReportItemSql.xml"/>
   <sqlMap resource="query/AttachedItemSql.xml"/>
-  <sqlMap resource="query/UserSql.xml"/>
+  <sqlMap resource="query/FlightInfoSql.xml"/>
   <sqlMap resource="query/HazardItemListSql.xml"/>
   <sqlMap resource="query/HazardItemSql.xml"/>
+  <sqlMap resource="query/HazardSql.xml"/>
+  <sqlMap resource="query/ReportItemSql.xml"/>
+  <sqlMap resource="query/ReportParentSql.xml"/>
+  <sqlMap resource="query/ReportSql.xml"/>
+  <sqlMap resource="query/RiskOwnerSql.xml"/>
   <sqlMap resource="query/SelectItemSql.xml"/>
+  <sqlMap resource="query/UserInfoSql.xml"/>
+  <sqlMap resource="query/UserSql.xml"/>
   
   
 </sqlMapConfig>

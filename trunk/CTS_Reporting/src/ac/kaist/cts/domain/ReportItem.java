@@ -1,5 +1,8 @@
 package ac.kaist.cts.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //CREATE  TABLE IF NOT EXISTS `Report_DB`.`report_item` (
 //		  `id` INT NOT NULL AUTO_INCREMENT ,
 //		  `type` VARCHAR(45) NULL ,
@@ -26,9 +29,50 @@ public class ReportItem {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public static List<String> getReportItemNameList(){
+		List<String> list = new ArrayList<String>();
+		list.add(TYPE_TAXI_OUT);
+		list.add(TYPE_TAKE_OFF);
+		list.add(TYPE_CLIMB);
+		list.add(TYPE_EN_ROUTE);
+		list.add(TYPE_DECENT);
+		list.add(TYPE_APPROACH);
+		list.add(TYPE_LANDING);
+		list.add(TYPE_TAXI_IN);
+		return list;
+	}
+	
 	public static String STATE_SUBMITTED = "SUBMITTED";
 	public static String STATE_NOT_SUBMITTED = "NOTSUBMITTED";
+	public static String STATUS_REVIEW_ACCEPTED = "Accepted";
+	public static String STATUS_REVIEW_REJECTED = "Rejected";
+	public static String STATUS_REVIEW_NEED_INVESTIGATION = "Need an Investigation";
 	
+	public static String getSTATUS_REVIEW_ACCEPTED() {
+		return STATUS_REVIEW_ACCEPTED;
+	}
+
+	public static void setSTATUS_REVIEW_ACCEPTED(String sTATUS_REVIEW_ACCEPTED) {
+		STATUS_REVIEW_ACCEPTED = sTATUS_REVIEW_ACCEPTED;
+	}
+
+	public static String getSTATUS_REVIEW_REJECTED() {
+		return STATUS_REVIEW_REJECTED;
+	}
+
+	public static void setSTATUS_REVIEW_REJECTED(String sTATUS_REVIEW_REJECTED) {
+		STATUS_REVIEW_REJECTED = sTATUS_REVIEW_REJECTED;
+	}
+
+	public static String getSTATUS_REVIEW_NEED_INVESTIGATION() {
+		return STATUS_REVIEW_NEED_INVESTIGATION;
+	}
+
+	public static void setSTATUS_REVIEW_NEED_INVESTIGATION(
+			String sTATUS_REVIEW_NEED_INVESTIGATION) {
+		STATUS_REVIEW_NEED_INVESTIGATION = sTATUS_REVIEW_NEED_INVESTIGATION;
+	}
+
 	public static String TYPE_BASIC 	= "BASIC";
 	
 
@@ -43,18 +87,51 @@ public class ReportItem {
 	
 	private int id 				= 0;
 	private String type 		= "";
+	private String type_index	= "";
 	private String title 		= "";
 	private String time 		= "";
 	private String time_type 	= "";
 	private String narrative 	= "";
 	private String recommendation = "";
+	private String comments = "";
 	private String status 		= "";
+	private String status_review = "";
+	private String status_determine = "";
+	private String status_hazard_id = "";
 	private String priority 	= "";
 	private int report_id		= 0;
 	private String report_no	=	"";
+	
+	
+	
+
+	public String getStatus_determine() {
+		return status_determine;
+	}
+
+	public void setStatus_determine(String status_determine) {
+		this.status_determine = status_determine;
+	}
+
+	public String getStatus_hazard_id() {
+		return status_hazard_id;
+	}
+
+	public void setStatus_hazard_id(String status_hazard_id) {
+		this.status_hazard_id = status_hazard_id;
+	}
+
 	public int getId() {
 		return id;
 	}
+	public String getStatus_review() {
+		return status_review;
+	}
+
+	public void setStatus_review(String status_review) {
+		this.status_review = status_review;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -73,6 +150,14 @@ public class ReportItem {
 	public String getTime() {
 		return time;
 	}
+	public String getType_index() {
+		return type_index;
+	}
+
+	public void setType_index(String type_index) {
+		this.type_index = type_index;
+	}
+
 	public void setTime(String time) {
 		this.time = time;
 	}
@@ -107,6 +192,12 @@ public class ReportItem {
 		this.priority = priority;
 	}
 	
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 	public int getReport_id() {
 		return report_id;
 	}
@@ -139,11 +230,16 @@ public class ReportItem {
 	}
 	@Override
 	public String toString() {
-		return "ReportItem [id=" + id + ", type=" + type + ", title=" + title
-				+ ", time=" + time + ", time_type=" + time_type
-				+ ", narrative=" + narrative + ", recommendation="
-				+ recommendation + ", status=" + status + ", priority="
-				+ priority + ", report_id=" + report_id + ", report_no="
-				+ report_no + "]";
+		return "{\"id\":\"" + id + "\", \"type\":\"" + type
+				+ "\", \"type_index\":\"" + type_index + "\", \"title\":\""
+				+ title + "\", \"time\":\"" + time + "\", \"time_type\":\""
+				+ time_type + "\", \"narrative\":\"" + narrative
+				+ "\", \"recommendation\":\"" + recommendation
+				+ "\", \"comments\":\"" + comments + "\", \"status\":\""
+				+ status + "\", \"status_review\":\"" + status_review
+				+ "\", \"status_determine\":\"" + status_determine
+				+ "\", \"status_hazard_id\":\"" + status_hazard_id
+				+ "\", \"priority\":\"" + priority + "\", \"report_id\":\""
+				+ report_id + "\", \"report_no\":\"" + report_no + "\"}";
 	}
 }

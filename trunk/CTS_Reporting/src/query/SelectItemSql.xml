@@ -12,12 +12,12 @@
  	</resultMap>
  	
  	<select id="readSelectItemList" resultMap="SelectItem">
- 		SELECT ID, NAME VALUE FROM SELECT_ITEMS
+ 		SELECT ID, NAME, VALUE, CATEGORY FROM SELECT_ITEMS
  		WHERE CATEGORY = #category#
  	</select>
  	
 	<select id="readSelectItem" resultMap="SelectItem">
-       SELECT ID, NAME FROM SELECT_ITEMS
+       SELECT ID, NAME, VALUE, CATEGORY FROM SELECT_ITEMS
        WHERE VALUE = #value# and CATEGORY = #category#
        
 	</select>

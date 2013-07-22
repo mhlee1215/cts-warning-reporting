@@ -9,7 +9,6 @@
 		<result column="REPORT_NO" property="report_no" />
 		<result column="REPORT_STATE" property="report_state" />
 		<result column="AC_MODEL" property="ac_model" />
-		<result column="REPORTID" property="reportId" />
 		<result column="FLIGHT_DATE" property="flight_date" />
 		<result column="FLIGHT_NO" property="flight_no" />
 		<result column="AIRLINE" property="airline" />
@@ -22,12 +21,11 @@
 		<result column="NO_CREW" property="no_crew" />
 		<result column="NO_CABIN" property="no_cabin" />
 		<result column="NO_PASSENGER" property="no_passenger" />
-		<result column="AIRCRAFT_INFO_ID" property="aircraft_info_id" />
+		<result column="REPORT_ID" property="Report_id" />
  	</resultMap>
  	
  	<resultMap id="FlightInfo" class="ac.kaist.cts.domain.FlightInfo">
 		<result column="ID" property="id" />
-		<result column="REPORTID" property="reportId" />
 		<result column="FLIGHT_DATE" property="flight_date" />
 		<result column="FLIGHT_NO" property="flight_no" />
 		<result column="AIRLINE" property="airline" />
@@ -40,33 +38,84 @@
 		<result column="NO_CREW" property="no_crew" />
 		<result column="NO_CABIN" property="no_cabin" />
 		<result column="NO_PASSENGER" property="no_passenger" />
-		<result column="AIRCRAFT_INFO_ID" property="aircraft_info_id" />
+		<result column="REPORT_ID" property="Report_id" />
  	</resultMap>
  	
- 	<select id="readFlightInfoList" resultMap="FlightInfoListItem">
- 		SELECT fi.`id`, rp.`report_no`, rp.`state` as `report_state`, ai.`model` as `ac_model`, `reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `aircraft_info_id`
- 		FROM flight_info fi INNER JOIN report rp on fi.id = rp.flight_info_id INNER JOIN aircraft_info ai on ai.id = fi.aircraft_info_id;
+ 	<select id="readFlightInfoList" resultMap="FlightInfoListItem" parameterClass="ac.kaist.cts.domain.FlightInfo">
+ 		/*readFlightInfoList*/
+ 		SELECT fi.`id`, rp.`report_no`, rp.`report_state` as `report_state`, si.`name` as `ac_model`, fi.`Report_id`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`
+ 		FROM 
+ 		flight_info fi 
+ 		INNER JOIN report rp on fi.`Report_id` = rp.id 
+ 		INNER JOIN aircraft_info ai on ai.`Report_id` = rp.id
+ 		INNER JOIN select_items si on ai.`model` = si.`value`
+ 		WHERE 
+ 		rp.type != ''
+ 		and si.category = 'actype'
+ 		<isNotEmpty property="report_type">
+ 		and rp.type = #report_type#
+ 		</isNotEmpty>
  	</select>
  	 	
-	<select id="readFlightInfo" resultMap="FlightInfo">
-       SELECT `id`, `reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `aircraft_info_id`
+	<select id="readFlightInfo" resultMap="FlightInfo" parameterClass="ac.kaist.cts.domain.FlightInfo">
+		/*readFlightInfo*/
+       SELECT `id`, `reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `Report_id`
  	   FROM flight_info
        WHERE 
-       <isNotEmpty property="flight_no">
-       		flight_no = #flight_no#
-       </isNotEmpty>
-       <isEmpty property="flight_no">
-       		id = #id#
-       </isEmpty>
-       
+       <isNotEmpty property="Report_id">
+       		`Report_id` = #Report_id#
+       </isNotEmpty>      
 	</select>
 
 	<insert id="createFlightInfo" parameterClass="ac.kaist.cts.domain.FlightInfo">
 		 INSERT INTO `flight_info` 
-		 (`reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `aircraft_info_id`) VALUES 
-		 (#reportId#, #flight_date#, #flight_no#, #airline#, #route_from#, #route_to#, #route_diverted#, #flight_type#, #dom_int_type#, #cargo_operation#, #no_crew#, #no_cabin#, #no_passenger#, #aircraft_info_id#);
+		 (`flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `Report_id`) VALUES 
+		 (#flight_date#, #flight_no#, #airline#, #route_from#, #route_to#, #route_diverted#, #flight_type#, #dom_int_type#, #cargo_operation#, #no_crew#, #no_cabin#, #no_passenger#, #Report_id#);
 	</insert>
 	
+	<update id="updateFlightInfo" parameterClass="ac.kaist.cts.domain.FlightInfo">
+		UPDATE `flight_info` 
+		SET 
+			`Report_id` = #Report_id#
+			<isNotEmpty property="flight_date">
+			, `flight_date`= #flight_date#
+			</isNotEmpty>
+			<isNotEmpty property="flight_no">
+			, `flight_no`= #flight_no#
+			</isNotEmpty>
+			<isNotEmpty property="airline">
+			, `airline`= #airline#
+			</isNotEmpty>
+			<isNotEmpty property="route_from">
+			, `route_from`= #route_from#
+			</isNotEmpty>
+			<isNotEmpty property="route_to">
+			, `route_to`= #route_to#
+			</isNotEmpty>
+			<isNotEmpty property="route_diverted">
+			, `route_diverted`= #route_diverted#
+			</isNotEmpty>
+			<isNotEmpty property="flight_type">
+			, `flight_type`= #flight_type#
+			</isNotEmpty>
+			<isNotEmpty property="dom_int_type">
+			, `dom_int_type`= #dom_int_type#
+			</isNotEmpty>
+			<isNotEmpty property="cargo_operation">
+			, `cargo_operation`= #cargo_operation#
+			</isNotEmpty>
+			<isNotEmpty property="no_crew">
+			, `no_crew`= #no_crew#
+			</isNotEmpty>
+			<isNotEmpty property="no_cabin">
+			, `no_cabin`= #no_cabin#
+			</isNotEmpty>
+			<isNotEmpty property="no_passenger">
+			, `no_passenger`= #no_passenger#
+			</isNotEmpty>
+		WHERE
+		`Report_id`= #Report_id#
+	</update>
 	
 	
 </sqlMap>

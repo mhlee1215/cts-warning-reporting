@@ -13,8 +13,11 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
 import ac.kaist.cts.domain.FlightInfo;
+import ac.kaist.cts.domain.Hazard;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
+import ac.kaist.cts.domain.ReportParent;
+import ac.kaist.cts.domain.RiskOwner;
 import ac.kaist.cts.domain.User;
 import ac.kaist.cts.domain.UserInfo;
 
@@ -40,7 +43,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Accepted");
+		a.setReport_state			("Accepted");
 		list.add(a);
 		
 		a = new Report();
@@ -50,7 +53,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Accepted");
+		a.setReport_state			("Accepted");
 		list.add(a);
 		
 		a = new Report();
@@ -60,7 +63,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Minor");
 		a.setDelay_time		("A/C Change");
 		a.setPriority		("High");
-		a.setState			("In Investigation");
+		a.setReport_state			("In Investigation");
 		list.add(a);
 		
 		a = new Report();
@@ -70,7 +73,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Minor");
 		a.setDelay_time		("More than 1 hour");
 		a.setPriority		("Medium");
-		a.setState			("Registered");
+		a.setReport_state			("Registered");
 		list.add(a);
 		
 		a = new Report();
@@ -80,7 +83,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Minor");
 		a.setDelay_time		("Within 30 min");
 		a.setPriority		("-");
-		a.setState			("Review");
+		a.setReport_state			("Review");
 		list.add(a);
 		
 		a = new Report();
@@ -90,7 +93,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("None");
 		a.setDelay_time		("30 min ~ 1 hour");
 		a.setPriority		("-");
-		a.setState			("Review");
+		a.setReport_state			("Review");
 		list.add(a);
 		
 		a = new Report();
@@ -100,7 +103,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("None");
 		a.setDelay_time		("None");
 		a.setPriority		("Low");
-		a.setState			("Registered");
+		a.setReport_state			("Registered");
 		list.add(a);
 		
 		a = new Report();
@@ -110,7 +113,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("None");
 		a.setDelay_time		("Unknown");
 		a.setPriority		("Low");
-		a.setState			("Rejected");
+		a.setReport_state			("Rejected");
 		list.add(a);
 		
 		return list;
@@ -136,7 +139,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Identified");
+		a.setReport_state			("Identified");
 		list.add(a);
 		
 		a = new Report();
@@ -146,7 +149,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Identified");
+		a.setReport_state			("Identified");
 		list.add(a);
 		
 		a = new Report();
@@ -156,7 +159,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Identified");
+		a.setReport_state			("Identified");
 		list.add(a);
 		
 		a = new Report();
@@ -166,7 +169,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Minor");
 		a.setDelay_time		("Within 30 min");
 		a.setPriority		("Medium");
-		a.setState			("Identified");
+		a.setReport_state			("Identified");
 		list.add(a);
 		
 		return list;
@@ -184,7 +187,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Analyzed");
+		a.setReport_state			("Analyzed");
 		list.add(a);
 		
 		a = new Report();
@@ -194,7 +197,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Analyzed");
+		a.setReport_state			("Analyzed");
 		list.add(a);
 		
 		a = new Report();
@@ -204,7 +207,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Analyzed");
+		a.setReport_state			("Analyzed");
 		list.add(a);
 		
 		a = new Report();
@@ -214,7 +217,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Minor");
 		a.setDelay_time		("Within 30 min");
 		a.setPriority		("Medium");
-		a.setState			("Analyzed");
+		a.setReport_state			("Analyzed");
 		list.add(a);
 		
 		return list;
@@ -232,7 +235,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Risk");
+		a.setReport_state			("Risk");
 		list.add(a);
 		
 		a = new Report();
@@ -242,7 +245,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Risk");
+		a.setReport_state			("Risk");
 		list.add(a);
 		
 		a = new Report();
@@ -252,7 +255,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Fatal");
 		a.setDelay_time		("Flight Cancel");
 		a.setPriority		("High");
-		a.setState			("Risk");
+		a.setReport_state			("Risk");
 		list.add(a);
 		
 		a = new Report();
@@ -262,7 +265,7 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		a.setInjury			("Minor");
 		a.setDelay_time		("Within 30 min");
 		a.setPriority		("Low");
-		a.setState			("Risk");
+		a.setReport_state			("Risk");
 		list.add(a);
 		
 		return list;
@@ -301,8 +304,8 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 	}
 
 	@Override
-	public FlightInfo readFlightInfo(FlightInfo userInfo) {
-		FlightInfo result = (FlightInfo)getSqlMapClientTemplate().queryForObject("FlightInfoSql.readFlightInfo", userInfo);
+	public FlightInfo readFlightInfo(FlightInfo flightInfo) {
+		FlightInfo result = (FlightInfo)getSqlMapClientTemplate().queryForObject("FlightInfoSql.readFlightInfo", flightInfo);
 		return result;
 	}
 
@@ -351,8 +354,8 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 	}
 
 	@Override
-	public List<FlightInfo> readFLightInfoList() {
-		List<FlightInfo> array = getSqlMapClientTemplate().queryForList("FlightInfoSql.readFlightInfoList");
+	public List<FlightInfo> readFLightInfoList(FlightInfo flightInfo) {
+		List<FlightInfo> array = getSqlMapClientTemplate().queryForList("FlightInfoSql.readFlightInfoList", flightInfo);
 		return array;
 	}
 
@@ -418,4 +421,126 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		return array;
 	}
 
+	@Override
+	public List<Report> readReportList(Report report) {
+		List<Report> array = getSqlMapClientTemplate().queryForList("ReportSql.readReportList", report);
+		return array;
+	}
+	
+	@Override
+	public List<Report> readReportChildrenList(Report report) {
+		List<Report> array = getSqlMapClientTemplate().queryForList("ReportSql.readReportChildrenList", report);
+		return array;
+	}
+
+	@Override
+	public Hazard readHazard(Hazard hazard) {
+		Hazard result = (Hazard)getSqlMapClientTemplate().queryForObject("HazardSql.readHazard", hazard);
+		return result;
+	}
+
+
+	@Override
+	public void createHazard(Hazard hazard) {
+		getSqlMapClientTemplate().insert("HazardSql.createHazard", hazard);
+	}
+
+
+	@Override
+	public void deleteHazard(Hazard hazard) {
+		getSqlMapClientTemplate().delete("HazardSql.deleteHazard", hazard);
+		
+	}
+
+
+	@Override
+	public void updateHazard(Hazard hazard) {
+		getSqlMapClientTemplate().update("HazardSql.updateHazard", hazard);
+	}
+
+	@Override
+	public List<Hazard> readHazardList(Hazard hazard) {
+		List<Hazard> array = getSqlMapClientTemplate().queryForList("HazardSql.readHazardList", hazard);
+		return array;
+	}
+	
+	@Override
+	public List<Hazard> readHazardPureList(Hazard hazard) {
+		List<Hazard> array = getSqlMapClientTemplate().queryForList("HazardSql.readHazardList2", hazard);
+		return array;
+	}
+	
+	@Override
+	public ReportParent readReportParent(ReportParent reportParent) {
+		ReportParent result = (ReportParent)getSqlMapClientTemplate().queryForObject("ReportParentSql.readReportParent", reportParent);
+		return result;
+	}
+
+
+	@Override
+	public void createReportParent(ReportParent reportParent) {
+		getSqlMapClientTemplate().insert("ReportParentSql.createReportParent", reportParent);
+	}
+
+
+	@Override
+	public void deleteReportParent(ReportParent reportParent) {
+		getSqlMapClientTemplate().delete("ReportParentSql.deleteReportParent", reportParent);
+		
+	}
+
+
+	@Override
+	public void updateReportParent(ReportParent reportParent) {
+		getSqlMapClientTemplate().update("ReportParentSql.updateReportParent", reportParent);
+	}
+
+	@Override
+	public List<ReportParent> readReportParentList(ReportParent reportParent) {
+		List<ReportParent> array = getSqlMapClientTemplate().queryForList("ReportParentSql.readReportParentList", reportParent);
+		return array;
+	}
+
+	@Override
+	public Report readReportWorstSituation(Report report) {
+		Report result = (Report)getSqlMapClientTemplate().queryForObject("ReportSql.readReportWorstSituation", report);
+		return result;
+	}
+
+	@Override
+	public Integer readHazardTotalCount(Hazard hazard) {
+		Integer result = (Integer)getSqlMapClientTemplate().queryForObject("HazardSql.readHazardTotalCount", hazard);
+		return result;
+	}
+
+	@Override
+	public RiskOwner readRiskOwner(RiskOwner riskOwner) {
+		RiskOwner result = (RiskOwner)getSqlMapClientTemplate().queryForObject("RiskOwnerSql.readRiskOwner", riskOwner);
+		return result;
+	}
+
+
+	@Override
+	public void createRiskOwner(RiskOwner riskOwner) {
+		getSqlMapClientTemplate().insert("RiskOwnerSql.createRiskOwner", riskOwner);
+	}
+
+
+	@Override
+	public void deleteRiskOwner(RiskOwner riskOwner) {
+		getSqlMapClientTemplate().delete("RiskOwnerSql.deleteRiskOwner", riskOwner);
+		
+	}
+
+
+	@Override
+	public void updateRiskOwner(RiskOwner riskOwner) {
+		getSqlMapClientTemplate().update("RiskOwnerSql.updateRiskOwner", riskOwner);
+	}
+
+	@Override
+	public List<RiskOwner> readRiskOwnerList(RiskOwner riskOwner) {
+		List<RiskOwner> array = getSqlMapClientTemplate().queryForList("RiskOwnerSql.readRiskOwnerList", riskOwner);
+		return array;
+	}
 }

@@ -31,6 +31,14 @@ public class AircraftInfo {
 	private int no_seat_passenger 			= 0;
 	private String last_inspection_type 	= "";
 	private String last_inspection_date 	= "";
+	private int Report_id					= 0;
+	
+	public int getReport_id() {
+		return Report_id;
+	}
+	public void setReport_id(int report_id) {
+		Report_id = report_id;
+	}
 	public int getId() {
 		return id;
 	}
@@ -94,13 +102,13 @@ public class AircraftInfo {
 	
 	@Override
 	public String toString() {
-		return "AircraftInformation [id=" + id + ", manufacturer="
-				+ manufacturer + ", model=" + model + ", serial_no="
-				+ serial_no + ", regi_no=" + regi_no + ", no_seat_crew="
-				+ no_seat_crew + ", no_seat_cabin=" + no_seat_cabin
-				+ ", no_seat_passenger=" + no_seat_passenger
-				+ ", last_inspection_type=" + last_inspection_type
-				+ ", last_inspection_date=" + last_inspection_date + "]";
+		return "AircraftInfo [id=" + id + ", manufacturer=" + manufacturer
+				+ ", model=" + model + ", serial_no=" + serial_no
+				+ ", regi_no=" + regi_no + ", no_seat_crew=" + no_seat_crew
+				+ ", no_seat_cabin=" + no_seat_cabin + ", no_seat_passenger="
+				+ no_seat_passenger + ", last_inspection_type="
+				+ last_inspection_type + ", last_inspection_date="
+				+ last_inspection_date + ", Report_id=" + Report_id + "]";
 	}
 	
 }
