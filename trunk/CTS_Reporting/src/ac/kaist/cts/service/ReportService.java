@@ -6,13 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
+import ac.kaist.cts.domain.Control;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Hazard;
+import ac.kaist.cts.domain.Likelihood;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
 import ac.kaist.cts.domain.ReportParent;
 import ac.kaist.cts.domain.RiskOwner;
 import ac.kaist.cts.domain.SelectItem;
+import ac.kaist.cts.domain.Severity;
 
 public interface ReportService {
 	public int 			createReport(Report report);
@@ -31,6 +34,11 @@ public interface ReportService {
 	public List<Report> readReportListReviewRejected();
 	public List<Report> readReportListReviewInvestigation();
 	public List<Report> readReportListReviewRegistered();
+	
+	public List<Likelihood> readLikelihoodList(int year);
+	public List<Severity> readSeverityList(int year);
+	public List<Control> readExistingControlList(int year);
+	public List<Control> readNewControlList(int year);
 	
 	public List<Report> readReportListHazardIdentificationReportsToIdentify();
 	public List<Report> readReportListHazardIdentificationIdentifiedReports();
@@ -69,6 +77,7 @@ public interface ReportService {
 	
 	//Report Item
 	public List<ReportItem> readReportItemList(ReportItem reportItem);
+	public List<ReportItem> readReportItemListAll(ReportItem reportItem);
 	public ReportItem readReportItem(ReportItem reportItem);
 	public void createReportItem(ReportItem reportItem);
 	public void deleteReportItem(ReportItem reportItem);

@@ -33,6 +33,30 @@
 	</isNotEmpty>
 	order by ri.`id` asc
  	</select>
+ 	
+ 	<select id="readReportItemListAll" resultMap="ReportItem" parameterClass="ac.kaist.cts.domain.ReportItem">
+ 	/*"readReportItemListAll"*/
+	SELECT ri.`id`, r.`id`, rp.`id`, r.`report_no`, ri.`type`, `title`, `time`, `time_type`, `narrative`, `recommendation`, `comments`, `status`, `status_review`, `status_determine`, `status_hazard_id`, `priority`, `report_id`
+ 	FROM 
+	report_item ri 
+	INNER JOIN report r on ri.report_id = r.id
+	INNER JOIN report_parent rp on r.report_parent_id = rp.id
+	WHERE
+	1=1
+	<isNotEqual property="report_parent_id" compareValue="0">
+	and rp.`id` = #report_parent_id#
+	</isNotEqual>
+	<isNotEmpty property="status">
+	and ri.`status`= #status#
+	</isNotEmpty>
+	<isNotEmpty property="status_review">
+	and ri.`status_review`= #status_review#
+	</isNotEmpty>
+	<isNotEmpty property="status_determine">
+	and ri.`status_determine`= #status_determine#
+	</isNotEmpty>
+	order by ri.`id` asc;
+ 	</select>
  	 	
 	<select id="readReportItem" resultMap="ReportItem">
 	SELECT ri.`id`, `report_no`, ri.`type`, `title`, `time`, `time_type`, `narrative`, `recommendation`, `comments`, `status`, `status_review`, `status_determine`, `status_hazard_id`, `priority`, `report_id`
@@ -40,6 +64,9 @@
 	WHERE
 	1=1
 	
+	<isNotEqual property="id" compareValue="0">
+	and ri.`id` = #id#
+	</isNotEqual>
 	<isNotEmpty property="report_no">
 	and rp.`report_no` = #report_no#
 	</isNotEmpty>

@@ -12,12 +12,15 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
+import ac.kaist.cts.domain.Control;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Hazard;
+import ac.kaist.cts.domain.Likelihood;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
 import ac.kaist.cts.domain.ReportParent;
 import ac.kaist.cts.domain.RiskOwner;
+import ac.kaist.cts.domain.Severity;
 import ac.kaist.cts.domain.User;
 import ac.kaist.cts.domain.UserInfo;
 
@@ -270,6 +273,166 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		
 		return list;
 	}
+	
+	@Override
+	public List<Likelihood> readLikelihoodList(int year) {
+		List<Likelihood> list = new ArrayList<Likelihood>();
+		Likelihood a = null;
+		
+		a = new Likelihood();
+		a.setTitle("The failure of the ground operations");
+		a.setDate("April 26 2013");
+		a.setOccurrence("Abnormal");
+		a.setLikelihood("1");
+		list.add(a);
+		
+		if(year == 1) return list;
+		
+		a = new Likelihood();
+		a.setTitle("The pilot's misidentification of the");
+		a.setDate("April 26 2012");
+		a.setOccurrence("Aerodrome");
+		a.setLikelihood("3");
+		list.add(a);
+		
+		if(year == 2) return list;
+		
+		a = new Likelihood();
+		a.setTitle("The polot's selection of unsuitable terrain");
+		a.setDate("May 26 2011");
+		a.setOccurrence("Aerodrome");
+		a.setLikelihood("4");
+		list.add(a);
+		
+		if(year == 3) return list;
+		
+		a = new Likelihood();
+		a.setTitle("The passenger's lock of compliance");
+		a.setDate("May 26 2010");
+		a.setOccurrence("Ground");
+		a.setLikelihood("1");
+		list.add(a);
+		
+		return list;
+	}
+
+	@Override
+	public List<Severity> readSeverityList(int year) {
+		List<Severity> list = new ArrayList<Severity>();
+		Severity a = null;
+		
+		a = new Severity();
+		a.setOccurrence_no("O2604137C1234-01");
+		a.setDate("May 26 2013");
+		a.setOccurrence("Abnormal Runway");
+		a.setSeverity("2");
+		list.add(a);
+		
+		if(year == 1) return list;
+		
+		a = new Severity();
+		a.setOccurrence_no("O2604137C1234-02");
+		a.setDate("May 26 2012");
+		a.setOccurrence("Aerodrome");
+		a.setSeverity("2");
+		list.add(a);
+		
+		if(year == 2) return list;
+		
+		a = new Severity();
+		a.setOccurrence_no("O2604137C1234-03");
+		a.setDate("Feb 15 2011");
+		a.setOccurrence("Aerodrome");
+		a.setSeverity("2");
+		list.add(a);
+		
+		if(year == 3) return list;
+		
+		a = new Severity();
+		a.setOccurrence_no("O2604137C1234-04");
+		a.setDate("May 26 2011");
+		a.setOccurrence("Ground Handling");
+		a.setSeverity("3");
+		list.add(a);
+		
+		if(year == 4) return list;
+		
+		return list;
+	}
+
+	@Override
+	public List<Control> readExistingControlList(int year) {
+		List<Control> list = new ArrayList<Control>();
+		Control a = null;
+		
+		a = new Control();
+		a.setControl_no("O2604137C1234-01");
+		a.setTitle("Manual Amended");
+		a.setState("Completed");
+		a.setStart_date("April 26 2013");
+		a.setEnd_date("May 22 2013");
+		list.add(a);
+		
+		if(year == 1) return list;
+		
+		a = new Control();
+		a.setControl_no("O2604137C1234-02");
+		a.setTitle("Training");
+		a.setState("Completed");
+		a.setStart_date("May 26 2012");
+		a.setEnd_date("October 26 2012");
+		list.add(a);
+		
+		if(year == 2) return list;
+		
+		a = new Control();
+		a.setControl_no("O2604137C1234-03");
+		a.setTitle("Manual Amended");
+		a.setState("Completed");
+		a.setStart_date("June 26 2011");
+		a.setEnd_date("September 26 2011");
+		list.add(a);
+		
+		a = new Control();
+		a.setControl_no("O2604137C1234-04");
+		a.setTitle("Training");
+		a.setState("In Progress");
+		a.setStart_date("May 26 2011");
+		a.setEnd_date("May 26 2011");
+		list.add(a);
+		
+		if(year == 3) return list;
+		if(year == 4) return list;
+		
+		return list;
+	}
+
+	@Override
+	public List<Control> readNewControlList(int year) {
+		List<Control> list = new ArrayList<Control>();
+		Control a = null;
+		
+		a = new Control();
+		a.setControl_no("C2604137C1234-01");
+		a.setTitle("Manual Amended");
+		a.setState("Completed");
+		a.setStart_date("April 26 2011");
+		a.setEnd_date("May 23 2011");
+		list.add(a);
+		
+		a = new Control();
+		a.setControl_no("C2604137C1234-02");
+		a.setTitle("Training");
+		a.setState("In Progress");
+		a.setStart_date("October 26 2012");
+		a.setEnd_date("-");
+		list.add(a);
+	
+		return list;
+	}
+	
+	
+	
 
 	@Override
 	public void createAircraftInformation(
@@ -387,6 +550,12 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 	@Override
 	public List<ReportItem> readReportItemList(ReportItem reportItem) {
 		List<ReportItem> array = getSqlMapClientTemplate().queryForList("ReportItemSql.readReportItemList", reportItem);
+		return array;
+	}
+	
+	@Override
+	public List<ReportItem> readReportItemListAll(ReportItem reportItem) {
+		List<ReportItem> array = getSqlMapClientTemplate().queryForList("ReportItemSql.readReportItemListAll", reportItem);
 		return array;
 	}
 
@@ -543,4 +712,6 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		List<RiskOwner> array = getSqlMapClientTemplate().queryForList("RiskOwnerSql.readRiskOwnerList", riskOwner);
 		return array;
 	}
+
+	
 }
