@@ -182,7 +182,7 @@
 	    
 	    
 	    
-	    <table cellpadding="0" cellspacing="0" width="100%" height="350px;">
+	    <table cellpadding="0" cellspacing="0" width="100%" height="300px;">
 		<tr>
 		<td><div id="div_1" style="display:none">
 			
