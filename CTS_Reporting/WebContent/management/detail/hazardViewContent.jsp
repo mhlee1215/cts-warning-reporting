@@ -290,15 +290,7 @@
 	 			</c:forEach>
 			</select> </td>
 		</tr>
-		<tr>
-			<td class="leftmost_label">${lang.getStringPriority()}: </td>
-			<td><select style="width:100%" id="id_management_hazard_identification_priority_selector"  name="hazard_priority" class="hazard_item_selector">
-			<option value="0">select</option>	
-				<c:forEach items="${priorityList}" var="selectItem" varStatus="list_status">
-	 			<option value="${selectItem.value }" ${hazard.priority == selectItem.value ? "selected=\"selected\"" : ""}>${selectItem.name}</option>
-	 			</c:forEach>
-			</select> </td>
-		</tr>
+		
 		</tbody>
 		</table>
 	    </fieldset>
