@@ -265,7 +265,7 @@
 	    
 	    <tr>
 	    <td>
-	    <iframe id="${report_item_type}_hazard_item_table" src="${pageContext.request.contextPath}/hazardView.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index=1&report_item_type=${type}&hazard_no=${hazard_no}&isreadonly=${isreadonly}&state_hazard_id=${reportItem.status_hazard_id}" width="100%" style="height:460px;padding:0px;border:0px;" >
+	    <iframe id="${report_item_type}_hazard_item_table" src="${pageContext.request.contextPath}/hazardView.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index=1&report_item_type=${type}&hazard_no=${hazard_no}&isreadonly=${isreadonly}&state_hazard_id=${reportItem.status_hazard_id}" width="100%" style="height:430px;padding:0px;border:0px;" >
 	    </iframe>
 	     
 	    
