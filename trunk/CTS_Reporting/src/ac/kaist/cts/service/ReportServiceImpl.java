@@ -312,15 +312,15 @@ public class ReportServiceImpl implements ReportService {
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
 		String reportingDate = ServletRequestUtils.getStringParameter(request, "reportingDate", "");
 		String reportingNo = ServletRequestUtils.getStringParameter(request, "reportingNo", "");
-		int crew_fatalities = ServletRequestUtils.getIntParameter(request, "crew_fatalities", 0);
-		int crew_minor_injuries = ServletRequestUtils.getIntParameter(request, "crew_minor_injuries",  0);
-		int crew_serious_injuries = ServletRequestUtils.getIntParameter(request, "crew_serious_injuries",  0);
-		int cabin_fatalities = ServletRequestUtils.getIntParameter(request, "cabin_fatalities",  0);
-		int cabin_minor_injuries = ServletRequestUtils.getIntParameter(request, "cabin_minor_injuries", 0);
-		int cabin_serious_injuries = ServletRequestUtils.getIntParameter(request, "cabin_serious_injuries", 0);
-		int passenger_fatalities = ServletRequestUtils.getIntParameter(request, "passenger_fatalities", 0);
-		int passenger_minor_injuries = ServletRequestUtils.getIntParameter(request, "passenger_minor_injuries", 0);
-		int passenger_serious_injuries = ServletRequestUtils.getIntParameter(request, "passenger_serious_injuries", 0);
+		String crew_fatalities = ServletRequestUtils.getStringParameter(request, "crew_fatalities", "");
+		String crew_minor_injuries = ServletRequestUtils.getStringParameter(request, "crew_minor_injuries",  "");
+		String crew_serious_injuries = ServletRequestUtils.getStringParameter(request, "crew_serious_injuries",  "");
+		String cabin_fatalities = ServletRequestUtils.getStringParameter(request, "cabin_fatalities",  "");
+		String cabin_minor_injuries = ServletRequestUtils.getStringParameter(request, "cabin_minor_injuries", "");
+		String cabin_serious_injuries = ServletRequestUtils.getStringParameter(request, "cabin_serious_injuries", "");
+		String passenger_fatalities = ServletRequestUtils.getStringParameter(request, "passenger_fatalities", "");
+		String passenger_minor_injuries = ServletRequestUtils.getStringParameter(request, "passenger_minor_injuries", "");
+		String passenger_serious_injuries = ServletRequestUtils.getStringParameter(request, "passenger_serious_injuries", "");
 		String aircraft_damage = ServletRequestUtils.getStringParameter(request, "aircraft_damage", "");
 		
 		String delay_time = ServletRequestUtils.getStringParameter(request, "delay_time", "");
@@ -369,10 +369,31 @@ public class ReportServiceImpl implements ReportService {
 		rp.setPassenger_serious_injuries(passenger_serious_injuries);
 		rp.setAircraft_damage(aircraft_damage);
 		
+		int crew_minor_injuries_int = 0;
+		if(!crew_minor_injuries.isEmpty()) crew_minor_injuries_int = Integer.parseInt(crew_minor_injuries);
+		int crew_serious_injuries_int = 0;
+		if(!crew_serious_injuries.isEmpty()) crew_serious_injuries_int = Integer.parseInt(crew_serious_injuries);
+		int crew_fatalities_int = 0;
+		if(!crew_fatalities.isEmpty()) crew_fatalities_int = Integer.parseInt(crew_fatalities);
 		
-		Integer worst_minor_injury = Math.max(crew_minor_injuries, Math.max(cabin_minor_injuries, passenger_minor_injuries));
-		Integer worst_serious_injury = Math.max(crew_serious_injuries, Math.max(cabin_serious_injuries, passenger_serious_injuries));
-		Integer worst_fataility = Math.max(crew_fatalities, Math.max(cabin_fatalities, passenger_fatalities));
+		int cabin_minor_injuries_int = 0;
+		if(!cabin_minor_injuries.isEmpty()) cabin_minor_injuries_int = Integer.parseInt(cabin_minor_injuries);
+		int cabin_serious_injuries_int = 0;
+		if(!cabin_serious_injuries.isEmpty()) cabin_serious_injuries_int = Integer.parseInt(cabin_serious_injuries);
+		int cabin_fatalities_int = 0;
+		if(!cabin_fatalities.isEmpty()) cabin_fatalities_int = Integer.parseInt(cabin_fatalities);
+		
+		int passenger_minor_injuries_int = 0;
+		if(!passenger_minor_injuries.isEmpty()) passenger_minor_injuries_int = Integer.parseInt(passenger_minor_injuries);
+		int passenger_serious_injuries_int = 0;
+		if(!passenger_serious_injuries.isEmpty()) passenger_serious_injuries_int = Integer.parseInt(passenger_serious_injuries);
+		int passenger_fatalities_int = 0;
+		if(!passenger_fatalities.isEmpty()) passenger_fatalities_int = Integer.parseInt(passenger_fatalities);
+		
+		
+		Integer worst_minor_injury = Math.max(crew_minor_injuries_int, Math.max(cabin_minor_injuries_int, passenger_minor_injuries_int));
+		Integer worst_serious_injury = Math.max(crew_serious_injuries_int, Math.max(cabin_serious_injuries_int, passenger_serious_injuries_int));
+		Integer worst_fataility = Math.max(crew_fatalities_int, Math.max(cabin_fatalities_int, passenger_fatalities_int));
 		
 		if(worst_fataility > 1)
 			rp.setInjury("5"); //Mutiple Fatality:
