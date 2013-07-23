@@ -569,18 +569,22 @@ public class ReportServiceImpl implements ReportService {
 			
 			r.setOrder_column("sia.value");
 			Report ra = reportDao.readReportWorstSituation(r);
-			rp.setAircraft_damage(ra.getAircraft_damage());
+			if(ra != null)
+				rp.setAircraft_damage(ra.getAircraft_damage());
 			
 			r.setOrder_column("sii.value");
 			Report ri = reportDao.readReportWorstSituation(r);
-			rp.setInjury(ri.getInjury());
+			if(ri != null)
+				rp.setInjury(ri.getInjury());
 			
 			r.setOrder_column("sid.value");
 			Report rd = reportDao.readReportWorstSituation(r);
-			rp.setDelay_time(rd.getDelay_time());
+			if(rd != null)
+				rp.setDelay_time(rd.getDelay_time());
 			
 			Report rh = reportDao.readReportHighestPriority(r);
-			rp.setPriority(rh.getPriority());
+			if(rh != null)
+				rp.setPriority(rh.getPriority());
 		}
 		
 		return reportParentList;
