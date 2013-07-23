@@ -21,7 +21,7 @@
 	  
 	  
 	  $("#div_1").show();
-	  $("#div_1").load("${pageContext.request.contextPath}/hazardViewContent.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index="+(cur_tab)+"&report_item_type=${report_item_type}");
+	  $("#div_1").load("${pageContext.request.contextPath}/hazardViewContent.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index="+(cur_tab)+"&report_item_type=${report_item_type}&isreadonly=${isreadonly}&hazard_no=${hazard_no}");
 //$("#id_management_detail_main_right_panel").load("${pageContext.request.contextPath}/reportBASIC.do?isReadOnly=Y&report_no="+report_no);
 
 	  $("#id_management_hazard_identification_save_btn")
@@ -38,8 +38,11 @@
 		    url:"hazardViewContentUpdate.do",
 		    async: false,
 		    success: function(msg){
-		       alert(msg);
-		    	
+		      var msgs = msg.split("_/");		      
+		      $("#id_management_hazard_identification_hazard_no").attr("value", msgs[0]);
+		      $("input[name=hazard_no]").attr("value", msgs[0]);
+		      		      
+		      alert(msgs[1]);
 		    }
 		});
 	   
@@ -50,7 +53,7 @@
 	  .click(function( event ) {
 	   event.preventDefault();
 	   
-	   $("#div_1").load("${pageContext.request.contextPath}/hazardViewContent.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index="+(cur_tab-1)+"&report_item_type=${report_item_type}");
+	   $("#div_1").load("${pageContext.request.contextPath}/hazardViewContent.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index="+(cur_tab-1)+"&report_item_type=${report_item_type}&isreadonly=${isreadonly}&hazard_no=${hazard_no}");
 	    
 	  // $("#div_"+(cur_tab)).hide();
 	   //$("#div_"+(cur_tab)).empty();
@@ -76,8 +79,7 @@
 	  .button({icons: {secondary: "ui-icon-circle-triangle-e" } })
 	  .click(function( event ) {
 	   	   event.preventDefault();
-	   
-	   	$("#div_1").load("${pageContext.request.contextPath}/hazardViewContent.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index="+(cur_tab+1)+"&report_item_type=${report_item_type}");
+	   	$("#div_1").load("${pageContext.request.contextPath}/hazardViewContent.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index="+(cur_tab+1)+"&report_item_type=${report_item_type}&isreadonly=${isreadonly}&hazard_no=${hazard_no}");
 	   	   
 		   //$("#div_"+(cur_tab)).hide();
 		   //$("#div_"+(cur_tab)).empty();
@@ -94,6 +96,8 @@
 	   adjustBtn(cur_tab, cur_max);
 	   
 	   
+	   
+	  
 	});
 	  
 	 
@@ -101,26 +105,50 @@
 	  
 	  
 	  adjustBtn(cur_tab, cur_max);
+	  
+	  <c:if test="${isreadonly == 'Y'}" >
+	   $("#id_management_hazard_identification_next_btn").hide();
+	   $("#id_management_hazard_identification_previous_btn").hide();
+	   $("#id_management_hazard_identification_save_btn").hide();
+	   
+	   $('input').attr('disabled', 'disabled');
+		$('select').attr('disabled', 'disabled');
+		$('textarea').attr('disabled', 'disabled');
+		
+		
+	   </c:if>
   });
   
  
   function adjustBtn(tab_idx, current_max){
+
 	  if(tab_idx == current_max){
 		  $("#id_management_hazard_identification_next_btn").button({label:"${lang.getStringMore()}", icons: {secondary: "ui-icon-circle-plus" }});  
+		  <c:if test="${state_hazard_id == 'SUBMITTED'}" >
+		  //alert('hi more');
+		  $("#id_management_hazard_identification_next_btn").hide();
+		  </c:if>
 	  }else{
 		  $("#id_management_hazard_identification_next_btn").button({label:"${lang.getStringNext()}", icons: {secondary: "ui-icon-circle-triangle-e" }});
+		  <c:if test="${state_hazard_id == 'SUBMITTED'}" >
+		  //alert('hi next');
+		  $("#id_management_hazard_identification_next_btn").show();
+		  </c:if>
 	  }
 	  
 	  if(tab_idx == 1){
 		   $("#id_management_hazard_identification_previous_btn").hide();
+	   }else{
+		   $("#id_management_hazard_identification_previous_btn").show();
 	   }
+	  /*
 	   else if(tab_idx == max_tab){
 		   $("#id_management_hazard_identification_next_btn").hide();
 	   }
 	   else{
 		   $("#id_management_hazard_identification_next_btn").show();
 		   $("#id_management_hazard_identification_previous_btn").show();
-	   }
+	   }*/
 	   
   }
  
@@ -145,7 +173,13 @@
 	    
 	    
 	    <fieldset>
-	    <legend id="legend_harazrd_identification_title">${lang.getStringHazardIdentification()} (${hazard_index}/${hazardNum})</legend>
+	     <c:if test="${isreadonly == 'Y'}" >
+	     <legend id="legend_harazrd_identification_title">${lang.getStringHazardIdentification()}</legend>
+	     </c:if>
+	     <c:if test="${isreadonly != 'Y'}" >
+	     <legend id="legend_harazrd_identification_title">${lang.getStringHazardIdentification()} (${hazard_index}/${hazardNum})</legend>
+	     </c:if>
+	    
 	    
 	    
 	    <table cellpadding="0" cellspacing="0" width="100%" height="350px;">
@@ -161,9 +195,9 @@
 	    <table width="100%">
 		<tbody>
 		<tr>
-			<td align="left"><a id="id_management_hazard_identification_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
-			<td align="right"><a id="id_management_hazard_identification_save_btn" href="#">${lang.getStringSave()}</a></td>
-			<td align="right"><a id="id_management_hazard_identification_next_btn" href="#">${lang.getStringNext()}</a></td>
+			<td align="left" width="34%"><a id="id_management_hazard_identification_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
+			<td align="center" width="33%"><a id="id_management_hazard_identification_save_btn" href="#">${lang.getStringSave()}</a></td>
+			<td align="right" width="33%"><a id="id_management_hazard_identification_next_btn" href="#">${lang.getStringNext()}</a></td>
 		</tr>
 		</tbody>
 		</table>

@@ -20,7 +20,8 @@
 	  .button({icons: {secondary: "ui-icon-document" } })
 	  .click(function( event ) {
 	   event.preventDefault();
-	  });
+	  }).hide();
+	  
 	  $("#id_management_review_${category}_${type}_save_btn")
 	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
@@ -47,7 +48,7 @@
 	});
 	  
 	  $("#id_management_review_${category}_${type}_submitted_btn")
-	  .button({icons: {secondary: "ui-icon-rocked" } })
+	  .button({icons: {secondary: "ui-icon-locked" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	});
@@ -86,6 +87,12 @@
 	  <c:if test="${reportItem.status_review == 'SUBMITTED'}" >
 	  $("#id_management_review_${category}_${type}_submitted_btn").show();
 	  $("#id_management_review_${category}_${type}_submit_btn").hide();
+	  $("#id_management_review_${category}_${type}_delete_btn").hide();
+	  $("#id_management_review_${category}_${type}_save_btn").hide();
+	  
+	  $('input').attr('disabled', 'disabled');
+	  $('select').attr('disabled', 'disabled');
+	  $('textarea').attr('disabled', 'disabled');
 	  </c:if>
   });
   
