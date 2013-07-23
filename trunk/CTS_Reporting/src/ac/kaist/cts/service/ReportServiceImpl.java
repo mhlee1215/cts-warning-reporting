@@ -582,7 +582,9 @@ public class ReportServiceImpl implements ReportService {
 			if(rd != null)
 				rp.setDelay_time(rd.getDelay_time());
 			
-			Report rh = reportDao.readReportHighestPriority(r);
+			ReportItem reportItem = new ReportItem();
+			reportItem.setReport_parent_id(rp.getId());
+			ReportItem rh = reportDao.readReportHighestPriority(reportItem);
 			if(rh != null)
 				rp.setPriority(rh.getPriority());
 		}
