@@ -7,10 +7,7 @@
 <head>
   <meta charset="utf-8" />
   <title>jQuery UI Tabs - Tabs at bottom</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+
   <style>
   .ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text {
 	padding: .1em 2.1em .1em 1em !important;
@@ -22,13 +19,13 @@
 	  .button({icons: {secondary: "ui-icon-search" } })
 	  .click(function( event ) {
 	   event.preventDefault();
-	  });
+	  }).hide();
 	  
 	  $("#id_management_risk_analysis_severity_existing_controls_search_btn")
 	  .button({icons: {secondary: "ui-icon-search" } })
 	  .click(function( event ) {
 	   event.preventDefault();
-	  });
+	  }).hide();
 	  
 	  $("#id_management_risk_analysis_severity_edit_btn")
 	  .button({icons: {secondary: "ui-icon-document" } })
@@ -66,6 +63,8 @@
 	  management_risk_analysis_severity_new_controls_item();
 	  management_risk_analysis_severity_existing_controls_item();
 	  
+	  
+	  
 	  <c:if test="${hazard.state_severity == 'SUBMITTED'}" >
 	  $("#id_management_risk_analysis_severity_submitted_btn").show();
 	   $("#id_management_risk_analysis_severity_submit_btn").hide();   
@@ -75,6 +74,26 @@
 		$('textarea.severity').attr('disabled', 'disabled');
 	</c:if>
   });
+  
+  function fn_change_severity(value){
+	  //alert('hi');
+	  //management_risk_assessment_existing_controls_item();
+	  jQuery("#id_management_risk_analysis_severity_likelihood_ListTable").jqGrid()
+	  .setGridParam({
+	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisSeveritySeverityList.do?year='+value
+	  }).trigger("reloadGrid");
+	  
+	  
+  }
+  
+  function fn_change_severity_existing_controls(value){
+	  //management_risk_assessment_existing_controls_item();
+	  jQuery("#id_management_risk_analysis_severity_existing_controls_ListTable").jqGrid()
+	  .setGridParam({
+	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisSeverityExistingControlsList.do?year='+value
+	  }).trigger("reloadGrid");
+  }
+  
   
   function updateAnalysisSeverity (issubmit){
 		 var str = $("#management_risk_analysis_severity_form").serialize();
@@ -122,13 +141,39 @@
 	  	return return_str;
   }
   
-  function fn_severity_fnFormatter( cellvalue, options, rowObject )
+  var severityNameMap = new Array();
+  var severityNameMapR = new Array();
+  <c:forEach items="${severityList}" var="selectItem" varStatus="status">
+  severityNameMap['${selectItem.value}'] = '${selectItem.name}';
+  severityNameMapR['${selectItem.name}'] = '${selectItem.value}';
+  </c:forEach>
+  
+  function fn_severity_Formatter( cellvalue, options, rowObject )
+  {
+	  	var return_str = severityNameMap[cellvalue];
+	  	return return_str;
+  }
+  
+  function change_worst_severity(value){
+	  var length = $("#id_management_risk_analysis_likelihood_likelihood_frequency_text").attr("value");
+	  var max_val = eval(-1);
+	  for(var i = 0 ; i < length ; i++){
+		  if( max_val < eval($("#id_management_risk_analysis_severity_initial_likelihood_selector"+i+"").val()))
+			  max_val = eval($("#id_management_risk_analysis_severity_initial_likelihood_selector"+i+"").val());
+		}
+	  $("#id_management_risk_analysis_severity_likelihood_worst_residual_text").attr("value", severityNameMap[max_val]);
+  }
+  
+  function fn_severity_selector_Formatter( cellvalue, options, rowObject )
   {
 	  //alert(rowObject[0]);
 	  //printObject(rowObject.attributes);
-	  var return_str = '<select style="width:100%" id="id_management_risk_analysis_severity_initial_likelihood_selector" name="method" class="hazard_item_selector">'+
-	  <c:forEach items="${severityList}" var="selectItem" varStatus="list_status">
-		'<option value="${selectItem.value }" selected="selected">${selectItem.name}</option>'+
+	   var return_str = '<select style="width:100%" id="id_management_risk_analysis_severity_initial_likelihood_selector'+options.rowId+'" onchange="change_worst_severity(this.value);" name="method" class="hazard_item_selector">'+
+	   <c:forEach items="${severityList}" var="selectItem" varStatus="list_status">
+	  '<option value="${selectItem.value }"';
+		if(cellvalue == '${selectItem.value}')
+			return_str = return_str+ ' selected="selected"';
+		return_str = return_str + '>${selectItem.name}</option>'+
 		</c:forEach>
 		'</select>';
 	  	return return_str;
@@ -141,13 +186,14 @@
 	  	height: 100, 
 	  	width:800,
 	  	datatype: "xml", 
-	     	colNames:['Ocurrence No.','${lang.getStringDate()} (UTC)', 'Occurrence', '${lang.getStringSeverity()}','Residual ${lang.getStringSeverity()}'],
+	     	colNames:['id', 'Ocurrence No.','${lang.getStringDate()} (UTC)', 'Occurrence', '${lang.getStringSeverity()}','Residual ${lang.getStringSeverity()}'],
 	     	colModel:[
+						{name:'id'		,index:'id'		,width:80	,align:"left"	,hidden: true},
 	     	 			{name:'rp_no'		,index:'rp_no'		,width:80	,align:"left"	,sortable: true},
 	     	    		{name:'date'		,index:'date'		,width:80	,align:"center"	,sortable: true},
 	     	    		{name:'flight_no'	,index:'flight_no'	,width:60	,align:"left"	,sortable: true},
-	     	    		{name:'ac_type'		,index:'ac_type'	,width:50	,align:"left"	,sortable: true},
-	     	    		{name:'state'		,index:'state'		,width:75	,align:"center" , formatter:fn_severity_fnFormatter}		
+	     	    		{name:'ac_type'		,index:'ac_type'	,width:50	,align:"left"	,sortable: true, formatter:fn_severity_Formatter},
+	     	    		{name:'state'		,index:'state'		,width:75	,align:"center" , formatter:fn_severity_selector_Formatter}		
 	     	    	],
 	     	shrinkToFit:true,
 	     	//altRows:true,
@@ -171,6 +217,16 @@
 	  	   	jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText+". Please reload running status table."); 
 	  	},
 	  	loadComplete: function(){ 
+	  		var fullData = jQuery("#id_management_risk_analysis_severity_likelihood_ListTable").jqGrid('getRowData');
+	  		$("#id_management_risk_analysis_severity_likelihood_frequency_text").attr("value", fullData.length);
+	  		
+	  		var max_severity = -1;
+	  		
+	  		for(var i = 0 ; i < fullData.length ; i++)
+	  			if(max_severity < severityNameMapR[fullData[i]['ac_type']])
+	  				max_severity = severityNameMapR[fullData[i]['ac_type']];
+
+	  		$("#id_management_risk_analysis_severity_likelihood_worst_residual_text").attr("value", severityNameMap[max_severity]);
 	  		
 	  	},
 	  	onSelectRow: function(id){ 
@@ -285,7 +341,7 @@
     <table width="100%">
     <tbody>
     	<tr>
-    		<td><select style="width:100%" id="id_management_risk_analysis_severity_likelihood_year_selector" name="method" class="">
+    		<td><select style="width:100%" id="id_management_risk_analysis_severity_likelihood_year_selector" onchange="fn_change_severity(this.value);" name="method" class="">
 				<option value="1">${lang.getStringPast()} 1 ${lang.getStringYear()}</option>
 				<option value="2">${lang.getStringPast()} 2 ${lang.getStringYears()}</option>
 				<option value="3" selected="selected">${lang.getStringPast()} 3 ${lang.getStringYears()}</option>
@@ -299,8 +355,8 @@
 				<option value="999">${lang.getStringAll()}</option>
 			</select></td>
     		<td align="left"><a id="id_management_risk_analysis_severity_likelihood_search_btn" href="#">${lang.getStringSearch()}</a> </td>
-    		<td align="right">${lang.getStringFrequency()}: <input style="width:30px;" type="text" id="id_management_risk_analysis_severity_likelihood_frequency_text" class="form_input_text" disabled="disabled" value="4"/></td>
-    		<td align="right">Worst Residual Severity: <input style="width:100px;" type="text" id="id_management_risk_analysis_severity_likelihood_worst_residual_text" class="form_input_text" disabled="disabled" value="Remote"/></td>
+    		<td align="right">${lang.getStringFrequency()}: <input style="width:30px;" type="text" id="id_management_risk_analysis_severity_likelihood_frequency_text" class="form_input_text" disabled="disabled" value=""/></td>
+    		<td align="right">Worst Residual Severity: <input style="width:100px;" type="text" id="id_management_risk_analysis_severity_likelihood_worst_residual_text" class="form_input_text" disabled="disabled" value=""/></td>
     	</tr>
     </tbody>
     </table>
@@ -322,7 +378,7 @@
     <table width="100%">
     <tbody>
     	<tr>
-    		<td><select style="width:100%" id="id_management_risk_analysis_severity_existing_controls_year_selector" name="method" class="">
+    		<td><select style="width:100%" id="id_management_risk_analysis_severity_existing_controls_year_selector" onchange="fn_change_severity_existing_controls(this.value);" name="method" class="">
 				<option value="1">${lang.getStringPast()} 1 ${lang.getStringYear()}</option>
 				<option value="2">${lang.getStringPast()} 2 ${lang.getStringYears()}</option>
 				<option value="3" selected="selected">${lang.getStringPast()} 3 ${lang.getStringYears()}</option>

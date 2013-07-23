@@ -21,6 +21,7 @@
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
+	$("#id_management_hazard_identification_${category}_${type}_edit_btn").hide();
 	  $("#id_management_hazard_identification_${category}_${type}_save_btn")
 	  .button({icons: {secondary: "ui-icon-disk" } })
 	  .click(function( event ) {
@@ -54,7 +55,7 @@
 	});
 	  
 	  $("#id_management_hazard_identification_${category}_${type}_submitted_btn")
-	  .button({icons: {secondary: "ui-icon-rocked" } })
+	  .button({icons: {secondary: "ui-icon-locked" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	});
@@ -72,12 +73,23 @@
 	});
 	  
 	 
-	  <c:if test="${reportItem.status_hazard_id == 'SUBMITTED'}" >
+	  <c:if test="${reportItem.status_hazard_id == 'SUBMITTED' || isreadonly == 'Y'}" >
 	  $("#id_management_hazard_identification_${category}_${type}_submitted_btn").show();
 	  $("#id_management_hazard_identification_${category}_${type}_submit_btn").hide();
+	  $("#id_management_hazard_identification_${category}_${type}_save_btn").hide();
+	  $("#id_management_hazard_identification_${category}_${type}_delete_btn").hide();
+	  
+	  $('input').attr('disabled', 'disabled');
+	  $('select').attr('disabled', 'disabled');
+	  $('textarea').attr('disabled', 'disabled');
 	</c:if>
 	
-		 
+	<c:if test="${isreadonly == 'Y'}" >
+	  $("#id_management_hazard_identification_${category}_${type}_submitted_btn").hide();
+	  $("#id_management_hazard_identification_${category}_${type}_submit_btn").hide();
+	  $("#id_management_hazard_identification_${category}_${type}_delete_btn").hide();
+	  $("#id_management_hazard_identification_${category}_${type}_save_btn").hide();
+	 </c:if>
 	  //fn_management_hazard_identification_read_hazard_item_list_top();
 	   //fn_management_hazard_identification_disable_hazard_selector_from_level(1);
 	   
@@ -253,8 +265,7 @@
 	    
 	    <tr>
 	    <td>
-	    
-	    <iframe id="${report_item_type}_hazard_item_table" src="${pageContext.request.contextPath}/hazardView.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index=1&report_item_type=${type}" width="100%" style="height:460px;padding:0px;border:0px;" >
+	    <iframe id="${report_item_type}_hazard_item_table" src="${pageContext.request.contextPath}/hazardView.do?report_no=${report_no}&report_parent_no=${report_parent_no}&hazard_index=1&report_item_type=${type}&hazard_no=${hazard_no}&isreadonly=${isreadonly}&state_hazard_id=${reportItem.status_hazard_id}" width="100%" style="height:460px;padding:0px;border:0px;" >
 	    </iframe>
 	     
 	    

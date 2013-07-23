@@ -60,6 +60,16 @@
    CKEDITOR.replace( 'report_${report_item_type}_narrative' );
    CKEDITOR.replace( 'report_${report_item_type}_recommendation' );
    
+   
+   <c:if test="${reportItem.status == 'SUBMITTED'}" >
+   
+  
+  	$('input.${report_item_type}').attr('disabled', 'disabled');
+	$('select.${report_item_type}').attr('disabled', 'disabled');
+	$('textarea.${report_item_type}').attr('disabled', 'disabled');
+	</c:if>
+
+   
   });
   
  
@@ -77,7 +87,7 @@
 	<tbody>
 		<tr>
 			<td width="90">${lang.getStringHazardTitle()}</td>
-			<td><input type="text" style="width:100%" name="report_${report_item_type}_title" id="id_report_${report_item_type}_title" value="${reportItem.title}"/></td>
+			<td><input type="text" style="width:100%" class="${report_item_type}" name="report_${report_item_type}_title" id="id_report_${report_item_type}_title" value="${reportItem.title}"/></td>
 		</tr>
 		<tr>
 			<td>${lang.getStringTime()}</td>
@@ -85,10 +95,10 @@
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
 				<tbody>
 					<tr>
-						<td width="10%"><input type="text" style="width:100%; height:12px;" name="report_${report_item_type}_time" id="id_report_${report_item_type}_time" value="${reportItem.time}"/><td>
-						<td width="5%" align="right"> <input type="radio" name="report_${report_item_type}_time_type" id="${report_item_type}_new_hazard_no" value="LOCAL" ${reportItem.time_type == "LOCAL" ? "checked=\"checked\"" : ""} /></td>
+						<td width="10%"><input type="text" style="width:100%; height:12px;" class="${report_item_type}" name="report_${report_item_type}_time" id="id_report_${report_item_type}_time" value="${reportItem.time}"/><td>
+						<td width="5%" align="right"> <input type="radio" class="${report_item_type}" name="report_${report_item_type}_time_type" id="${report_item_type}_new_hazard_no" value="LOCAL" ${reportItem.time_type == "LOCAL" ? "checked=\"checked\"" : ""} /></td>
 						<td width="5%" align="left">Local</td>
-						<td width="5%" align="right"> <input type="radio" name="report_${report_item_type}_time_type" id="${report_item_type}_new_hazard_yes" value="UTC"  ${reportItem.time_type == "UTC" ? "checked=\"checked\"" : ""}/></td>
+						<td width="5%" align="right"> <input type="radio" class="${report_item_type}" name="report_${report_item_type}_time_type" id="${report_item_type}_new_hazard_yes" value="UTC"  ${reportItem.time_type == "UTC" ? "checked=\"checked\"" : ""}/></td>
 						<td width="5%" align="left">UTC</td>
 						<td width="80%"></td>
 					</tr>
@@ -100,7 +110,7 @@
 			<td colspan="2">
 			<fieldset class="l2_fieldset">
 				<legend class="l2_fieldset_legend">${lang.getStringNarrative()}</legend>
-				<textarea id="id_report_${report_item_type}_narrative" name="report_${report_item_type}_narrative" rows="3" style="width:100%">${reportItem.narrative}</textarea>
+				<textarea id="id_report_${report_item_type}_narrative" class="${report_item_type}" name="report_${report_item_type}_narrative" rows="3" style="width:100%">${reportItem.narrative}</textarea>
 			</fieldset>
 			</td>
 		</tr>
@@ -109,7 +119,7 @@
 			<td colspan="2">
 			<fieldset class="l2_fieldset">
 				<legend class="l2_fieldset_legend">${lang.getStringRecommendation()}</legend>
-				<textarea id="id_report_${report_item_type}_recommendation" name="report_${report_item_type}_recommendation" rows="3" style="width:100%">${reportItem.recommendation}</textarea>
+				<textarea id="id_report_${report_item_type}_recommendation" class="${report_item_type}" name="report_${report_item_type}_recommendation" rows="3" style="width:100%">${reportItem.recommendation}</textarea>
 			</fieldset>
 			</td>
 		</tr>

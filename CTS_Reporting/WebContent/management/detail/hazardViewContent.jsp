@@ -35,6 +35,13 @@
 	   //fn_management_hazard_identification_load_hazard_item();
 	  
 	  //management_hazard_identification_load_attached_file_item();
+	  
+	  <c:if test="${isreadonly == 'Y'}" >
+   
+	  
+		
+		
+	   </c:if>
   });
   
   //function fn_management_hazard_identification_reset_hazard_identification(){
@@ -144,6 +151,18 @@
 					if(itemListJson.length > level){
 						fn_management_hazard_identification_read_hazard_item_list_children(itemListJson[level].item_id, level+1, mode);
 					}	
+				}else{
+					
+					  <c:if test="${isreadonly == 'Y'}" >
+					  $('input').attr('disabled', 'disabled');
+						$('select').attr('disabled', 'disabled');
+						$('textarea').attr('disabled', 'disabled');  
+					  
+						
+						
+					   </c:if>
+					 
+					
 				}
 				
 			}

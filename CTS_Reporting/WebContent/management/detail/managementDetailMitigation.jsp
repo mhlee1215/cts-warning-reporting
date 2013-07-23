@@ -20,17 +20,12 @@
   </style>
   <script>
   $(function() {
-	  $("#id_management_mitigation_likelihood_search_btn")
-	  .button({icons: {secondary: "ui-icon-search" } })
-	  .click(function( event ) {
-	   event.preventDefault();
-	  });
-	  
+	  	  
 	  $("#id_management_mitigation_existing_controls_search_btn")
 	  .button({icons: {secondary: "ui-icon-search" } })
 	  .click(function( event ) {
 	   event.preventDefault();
-	  });
+	  }).hide();
 	  
 	  $("#id_management_mitigation_edit_btn")
 	  .button({icons: {secondary: "ui-icon-document" } })
@@ -59,7 +54,7 @@
 	});
 	  
 	  $("#id_management_mitigation_submitted_btn")
-	  .button({icons: {secondary: "ui-icon-rocked" } })
+	  .button({icons: {secondary: "ui-icon-locked" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	});
@@ -71,8 +66,8 @@
 	  .click(function( event ) {
 	   event.preventDefault();
 	   
-	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=RP200713KE1203-1&category=&type=TAXI-OUT','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
-	   
+	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=&category=&type=&isreadonly=Y&hazard_no=${hazard_no}','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=&category=&type=&isreadonly=Y&hazard_no=${hazard_no}','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	  });
 	  
 	  $("#id_management_mitigation_view_standard_btn")
@@ -113,12 +108,23 @@
 	  <c:if test="${hazard.state_mitigation == 'SUBMITTED'}" >
 	    $("#id_management_mitigation_submitted_btn").show();
 	    $("#id_management_mitigation_submit_btn").hide();   
+	    $("#id_management_mitigation_save_btn").hide();
+	    $("#id_management_mitigation_delete_btn").hide();
 	   
 	   	$('input').attr('disabled', 'disabled');
 		$('select').attr('disabled', 'disabled');
 		$('textarea').attr('disabled', 'disabled');
 	</c:if>
   });
+  
+  function fn_change_existing_controls(value){
+	  //alert('hi');
+	  //management_risk_assessment_existing_controls_item();
+	  jQuery("#id_management_mitigation_existing_controls_ListTable").jqGrid()
+	  .setGridParam({
+	  	url:'${pageContext.request.contextPath}/managementDetailRiskAnalysisSeverityExistingControlsList.do?year='+value
+	  }).trigger("reloadGrid");
+  }
   
   function updateMitigation (issubmit){
 		 var str = $("#management_detail_mitigation_form").serialize();
@@ -347,7 +353,7 @@
     <table width="100%">
     <tbody>
     	<tr>
-    		<td><select style="width:100%" id="id_management_mitigation_existing_controls_year_selector" name="method" class="">
+    		<td><select style="width:100%" id="id_management_mitigation_existing_controls_year_selector" onchange="fn_change_existing_controls(this.value);" name="method" class="">
 				<option value="1">${lang.getStringPast()} 1 ${lang.getStringYear()}</option>
 				<option value="2">${lang.getStringPast()} 2 ${lang.getStringYears()}</option>
 				<option value="3" selected="selected">${lang.getStringPast()} 3 ${lang.getStringYears()}</option>

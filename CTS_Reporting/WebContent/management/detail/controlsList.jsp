@@ -7,7 +7,7 @@
   <total>1</total>
   <records>10</records>
 <c:forEach items="${controlList}" var="control" varStatus="status">
-<row id='${hazard.hazard_no}'>
+<row id='${status.index}'>
       <cell>${control.control_no}</cell>
       <cell>${control.title}</cell>
       <cell>${control.state}</cell>

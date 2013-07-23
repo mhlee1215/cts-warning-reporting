@@ -145,9 +145,15 @@
 		$("#id_tab"+page_index).text(cur_text.substring(0, cur_text.length-1)+'●');
 		if( page_index == currentTab){
 			$("#id_main_submit_btn").hide();
+			$("#id_main_save_btn").hide();
+			$("#id_main_delete_btn").hide();
 			$("#id_main_submitted_btn").show();
   		}
 		//$("#id_main_submit_btn").button({icons: {secondary: "ui-icon-check" } });
+		
+		$('input.'+report_item_title[page_index-1]).attr('disabled', 'disabled');
+		$('select.'+report_item_title[page_index-1]).attr('disabled', 'disabled');
+		$('textarea.'+report_item_title[page_index-1]).attr('disabled', 'disabled');
   }
   
   $(function() {
@@ -249,7 +255,7 @@
 	  });
 	  
 	  $("#id_main_submitted_btn")
-	  .button({icons: {secondary: "ui-icon-rocked" } })
+	  .button({icons: {secondary: "ui-icon-locked" } })
 	  .click(function( event ) {
 	   event.preventDefault();
 	  });
@@ -313,13 +319,13 @@ document.location = '${pageContext.request.contextPath}/index.do';
   <div>
   	<table width="100%">
   		<tr>
-  			<td align="left"><a id="id_main_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
-  			<td align="center"><a id="id_main_edit_btn" href="#">${lang.getStringPrint()}</a>
+  			<td align="left" width="20%"><a id="id_main_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
+  			<td align="center"  width="60%"><a id="id_main_edit_btn" href="#">${lang.getStringPrint()}</a>
   			<a id="id_main_save_btn" href="#">${lang.getStringSave()}</a>
   			<a id="id_main_delete_btn" href="#">Delete</a>
   			<a id="id_main_submit_btn" href="#">Submit</a>
   			<a id="id_main_submitted_btn" href="#">Submitted</a></td>
-  			<td align="right"><a id="id_main_next_btn" href="#">${lang.getStringNext()}</a></td>
+  			<td align="right" width="20%"><a id="id_main_next_btn" href="#">${lang.getStringNext()}</a></td>
   		</tr>
   	</table>
   </div>
@@ -388,9 +394,13 @@ document.location = '${pageContext.request.contextPath}/index.do';
             if(submitted[currentTab-1] == 1){
         		$("#id_main_submit_btn").hide();
         		$("#id_main_submitted_btn").show();
+        		$("#id_main_save_btn").hide();
+    			$("#id_main_delete_btn").hide();
         	}else{
         		$("#id_main_submit_btn").show();
         		$("#id_main_submitted_btn").hide();
+        		$("#id_main_save_btn").show();
+    			$("#id_main_delete_btn").show();
         	}
             
             if ($(this).attr("class") == "current"){ //detection for current tab
@@ -458,9 +468,13 @@ document.location = '${pageContext.request.contextPath}/index.do';
     	if(submitted[num-1] == 1){
     		$("#id_main_submit_btn").hide();
     		$("#id_main_submitted_btn").show();
+    		$("#id_main_save_btn").hide();
+			$("#id_main_delete_btn").hide();
     	}else{
     		$("#id_main_submit_btn").show();
     		$("#id_main_submitted_btn").hide();
+    		$("#id_main_save_btn").show();
+			$("#id_main_delete_btn").show();
     	}
     	
     	
