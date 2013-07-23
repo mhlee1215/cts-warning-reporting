@@ -55,6 +55,7 @@
 	<isNotEmpty property="status_determine">
 	and ri.`status_determine`= #status_determine#
 	</isNotEmpty>
+	and ri.`type` != 'BASIC'
 	order by ri.`id` asc;
  	</select>
  	 	
