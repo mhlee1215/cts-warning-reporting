@@ -609,7 +609,7 @@ public class ReportServiceImpl implements ReportService {
 		String hazard_delay = ServletRequestUtils.getStringParameter(request, "hazard_delay", "");
 		String hazard_details = ServletRequestUtils.getStringParameter(request, "hazard_details", "");
 		String hazard_new = ServletRequestUtils.getStringParameter(request, "hazard_new", "");
-		String hazard_priority = ServletRequestUtils.getStringParameter(request, "hazard_priority", "");
+		//String hazard_priority = ServletRequestUtils.getStringParameter(request, "hazard_priority", "");
 		
 		
 		int hazard_item_lv1 = ServletRequestUtils.getIntParameter(request, "hazard_item_lv1", -1);
@@ -625,13 +625,15 @@ public class ReportServiceImpl implements ReportService {
 		hazard.setDelay(hazard_delay);
 		hazard.setDetails(hazard_details);
 		hazard.setIsnew(hazard_new);
-		hazard.setPriority(hazard_priority);
+		//hazard.setPriority(hazard_priority);
 		
 		if(hazard_no.isEmpty()){
 			ReportItem ri = new ReportItem();
 			ri.setReport_no(report_no);
 			ri.setType(report_item_type);
 			ri = reportDao.readReportItem(ri);
+			
+			hazard.setPriority(ri.getPriority());
 			
 			Report r = new Report();
 			r.setId(ri.getReport_id());
