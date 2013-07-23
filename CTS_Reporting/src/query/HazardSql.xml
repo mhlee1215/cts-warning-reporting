@@ -68,7 +68,7 @@
 			 sia.name as `damage`, 
 			 sii.name as `injury`, 
 			 sid.name as `delay`,
-	        `priority`,
+	         sip.name as `priority`,
 	        `state_likelihood`,
 	        `likelihood_initial_likelihood`,
 	        `likelihood_residual_likelihood`,
@@ -88,6 +88,7 @@
 			RIGHT OUTER JOIN select_items sia ON h.damage = sia.value 
 			RIGHT OUTER JOIN select_items sii ON h.injury = sii.value
 			RIGHT OUTER JOIN select_items sid ON h.delay = sid.value
+			RIGHT OUTER JOIN select_items sip ON h.priority = sip.value
 	    WHERE
 	        1=1        
 	        <isNotEmpty property="state">
@@ -104,6 +105,8 @@
 			sii.category = 'injury'
 			and
 			sid.category = 'delay_time'
+			and
+			sip.category = 'priority'
 	    order by
 	        id asc   
     </select>
