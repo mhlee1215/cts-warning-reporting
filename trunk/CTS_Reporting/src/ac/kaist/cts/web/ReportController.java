@@ -178,7 +178,8 @@ private Logger logger = Logger.getLogger(getClass());
 		
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
 		
-		
+		Report rp = new Report();
+		reportService.updateReportItemBasic(rp, request);
 		
 		Report rp2 = new Report();
 		rp2.setReport_no(report_no);
@@ -1759,8 +1760,9 @@ private Logger logger = Logger.getLogger(getClass());
 		report.setPassenger_fatalities(0);
 		report.setPassenger_minor_injuries(0);
 		report.setPassenger_serious_injuries(0);
-		report.setAircraft_damage("NONE");
-		report.setDelay_time("NONE");
+		report.setAircraft_damage("1");
+		report.setDelay_time("1");
+		report.setInjury("1");
 		report.setReport_state("NOT REPORTED");
 		report.setPriority("1");
 		
@@ -1794,7 +1796,7 @@ private Logger logger = Logger.getLogger(getClass());
 				
 				AircraftInfo ai = new AircraftInfo();
 				ai.setManufacturer("BOEING");
-				ai.setModel("B737-8000");
+				ai.setModel("1");
 				ai.setSerial_no("51-11012");
 				ai.setRegi_no("HL7229");
 				ai.setNo_seat_crew(2);
