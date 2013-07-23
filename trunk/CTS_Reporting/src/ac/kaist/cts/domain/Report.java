@@ -42,15 +42,15 @@ public class Report {
 	private String type					="";
 	private String management_state 	= "";
 	private String report_no 			= "";
-	private Integer crew_fatalities 		= 0;
-	private Integer crew_minor_injuries 	= 0;
-	private Integer crew_serious_injuries 	= 0;
-	private Integer cabin_fatalities 		= 0;
-	private Integer cabin_minor_injuries 			= 0;
-	private Integer cabin_serious_injuries 			= 0;
-	private Integer passenger_fatalities 	= 0;
-	private Integer passenger_minor_injuries 		= 0;
-	private Integer passenger_serious_injuries 		= 0;
+	private String crew_fatalities 		= "";
+	private String crew_minor_injuries 	= "";
+	private String crew_serious_injuries 	= "";
+	private String cabin_fatalities 		= "";
+	private String cabin_minor_injuries 			= "";
+	private String cabin_serious_injuries 			= "";
+	private String passenger_fatalities 	= "";
+	private String passenger_minor_injuries 		= "";
+	private String passenger_serious_injuries 		= "";
 	private String aircraft_damage 	= "";
 	private String delay_time 			= "";
 	private Integer report_parent_id		= 0;
@@ -110,75 +110,75 @@ public class Report {
 		this.report_no = report_no;
 	}
 
-	public Integer getCrew_fatalities() {
+	public String getCrew_fatalities() {
 		return crew_fatalities;
 	}
 
-	public void setCrew_fatalities(Integer crew_fatalities) {
+	public void setCrew_fatalities(String crew_fatalities) {
 		this.crew_fatalities = crew_fatalities;
 	}
 
-	public Integer getCrew_minor_injuries() {
+	public String getCrew_minor_injuries() {
 		return crew_minor_injuries;
 	}
 
-	public void setCrew_minor_injuries(Integer crew_minor_injuries) {
+	public void setCrew_minor_injuries(String crew_minor_injuries) {
 		this.crew_minor_injuries = crew_minor_injuries;
 	}
 
-	public Integer getCrew_serious_injuries() {
+	public String getCrew_serious_injuries() {
 		return crew_serious_injuries;
 	}
 
-	public void setCrew_serious_injuries(Integer crew_serious_injuries) {
+	public void setCrew_serious_injuries(String crew_serious_injuries) {
 		this.crew_serious_injuries = crew_serious_injuries;
 	}
 
-	public Integer getCabin_fatalities() {
+	public String getCabin_fatalities() {
 		return cabin_fatalities;
 	}
 
-	public void setCabin_fatalities(Integer cabin_fatalities) {
+	public void setCabin_fatalities(String cabin_fatalities) {
 		this.cabin_fatalities = cabin_fatalities;
 	}
 
-	public Integer getCabin_minor_injuries() {
+	public String getCabin_minor_injuries() {
 		return cabin_minor_injuries;
 	}
 
-	public void setCabin_minor_injuries(Integer cabin_minor_injuries) {
+	public void setCabin_minor_injuries(String cabin_minor_injuries) {
 		this.cabin_minor_injuries = cabin_minor_injuries;
 	}
 
-	public Integer getCabin_serious_injuries() {
+	public String getCabin_serious_injuries() {
 		return cabin_serious_injuries;
 	}
 
-	public void setCabin_serious_injuries(Integer cabin_serious_injuries) {
+	public void setCabin_serious_injuries(String cabin_serious_injuries) {
 		this.cabin_serious_injuries = cabin_serious_injuries;
 	}
 
-	public Integer getPassenger_fatalities() {
+	public String getPassenger_fatalities() {
 		return passenger_fatalities;
 	}
 
-	public void setPassenger_fatalities(Integer passenger_fatalities) {
+	public void setPassenger_fatalities(String passenger_fatalities) {
 		this.passenger_fatalities = passenger_fatalities;
 	}
 
-	public Integer getPassenger_minor_injuries() {
+	public String getPassenger_minor_injuries() {
 		return passenger_minor_injuries;
 	}
 
-	public void setPassenger_minor_injuries(Integer passenger_minor_injuries) {
+	public void setPassenger_minor_injuries(String passenger_minor_injuries) {
 		this.passenger_minor_injuries = passenger_minor_injuries;
 	}
 
-	public Integer getPassenger_serious_injuries() {
+	public String getPassenger_serious_injuries() {
 		return passenger_serious_injuries;
 	}
 
-	public void setPassenger_serious_injuries(Integer passenger_serious_injuries) {
+	public void setPassenger_serious_injuries(String passenger_serious_injuries) {
 		this.passenger_serious_injuries = passenger_serious_injuries;
 	}
 
