@@ -42,7 +42,7 @@ public interface ReportDao {
 	public List<Report> readReportChildrenList(Report report);
 	public Report readReport(Report report);
 	public Report readReportWorstSituation(Report report);
-	public Report readReportHighestPriority(Report report);
+	public ReportItem readReportHighestPriority(ReportItem reportItem);
 	public void createReport(Report report);
 	public void deleteReport(Report report);
 	public void updateReport(Report report);

@@ -677,8 +677,8 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 	}
 	
 	@Override
-	public Report readReportHighestPriority(Report report) {
-		Report result = (Report)getSqlMapClientTemplate().queryForObject("ReportSql.readReportHighestPriority", report);
+	public ReportItem readReportHighestPriority(ReportItem reportItem) {
+		ReportItem result = (ReportItem)getSqlMapClientTemplate().queryForObject("ReportItemSql.readReportHighestPriority", reportItem);
 		return result;
 	}
 
