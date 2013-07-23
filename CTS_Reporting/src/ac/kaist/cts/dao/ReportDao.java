@@ -4,12 +4,15 @@ import java.util.List;
 
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
+import ac.kaist.cts.domain.Control;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Hazard;
+import ac.kaist.cts.domain.Likelihood;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
 import ac.kaist.cts.domain.ReportParent;
 import ac.kaist.cts.domain.RiskOwner;
+import ac.kaist.cts.domain.Severity;
 
 public interface ReportDao {
 	public List<Report> readReportListReview();
@@ -17,6 +20,11 @@ public interface ReportDao {
 	public List<Report> readReportListRiskAnalysis();
 	public List<Report> readReportListRiskAssessment();
 	public List<Report> readReportListMitigation();
+	
+	public List<Likelihood> readLikelihoodList(int year);
+	public List<Severity> readSeverityList(int year);
+	public List<Control> readExistingControlList(int year);
+	public List<Control> readNewControlList(int year);
 	
 	public void createAircraftInformation(AircraftInfo aircraftInformation);
 	public void updateAircraftInformation(AircraftInfo aircraftInformation);
@@ -39,6 +47,7 @@ public interface ReportDao {
 	public void updateReport(Report report);
 	
 	public List<ReportItem> readReportItemList(ReportItem reportItem);
+	public List<ReportItem> readReportItemListAll(ReportItem reportItem);
 	public ReportItem readReportItem(ReportItem reportItem);
 	public void createReportItem(ReportItem reportItem);
 	public void deleteReportItem(ReportItem reportItem);

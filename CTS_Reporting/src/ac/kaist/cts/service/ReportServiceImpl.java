@@ -17,14 +17,17 @@ import ac.kaist.cts.dao.SelectItemDao;
 import ac.kaist.cts.dao.UserDao;
 import ac.kaist.cts.domain.AircraftInfo;
 import ac.kaist.cts.domain.AttachedItem;
+import ac.kaist.cts.domain.Control;
 import ac.kaist.cts.domain.FlightInfo;
 import ac.kaist.cts.domain.Hazard;
 import ac.kaist.cts.domain.HazardItem;
+import ac.kaist.cts.domain.Likelihood;
 import ac.kaist.cts.domain.Report;
 import ac.kaist.cts.domain.ReportItem;
 import ac.kaist.cts.domain.ReportParent;
 import ac.kaist.cts.domain.RiskOwner;
 import ac.kaist.cts.domain.SelectItem;
+import ac.kaist.cts.domain.Severity;
 import ac.kaist.cts.domain.UserInfo;
 
 @Service
@@ -252,6 +255,11 @@ public class ReportServiceImpl implements ReportService {
 	public void deleteReportItem(ReportItem reportItem) {
 		// TODO Auto-generated method stub
 		reportDao.deleteReportItem(reportItem);
+		
+//		ReportItem ri = new ReportItem();
+//		ri.setType(reportItem.getType());
+//		ri.setReport_id(reportItem.getReport_id());
+//		ri.setStatus(ReportItem.STATE_NOT_SUBMITTED);
 	}
 
 	@Override
@@ -263,6 +271,11 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<ReportItem> readReportItemList(ReportItem reportItem) {
 		return reportDao.readReportItemList(reportItem);
+	}
+	
+	@Override
+	public List<ReportItem> readReportItemListAll(ReportItem reportItem) {
+		return reportDao.readReportItemListAll(reportItem);
 	}
 
 	@Override
@@ -801,6 +814,30 @@ public class ReportServiceImpl implements ReportService {
 			
 			updateRiskOwner(riskOwner);
 		}
+	}
+
+	@Override
+	public List<Likelihood> readLikelihoodList(int year) {
+		// TODO Auto-generated method stub
+		return reportDao.readLikelihoodList(year);
+	}
+
+	@Override
+	public List<Severity> readSeverityList(int year) {
+		// TODO Auto-generated method stub
+		return reportDao.readSeverityList(year);
+	}
+
+	@Override
+	public List<Control> readExistingControlList(int year) {
+		// TODO Auto-generated method stub
+		return reportDao.readExistingControlList(year);
+	}
+
+	@Override
+	public List<Control> readNewControlList(int year) {
+		// TODO Auto-generated method stub
+		return reportDao.readNewControlList(year);
 	}
 
 	

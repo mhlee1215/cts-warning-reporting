@@ -100,10 +100,19 @@ public class ReportItem {
 	private String status_hazard_id = "";
 	private String priority 	= "";
 	private int report_id		= 0;
+	private int report_parent_id		= 0;
 	private String report_no	=	"";
 	
 	
 	
+
+	public int getReport_parent_id() {
+		return report_parent_id;
+	}
+
+	public void setReport_parent_id(int report_parent_id) {
+		this.report_parent_id = report_parent_id;
+	}
 
 	public String getStatus_determine() {
 		return status_determine;
@@ -240,6 +249,7 @@ public class ReportItem {
 				+ "\", \"status_determine\":\"" + status_determine
 				+ "\", \"status_hazard_id\":\"" + status_hazard_id
 				+ "\", \"priority\":\"" + priority + "\", \"report_id\":\""
-				+ report_id + "\", \"report_no\":\"" + report_no + "\"}";
+				+ report_id + "\", \"report_parent_id\":\"" + report_parent_id
+				+ "\", \"report_no\":\"" + report_no + "\"}";
 	}
 }
