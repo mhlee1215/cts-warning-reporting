@@ -59,7 +59,7 @@
  	 	
 	<select id="readFlightInfo" resultMap="FlightInfo" parameterClass="ac.kaist.cts.domain.FlightInfo">
 		/*readFlightInfo*/
-       SELECT `id`, `reportId`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `Report_id`
+       SELECT `id`, `flight_date`, `flight_no`, `airline`, `route_from`, `route_to`, `route_diverted`, `flight_type`, `dom_int_type`, `cargo_operation`, `no_crew`, `no_cabin`, `no_passenger`, `Report_id`
  	   FROM flight_info
        WHERE 
        <isNotEmpty property="Report_id">
