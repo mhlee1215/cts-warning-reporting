@@ -83,6 +83,25 @@
         ORDER BY $order_column$ desc
         limit 0, 1
 	</select>
+	
+	<select id="readReportHighestPriority" resultMap="Report" parameterClass="ac.kaist.cts.domain.Report">
+		/*readReportHighestPriority*/
+		SELECT ri.`id`, r.`id`, rp.`id`, r.`report_no`, ri.`type`, `title`, `time`, `time_type`, `narrative`, `recommendation`, `comments`, `status`, `status_review`, `status_determine`, `status_hazard_id`, si.name as `priority`, `report_id`
+	 	FROM 
+			report_item ri 
+			INNER JOIN report r on ri.report_id = r.id
+			INNER JOIN report_parent rp on r.report_parent_id = rp.id
+			INNER JOIN select_items si on ri.priority = si.value
+		WHERE
+			1=1
+			and rp.`id` = #report_parent_id#
+			and ri.`status_review`= 'SUBMITTED'
+			and ri.`status_determine` = 'Accepted'
+			and ri.`type` != 'BASIC'
+			and si.`category` = 'priority'
+		order by si.value desc
+		limit 0, 1
+	</select>
 
 	<insert id="createReport" parameterClass="ac.kaist.cts.domain.Report">
 		 INSERT INTO `report` 

@@ -578,6 +578,9 @@ public class ReportServiceImpl implements ReportService {
 			r.setOrder_column("sid.value");
 			Report rd = reportDao.readReportWorstSituation(r);
 			rp.setDelay_time(rd.getDelay_time());
+			
+			Report rh = reportDao.readReportHighestPriority(r);
+			rp.setPriority(rh.getPriority());
 		}
 		
 		return reportParentList;

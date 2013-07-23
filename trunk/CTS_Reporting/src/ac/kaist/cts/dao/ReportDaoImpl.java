@@ -675,6 +675,12 @@ public class ReportDaoImpl extends SqlMapClientDaoSupport implements ReportDao {
 		Report result = (Report)getSqlMapClientTemplate().queryForObject("ReportSql.readReportWorstSituation", report);
 		return result;
 	}
+	
+	@Override
+	public Report readReportHighestPriority(Report report) {
+		Report result = (Report)getSqlMapClientTemplate().queryForObject("ReportSql.readReportHighestPriority", report);
+		return result;
+	}
 
 	@Override
 	public Integer readHazardTotalCount(Hazard hazard) {
