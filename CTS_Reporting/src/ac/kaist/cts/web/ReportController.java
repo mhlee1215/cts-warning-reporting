@@ -836,6 +836,7 @@ private Logger logger = Logger.getLogger(getClass());
 		List<ReportItem> riListAll = reportService.readReportItemListAll(rr);
 		
 		rr = new ReportItem();
+		rr.setReport_parent_id(rp.getReport_parent_id());
 		rr.setStatus(ReportItem.STATE_SUBMITTED);
 		rr.setStatus_review(ReportItem.STATE_SUBMITTED);
 		List<ReportItem> riListAllSubmitted = reportService.readReportItemListAll(rr);
