@@ -252,7 +252,7 @@ private Logger logger = Logger.getLogger(getClass());
 		
 		reportParent.setReport_state(Report.STATUS_REPORTED);
 		
-		if(reportParent.getReport_state().equals(Report.STATUS_NOT_REPORTED))
+		if(reportParent.getManagement_state().equals(Report.STATUS_NOT_REPORTED))
 			reportParent.setManagement_state(Report.STATUS_REVIEW);
 		
 		reportService.updateReportParent(reportParent);
