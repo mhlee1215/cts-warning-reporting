@@ -1765,7 +1765,9 @@ private Logger logger = Logger.getLogger(getClass());
 		report.setDelay_time("1");
 		report.setInjury("1");
 		report.setReport_state("NOT REPORTED");
+		report.setManagement_state("NOT REPORTED");
 		report.setPriority("1");
+		
 		
 		for(String userType : userTypeList){
 			for(int i = 0 ; i < 3 ; i++){
