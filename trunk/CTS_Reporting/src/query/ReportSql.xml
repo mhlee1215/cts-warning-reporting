@@ -60,9 +60,8 @@
        SELECT r.`id`, r.`report_date`, r.`report_state`, r.`type`, r.`management_state`, r.`report_no`, `crew_fatalities`, `crew_minor_injuries`, `crew_serious_injuries`, `cabin_fatalities`, `cabin_minor_injuries`, `cabin_serious_injuries`, `passenger_fatalities`, `passenger_minor_injuries`, `passenger_serious_injuries`, `aircraft_damage`, `injury`, `delay_time`, `report_parent_id`
  	   FROM report r inner join report_parent rp on r.report_parent_id = rp.id
        WHERE rp.report_no = #report_no#
-       <isNotEmpty property="management_state">
- 		and r.`management_state` in (#management_state#) 
- 		</isNotEmpty>
+	   and r.`management_state` != 'Not Reported'
+ 		
 	</select>
 	
 	<select id="readReportWorstSituation" resultMap="Report" parameterClass="ac.kaist.cts.domain.Report">
