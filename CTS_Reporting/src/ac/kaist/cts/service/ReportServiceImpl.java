@@ -242,7 +242,10 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public ReportItem readReportItem(ReportItem reportItem) {
 		// TODO Auto-generated method stub
-		return reportDao.readReportItem(reportItem);
+		ReportItem ri = reportDao.readReportItem(reportItem);
+		ri.setNarrative(ri.getNarrative().replace("<p>", "").replace("</p>", ""));
+		ri.setRecommendation(ri.getRecommendation().replace("<p>", "").replace("</p>", ""));
+		return ri;
 	}
 
 	@Override
