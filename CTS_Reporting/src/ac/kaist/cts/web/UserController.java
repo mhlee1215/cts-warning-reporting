@@ -224,6 +224,8 @@ public class UserController {
 		request.getSession().removeAttribute("userid");
 		request.getSession().removeAttribute("externalid");
 		request.getSession().removeAttribute("islogin");
+		request.getSession().removeAttribute("user_type");
+		
 		
 		ModelAndView model = new ModelAndView("redirect:index.do");
 		model.addObject("logoutComplete", "true");
