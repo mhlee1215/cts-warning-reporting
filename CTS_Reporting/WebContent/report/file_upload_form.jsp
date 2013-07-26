@@ -119,7 +119,8 @@
 	    
 	    function nameLinkfnFormatter( cellvalue, options, rowObject )
 	    {
-	    	var return_str = "<a href='"+rowObject['filepath']+"'>"+rowObject['filename']+"</a>";
+	    	var return_str = "<a href='javascript:window.open(\""+rowObject['filepath']+"\")'>"+rowObject['filename']+"</a>";
+	    	//window.open('managementDetailHazardIdentificationReport.do?report_no=&category=&type=&isreadonly=Y&hazard_no=${hazard_no}','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	    	return return_str;
 	    }
 	    

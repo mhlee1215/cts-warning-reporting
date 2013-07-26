@@ -52,12 +52,12 @@
 	</c:if>
 	//$('#id_basic_report_No').attr("value", report_prefix);
 	$('#id_basic_report_No').attr("value", '${report_no}');
-    $("#id_basic_report_date_datepicker").datepicker();
-    $("#id_basic_flight_date_datepicker").datepicker();
+    $("#id_basic_report_date_datepicker").datepicker( {dateFormat:"yy-mm-dd"} );
+    $("#id_basic_flight_date_datepicker").datepicker( {dateFormat:"yy-mm-dd"} );
    
-    $("#id_basic_date_of_birth_datapicker").datepicker();
-    $("#id_basic_date_of_last_medical_datapicker").datepicker();
-    $("#id_basic_date_last_inspection_datepicker").datepicker();
+    $("#id_basic_date_of_birth_datapicker").datepicker( {dateFormat:"yy-mm-dd"} );
+    $("#id_basic_date_of_last_medical_datapicker").datepicker( {dateFormat:"yy-mm-dd"} );
+    $("#id_basic_date_last_inspection_datepicker").datepicker( {dateFormat:"yy-mm-dd"} );
     
         
     $("#id_basic_auto_fill_btn")
@@ -154,7 +154,7 @@ ${lang.getStringReportingDate()}: </td>
 </td>
 <td width="100px;" align="right">
 ${lang.getStringReportingNo()} </td>
-<td><input readonly="readonly" type="text" id="id_basic_report_No" name="reportingNo" class="form_input_text"/>
+<td><input readonly="readonly" type="text" id="id_basic_report_No" name="reportingNo" class="form_input_text_long"/>
 </td>
 </tr>
 </tbody>
@@ -203,7 +203,7 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label">${lang.getStringFlightType()}:</td>
 	<td><select id="id_basic_flight_type_selector" name="flight_type" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>	
+					
 				<option value="SCHEDULED" ${flight_info.getFlight_type() == "SCHEDULED" ? "selected=\"selected\"" : ""}>SCHEDULED</option>
 				<option value="NON-SCHEDULED" ${flight_info.getFlight_type() == "NON-SCHEDULED" ? "selected=\"selected\"" : ""}>NON-SCHEDULED</option>
 			</select></td>
@@ -216,13 +216,13 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label">${lang.getStringDomesticInternational()}:</td>
 	<td><select id="id_basic_dom_or_int_selector" name="flight_dom_int_type" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>	
+					
 				<option value="INTERNATIONAL" ${flight_info.getDom_int_type() == "INTERNATIONAL" ? "selected=\"selected\"" : ""}>INTERNATIONAL</option>
 				<option value="DOMESTIC" ${flight_info.getDom_int_type() == "DOMESTIC" ? "selected=\"selected\"" : ""}>DOMESTIC</option>
 			</select></td>
 	<td style="width:100px;text-align:right;">${lang.getStringCargoOperation()}:</td>
 	<td><select id="id_basic_cargo_oper_selector" name="flight_cargo_operation" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>	
+					
 				<option value="PASSENGER/CARGO" ${flight_info.getCargo_operation() == "PASSENGER/CARGO" ? "selected=\"selected\"" : ""}>PASSENGER/CARGO</option>
 				<option value="PASSENGER" ${flight_info.getCargo_operation() == "PASSENGER" ? "selected=\"selected\"" : ""}>PASSENGER</option>
 				<option value="CARGO" ${flight_info.getCargo_operation() == "CARGO" ? "selected=\"selected\"" : ""}>CARGO</option>
@@ -265,7 +265,7 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label_wide">${lang.getStringMedicalCertification()}:</td>
 	<td><select id="id_basic_medical_certification_selector" name="userinfo_medical_certification" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>	
+					
 				<option value="NONE" ${user_info.medical_certification == "NONE" ? "selected=\"selected\"" : ""}>NONE</option>
 				<option value="CLASS1" ${user_info.medical_certification == "CLASS1" ? "selected=\"selected\"" : ""}>CLASS1</option>
 				<option value="CLASS2" ${user_info.medical_certification == "CLASS2" ? "selected=\"selected\"" : ""}>CLASS2</option>
@@ -295,14 +295,14 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label">${lang.getStringManufacturer()}:</td>
 	<td><select id="id_basic_manufacturer_selector" name="aircraftinfo_manufacturer" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>
+				
 				<c:forEach items="${manufacturerList}" var="manufacturer" varStatus="list_status">
 					<option value="${manufacturer.value}" ${aircraft_info.getManufacturer() == manufacturer.value ? "selected=\"selected\"" : ""}>${manufacturer.name}</option>
 				</c:forEach>	
 			</select></td>
 	<td style="width:135px;text-align:right;">${lang.getStringModel()}:</td>
 	<td><select id="id_basic_model_selector" name="aircraftinfo_model" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>	
+					
 		<c:forEach items="${acModelList}" var="acModel" varStatus="list_status">
 				<option value="${acModel.value}" ${aircraft_info.getModel() == acModel.value ? "selected=\"selected\"" : ""}>${acModel.name}</option>
 		</c:forEach>
@@ -337,7 +337,7 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label">${lang.getStringLastInspectionType()}:</td>
 	<td><select id="id_basic_last_inspection_type_selector" name="aircraftinfo_last_inspection_type" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>	
+					
 				<option value="100HOUR" ${aircraft_info.getLast_inspection_type() == "100HOUR" ? "selected=\"selected\"" : ""}>100HOUR</option>
 				<option value="AAIP"	${aircraft_info.getLast_inspection_type() == "AAIP" ? "selected=\"selected\"" : ""}>AAIP</option>
 				<option value="ANNUAL"	${aircraft_info.getLast_inspection_type() == "ANNUAL" ? "selected=\"selected\"" : ""}>ANNUAL</option>
@@ -395,7 +395,7 @@ ${lang.getStringReportingNo()} </td>
 <tr>
 	<td class="leftmost_label">${lang.getStringAircraftDamages()}:</td>
 	<td><select id="id_basic_damage_selector" name="aircraft_damage" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>	
+					
 				<c:forEach items="${aircraftDamageList}" var="aircraftDamage" varStatus="list_status">
 					<option value="${aircraftDamage.value}" ${report.getAircraft_damage() == aircraftDamage.value ? "selected=\"selected\"" : ""}>${aircraftDamage.name}</option>
 				</c:forEach>
@@ -404,7 +404,7 @@ ${lang.getStringReportingNo()} </td>
 	<!-- 
 	<td class="leftmost_label">${lang.getStringInjury()}:</td>
 	<td><select id="id_basic_damage_selector" name="injury" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>
+				
 				<c:forEach items="${injuryList}" var="injury" varStatus="list_status">
 					<option value="${injury.value}" ${report.getInjury() == injury.value ? "selected=\"selected\"" : ""}>${injury.name}</option>
 				</c:forEach>	
@@ -412,7 +412,7 @@ ${lang.getStringReportingNo()} </td>
     -->
 	<td style="width:70px;text-align:right;">${lang.getStringDelay()}${lang.getStringTime()}:</td>
 	<td><select id="id_basic_delay_time_selector" name="delay_time" class="form_selector">
-				<option value="0">${lang.getStringSelect()}</option>
+				
 				<c:forEach items="${delayTimeList}" var="delayTime" varStatus="list_status">
 					<option value="${delayTime.value}" ${report.getDelay_time() == delayTime.value ? "selected=\"selected\"" : ""}>${delayTime.name}</option>
 				</c:forEach>					

@@ -196,7 +196,7 @@
 		<tbody>
 		<tr>
 			<td align="left" width="34%"><a id="id_management_hazard_identification_previous_btn" href="#">${lang.getStringPrevious()}</a></td>
-			<td align="center" width="33%"><a id="id_management_hazard_identification_save_btn" href="#">${lang.getStringSave()}</a></td>
+			<td align="center" width="33%"><a id="id_management_hazard_identification_save_btn" href="#">${lang.getStringHazard()} ${lang.getStringSave()}</a></td>
 			<td align="right" width="33%"><a id="id_management_hazard_identification_next_btn" href="#">${lang.getStringNext()}</a></td>
 		</tr>
 		</tbody>

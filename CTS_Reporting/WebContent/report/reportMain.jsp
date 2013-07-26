@@ -6,9 +6,11 @@
 <html>
 <head>
   <title>CTS Warning Reporint Stystem</title>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+ 
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/themes/base/jquery-ui.css" />
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/jquery-1.9.1.js"></script>
+  <script src="${pageContext.request.contextPath}/jquery/jquery-ui-1.10.2/ui/jquery-ui.js"></script>
+  
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
   <style>
   .leftmost_label{
@@ -33,6 +35,9 @@
   }
   .form_input_text{
   	width:120px;
+  }
+  .form_input_text_long{
+  	width:150px;
   }
   .form_selector{
   	margin-left:2px;
@@ -145,7 +150,7 @@
 		$("#id_tab"+page_index).text(cur_text.substring(0, cur_text.length-1)+'●');
 		if( page_index == currentTab){
 			$("#id_main_submit_btn").hide();
-			$("#id_main_save_btn").hide();
+			//$("#id_main_save_btn").hide();
 			$("#id_main_delete_btn").hide();
 			$("#id_main_submitted_btn").show();
   		}
@@ -394,7 +399,7 @@ document.location = '${pageContext.request.contextPath}/index.do';
             if(submitted[currentTab-1] == 1){
         		$("#id_main_submit_btn").hide();
         		$("#id_main_submitted_btn").show();
-        		$("#id_main_save_btn").hide();
+        		//$("#id_main_save_btn").hide();
     			$("#id_main_delete_btn").hide();
         	}else{
         		$("#id_main_submit_btn").show();
@@ -412,7 +417,7 @@ document.location = '${pageContext.request.contextPath}/index.do';
             	$($(this).attr('name')).fadeIn(); // Show content for current tab
             }
         });
-        
+         
         $("#tab1").load(urlSet[0]);
         /*
         $("#tab1").load("${pageContext.request.contextPath}/reportBasic.do?report_no=${report_no}");
@@ -468,7 +473,7 @@ document.location = '${pageContext.request.contextPath}/index.do';
     	if(submitted[num-1] == 1){
     		$("#id_main_submit_btn").hide();
     		$("#id_main_submitted_btn").show();
-    		$("#id_main_save_btn").hide();
+    		//$("#id_main_save_btn").hide();
 			$("#id_main_delete_btn").hide();
     	}else{
     		$("#id_main_submit_btn").show();

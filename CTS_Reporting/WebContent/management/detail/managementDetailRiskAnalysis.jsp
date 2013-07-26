@@ -22,7 +22,7 @@
 	  .click(function( event ) {
 	   event.preventDefault();
 	   
-	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=RP200713KE1203-1&category=&type=TAXI-OUT&readonly=Y','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
+	   window.open('${pageContext.request.contextPath}/managementDetailHazardIdentificationReport.do?report_no=&category=&type=&isreadonly=Y&hazard_no=${hazard_no}','viewReportWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=900');
 	   
 	  });
 	  
