@@ -61,6 +61,7 @@ private Logger logger = Logger.getLogger(getClass());
     public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String language = (String)request.getSession().getAttribute("lang");
 		String report_no = ServletRequestUtils.getStringParameter(request, "report_no", "");
+		String user_type = (String) request.getSession().getAttribute("user_type");
 		//System.out.println("report no : "+report_no);
 		
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
@@ -69,8 +70,21 @@ private Logger logger = Logger.getLogger(getClass());
 		riQuery.setReport_no(report_no);
 		List<ReportItem> rpItemList = reportService.readReportItemList(riQuery);
 		
+		String rp_title = lang.getStringPilot() + " "+lang.getStringReport();
+		if(user_type.startsWith("P")){
+			rp_title = lang.getStringPilot() + " "+lang.getStringReport();
+		}else if(user_type.startsWith("C")){
+			rp_title = lang.getStringCabin() + " "+lang.getStringReport();
+		}else if(user_type.startsWith("G")){
+			rp_title = lang.getStringGround() + " "+lang.getStringReport();
+		}else if(user_type.startsWith("M")){
+			rp_title = lang.getStringMaintenance() + " "+lang.getStringReport();
+		}else if(user_type.startsWith("D")){
+			rp_title = lang.getStringDispatcher() + " "+lang.getStringReport();
+		}
+		
 		ModelAndView model = new ModelAndView("report/reportMain");
-		model.addObject("page_title", lang.getStringPilotReport());
+		model.addObject("page_title", rp_title);
 		model.addObject("report_no", report_no);
 		model.addObject("rpItemList", rpItemList);
 		model.addObject("lang", lang);
@@ -426,7 +440,7 @@ private Logger logger = Logger.getLogger(getClass());
 		LanguagePack lang = LanguageServiceImpl.getLangPack(language);
 		
 		ModelAndView model = new ModelAndView("management/managementMain");
-		model.addObject("page_title", lang.getStringHazardReportReview());
+		model.addObject("page_title", lang.getStringHazardManagementSystem());
 		model.addObject("lang", lang);
 		return model;
 	}
@@ -684,10 +698,10 @@ private Logger logger = Logger.getLogger(getClass());
 		rp.setManagement_state(Report.STATUS_REVIEW);
 		List<Report> rpList = reportService.readReportChildrenList(rp);
 		
-		rp.setManagement_state(Report.STATUS_ACCEPTED);
-		List<Report> rpList2 = reportService.readReportChildrenList(rp);
+		//rp.setManagement_state(Report.STATUS_ACCEPTED);
+		//List<Report> rpList2 = reportService.readReportChildrenList(rp);
 		
-		rpList.addAll(rpList2);
+		//rpList.addAll(rpList2);
 		
 		
 		List<String> userTypeList = User.getUserTypeList();
@@ -858,17 +872,17 @@ private Logger logger = Logger.getLogger(getClass());
 			report.setReport_no(report_no);
 			if(isInvestigation){
 				reportParent.setManagement_state(Report.STATUS_IN_INVESTIGATION);
-				report.setManagement_state(Report.STATUS_IN_INVESTIGATION);
+				//report.setManagement_state(Report.STATUS_IN_INVESTIGATION);
 			}else if(isAccept){
 				reportParent.setManagement_state(Report.STATUS_ACCEPTED);
-				report.setManagement_state(Report.STATUS_ACCEPTED);
+				//report.setManagement_state(Report.STATUS_ACCEPTED);
 			}else{
 				reportParent.setManagement_state(Report.STATUS_REJECTED);
-				report.setManagement_state(Report.STATUS_REJECTED);
+				//report.setManagement_state(Report.STATUS_REJECTED);
 			}
 			
 			reportService.updateReportParent(reportParent);
-			reportService.updateReport(report);
+			//reportService.updateReport(report);
 		}
 
 		return "Submit Success";

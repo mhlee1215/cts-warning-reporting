@@ -60,7 +60,7 @@
        SELECT r.`id`, r.`report_date`, r.`report_state`, r.`type`, r.`management_state`, r.`report_no`, `crew_fatalities`, `crew_minor_injuries`, `crew_serious_injuries`, `cabin_fatalities`, `cabin_minor_injuries`, `cabin_serious_injuries`, `passenger_fatalities`, `passenger_minor_injuries`, `passenger_serious_injuries`, `aircraft_damage`, `injury`, `delay_time`, `report_parent_id`
  	   FROM report r inner join report_parent rp on r.report_parent_id = rp.id
        WHERE rp.report_no = #report_no#
-	   and r.`management_state` != 'Not Reported'
+	   and r.`management_state` != ''
  		
 	</select>
 	
