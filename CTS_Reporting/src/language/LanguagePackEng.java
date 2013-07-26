@@ -944,6 +944,12 @@ public class LanguagePackEng implements LanguagePack {
 		return "Serious Injuries";
 	}
 
+	@Override
+	public String getStringReport() {
+		// TODO Auto-generated method stub
+		return "Report";
+	}
+
 	
 
 }

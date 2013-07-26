@@ -31,6 +31,7 @@ public interface LanguagePack {
 	
 	//Pilot Report
 	String getStringPilotReport();
+	String getStringReport();
 	//Pilot report basic
 	String getStringBasicInformation();
 	String getStringReportingDate();
