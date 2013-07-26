@@ -65,7 +65,12 @@
 		  // window.open('','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=950,height=800')
 		   //alert($('#id_login_login_info').attr('action'));
 		   //$('#id_login_login_info').attr('target', 'targetWindow');
-		   $('#id_login_login_info').submit();
+		   if($('input[name="name_work_type_radio"]:checked').val() == 'report' && $("#id_type_selector_reporting").val() == 0){
+			   alert('Please, select your type.');
+		   }else{
+			   $('#id_login_login_info').submit();  
+		   }
+		   //
 		   //event.preventDefault();
 		});
 		
