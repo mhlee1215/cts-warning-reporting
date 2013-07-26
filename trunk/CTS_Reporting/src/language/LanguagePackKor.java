@@ -5,133 +5,133 @@ public class LanguagePackKor implements LanguagePack {
 	@Override
 	public String getStringHome() {
 		// TODO Auto-generated method stub
-		return "í™ˆ";
+		return "È¨";
 	}
 
 	@Override
 	public String getStringLogin() {
 		// TODO Auto-generated method stub
-		return "ë¡œê·¸ì¸";
+		return "·Î±×ÀÎ";
 	}
 
 	@Override
 	public String getStringLogout() {
 		// TODO Auto-generated method stub
-		return "ë¡œê·¸ì•„ì›ƒ";
+		return "·Î±×¾Æ¿ô";
 	}
 
 	@Override
 	public String getStringFlightInformation() {
 		// TODO Auto-generated method stub
-		return "ë¹„í–‰ ì •ë³´";
+		return "ºñÇà Á¤º¸";
 	}
 
 	@Override
 	public String getStringWorkType() {
 		// TODO Auto-generated method stub
-		return "ì‘ì—… ì¢…ë¥˜";
+		return "ÀÛ¾÷ Á¾·ù";
 	}
 
 	@Override
 	public String getStringID() {
 		// TODO Auto-generated method stub
-		return "ì•„ì´ë””";
+		return "¾ÆÀÌµğ";
 	}
 
 	@Override
 	public String getStringPassword() {
 		// TODO Auto-generated method stub
-		return "ë¹„ë°€ë²ˆí˜¸";
+		return "ºñ¹Ğ¹øÈ£";
 	}
 
 	@Override
 	public String getStringLanguage() {
 		// TODO Auto-generated method stub
-		return "ì–¸ì–´";
+		return "¾ğ¾î";
 	}
 
 	@Override
 	public String getStringForgotYourPassword() {
 		// TODO Auto-generated method stub
-		return "ë¹„ë°€ë²ˆí˜¸ë¥¼ ìŠì–´ë²„ë ¸ë‚˜ìš”?";
+		return "ºñ¹Ğ¹øÈ£¸¦ ÀØ¾î¹ö·È³ª¿ä?";
 	}
 
 	@Override
 	public String getStringType() {
 		// TODO Auto-generated method stub
-		return "ë¶„ë¥˜";
+		return "ºĞ·ù";
 	}
 
 	@Override
 	public String getStringHazardReportingSystem() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ë³´ê³  ì‹œìŠ¤í…œ";
+		return "À§ÇØ¿äÀÎ º¸°í ½Ã½ºÅÛ";
 	}
 
 	@Override
 	public String getStringHazardManagementSystem() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ê´€ë¦¬ ì‹œìŠ¤í…œ";
+		return "À§ÇØ¿äÀÎ °ü¸® ½Ã½ºÅÛ";
 	}
 
 	@Override
 	public String getStringReportNo() {
 		// TODO Auto-generated method stub
-		return "ë³´ê³ ì„œ No.";
+		return "º¸°í¼­ No.";
 	}
 
 	@Override
 	public String getStringFlightDate() {
 		// TODO Auto-generated method stub
-		return "ë¹„í–‰ ë‚ ì§œ";
+		return "ºñÇà ³¯Â¥";
 	}
 
 	@Override
 	public String getStringFlightNo() {
 		// TODO Auto-generated method stub
-		return "ë¹„í–‰ ë²ˆí˜¸";
+		return "ºñÇà ¹øÈ£";
 	}
 
 	@Override
 	public String getStringACType() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µê¸° Type";
+		return "Ç×°ø±â Type";
 	}
 
 	@Override
 	public String getStringState() {
 		// TODO Auto-generated method stub
-		return "ìƒíƒœ";
+		return "»óÅÂ";
 	}
 
 	@Override
 	public String getStringPilot() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ìŠ¹ë¬´ì›";
+		return "¿îÇ×½Â¹«¿ø";
 	}
 
 	@Override
 	public String getStringCabin() {
 		// TODO Auto-generated method stub
-		return "ê°ì‹¤ìŠ¹ë¬´ì›";
+		return "°´½Ç½Â¹«¿ø";
 	}
 
 	@Override
 	public String getStringGround() {
 		// TODO Auto-generated method stub
-		return "ì§€ìƒì¡°ì—…";
+		return "Áö»óÁ¶¾÷";
 	}
 
 	@Override
 	public String getStringMaintenance() {
 		// TODO Auto-generated method stub
-		return "ì •ë¹„";
+		return "Á¤ºñ";
 	}
 
 	@Override
 	public String getStringDispatcher() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ê´€ë¦¬ì‚¬";
+		return "¿îÇ×°ü¸®»ç";
 	}
 
 	@Override
@@ -143,217 +143,217 @@ public class LanguagePackKor implements LanguagePack {
 	@Override
 	public String getStringKorean() {
 		// TODO Auto-generated method stub
-		return "í•œêµ­ì–´";
+		return "ÇÑ±¹¾î";
 	}
 
 	@Override
 	public String getStringPilotReport() {
 		// TODO Auto-generated method stub
-		return "ë³´ê³ ì„œ (ìš´í•­ìŠ¹ë¬´ì›)";
+		return "º¸°í¼­ (¿îÇ×½Â¹«¿ø)";
 	}
 
 	@Override
 	public String getStringBasicInformation() {
 		// TODO Auto-generated method stub
-		return "ê¸°ë³¸ ì •ë³´";
+		return "±âº» Á¤º¸";
 	}
 
 	@Override
 	public String getStringReportingDate() {
 		// TODO Auto-generated method stub
-		return "ë³´ê³  ë‚ ì§œ";
+		return "º¸°í ³¯Â¥";
 	}
 
 	@Override
 	public String getStringReportingNo() {
 		// TODO Auto-generated method stub
-		return "ë³´ê³  ë²ˆí˜¸";
+		return "º¸°í ¹øÈ£";
 	}
 
 	@Override
 	public String getStringAutoFill() {
 		// TODO Auto-generated method stub
-		return "ìë™ ê¸°ì…";
+		return "ÀÚµ¿ ±âÀÔ";
 	}
 
 	@Override
 	public String getStringRoute() {
 		// TODO Auto-generated method stub
-		return "ë…¸ì„ ";
+		return "³ë¼±";
 	}
 
 	@Override
 	public String getStringFrom() {
 		// TODO Auto-generated method stub
-		return "ì¶œë°œ";
+		return "Ãâ¹ß";
 	}
 
 	@Override
 	public String getStringTo() {
 		// TODO Auto-generated method stub
-		return "ë„ì°©";
+		return "µµÂø";
 	}
 
 	@Override
 	public String getStringDomesticInternational() {
 		// TODO Auto-generated method stub
-		return "êµ­ë‚´/êµ­ì œ";
+		return "±¹³»/±¹Á¦";
 	}
 
 	@Override
 	public String getStringNoOfFlightCrew() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ìŠ¹ë¬´ì›(ëª…)";
+		return "¿îÇ×½Â¹«¿ø(¸í)";
 	}
 
 	@Override
 	public String getStringNoOfCabinCrew() {
 		// TODO Auto-generated method stub
-		return "ê°ì‹¤ìŠ¹ë¬´ì›(ëª…)";
+		return "°´½Ç½Â¹«¿ø(¸í)";
 	}
 
 	@Override
 	public String getStringNoOfPassengers() {
 		// TODO Auto-generated method stub
-		return "ìŠ¹ê°(ëª…)";
+		return "½Â°´(¸í)";
 	}
 
 	@Override
 	public String getStringAirline() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µì‚¬";
+		return "Ç×°ø»ç";
 	}
 
 	@Override
 	public String getStringDiverted() {
 		// TODO Auto-generated method stub
-		return "íšŒí•­";
+		return "È¸Ç×";
 	}
 
 	@Override
 	public String getStringPersonalInformation() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ìŠ¹ë¬´ì› ì •ë³´";
+		return "¿îÇ×½Â¹«¿ø Á¤º¸";
 	}
 
 	@Override
 	public String getStringIDNo() {
 		// TODO Auto-generated method stub
-		return "ì•„ì´ë”” No.";
+		return "¾ÆÀÌµğ No.";
 	}
 
 	@Override
 	public String getStringName() {
 		// TODO Auto-generated method stub
-		return "ì´ë¦„";
+		return "ÀÌ¸§";
 	}
 
 	@Override
 	public String getStringDateOfBirth() {
 		// TODO Auto-generated method stub
-		return "ìƒë…„ì›”ì¼";
+		return "»ı³â¿ùÀÏ";
 	}
 
 	@Override
 	public String getStringMedicalCertification() {
 		// TODO Auto-generated method stub
-		return "ì‹ ì²´ê²€ì‚¬ ì¦ëª…ì¢…ë¥˜";
+		return "½ÅÃ¼°Ë»ç Áõ¸íÁ¾·ù";
 	}
 
 	@Override
 	public String getStringDateOfLastMedical() {
 		// TODO Auto-generated method stub
-		return "ë§ˆì§€ë§‰ ì‹ ì²´ê²€ì‚¬ ë‚ ì§œ";
+		return "¸¶Áö¸· ½ÅÃ¼°Ë»ç ³¯Â¥";
 	}
 
 	@Override
 	public String getStringFlightTime() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ì‹œê°„(hour)";
+		return "¿îÇ×½Ã°£(hour)";
 	}
 
 	@Override
 	public String getStringTotalTime() {
 		// TODO Auto-generated method stub
-		return "ì´ ìš´í•­ì‹œê°„";
+		return "ÃÑ ¿îÇ×½Ã°£";
 	}
 
 	@Override
 	public String getStringThisMakeModel() {
 		// TODO Auto-generated method stub
-		return "ë™ì¼ê¸°ì¢… ìš´í•­ì‹œê°„";
+		return "µ¿ÀÏ±âÁ¾ ¿îÇ×½Ã°£";
 	}
 
 	@Override
 	public String getStringAircraftInformation() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µê¸° ì •ë³´";
+		return "Ç×°ø±â Á¤º¸";
 	}
 
 	@Override
 	public String getStringManufacturer() {
 		// TODO Auto-generated method stub
-		return "ì œì¡°ì‚¬";
+		return "Á¦Á¶»ç";
 	}
 
 	@Override
 	public String getStringSerialNumber() {
 		// TODO Auto-generated method stub
-		return "ì‹œë¦¬ì–¼ No.";
+		return "½Ã¸®¾ó No.";
 	}
 
 	@Override
 	public String getStringModel() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µê¸° ëª¨ë¸";
+		return "Ç×°ø±â ¸ğµ¨";
 	}
 
 	@Override
 	public String getStringRegistrationNumber() {
 		// TODO Auto-generated method stub
-		return "ë“±ë¡ ë²ˆí˜¸";
+		return "µî·Ï ¹øÈ£";
 	}
 
 	@Override
 	public String getStringNoOfSeats() {
 		// TODO Auto-generated method stub
-		return "ì¢Œì„ ìˆ˜(ëª…)";
+		return "ÁÂ¼® ¼ö(¸í)";
 	}
 
 	@Override
 	public String getStringFlightCrew() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ ìŠ¹ë¬´ì›";
+		return "¿îÇ× ½Â¹«¿ø";
 	}
 
 	@Override
 	public String getStringCabinCrew() {
 		// TODO Auto-generated method stub
-		return "ê°ì‹¤ ìŠ¹ë¬´ì›";
+		return "°´½Ç ½Â¹«¿ø";
 	}
 
 	@Override
 	public String getStringPassenger() {
 		// TODO Auto-generated method stub
-		return "ìŠ¹ê°";
+		return "½Â°´";
 	}
 
 	@Override
 	public String getStringFlightCrews() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ìŠ¹ë¬´ì›(ëª…)";
+		return "¿îÇ×½Â¹«¿ø(¸í)";
 	}
 
 	@Override
 	public String getStringCabinCrews() {
 		// TODO Auto-generated method stub
-		return "ê°ì‹¤ìŠ¹ë¬´ì›(ëª…)";
+		return "°´½Ç½Â¹«¿ø(¸í)";
 	}
 
 	@Override
 	public String getStringPassengers() {
 		// TODO Auto-generated method stub
-		return "íƒ‘ìŠ¹ ìŠ¹ê°(ëª…)";
+		return "Å¾½Â ½Â°´(¸í)";
 	}
 
 	@Override
@@ -371,121 +371,121 @@ public class LanguagePackKor implements LanguagePack {
 	@Override
 	public String getStringInjury() {
 		// TODO Auto-generated method stub
-		return "ë¶€ìƒ";
+		return "ºÎ»ó";
 	}
 
 	@Override
 	public String getStringDamage() {
 		// TODO Auto-generated method stub
-		return "ì†ìƒ";
+		return "¼Õ»ó";
 	}
 
 	@Override
 	public String getStringDelay() {
 		// TODO Auto-generated method stub
-		return "ì§€ì—°";
+		return "Áö¿¬";
 	}
 
 	@Override
 	public String getStringFatalities() {
 		// TODO Auto-generated method stub
-		return "ì‚¬ë§(ëª…)";
+		return "»ç¸Á(¸í)";
 	}
 
 	@Override
 	public String getStringAircraftDamages() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µê¸° ì†ìƒ";
+		return "Ç×°ø±â ¼Õ»ó";
 	}
 
 	@Override
 	public String getStringTime() {
 		// TODO Auto-generated method stub
-		return "ì‹œê°„";
+		return "½Ã°£";
 	}
 
 	@Override
 	public String getStringEdit() {
 		// TODO Auto-generated method stub
-		return "ìˆ˜ì •";
+		return "¼öÁ¤";
 	}
 
 	@Override
 	public String getStringSave() {
 		// TODO Auto-generated method stub
-		return "ì €ì¥";
+		return "ÀúÀå";
 	}
 
 	@Override
 	public String getStringDelete() {
 		// TODO Auto-generated method stub
-		return "ì‚­ì œ";
+		return "»èÁ¦";
 	}
 
 	@Override
 	public String getStringSubmit() {
 		// TODO Auto-generated method stub
-		return "ì œì¶œ";
+		return "Á¦Ãâ";
 	}
 	
 	@Override
 	public String getStringSubmitted() {
 		// TODO Auto-generated method stub
-		return "ì œì¶œë¨";
+		return "Á¦ÃâµÊ";
 	}
 
 	@Override
 	public String getStringNext() {
 		// TODO Auto-generated method stub
-		return "ë‹¤ìŒ";
+		return "´ÙÀ½";
 	}
 
 	@Override
 	public String getStringPrevious() {
 		// TODO Auto-generated method stub
-		return "ì´ì „";
+		return "ÀÌÀü";
 	}
 	
 	@Override
 	public String getStringMore() {
 		// TODO Auto-generated method stub
-		return "ì¶”ê°€í•˜ê¸°";
+		return "Ãß°¡ÇÏ±â";
 	}
 
 	@Override
 	public String getStringNoDelay() {
 		// TODO Auto-generated method stub
-		return "ì§€ì—°ì—†ìŒ";
+		return "Áö¿¬¾øÀ½";
 	}
 
 	@Override
 	public String getStringWithin30Min() {
 		// TODO Auto-generated method stub
-		return "30ë¶„ ì´ë‚´";
+		return "30ºĞ ÀÌ³»";
 	}
 
 	@Override
 	public String getString30Minto1Hour() {
 		// TODO Auto-generated method stub
-		return "30ë¶„ ~ 1ì‹œê°„";
+		return "30ºĞ ~ 1½Ã°£";
 	}
 
 	@Override
 	public String getStringMoreThan1Hour() {
 		// TODO Auto-generated method stub
-		return "1ì‹œê°„ ì´ìƒ";
+		return "1½Ã°£ ÀÌ»ó";
 	}
 
 	@Override
 	public String getStringFlightCancel() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­ ì·¨ì†Œ";
+		return "¿îÇ× Ãë¼Ò";
 	}
 
 	@Override
 	public String getStringACChange() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µê¸° ë³€ê²½";
+		return "Ç×°ø±â º¯°æ";
 	}
 
 	@Override
@@ -503,259 +503,259 @@ public class LanguagePackKor implements LanguagePack {
 	@Override
 	public String getStringHazardReportReview() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ë³´ê³ ì„œ ê²€í† ";
+		return "À§ÇØ¿äÀÎ º¸°í¼­ °ËÅä";
 	}
 
 	@Override
 	public String getStringFlightType() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µê¸° Type";
+		return "Ç×°ø±â Type";
 	}
 
 	@Override
 	public String getStringInjuries() {
 		// TODO Auto-generated method stub
-		return "ë¶€ìƒ(ëª…)";
+		return "ºÎ»ó(¸í)";
 	}
 
 	@Override
 	public String getStringSelect() {
 		// TODO Auto-generated method stub
-		return "ì„ íƒ";
+		return "¼±ÅÃ";
 	}
 
 	@Override
 	public String getStringInformation() {
 		// TODO Auto-generated method stub
-		return "ì •ë³´";
+		return "Á¤º¸";
 	}
 
 	@Override
 	public String getStringNarrative() {
 		// TODO Auto-generated method stub
-		return "ì„œìˆ ";
+		return "¼­¼ú";
 	}
 
 	@Override
 	public String getStringRecommendation() {
 		// TODO Auto-generated method stub
-		return "ê¶Œê³ ì‚¬í•­";
+		return "±Ç°í»çÇ×";
 	}
 
 	@Override
 	public String getStringAttachment() {
 		// TODO Auto-generated method stub
-		return "ì²¨ë¶€";
+		return "Ã·ºÎ";
 	}
 
 	@Override
 	public String getStringAttachFiles() {
 		// TODO Auto-generated method stub
-		return "ì²¨ë¶€ íŒŒì¼";
+		return "Ã·ºÎ ÆÄÀÏ";
 	}
 
 	@Override
 	public String getStringHazardTitle() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ì œëª©";
+		return "À§ÇØ¿äÀÎ Á¦¸ñ";
 	}
 
 	@Override
 	public String getStringFileName() {
 		// TODO Auto-generated method stub
-		return "íŒŒì¼ì´ë¦„";
+		return "ÆÄÀÏÀÌ¸§";
 	}
 
 	@Override
 	public String getStringSize() {
 		// TODO Auto-generated method stub
-		return "í¬ê¸°";
+		return "Å©±â";
 	}
 
 	@Override
 	public String getStringModified() {
 		// TODO Auto-generated method stub
-		return "ìˆ˜ì •ì¼";
+		return "¼öÁ¤ÀÏ";
 	}
 
 	@Override
 	public String getStringReview() {
 		// TODO Auto-generated method stub
-		return "ê²€í† ";
+		return "°ËÅä";
 	}
 
 	@Override
 	public String getStringHazardIdentification() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ì‹ë³„";
+		return "À§ÇØ¿äÀÎ ½Äº°";
 	}
 
 	@Override
 	public String getStringRiskAnalysis() {
 		// TODO Auto-generated method stub
-		return "ë¦¬ìŠ¤í¬ ë¶„ì„";
+		return "¸®½ºÅ© ºĞ¼®";
 	}
 
 	@Override
 	public String getStringRiskAssessment() {
 		// TODO Auto-generated method stub
-		return "ë¦¬ìŠ¤í¬ í‰ê°€";
+		return "¸®½ºÅ© Æò°¡";
 	}
 
 	@Override
 	public String getStringMitigation() {
 		// TODO Auto-generated method stub
-		return "ê²½ê°ì¡°ì¹˜";
+		return "°æ°¨Á¶Ä¡";
 	}
 
 	@Override
 	public String getStringRegistered() {
 		// TODO Auto-generated method stub
-		return "ë“±ë¡";
+		return "µî·Ï";
 	}
 
 	@Override
 	public String getStringDate() {
 		// TODO Auto-generated method stub
-		return "ë‚ ì§œ";
+		return "³¯Â¥";
 	}
 
 	@Override
 	public String getStringAircraftDamage() {
 		// TODO Auto-generated method stub
-		return "í•­ê³µê¸° ì†ìƒ";
+		return "Ç×°ø±â ¼Õ»ó";
 	}
 
 	@Override
 	public String getStringPriority() {
 		// TODO Auto-generated method stub
-		return "ìš°ì„ ìˆœìœ„";
+		return "¿ì¼±¼øÀ§";
 	}
 
 	@Override
 	public String getStringAccepted() {
 		// TODO Auto-generated method stub
-		return "ìŠ¹ì¸";
+		return "½ÂÀÎ";
 	}
 
 	@Override
 	public String getStringRejected() {
 		// TODO Auto-generated method stub
-		return "ê±°ë¶€";
+		return "°ÅºÎ";
 	}
 
 	@Override
 	public String getStringInvestigation() {
 		// TODO Auto-generated method stub
-		return "ì¡°ì‚¬";
+		return "Á¶»ç";
 	}
 
 	@Override
 	public String getStringAccept() {
 		// TODO Auto-generated method stub
-		return "ìŠ¹ì¸";
+		return "½ÂÀÎ";
 	}
 
 	@Override
 	public String getStringReject() {
 		// TODO Auto-generated method stub
-		return "ê±°ë¶€";
+		return "°ÅºÎ";
 	}
 
 	@Override
 	public String getStringNeedAnInvestigation() {
 		// TODO Auto-generated method stub
-		return "ì¶”ê°€ ì¡°ì‚¬ í•„ìš”";
+		return "Ãß°¡ Á¶»ç ÇÊ¿ä";
 	}
 
 	@Override
 	public String getStringTitle() {
 		// TODO Auto-generated method stub
-		return "ì œëª©";
+		return "Á¦¸ñ";
 	}
 
 	@Override
 	public String getStringReportsToIdentify() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ì‹ë³„";
+		return "À§ÇØ¿äÀÎ ½Äº°";
 	}
 
 	@Override
 	public String getStringIdentifiedReports() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ì‹ë³„ ì™„ë£Œ";
+		return "À§ÇØ¿äÀÎ ½Äº° ¿Ï·á";
 	}
 
 	@Override
 	public String getStringHazardNo() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ No.";
+		return "À§ÇØ¿äÀÎ No.";
 	}
 
 	@Override
 	public String getStringHazard() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸";
+		return "À§ÇØ¿äÀÎ";
 	}
 
 	@Override
 	public String getStringHazardsToBeAnalyzed() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ë¶„ì„";
+		return "À§ÇØ¿äÀÎ ºĞ¼®";
 	}
 
 	@Override
 	public String getStringAnalyzedHazards() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ë¶„ì„ ì™„ë£Œ";
+		return "À§ÇØ¿äÀÎ ºĞ¼® ¿Ï·á";
 	}
 
 	@Override
 	public String getStringSearch() {
 		// TODO Auto-generated method stub
-		return "ê²€ìƒ‰";
+		return "°Ë»ö";
 	}
 
 	@Override
 	public String getStringViewReport() {
 		// TODO Auto-generated method stub
-		return "ë³´ê³ ì„œ ë³´ê¸°";
+		return "º¸°í¼­ º¸±â";
 	}
 
 	@Override
 	public String getStringLikelihood() {
 		// TODO Auto-generated method stub
-		return "ë°œìƒ ê°€ëŠ¥ì„±";
+		return "¹ß»ı °¡´É¼º";
 	}
 
 	@Override
 	public String getStringSeverity() {
 		// TODO Auto-generated method stub
-		return "ì‹¬ê°ë„";
+		return "½É°¢µµ";
 	}
 
 	@Override
 	public String getStringFrequency() {
 		// TODO Auto-generated method stub
-		return "ë¹ˆë„";
+		return "ºóµµ";
 	}
 
 	@Override
 	public String getStringPast() {
 		// TODO Auto-generated method stub
-		return "ê³¼ê±°";
+		return "°ú°Å";
 	}
 
 	@Override
 	public String getStringYear() {
 		// TODO Auto-generated method stub
-		return "ë…„";
+		return "³â";
 	}
 
 	@Override
 	public String getStringYears() {
 		// TODO Auto-generated method stub
-		return "ë…„";
+		return "³â";
 	}
 
 	@Override
@@ -773,127 +773,127 @@ public class LanguagePackKor implements LanguagePack {
 	@Override
 	public String getStringStartDate() {
 		// TODO Auto-generated method stub
-		return "ì‹œì‘ì¼";
+		return "½ÃÀÛÀÏ";
 	}
 
 	@Override
 	public String getStringEndDate() {
 		// TODO Auto-generated method stub
-		return "ì¢…ë£Œì¼";
+		return "Á¾·áÀÏ";
 	}
 
 	@Override
 	public String getStringDueDate() {
 		// TODO Auto-generated method stub
-		return "ì™„ë£Œì¼";
+		return "¿Ï·áÀÏ";
 	}
 
 	@Override
 	public String getStringExistingControls() {
 		// TODO Auto-generated method stub
-		return "ê¸°ì¡´ ì•ˆì „ì¡°ì¹˜";
+		return "±âÁ¸ ¾ÈÀüÁ¶Ä¡";
 	}
 
 	@Override
 	public String getStringNewControls() {
 		// TODO Auto-generated method stub
-		return "ìƒˆë¡œìš´ ì•ˆì „ì¡°ì¹˜";
+		return "»õ·Î¿î ¾ÈÀüÁ¶Ä¡";
 	}
 
 	@Override
 	public String getStringRisk() {
 		// TODO Auto-generated method stub
-		return "ë¦¬ìŠ¤í¬";
+		return "¸®½ºÅ©";
 	}
 
 	@Override
 	public String getStringHazardsToBeAssessed() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ í‰ê°€";
+		return "À§ÇØ¿äÀÎ Æò°¡";
 	}
 
 	@Override
 	public String getStringAssessedHazards() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ í‰ê°€ ì™„ë£Œ";
+		return "À§ÇØ¿äÀÎ Æò°¡ ¿Ï·á";
 	}
 
 	@Override
 	public String getStringHazardsToBeMitigated() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ê²½ê°ì¡°ì¹˜";
+		return "À§ÇØ¿äÀÎ °æ°¨Á¶Ä¡";
 	}
 
 	@Override
 	public String getStringMitigatedHazards() {
 		// TODO Auto-generated method stub
-		return "ìœ„í•´ìš”ì¸ ê²½ê°ì¡°ì¹˜ ì™„ë£Œ";
+		return "À§ÇØ¿äÀÎ °æ°¨Á¶Ä¡ ¿Ï·á";
 	}
 
 	@Override
 	public String getStringOwner() {
 		// TODO Auto-generated method stub
-		return "ë‹´ë‹¹";
+		return "´ã´ç";
 	}
 
 	@Override
 	public String getStringDivision() {
 		// TODO Auto-generated method stub
-		return "ë¶€ì„œ";
+		return "ºÎ¼­";
 	}
 
 	@Override
 	public String getStringAssignedTo() {
 		// TODO Auto-generated method stub
-		return "ë‹´ë‹¹ì";
+		return "´ã´çÀÚ";
 	}
 
 	@Override
 	public String getStringRequestedDate() {
 		// TODO Auto-generated method stub
-		return "ìš”ì²­ ë‚ ì§œ";
+		return "¿äÃ» ³¯Â¥";
 	}
 
 	@Override
 	public String getStringDueDate2() {
 		// TODO Auto-generated method stub
-		return "ì™„ë£Œ ë‚ ì§œ";
+		return "¿Ï·á ³¯Â¥";
 	}
 
 	@Override
 	public String getStringDivisionFlight() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­";
+		return "¿îÇ×";
 	}
 
 	@Override
 	public String getStringDivisionOperations() {
 		// TODO Auto-generated method stub
-		return "ìš´í•­í†µì œ";
+		return "¿îÇ×ÅëÁ¦";
 	}
 
 	@Override
 	public String getStringDivisionDispatch() {
 		// TODO Auto-generated method stub
-		return "ì •ë¹„";
+		return "Á¤ºñ";
 	}
 
 	@Override
 	public String getStringDivisionMaintenance() {
 		// TODO Auto-generated method stub
-		return "ë³´ìˆ˜";
+		return "º¸¼ö";
 	}
 
 	@Override
 	public String getStringDivisionCabin() {
 		// TODO Auto-generated method stub
-		return "ê°ì‹¤";
+		return "°´½Ç";
 	}
 
 	@Override
 	public String getStringDivisionGround() {
 		// TODO Auto-generated method stub
-		return "ì§€ìƒì¡°ì—…";
+		return "Áö»óÁ¶¾÷";
 	}
 
 	@Override
@@ -911,13 +911,13 @@ public class LanguagePackKor implements LanguagePack {
 	@Override
 	public String getStringSafetyOfficer() {
 		// TODO Auto-generated method stub
-		return "ì•ˆì „ ê´€ë¦¬ì";
+		return "¾ÈÀü °ü¸®ÀÚ";
 	}
 
 	@Override
 	public String getStringShowBasicInfo() {
 		// TODO Auto-generated method stub
-		return "ê¸°ë³¸ ì •ë³´ ë³´ê¸°";
+		return "±âº» Á¤º¸ º¸±â";
 	}
 
 	@Override
@@ -929,19 +929,25 @@ public class LanguagePackKor implements LanguagePack {
 	@Override
 	public String getStringPrint() {
 		// TODO Auto-generated method stub
-		return "ì¶œë ¥";
+		return "Ãâ·Â";
 	}
 
 	@Override
 	public String getStringMinorInjuries() {
 		// TODO Auto-generated method stub
-		return "ë¯¸ë¯¸í•œ ë¶€ìƒ(ëª…)";
+		return "¹Ì¹ÌÇÑ ºÎ»ó(¸í)";
 	}
 
 	@Override
 	public String getStringSeriousInjuries() {
 		// TODO Auto-generated method stub
-		return "ì‹¬ê°í•œ ë¶€ìƒ(ëª…)";
+		return "½É°¢ÇÑ ºÎ»ó(¸í)";
+	}
+
+	@Override
+	public String getStringReport() {
+		// TODO Auto-generated method stub
+		return "º¸°í¼­";
 	}
 
 	
