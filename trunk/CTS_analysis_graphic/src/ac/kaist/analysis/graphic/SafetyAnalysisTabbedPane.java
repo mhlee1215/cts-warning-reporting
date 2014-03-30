@@ -134,8 +134,12 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         GroupLayout layout = new GroupLayout(jp1_p);
         jp1_p.setLayout(layout);
         
-        jp_inputData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
-        jp_inputData.add(jp1_p);
+        //jp_inputData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
+        jp_inputData.setLayout(new BorderLayout());
+        JLabel pad1 = new JLabel();
+        pad1.setPreferredSize(new Dimension(10, 10));
+        jp_inputData.add("Center", jp1_p);
+        jp_inputData.add("North", pad1);
 
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
@@ -344,6 +348,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         tfDamageNONE = new JTextField();
         
         btnDefault = new JButton("Default");
+        btnDefault.setPreferredSize(new Dimension(100, 20));
         btnDefault.setEnabled(false);
         btnDefault.addActionListener(new ActionListener() {
             @Override
@@ -363,10 +368,15 @@ public class SafetyAnalysisTabbedPane extends JFrame {
             }
         });
         btnApply = new JButton("Apply");
+        btnApply.setPreferredSize(new Dimension(100, 20));
         btnApply.setEnabled(false);
         btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+            	
+            	LocalDate analStartDate = new LocalDate(textFieldYYYYs.getText()+"-"+textFieldMMs.getText()+"-"+textFieldDDs.getText());
+            	LocalDate analEndDate = new LocalDate(textFieldYYYYe.getText()+"-"+textFieldMMe.getText()+"-"+textFieldDDe.getText());
+            	
             	
             	//Get Parmas
             	totalDeparture = Integer.parseInt(textFieldMonthlyDeparture.getText());
@@ -379,47 +389,12 @@ public class SafetyAnalysisTabbedPane extends JFrame {
             	
             	jtp_main.setEnabledAt(1, true);
             	
-            	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, inputStartDate, inputEndDate);
-            	JScrollPane trendTable = ta.createTable();
-				JPanel periodPanel = new JPanel();
-				periodPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-				JLabel p = new JLabel("Analyze Period : ");
-            	JLabel p2 = new JLabel(textFieldYYYYs.getText()+"/"+textFieldMMs.getText()+"/"+textFieldDDs.getText()+" ~ "+textFieldYYYYe.getText()+"/"+textFieldMMe.getText()+"/"+textFieldDDe.getText());
-            	
-            	periodPanel.add(p);
-            	periodPanel.add(p2);
-            	
+            	String trendAnalysisOutPath = textFieldSelectPath.getText()+"TrendAnalysis.xls";
+            	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, analStartDate, analEndDate, trendAnalysisOutPath);
+           	
 				jp_trendAnalysis.setLayout(new BorderLayout());
 				jp_trendAnalysis.removeAll();
-				jp_trendAnalysis.add("North", periodPanel);
-				jp_trendAnalysis.add("Center", trendTable);
-				
-				JPanel jp_trendAnalysisButton = new JPanel();
-				jp_trendAnalysisButton.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				JButton buttonTrendAnalysisExport = new JButton("Export");
-				
-				
-				buttonTrendAnalysisExport.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						
-//						try {
-//							String outPath = textFieldSelectPath.getText();
-//							
-//						} catch (FileNotFoundException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-						 
-					}
-				});
-				
-				jp_trendAnalysisButton.add(buttonTrendAnalysisExport);
-				jp_trendAnalysis.add("South", jp_trendAnalysisButton);
+				jp_trendAnalysis.add("Center", ta.createPanel());
             	
                 jtp_main.setEnabledAt(2, true);
                 jtp_main.setEnabledAt(3, true);
@@ -477,7 +452,9 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 						riskType = 1;
 					}
 				});
-				cbEvent = new JComboBox(waInputData.getsEv_id().toArray());
+
+				cbEvent = new JComboBox(waResultData.getpEv_id().toArray());
+				
 				//JTextField tfEventId = new JTextField();
 				cbEvent.setPreferredSize(new Dimension(300, 20));
 				JButton selectHazard = new JButton("Select Hazard");
@@ -491,7 +468,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 						riskType = 2;
 					}
 				});
-				cbHazard = new JComboBox(waInputData.getsDesc().toArray());
+				cbHazard = new JComboBox(waResultData.getpDesc().toArray());
 				cbHazard.setEnabled(false);
 				//JTextField tfHazard = new JTextField();
 				cbHazard.setPreferredSize(new Dimension(300, 20));
@@ -499,6 +476,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 				JPanel riskPanel = new JPanel();
 				riskPanel.setPreferredSize(new Dimension(600, 100));
 				riskPanel.setLayout(new VerticalFlowLayout()); 
+				jp_riskMatrix.removeAll();
 				jp_riskMatrix.setLayout(new BorderLayout());
 				jp_riskMatrix.add("North",riskPanel);
 				
@@ -514,6 +492,8 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 				riskPanel2.add(cbHazard);
 				riskPanel.add(riskPanel2);
 				
+			
+				
 				JPanel riskPanel3 = new JPanel();
 				riskPanel3.setPreferredSize(new Dimension(600, 30));
 				riskPanel3.setBorder(new TitledBorder(""));
@@ -525,13 +505,14 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub
 						riskPanel4.removeAll();
+						riskPanel4.setLayout(new BorderLayout());
 						SafetyAnalysisRiskMatrix rm = new SafetyAnalysisRiskMatrix();
 						//String[] ev_array = (String[]) waInputData.getsEv_id().toArray();
 						String ev_id = (String) cbEvent.getItemAt(cbEvent.getSelectedIndex());
 						//String[] hz_array = (String[]) waInputData.getsDesc().toArray();
 						String hz_id = (String) cbHazard.getItemAt(cbHazard.getSelectedIndex());
 						JScrollPane tablePane = rm.createRiskMatrix(waResultData, ev_id, hz_id,  riskType);
-						riskPanel4.add(tablePane);
+						riskPanel4.add("Center", tablePane);
 						riskPanel4.revalidate();
 					}
 					
@@ -657,11 +638,11 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         layout.setVerticalGroup(layout.createSequentialGroup()
     	    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE))
     	    	.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-    	    		.addComponent(buttonOpenFile)
+    	    		.addComponent(buttonOpenFile, 20, 20, 20)
     	    		.addComponent(textFieldOpenFile)
     	    	)
     	    	.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-    	    		.addComponent(buttonSelectPath)
+    	    		.addComponent(buttonSelectPath, 20, 20, 20)
     	    		.addComponent(textFieldSelectPath)
     	    	)
     	    	.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -677,7 +658,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 					.addComponent(textFieldYYYYe)
 					.addComponent(textFieldMMe)
 					.addComponent(textFieldDDe)
-					.addComponent(buttonAnalyzePeriod)
+					.addComponent(buttonAnalyzePeriod, 20, 20, 20)
 						
     	    	)
     	    	.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -702,7 +683,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         		.addGroup(layout_b.createParallelGroup(GroupLayout.Alignment.LEADING)
         			.addGroup(layout_b.createSequentialGroup()
         				.addComponent(labelMonthlyDeparture)
-        				.addComponent(textFieldMonthlyDeparture)
+        				.addComponent(textFieldMonthlyDeparture, 100, 100, 100)
         			)
         			.addGroup(layout_b.createSequentialGroup()
         				.addGroup(layout_b.createParallelGroup(GroupLayout.Alignment.LEADING)

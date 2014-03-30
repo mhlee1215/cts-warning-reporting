@@ -12,6 +12,8 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -48,23 +50,26 @@ import ac.kaist.analysis.WarningAnalyzer;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
 import ac.kaist.analysis.utils.WarningAnalysisLoadExcel;
+import ac.kaist.analysis.utils.WarningAnalysisWriteExcel;
 
 public class SafetyAnalysisTrendAnalysis {
 	
-	static JTable table;
-	static WarningAnalysisResultData waResultData;
-	static WarningAnalysisInputData waInputData;
-	static LocalDate sDate;
-	static LocalDate eDate;
+	JTable table;
+	WarningAnalysisResultData waResultData;
+	WarningAnalysisInputData waInputData;
+	LocalDate sDate;
+	LocalDate eDate;
 	JFrame detail_graph;
 	JPanel detail_graph_pane;
 	String selectedDesc;
+	String outPath;
 	
-	public SafetyAnalysisTrendAnalysis(WarningAnalysisResultData waResultData, WarningAnalysisInputData waINputData, LocalDate sDate, LocalDate eDate){
-		SafetyAnalysisTrendAnalysis.waResultData = waResultData;
-		SafetyAnalysisTrendAnalysis.waInputData = waINputData;
-		SafetyAnalysisTrendAnalysis.sDate = sDate;
-		SafetyAnalysisTrendAnalysis.eDate = eDate;
+	public SafetyAnalysisTrendAnalysis(WarningAnalysisResultData waResultData, WarningAnalysisInputData waINputData, LocalDate sDate, LocalDate eDate, String outPath){
+		this.waResultData = waResultData;
+		this.waInputData = waINputData;
+		this.sDate = sDate;
+		this.eDate = eDate;
+		this.outPath = outPath;
 	}
 	
 	public static void main(String[] argv){
@@ -96,11 +101,49 @@ public class SafetyAnalysisTrendAnalysis {
 		LocalDate sDate = new LocalDate("2008-01-18");
 		LocalDate eDate = new LocalDate("2011-01-18");
 				
-		SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, sDate, eDate);
+		SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, sDate, eDate, "E:/ext_work/respace/workspace/CTS_analysis/input/TrendAnalysis.xls");
 	    
-		frame.getContentPane().add( ta.createTable() );
+		frame.getContentPane().add( ta.createPanel() );
 		frame.setVisible(true);
 		frame.setSize( 1024, 500 ); 
+	}
+	
+	public JPanel createPanel(){
+		JPanel m = new JPanel();
+		m.setLayout(new BorderLayout());
+		
+		JScrollPane trendTable = createTable();
+		JPanel periodPanel = new JPanel();
+		periodPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel p = new JLabel("Analyze Period : ");
+    	JLabel p2 = new JLabel(sDate.getYear()+"/"+sDate.getMonthOfYear()+"/"+sDate.getDayOfMonth()+" ~ "+eDate.getYear()+"/"+eDate.getMonthOfYear()+"/"+eDate.getDayOfMonth());
+    	
+    	periodPanel.add(p);
+    	periodPanel.add(p2);
+    	
+    	m.add("North", periodPanel);
+		m.add("Center", trendTable);
+		
+		JPanel jp_trendAnalysisButton = new JPanel();
+		jp_trendAnalysisButton.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JButton buttonTrendAnalysisExport = new JButton("Export");
+		
+		
+		buttonTrendAnalysisExport.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				System.out.println("outPath:" +outPath);
+				WarningAnalysisWriteExcel.writeTable("HIHI", table, outPath);
+				JOptionPane.showMessageDialog(null, "Chart image was saved in "+outPath);
+			}
+		});
+		
+		jp_trendAnalysisButton.add(buttonTrendAnalysisExport);
+		m.add("South", jp_trendAnalysisButton);
+		
+		return m;
 	}
 	
 	public JScrollPane createTable(){
@@ -150,13 +193,7 @@ public class SafetyAnalysisTrendAnalysis {
 	    MyTableModel mm = new MyTableModel();
 	    mm.setData(rowData);
 	    mm.setColumnNames(columnNames);
-//	    //mm.setData(new Object[][]{
-//	      {"119","foo","bar","ja","ko",new Integer(1)},
-//	      {"911","bar","foo","en","fr",new Integer(2)},
-//	      {"911","bar","foo","en","fr",new Integer(10)}});
-//	    mm.setColumnNames(new String[]{"SNo.","1","2","Native","2","3"});
-	    
-	    //JTable table = new JTable(rowData, columnNames) {
+
 	    table = new JTable(mm)
 	    {
 			 @Override
@@ -164,9 +201,6 @@ public class SafetyAnalysisTrendAnalysis {
 			    // TODO Auto-generated method stub
 			    return new CustomCellRenderer();
 			   }
-//		      protected JTableHeader createDefaultTableHeader() {
-//				return new GroupableTableHeader(columnModel);
-//			      }
 		};
 
 	    
