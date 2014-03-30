@@ -388,207 +388,37 @@ public class SafetyAnalysisTabbedPane extends JFrame {
                 //Some action for notification about loaded file.
             	
             	jtp_main.setEnabledAt(1, true);
+            	jtp_main.setEnabledAt(2, true);
+                jtp_main.setEnabledAt(3, true);
+                jtp_main.setEnabledAt(4, true);
             	
-            	String trendAnalysisOutPath = textFieldSelectPath.getText()+"TrendAnalysis.xls";
-            	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, analStartDate, analEndDate, trendAnalysisOutPath);
-           	
+                //Trend Analysis
+            	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, analStartDate, analEndDate, textFieldSelectPath.getText());
 				jp_trendAnalysis.setLayout(new BorderLayout());
 				jp_trendAnalysis.removeAll();
 				jp_trendAnalysis.add("Center", ta.createPanel());
             	
-                jtp_main.setEnabledAt(2, true);
-                jtp_main.setEnabledAt(3, true);
-                jtp_main.setEnabledAt(4, true);
-                
-                
-                
+
                 //Chromatography
-                chromatographyChart = SafetyAnalysisChromatography.createChart(waResultData);
-				chromatographyChartpanel = new ChartPanel(chromatographyChart);
+                SafetyAnalysisChromatography sac = new SafetyAnalysisChromatography(waResultData, textFieldSelectPath.getText());
 				jp_chromatography.setLayout(new BorderLayout());
 				jp_chromatography.removeAll();
-				jp_chromatography.add("Center", chromatographyChartpanel);
-				
-				JPanel jp_chromatographyButton = new JPanel();
-				jp_chromatographyButton.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				JButton buttonChromatographyExport = new JButton("Export");
-				buttonChromatographyExport.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						Dimension size = chromatographyChartpanel.getSize();
-						try {
-							String outPath = textFieldSelectPath.getText();
-							String filename = "chromatography.png";
-							OutputStream os = new FileOutputStream(outPath+"/"+filename);
-							System.out.println(outPath+"/"+filename+"///"+size.width + " " + size.height);
-							BufferedImage chartImage = chromatographyChart.createBufferedImage( size.width, size.height, null);
-							ImageIO.write( chartImage, "png", os );
-							os.close();
-							JOptionPane.showMessageDialog(null, "Chart image was saved in "+filename);
-							
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						 
-					}
-				});
-				jp_chromatographyButton.add(buttonChromatographyExport);
-				jp_chromatography.add("South", jp_chromatographyButton);
+				jp_chromatography.add("Center", sac.createPanel());
 				
 				
-				JButton selectEvent = new JButton("Select Event");
-				selectEvent.setPreferredSize(new Dimension(150, 20));
-				selectEvent.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						cbEvent.setEnabled(true);
-						cbHazard.setEnabled(false);
-						riskType = 1;
-					}
-				});
-
-				cbEvent = new JComboBox(waResultData.getpEv_id().toArray());
-				
-				//JTextField tfEventId = new JTextField();
-				cbEvent.setPreferredSize(new Dimension(300, 20));
-				JButton selectHazard = new JButton("Select Hazard");
-				selectHazard.setPreferredSize(new Dimension(150, 20));
-				selectHazard.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						cbEvent.setEnabled(false);
-						cbHazard.setEnabled(true);
-						riskType = 2;
-					}
-				});
-				cbHazard = new JComboBox(waResultData.getpDesc().toArray());
-				cbHazard.setEnabled(false);
-				//JTextField tfHazard = new JTextField();
-				cbHazard.setPreferredSize(new Dimension(300, 20));
-				JPanel riskPanel_main = new JPanel();
-				JPanel riskPanel = new JPanel();
-				riskPanel.setPreferredSize(new Dimension(600, 100));
-				riskPanel.setLayout(new VerticalFlowLayout()); 
-				jp_riskMatrix.removeAll();
+				//RiskMatrix
+				SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, textFieldSelectPath.getText());
 				jp_riskMatrix.setLayout(new BorderLayout());
-				jp_riskMatrix.add("North",riskPanel);
+				jp_riskMatrix.removeAll();
+				jp_riskMatrix.add("Center",sarm.createPanel());
+								
 				
-				JPanel riskPanel1 = new JPanel();
-				riskPanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
-				riskPanel1.add(selectEvent);
-				riskPanel1.add(cbEvent);
-				riskPanel.add(riskPanel1);
-				
-				JPanel riskPanel2 = new JPanel();
-				riskPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
-				riskPanel2.add(selectHazard);
-				riskPanel2.add(cbHazard);
-				riskPanel.add(riskPanel2);
-				
-			
-				
-				JPanel riskPanel3 = new JPanel();
-				riskPanel3.setPreferredSize(new Dimension(600, 30));
-				riskPanel3.setBorder(new TitledBorder(""));
-				riskPanel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				JButton riskAnalyze = new JButton("Analyze");
-				riskAnalyze.addActionListener(new ActionListener(){
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						riskPanel4.removeAll();
-						riskPanel4.setLayout(new BorderLayout());
-						SafetyAnalysisRiskMatrix rm = new SafetyAnalysisRiskMatrix();
-						//String[] ev_array = (String[]) waInputData.getsEv_id().toArray();
-						String ev_id = (String) cbEvent.getItemAt(cbEvent.getSelectedIndex());
-						//String[] hz_array = (String[]) waInputData.getsDesc().toArray();
-						String hz_id = (String) cbHazard.getItemAt(cbHazard.getSelectedIndex());
-						JScrollPane tablePane = rm.createRiskMatrix(waResultData, ev_id, hz_id,  riskType);
-						riskPanel4.add("Center", tablePane);
-						riskPanel4.revalidate();
-					}
-					
-				});
-				riskAnalyze.setPreferredSize(new Dimension(100, 20));
-				JButton riskExport = new JButton("Export");
-				riskExport.addActionListener(new ActionListener(){
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				});
-				riskExport.setPreferredSize(new Dimension(100, 20));
-				riskPanel3.add(riskAnalyze);
-				riskPanel3.add(riskExport);
-				riskPanel.add(riskPanel3);
-				
-				riskPanel4 = new JPanel();
-				riskPanel4.setBorder(new TitledBorder(""));
-				//riskPanel4.setPreferredSize(new Dimension(300, 300));
-//				SafetyAnalysisRiskMatrix rm = new SafetyAnalysisRiskMatrix();
-//				JScrollPane tablePane = rm.createRiskMatrix(waResultData, "", 1);
-//				riskPanel4.add(tablePane);
-				//riskPanel.add(riskPanel4);
-				jp_riskMatrix.add("Center",riskPanel4);
-				
-				
-				
-				
-				scoringMethodChart = SafetyAnalysisScoringMethod.createChart(waResultData);
-				scoringMethodChartpanel = new ChartPanel(scoringMethodChart);
-				
-				
-				JScrollPane scoreTalbeP = SafetyAnalysisScoringMethod.createScoreTable(waResultData);
-				//scoreTalbeP.setSize(new Dimension(500, 400));
-				//jp_scoringMethod.add("West", scoreTalbeP);
-				
-				JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scoreTalbeP,scoringMethodChartpanel);
-				sp.setDividerLocation(400);
+				//Scoring Method
+				SafetyAnalysisScoringMethod sasm = new SafetyAnalysisScoringMethod(waResultData, textFieldSelectPath.getText());
 				jp_scoringMethod.setLayout(new BorderLayout());
 				jp_scoringMethod.removeAll();
-				jp_scoringMethod.add("Center", sp);
+				jp_scoringMethod.add("Center", sasm.createPanel());
 				
-				
-				JPanel jp_scoringMethodButton = new JPanel();
-				jp_scoringMethodButton.setLayout(new FlowLayout(FlowLayout.RIGHT));
-				JButton buttonScoringMethodExport = new JButton("Export");
-				buttonScoringMethodExport.addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						Dimension size = scoringMethodChartpanel.getSize();
-						try {
-							String outPath = textFieldSelectPath.getText();
-							String filename = "scoringMethod.png";
-							OutputStream os = new FileOutputStream(outPath+"/"+filename);
-							BufferedImage chartImage = scoringMethodChart.createBufferedImage( size.width, size.height, null);
-							ImageIO.write( chartImage, "png", os ); 
-							os.close();
-							JOptionPane.showMessageDialog(null, "Chart image was saved in "+filename);
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				});
-				jp_scoringMethodButton.add(buttonScoringMethodExport);
-				jp_scoringMethod.add("South", jp_scoringMethodButton);
-                
-                
             }
         });
         

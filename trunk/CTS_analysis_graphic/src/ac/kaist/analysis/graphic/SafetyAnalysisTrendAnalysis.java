@@ -6,10 +6,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,8 +66,15 @@ public class SafetyAnalysisTrendAnalysis {
 	LocalDate eDate;
 	JFrame detail_graph;
 	JPanel detail_graph_pane;
+	JPanel detail_graph_pane2;
 	String selectedDesc;
 	String outPath;
+	
+	JFreeChart chart;
+	ChartPanel chartPanel;
+	
+	JLabel p;
+	JLabel p2;
 	
 	public SafetyAnalysisTrendAnalysis(WarningAnalysisResultData waResultData, WarningAnalysisInputData waINputData, LocalDate sDate, LocalDate eDate, String outPath){
 		this.waResultData = waResultData;
@@ -101,7 +113,7 @@ public class SafetyAnalysisTrendAnalysis {
 		LocalDate sDate = new LocalDate("2008-01-18");
 		LocalDate eDate = new LocalDate("2011-01-18");
 				
-		SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, sDate, eDate, "E:/ext_work/respace/workspace/CTS_analysis/input/TrendAnalysis.xls");
+		SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, sDate, eDate, "E:/ext_work/respace/workspace/CTS_analysis/input");
 	    
 		frame.getContentPane().add( ta.createPanel() );
 		frame.setVisible(true);
@@ -115,8 +127,8 @@ public class SafetyAnalysisTrendAnalysis {
 		JScrollPane trendTable = createTable();
 		JPanel periodPanel = new JPanel();
 		periodPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel p = new JLabel("Analyze Period : ");
-    	JLabel p2 = new JLabel(sDate.getYear()+"/"+sDate.getMonthOfYear()+"/"+sDate.getDayOfMonth()+" ~ "+eDate.getYear()+"/"+eDate.getMonthOfYear()+"/"+eDate.getDayOfMonth());
+		p = new JLabel("Analyze Period : ");
+    	p2 = new JLabel(sDate.getYear()+"/"+sDate.getMonthOfYear()+"/"+sDate.getDayOfMonth()+" ~ "+eDate.getYear()+"/"+eDate.getMonthOfYear()+"/"+eDate.getDayOfMonth());
     	
     	periodPanel.add(p);
     	periodPanel.add(p2);
@@ -133,10 +145,10 @@ public class SafetyAnalysisTrendAnalysis {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
-				System.out.println("outPath:" +outPath);
-				WarningAnalysisWriteExcel.writeTable("HIHI", table, outPath);
-				JOptionPane.showMessageDialog(null, "Chart image was saved in "+outPath);
+				String path = outPath+"/"+"TrendAnalysis.xls";
+				System.out.println("outPath:" +path);
+				WarningAnalysisWriteExcel.writeTable(p.getText()+p2.getText(), table, path);
+				JOptionPane.showMessageDialog(null, "Table contents were saved in "+path);
 			}
 		});
 		
@@ -239,10 +251,13 @@ public class SafetyAnalysisTrendAnalysis {
 		if (detail_graph == null)
 			detail_graph = new JFrame(selectedDesc+" Time Analysis");
 		
-		if(detail_graph_pane == null)
+		if(detail_graph_pane == null){
 			detail_graph_pane = new JPanel();
-		detail_graph.getContentPane().add(detail_graph_pane);
-		
+			detail_graph_pane2 = new JPanel();
+		}
+		detail_graph.getContentPane().add(detail_graph_pane2);
+		detail_graph_pane2.setLayout(new BorderLayout());
+		detail_graph_pane2.add("Center", detail_graph_pane);
 		//System.out.println(detail_graph.getComponentCount());
 		//System.out.println(detail_graph_pane.getComponentCount());
 		detail_graph_pane.removeAll();
@@ -276,11 +291,11 @@ public class SafetyAnalysisTrendAnalysis {
         
         CategoryDataset dataset = createDataset(waResultData, sDateV, eDateV);
         String title = selectedDesc + " Occurrence Histogram";
-        JFreeChart chart = createChart(title, dataset);
+        chart = createChart(title, dataset);
         
         CategoryPlot categoryplot = chart.getCategoryPlot();
         categoryplot.setBackgroundPaint(Color.white);
-        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel = new ChartPanel(chart);
         chartPanel.setFillZoomRectangle(true);
         chartPanel.setMouseWheelEnabled(true);
         
@@ -338,6 +353,36 @@ public class SafetyAnalysisTrendAnalysis {
         bPanel.add(bYear);
         
         detail_graph_pane.add("South", bPanel);
+        
+        JPanel exportPanel = new JPanel();
+        exportPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        JButton btnExport = new JButton("Export");
+        btnExport.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Dimension size = chartPanel.getSize();
+				try {
+					//String outPath = textFieldSelectPath.getText();
+					String filename = selectedDesc.replace("/", "_")+"_"+"Time_Analysis.png";
+					String path = outPath+"/"+filename;
+					OutputStream os = new FileOutputStream(path);
+					System.out.println(outPath+"/"+filename+"///"+size.width + " " + size.height);
+					BufferedImage chartImage = chart.createBufferedImage( size.width, size.height, null);
+					ImageIO.write( chartImage, "png", os );
+					os.close();
+					JOptionPane.showMessageDialog(null, "Chart image was saved in "+path);
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+        exportPanel.add(btnExport);
+        detail_graph_pane2.add("South", exportPanel);
         
         detail_graph.revalidate();
         //detail_graph_pane.repaint();

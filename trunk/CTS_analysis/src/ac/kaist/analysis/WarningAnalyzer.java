@@ -98,6 +98,7 @@ public class WarningAnalyzer {
 		Map<String, Float> injuryMillion = new HashMap<String, Float>();
 		Map<String, Float> damageMillion = new HashMap<String, Float>();
 		
+		Map<String, Integer> pEv_idMap = new HashMap<String, Integer>();
 		Vector<String> pEv_id = new Vector<String>();
 		///////////////////////////////////////////
 
@@ -109,12 +110,15 @@ public class WarningAnalyzer {
 		for(int i = 0 ; i < vEv_id.size() ; i++){
 			String event_id = vEv_id.get(i);
 			if(!isValidDate(vDate.get(i))) continue;
-			pEv_id.add(event_id);
+			//pEv_id.add(event_id);
+			pEv_idMap.put(event_id, 0);
 			String subsection_name = vSubsection.get(i);
 			Integer cur_value = occurrenceMatrix.get(event_id).get(subsection_name);
 			if(cur_value == null) cur_value = 0;
 			occurrenceMatrix.get(event_id).put(subsection_name, cur_value+1);
 		}
+		
+		pEv_id = cvtSet2Vector(pEv_idMap.keySet());
 		
 		//Personal Injury
 		for(int i = 0 ; i < vEv_id.size() ; i++){
@@ -193,6 +197,7 @@ public class WarningAnalyzer {
 		Set<String> sDesc = waInputData.getsDesc();
 		//Describe ID for saving
 		Vector<String> vDesc = waInputData.getvDesc();
+		Map<String, Integer> pDescMap = new HashMap<String, Integer>();
 		Vector<String> pDesc = new Vector<String>();
 		
 		Map<String, Map<String, Integer> > aircraftDamageDescMatrix = new TreeMap<String, Map<String, Integer> >();
@@ -212,7 +217,8 @@ public class WarningAnalyzer {
 		for(int i = 0 ; i < vDesc.size() ; i++){
 			if(!isValidDate(vDate.get(i))) continue;
 			String descFactor = vDesc.get(i);
-			pDesc.add(descFactor);
+			//pDesc.add(descFactor);
+			pDescMap.put(descFactor, 0);
 			String aDamage = vDamage.get(i);
 			Integer cur_value = aircraftDamageDescMatrix.get(descFactor).get(aDamage);
 			if(cur_value == null) cur_value = 0;
@@ -224,6 +230,8 @@ public class WarningAnalyzer {
 			InjuryLevelDescMatrix.get(descFactor).put(iLevel, cur_value2+1);
 			
 		}
+		
+		pDesc = cvtSet2Vector(pDescMap.keySet());
 		
 		for(int i = 0 ; i < vDesc.size() ; i++){
 			String event_id = vEv_id.get(i);
@@ -499,4 +507,16 @@ public class WarningAnalyzer {
 						+ "\"}";
 			}		
 		}	
+		
+		
+		
+		public static <T> Vector<T> cvtSet2Vector(Set<T> src){
+			Vector<T> dst = new Vector<T>();
+			
+			for(T o : src){
+				dst.add(o);
+			}
+			
+			return dst;
+		}
 }

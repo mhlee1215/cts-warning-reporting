@@ -1,20 +1,39 @@
 package ac.kaist.analysis.graphic;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+
+import org.joda.time.LocalDate;
 
 import swing.ax.CustomCellRenderer;
 import swing.ax.MyTableModel;
@@ -26,6 +45,213 @@ import ac.kaist.analysis.model.WarningAnalysisResultData;
 import ac.kaist.analysis.utils.WarningAnalysisLoadExcel;
 
 public class SafetyAnalysisRiskMatrix {
+	WarningAnalysisResultData waResultData;
+	String outPath;
+	
+	JComboBox cbEvent;
+	JComboBox cbHazard;
+	int riskType = 1;
+	
+	JPanel riskPanel4;
+	
+	String ev_id;
+	String hz_id;
+	
+	public SafetyAnalysisRiskMatrix(WarningAnalysisResultData waResultData, String outPath){
+		this.waResultData = waResultData;
+		this.outPath = outPath;
+	}
+	
+	public static void main(String[] argv){
+		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
+		String inputSheetName = "input data";
+		int descriptor_depth = 4;
+		
+		//Load from excel file
+		WarningAnalysisLoadExcel load = null;
+		try {
+			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WarningAnalysisInputData waInputData = load.getWaInputData();
+			
+		
+		//Analysis
+		int totalDeparture = 192847;
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+		//Get Result data
+		WarningAnalysisResultData waResultData = wa.getWaResultData();
+		
+		JFrame frame = new JFrame("TEST");
+			    
+	    
+		LocalDate sDate = new LocalDate("2008-01-18");
+		LocalDate eDate = new LocalDate("2011-01-18");
+				
+	    
+		SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, "E:/ext_work/respace/workspace/CTS_analysis/input");
+		
+		frame.getContentPane().add( sarm.createPanel() );
+		frame.setVisible(true);
+		frame.setSize( 1024, 500 ); 
+	}
+	
+	public JPanel createPanel(){
+		JPanel m = new JPanel();
+		
+		JButton selectEvent = new JButton("Select Event");
+		selectEvent.setPreferredSize(new Dimension(150, 20));
+		selectEvent.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				cbEvent.setEnabled(true);
+				cbHazard.setEnabled(false);
+				riskType = 1;
+			}
+		});
+
+		cbEvent = new JComboBox(waResultData.getpEv_id().toArray());
+		
+		//JTextField tfEventId = new JTextField();
+		cbEvent.setPreferredSize(new Dimension(300, 20));
+		JButton selectHazard = new JButton("Select Hazard");
+		selectHazard.setPreferredSize(new Dimension(150, 20));
+		selectHazard.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				cbEvent.setEnabled(false);
+				cbHazard.setEnabled(true);
+				riskType = 2;
+			}
+		});
+		cbHazard = new JComboBox(waResultData.getpDesc().toArray());
+		cbHazard.setEnabled(false);
+		//JTextField tfHazard = new JTextField();
+		cbHazard.setPreferredSize(new Dimension(300, 20));
+		JPanel riskPanel_main = new JPanel();
+		JPanel riskPanel = new JPanel();
+		riskPanel.setPreferredSize(new Dimension(600, 100));
+		riskPanel.setLayout(new VerticalFlowLayout()); 
+		m.removeAll();
+		m.setLayout(new BorderLayout());
+		m.add("North",riskPanel);
+		
+		JPanel riskPanel1 = new JPanel();
+		riskPanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
+		riskPanel1.add(selectEvent);
+		riskPanel1.add(cbEvent);
+		riskPanel.add(riskPanel1);
+		
+		JPanel riskPanel2 = new JPanel();
+		riskPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+		riskPanel2.add(selectHazard);
+		riskPanel2.add(cbHazard);
+		riskPanel.add(riskPanel2);
+		
+	
+		
+		JPanel riskPanel3 = new JPanel();
+		riskPanel3.setPreferredSize(new Dimension(600, 30));
+		//riskPanel3.setBorder(new TitledBorder(""));
+		riskPanel3.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JButton riskAnalyze = new JButton("Analyze");
+		riskAnalyze.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				riskPanel4.removeAll();
+				riskPanel4.setLayout(new BorderLayout());
+				ev_id = (String) cbEvent.getItemAt(cbEvent.getSelectedIndex());
+				//String[] hz_array = (String[]) waInputData.getsDesc().toArray();
+				hz_id = (String) cbHazard.getItemAt(cbHazard.getSelectedIndex());
+				JScrollPane tablePane = createRiskMatrix(ev_id, hz_id,  riskType);
+				riskPanel4.add("Center", tablePane);
+				riskPanel4.revalidate();
+			}
+			
+		});
+		riskAnalyze.setPreferredSize(new Dimension(100, 20));
+		JButton riskExport = new JButton("Export");
+		riskExport.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				String filename = "";
+				
+				if(riskType == 1)
+					filename = ev_id.replace("/",  "_") + "_Risk_Matrix.png";
+				else if(riskType == 2)
+					filename = hz_id.replace("/",  "_") + "_Risk_Matrix.png";
+				String path = outPath+"/"+filename;
+				try {
+					OutputStream os;
+					os = new FileOutputStream(path);
+					
+				    int w = riskPanel4.getWidth();
+				    int h = riskPanel4.getHeight();
+				    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				    Graphics2D g = bi.createGraphics();
+				    riskPanel4.paintAll(g);
+				    
+				    Component component = riskPanel4;
+				    component.setSize(component.getPreferredSize());
+			        layoutComponent(component);
+				    BufferedImage img = new BufferedImage(component.getWidth(), component.getHeight(), BufferedImage.TRANSLUCENT);
+			        Graphics2D g2d = (Graphics2D) img.getGraphics();
+			        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			        component.paintAll(g2d);
+			    
+					ImageIO.write( img, "png", os );
+					os.close();
+					
+					riskPanel4.removeAll();
+					riskPanel4.setLayout(new BorderLayout());
+					JScrollPane tablePane = createRiskMatrix(ev_id, hz_id,  riskType);
+					riskPanel4.add("Center", tablePane);
+					riskPanel4.revalidate();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				JOptionPane.showMessageDialog(null, "Risk Matrix was saved in "+path);
+				   
+			}
+			
+		});
+		riskExport.setPreferredSize(new Dimension(100, 20));
+		riskPanel3.add(riskAnalyze);
+		riskPanel3.add(riskExport);
+		riskPanel.add(riskPanel3);
+		
+		riskPanel4 = new JPanel();
+		//riskPanel4.setBorder(new TitledBorder(""));
+		//riskPanel4.setPreferredSize(new Dimension(300, 300));
+//		SafetyAnalysisRiskMatrix rm = new SafetyAnalysisRiskMatrix();
+//		JScrollPane tablePane = rm.createRiskMatrix(waResultData, "", 1);
+//		riskPanel4.add(tablePane);
+		//riskPanel.add(riskPanel4);
+		m.add("Center",riskPanel4);
+		
+		return m;
+	}
+	
+	private static void layoutComponent(Component c) {
+	    synchronized (c.getTreeLock()) {
+	        c.doLayout();
+	        if (c instanceof Container) {
+	            for (Component child : ((Container) c).getComponents()) {
+	                layoutComponent(child);
+	            }
+	        }
+	    }
+	}
 	
 	private class RiskMatrixData{
 		public RiskMatrixData(String eventID, String hazardID, int worst, int most, int today, int likelihood, float mf){
@@ -46,7 +272,7 @@ public class SafetyAnalysisRiskMatrix {
 		String hazardID;
 	}
 	
-	private Vector<RiskMatrixData> getRiskMatrixData(WarningAnalysisResultData waResultData, String ev_id, String hz_id, int type){
+	private Vector<RiskMatrixData> getRiskMatrixData(String ev_id, String hz_id, int type){
 		Vector<RiskMatrixData> rm = new Vector<RiskMatrixData>();
 		//Using EV ID
 		if(type==1){
@@ -57,13 +283,18 @@ public class SafetyAnalysisRiskMatrix {
 				System.out.println("ev_id: "+ev_id+", hz_id:"+hz_ID);
 				System.out.println( waResultData.getMFDescMatrix());
 				Float mf = waResultData.getMFDescMatrix().get(hz_ID);
-				System.out.println("mf:"+mf);
-				int liklihood = waResultData.getLikelihoodQuantizedMap().get(hz_ID);
-				int worst = waResultData.getWorstSeverityMap().get(hz_ID);
-				int most = waResultData.getWorstSeverityMap().get(hz_ID);
-				int today = waResultData.getTodayWorstSeverity().get(hz_ID);
+				//System.out.println("mf:"+mf);
+				//System.out.println(waResultData.getLikelihoodQuantizedMap());
+				Integer liklihood = waResultData.getLikelihoodQuantizedMap().get(hz_ID);
+				Integer worst = waResultData.getWorstSeverityMap().get(hz_ID);
+				Integer most = waResultData.getWorstSeverityMap().get(hz_ID);
+				Integer today = waResultData.getTodayWorstSeverity().get(hz_ID);
 				
-				System.out.println(ev_id+" "+hz_ID+" "+ worst+" "+most+" "+today+" type:"+type);
+				if(liklihood == null) liklihood = 0;
+				if(worst == null) worst = 0;
+				if(most == null) most = 0;
+				if(today == null) today = 0;
+				//System.out.println(ev_id+" "+hz_ID+" "+ worst+" "+most+" "+today+" type:"+type);
 				if( worst > 0 && most > 0)
 					rm.add(new RiskMatrixData(ev_ID, hz_ID, worst, most, today, liklihood, mf));
 			}
@@ -83,10 +314,11 @@ public class SafetyAnalysisRiskMatrix {
 		}
 		return rm;
 	}
-	public JScrollPane createRiskMatrix(WarningAnalysisResultData waResultData, String ev_id, String hz_id, int type){
+	public JScrollPane createRiskMatrix(String ev_id, String hz_id, int type){
 				
 		
-		Vector<RiskMatrixData> rmData= getRiskMatrixData(waResultData, ev_id, hz_id, type);
+		Vector<RiskMatrixData> rmData= getRiskMatrixData(ev_id, hz_id, type);
+		System.out.println(rmData);
 		//rmData.add(new RiskMatrixData("a", "B", 3, 5, 4, 3, 0.5f));
 		//rmData.add(new RiskMatrixData("aa", "Bb", 3, 5, 4, 3, 0.5f));
 		
@@ -96,7 +328,7 @@ public class SafetyAnalysisRiskMatrix {
 
 		int cellWidth = 70;
 		int inst_height = 40;
-		int inst_height2 = 40;
+		int inst_height2 = 60;
 		int pad_height = 20;
 		int tableWidth = cellWidth*7;
 		for(RiskMatrixData rm : rmData){
@@ -191,10 +423,29 @@ public class SafetyAnalysisRiskMatrix {
 			Vector<Vector> inst_content2 = new Vector<Vector>();
 			inst_content2.add(new Vector());
 			
+			JTextArea idArea = new JTextArea();
+			
+			
+			
+			String explanation = "";
 			if(rm.eventID.length() > 0)
-				inst_content2.get(0).add("Risk Matrix for EVENT ID<"+rm.eventID+">, Hazard<"+rm.hazardID+">, M.F. = "+Float.toString(rm.mf));
+				explanation = "Risk Matrix for EVENT ID<"+rm.eventID+">, Hazard<"+rm.hazardID+">, M.F. = "+Float.toString(rm.mf);
 			else
-				inst_content2.get(0).add("Risk Matrix for Hazard <"+rm.hazardID+">");
+				explanation = "Risk Matrix for Hazard <"+rm.hazardID+">";
+			
+			idArea.setPreferredSize(new Dimension(tableWidth-2, 60));
+			idArea.setLineWrap(true);
+			idArea.setWrapStyleWord(true);
+			idArea.setBackground(RiskMatrixCellRenderer.evenRowBG);
+			idArea.setText(explanation);
+			idArea.setEditable(false);
+			
+			JPanel areaPanel = new JPanel();
+			areaPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+			areaPanel.setLayout(new BorderLayout());
+			areaPanel.add("Center", idArea);
+			
+			inst_content2.get(0).add(explanation);
 			
 			inst2.setData(inst_content2);
 			Vector<String> inst_column2 = new Vector<String>();
@@ -227,8 +478,14 @@ public class SafetyAnalysisRiskMatrix {
 			
 			
 			panel_main.add(table_inst);
+			
+//			JPanel tPanel = new JPanel();
+//			tPanel.setLayout(new BorderLayout());
+//			tPanel.add("Center", table);
+			//tPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 			panel_main.add(table);
-			panel_main.add(table_inst2);
+			//panel_main.add(table_inst2);
+			panel_main.add(areaPanel);
 			JLabel padding = new JLabel("");
 			padding.setPreferredSize(new Dimension(10, pad_height));
 			panel_main.add(padding);
@@ -253,26 +510,26 @@ public class SafetyAnalysisRiskMatrix {
 		return sPane;
 	}
 	
-	public static void main(String[] argv) throws IOException{
-		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
-		String inputSheetName = "input data";
-		int descriptor_depth = 3;
-		
-		//Load from excel file
-		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
-		WarningAnalysisInputData waInputData = load.getWaInputData();
-			
-		
-		//Analysis
-		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
-		//Get Result data
-		WarningAnalysisResultData waResultData = wa.getWaResultData();
-		
-		JFrame frame = new JFrame("");
-		SafetyAnalysisRiskMatrix rm = new SafetyAnalysisRiskMatrix();
-		frame.add(rm.createRiskMatrix(waResultData, "", "Aircraft-Aircraft handling/service-(general)", 2));
-		frame.setVisible(true);
-		frame.setSize(1024, 768);
-	}
+//	public static void main(String[] argv) throws IOException{
+//		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
+//		String inputSheetName = "input data";
+//		int descriptor_depth = 3;
+//		
+//		//Load from excel file
+//		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+//		WarningAnalysisInputData waInputData = load.getWaInputData();
+//			
+//		
+//		//Analysis
+//		int totalDeparture = 192847;
+//		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+//		//Get Result data
+//		WarningAnalysisResultData waResultData = wa.getWaResultData();
+//		
+//		JFrame frame = new JFrame("");
+//		SafetyAnalysisRiskMatrix rm = new SafetyAnalysisRiskMatrix();
+//		frame.add(rm.createRiskMatrix(waResultData, "", "Aircraft-Aircraft handling/service-(general)", 2));
+//		frame.setVisible(true);
+//		frame.setSize(1024, 768);
+//	}
 }

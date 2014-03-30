@@ -27,7 +27,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import ac.kaist.analysis.WarningAnalyzer.likelihoodDesc;
-import ac.kaist.analysis.ax.CustomColour;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
 
@@ -58,14 +57,15 @@ public class WarningAnalysisWriteExcel {
 			WritableCellFormat cellFormatFirstLabel = new WritableCellFormat();
 			cellFormatFirstLabel.setAlignment(Alignment.CENTRE);
 			WritableCellFormat cellFormatHeader = new WritableCellFormat();
-			cellFormatHeader.setAlignment(Alignment.LEFT);
-			cellFormatHeader.setBackground(CustomColour.HEADER_BG);
+			cellFormatHeader.setAlignment(Alignment.CENTRE);
+			cellFormatHeader.setBackground(Colour.BLUE_GREY);
 			//cellFormatHeader.setFont(headerFont);
 			WritableCellFormat cellFormatEvenRow = new WritableCellFormat();
-			cellFormatEvenRow.setAlignment(Alignment.CENTRE);
-			//cellFormatEvenRow.setBackground(evenRowBG);
+			//cellFormatEvenRow.setAlignment(Alignment.CENTRE);
+			cellFormatEvenRow.setBackground(Colour.GREY_25_PERCENT);
+			
 			WritableCellFormat cellFormatOddRow = new WritableCellFormat();
-			cellFormatOddRow.setAlignment(Alignment.CENTRE);
+			//cellFormatOddRow.setAlignment(Alignment.CENTRE);
 			//cellFormatOddRow.setBackground(oddRowBG);
 			
 			//cellFormatOddRow.setBackground(new RGB(0, 0, 0));
@@ -82,7 +82,7 @@ public class WarningAnalysisWriteExcel {
 			int cur_row = 0;
 			if(headerLabel != null){
 				//Write First label
-				ta_sheet.mergeCells(cur_row,  0, cur_row+cCount, 0);
+				ta_sheet.mergeCells(cur_row,  0, cur_row+cCount-1, 0);
 				label = new Label(0, cur_row, headerLabel, cellFormatFirstLabel);
 				ta_sheet.addCell(label);
 				cur_row++;
@@ -129,7 +129,6 @@ public class WarningAnalysisWriteExcel {
 				}	
 				cur_row++;
 			}
-			
 			
 			
 			workbook_out.write();
