@@ -53,6 +53,14 @@ public class WarningAnalysisInputData {
 	LocalDate inputStartDate;
 	LocalDate inputEndDate;
 	
+	String[] factors;
+	
+	public String[] getFactors() {
+		return factors;
+	}
+	public void setFactors(String[] factors) {
+		this.factors = factors;
+	}
 	public LocalDate getInputStartDate() {
 		return inputStartDate;
 	}

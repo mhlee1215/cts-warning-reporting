@@ -1,5 +1,6 @@
 package ac.kaist.analysis.utils;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,18 +8,26 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.JTable;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
-import jxl.write.Colour;
+import jxl.format.RGB;
+import jxl.format.Colour;
+import jxl.format.UnderlineStyle;
 import jxl.write.Label;
 import jxl.write.Number;
 import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import ac.kaist.analysis.WarningAnalyzer.likelihoodDesc;
+import ac.kaist.analysis.ax.CustomColour;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
 
@@ -27,10 +36,112 @@ public class WarningAnalysisWriteExcel {
 	WarningAnalysisInputData waInputData;
 	WarningAnalysisResultData waResultData;
 	
+	//public static CustomColour headerBG = new CustomColour(0x40, "blue grey",255, 255, 255);//new CustomColour(0x21, "1",79, 129, 189);
+	public static WritableFont headerFont = new WritableFont(WritableFont.ARIAL, 8, WritableFont.BOLD,false, UnderlineStyle.NO_UNDERLINE, Colour.WHITE);
+	//public static CustomColour focusRowBG = new CustomColour(0x23, "2",168, 176, 192);
+	//public static CustomColour oddRowBG = new CustomColour(0x24, "3",208, 216, 232);
+	//public static CustomColour evenRowBG = new CustomColour(0x25, "4",233, 237, 244);
+	
 	public WarningAnalysisWriteExcel(String path, WarningAnalysisInputData waInputData, WarningAnalysisResultData waResultData) throws IOException{
 		workbook_out = Workbook.createWorkbook(new File(path));
 		this.waInputData = waInputData;
 		this.waResultData = waResultData;
+	}
+	
+	public static void writeTable(JTable table, String outPath){
+		writeTable(null, table, outPath);
+	}
+	
+	public static void writeTable(String headerLabel, JTable table, String outPath){
+		try {
+			
+			WritableCellFormat cellFormatFirstLabel = new WritableCellFormat();
+			cellFormatFirstLabel.setAlignment(Alignment.CENTRE);
+			WritableCellFormat cellFormatHeader = new WritableCellFormat();
+			cellFormatHeader.setAlignment(Alignment.LEFT);
+			cellFormatHeader.setBackground(CustomColour.HEADER_BG);
+			//cellFormatHeader.setFont(headerFont);
+			WritableCellFormat cellFormatEvenRow = new WritableCellFormat();
+			cellFormatEvenRow.setAlignment(Alignment.CENTRE);
+			//cellFormatEvenRow.setBackground(evenRowBG);
+			WritableCellFormat cellFormatOddRow = new WritableCellFormat();
+			cellFormatOddRow.setAlignment(Alignment.CENTRE);
+			//cellFormatOddRow.setBackground(oddRowBG);
+			
+			//cellFormatOddRow.setBackground(new RGB(0, 0, 0));
+			
+			WritableWorkbook workbook_out = Workbook.createWorkbook(new File(outPath));
+			workbook_out.createSheet("Trend Analysis", 0);
+			WritableSheet ta_sheet = workbook_out.getSheet(0);
+			int cCount = table.getColumnCount();
+			
+			//workbook_out.setColourRGB(Colour.LIGHT_TURQUOISE2, 14, 67, 89);
+			
+			Label label = null;
+			Number number = null;
+			int cur_row = 0;
+			if(headerLabel != null){
+				//Write First label
+				ta_sheet.mergeCells(cur_row,  0, cur_row+cCount, 0);
+				label = new Label(0, cur_row, headerLabel, cellFormatFirstLabel);
+				ta_sheet.addCell(label);
+				cur_row++;
+			}
+			
+			
+			TableColumnModel cm = table.getColumnModel();
+			for(int i = 0 ; i < cCount ; i++){
+				TableColumn columnName = cm.getColumn(i);
+				label = new Label(i, cur_row, (String) columnName.getHeaderValue(), cellFormatHeader);
+				ta_sheet.addCell(label);
+			}
+			cur_row++;
+			
+			for(int j = 0 ; j < table.getRowCount() ; j++){
+				for(int i = 0 ; i < table.getColumnCount() ; i++){
+				
+					//System.out.println(table.getValueAt(j, i));
+					
+					WritableCellFormat format = null;
+					if( j % 2 == 0)
+						format = cellFormatEvenRow;
+					else
+						format = cellFormatOddRow;
+					
+					if(table.getValueAt(j, i) instanceof String){
+						label = new Label(i, cur_row, (String) table.getValueAt(j, i), format);
+						ta_sheet.addCell(label);
+					}
+					else if(table.getValueAt(j, i) instanceof Integer){
+						number = new Number(i, cur_row, (Integer) table.getValueAt(j, i), format);
+						ta_sheet.addCell(number);
+					}
+					else if(table.getValueAt(j, i) instanceof Float){
+						number = new Number(i, cur_row, (Float) table.getValueAt(j, i), format);
+						ta_sheet.addCell(number);
+					}
+					else if(table.getValueAt(j, i) instanceof Double){
+						number = new Number(i, cur_row, (Double) table.getValueAt(j, i), format);
+						ta_sheet.addCell(number);
+					}
+					
+					
+				}	
+				cur_row++;
+			}
+			
+			
+			
+			workbook_out.write();
+			if(workbook_out != null) workbook_out.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  catch (WriteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void write() throws WriteException, IOException{

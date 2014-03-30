@@ -43,6 +43,7 @@ public class WarningAnalysisResultData {
 	
 	Set<String> sEv_id;				//UNIQUE
 	Vector<String> vEv_id;			//ALL
+	Vector<String> pEv_id;			//Among certain period
 	Set<String> sSubsection;		//UNIQUE
 	Vector<String> vSubsection;		//ALL
 	Vector<String> sInjury;			//UNIQUE
@@ -58,6 +59,7 @@ public class WarningAnalysisResultData {
 	Set<String> sDesc;
 	//Describe ID for saving
 	Vector<String> vDesc;
+	Vector<String> pDesc;			//Among certain period
 	
 	String today;
 	Map<String, Integer> todayWorstSeverity;
@@ -68,6 +70,18 @@ public class WarningAnalysisResultData {
 	Map<String, Float> riskScoreDescMatrix;
 	
 	
+	public Vector<String> getpEv_id() {
+		return pEv_id;
+	}
+	public void setpEv_id(Vector<String> pEv_id) {
+		this.pEv_id = pEv_id;
+	}
+	public Vector<String> getpDesc() {
+		return pDesc;
+	}
+	public void setpDesc(Vector<String> pDesc) {
+		this.pDesc = pDesc;
+	}
 	public Map<String, Float> getInjuryMillionDescMatrix() {
 		return injuryMillionDescMatrix;
 	}
