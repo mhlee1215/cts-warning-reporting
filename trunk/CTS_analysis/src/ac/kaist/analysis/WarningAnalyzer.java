@@ -97,6 +97,8 @@ public class WarningAnalyzer {
 		
 		Map<String, Float> injuryMillion = new HashMap<String, Float>();
 		Map<String, Float> damageMillion = new HashMap<String, Float>();
+		
+		Vector<String> pEv_id = new Vector<String>();
 		///////////////////////////////////////////
 
 		
@@ -107,6 +109,7 @@ public class WarningAnalyzer {
 		for(int i = 0 ; i < vEv_id.size() ; i++){
 			String event_id = vEv_id.get(i);
 			if(!isValidDate(vDate.get(i))) continue;
+			pEv_id.add(event_id);
 			String subsection_name = vSubsection.get(i);
 			Integer cur_value = occurrenceMatrix.get(event_id).get(subsection_name);
 			if(cur_value == null) cur_value = 0;
@@ -135,7 +138,7 @@ public class WarningAnalyzer {
 				Integer c_val = personalInjuryMatrix.get(event_id).get(injury);
 				if(c_val == null) c_val = 0;
 				
-				i_million += c_val*injuryWeight.get(injury)*0.1;
+				i_million += c_val*injuryWeight.get(injury);
 			}
 			injuryMillion.put(event_id, i_million);
 		}
@@ -190,6 +193,7 @@ public class WarningAnalyzer {
 		Set<String> sDesc = waInputData.getsDesc();
 		//Describe ID for saving
 		Vector<String> vDesc = waInputData.getvDesc();
+		Vector<String> pDesc = new Vector<String>();
 		
 		Map<String, Map<String, Integer> > aircraftDamageDescMatrix = new TreeMap<String, Map<String, Integer> >();
 		Map<String, Map<String, Integer> > InjuryLevelDescMatrix = new TreeMap<String, Map<String, Integer> >();
@@ -208,6 +212,7 @@ public class WarningAnalyzer {
 		for(int i = 0 ; i < vDesc.size() ; i++){
 			if(!isValidDate(vDate.get(i))) continue;
 			String descFactor = vDesc.get(i);
+			pDesc.add(descFactor);
 			String aDamage = vDamage.get(i);
 			Integer cur_value = aircraftDamageDescMatrix.get(descFactor).get(aDamage);
 			if(cur_value == null) cur_value = 0;
@@ -348,7 +353,7 @@ public class WarningAnalyzer {
 			likelihoodList.add(new likelihoodDesc(desc, likelihood));
 		}
 		
-		System.out.println("compute MF");
+		
 		//Compute M.F. values
 		for(String desc : sDesc){
 			Integer todaySeverity = ABCDETodayDescMatrix.get(desc);
@@ -365,7 +370,7 @@ public class WarningAnalyzer {
 			mf /= grandTotal;
 			MFDescMatrix.put(desc,  mf);
 		}
-		System.out.println("compute MF END");
+		
 		
 		Collections.sort(likelihoodList);
 				
@@ -433,6 +438,9 @@ public class WarningAnalyzer {
 		waResultData.setInjuryMillionDescMatrix(injuryMillionDescMatrix);
 		waResultData.setDamageMillionDescMatrix(damageMillionDescMatrix);
 		waResultData.setRiskScoreDescMatrix(riskScoreDescMatrix);
+		
+		waResultData.setpEv_id(pEv_id);
+		waResultData.setpDesc(pDesc);
 	}
 	
 	public WarningAnalysisResultData getWaResultData() {

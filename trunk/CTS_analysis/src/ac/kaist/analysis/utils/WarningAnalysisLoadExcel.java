@@ -69,7 +69,7 @@ public class WarningAnalysisLoadExcel {
 			//System.out.println(nrSheet.getContents());
 			Map<String, Float> injuryWeight = new HashMap<String, Float>();
 			for(String a : sInjury){
-				Vector<String> weights = nrSheet.getColumnStringContents(a+" $");
+				Vector<String> weights = nrSheet.getColumnStringContents(a+" IJR $");
 				injuryWeight.put(a, Float.parseFloat(weights.get(0)));
 				
 				Vector<Integer> injury = nrSheet.getColumnIntegerContents("injury "+a);
@@ -85,7 +85,7 @@ public class WarningAnalysisLoadExcel {
 			
 			Map<String, Float> damageWeight = new HashMap<String, Float>();
 			for(String a : sDamage){
-				Vector<String> weights = nrSheet.getColumnStringContents(a+" $");
+				Vector<String> weights = nrSheet.getColumnStringContents(a+" DMG $");
 				damageWeight.put(a, Float.parseFloat(weights.get(0)));
 			}
 					
@@ -142,7 +142,8 @@ public class WarningAnalysisLoadExcel {
 			waInputData.setInputStartDate(sDate.get(0));
             waInputData.setInputEndDate(sDate.get(sDate.size()-1));
 		
-
+            waInputData.setFactors(factors);
+            
 		} catch (BiffException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
