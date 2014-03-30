@@ -65,7 +65,7 @@ public class SafetyAnalysisRiskMatrix {
 				
 				System.out.println(ev_id+" "+hz_ID+" "+ worst+" "+most+" "+today+" type:"+type);
 				if( worst > 0 && most > 0)
-					rm.add(new RiskMatrixData("", hz_ID, worst, most, today, liklihood, mf));
+					rm.add(new RiskMatrixData(ev_ID, hz_ID, worst, most, today, liklihood, mf));
 			}
 		}
 		//Using Hz ID
@@ -167,7 +167,10 @@ public class SafetyAnalysisRiskMatrix {
 			MyTableModel inst = new MyTableModel();
 			Vector<Vector> inst_content = new Vector<Vector>();
 			inst_content.add(new Vector());
-			inst_content.get(0).add(RiskMatrixCellRenderer.CHAR_WORST+" Worst, "+RiskMatrixCellRenderer.CHAR_MOST+" Most, "+RiskMatrixCellRenderer.CHAR_CURRENT+" Current");
+			if(rm.eventID.length() > 0)
+				inst_content.get(0).add(RiskMatrixCellRenderer.CHAR_WORST+" Worst, "+RiskMatrixCellRenderer.CHAR_MOST+" Most, "+RiskMatrixCellRenderer.CHAR_CURRENT+" Current");
+			else
+				inst_content.get(0).add(RiskMatrixCellRenderer.CHAR_WORST+" Worst, "+RiskMatrixCellRenderer.CHAR_MOST+" Most");
 			inst.setData(inst_content);
 			Vector<String> inst_column = new Vector<String>();
 			inst_column.add("");
@@ -245,7 +248,7 @@ public class SafetyAnalysisRiskMatrix {
 		
 		panel_main.setPreferredSize(new Dimension(tableWidth, pane_height));		
 
-		sPane.setPreferredSize(new Dimension(800, 400));
+		//sPane.setPreferredSize(new Dimension(800, 400));
 		
 		return sPane;
 	}
