@@ -1,10 +1,20 @@
 package ac.kaist.analysis.graphic;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -12,14 +22,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
@@ -33,13 +49,82 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.util.ShapeUtilities;
+import org.joda.time.LocalDate;
 
 import swing.ax.CustomCellRenderer;
+import ac.kaist.analysis.WarningAnalyzer;
+import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
+import ac.kaist.analysis.utils.WarningAnalysisLoadExcel;
+import ac.kaist.analysis.utils.WarningAnalysisWriteExcel;
 
 public class SafetyAnalysisScoringMethod {
 	
-	public static JScrollPane createScoreTable(WarningAnalysisResultData waResultData)
+	WarningAnalysisResultData waResultData;
+	String outPath;
+	JTable table;
+	JPanel scoringMethodChartpanel;
+	JFreeChart scoringMethodChart;
+	public SafetyAnalysisScoringMethod(WarningAnalysisResultData waResultData, String outPath){
+		this.waResultData =  waResultData;
+		this.outPath = outPath;
+	}
+	
+	public JPanel createPanel(){
+		JPanel main = new JPanel();
+		scoringMethodChart = createChart();
+		scoringMethodChartpanel = new ChartPanel(scoringMethodChart);
+		
+		
+		JScrollPane scoreTalbeP = createScoreTable();
+		//scoreTalbeP.setSize(new Dimension(500, 400));
+		//jp_scoringMethod.add("West", scoreTalbeP);
+		
+		JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scoreTalbeP,scoringMethodChartpanel);
+		sp.setDividerLocation(400);
+
+		main.removeAll();
+		main.setLayout(new BorderLayout());
+		main.add("Center", sp);
+		
+		JPanel btnPanel = new JPanel();
+		btnPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JButton btnExport = new JButton("Export");
+		btnPanel.add(btnExport);
+		btnExport.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				String path = outPath+"/"+"Scoring_Method.xls";
+				System.out.println("outPath:" +path);
+				WarningAnalysisWriteExcel.writeTable(table, path);
+				JOptionPane.showMessageDialog(null, "Table contents were saved in "+path);
+				
+				Dimension size = scoringMethodChartpanel.getSize();
+				try {
+					String filename = "Scoring_Method.png";
+					path = outPath+"/"+filename;
+					OutputStream os = new FileOutputStream(path);
+					BufferedImage chartImage = scoringMethodChart.createBufferedImage( size.width, size.height, null);
+					ImageIO.write( chartImage, "png", os ); 
+					os.close();
+					JOptionPane.showMessageDialog(null, "Chart image was saved in "+path);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		main.add("South", btnPanel);
+		
+		return main;
+	}
+	
+	public JScrollPane createScoreTable()
 	{
 			
 		Map<String, Float> injuryMillionDesc = waResultData.getInjuryMillionDescMatrix();
@@ -72,7 +157,7 @@ public class SafetyAnalysisScoringMethod {
 	    columnNames.addElement("Risk Score");
 		
 		//DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		JTable table = new JTable(rowData, columnNames){
+		table = new JTable(rowData, columnNames){
 			 @Override
 			   public TableCellRenderer getCellRenderer(int row, int column) {
 			    // TODO Auto-generated method stub
@@ -91,18 +176,43 @@ public class SafetyAnalysisScoringMethod {
 	}
 	
 	public static void main(String[] argv){
-		Vector<Vector<String> > a = new Vector<Vector<String> >();
-		a.add(new Vector<String>());
-		a.add(new Vector<String>());
-		a.get(0).add("aa");
-		a.get(0).add("ab");
-		a.get(1).add("bb");
-		a.get(1).add("bc");
-		Object[] aa = a.toArray();
-		System.out.println((Vector<String>)aa[0]);
+		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
+		String inputSheetName = "input data";
+		int descriptor_depth = 3;
+		
+		//Load from excel file
+		WarningAnalysisLoadExcel load = null;
+		try {
+			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WarningAnalysisInputData waInputData = load.getWaInputData();
+			
+		
+		//Analysis
+		int totalDeparture = 192847;
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+		//Get Result data
+		WarningAnalysisResultData waResultData = wa.getWaResultData();
+		
+		JFrame frame = new JFrame("TEST");
+			    
+	    
+		LocalDate sDate = new LocalDate("2008-01-18");
+		LocalDate eDate = new LocalDate("2011-01-18");
+				
+		SafetyAnalysisScoringMethod sm = new SafetyAnalysisScoringMethod(waResultData, "E:/ext_work/respace/workspace/CTS_analysis/input");
+	    
+		SafetyAnalysisScoringMethod sasm = new SafetyAnalysisScoringMethod(waResultData, "E:/ext_work/respace/workspace/CTS_analysis/input");
+		
+		frame.getContentPane().add( sasm.createPanel() );
+		frame.setVisible(true);
+		frame.setSize( 1024, 500 ); 
 	}
 	
-	public static XYDataset createDataset(WarningAnalysisResultData waResultData)   
+	public XYDataset createDataset(WarningAnalysisResultData waResultData)   
     {
 		Set<String> sDesc = waResultData.getsDesc();
         
@@ -151,12 +261,12 @@ public class SafetyAnalysisScoringMethod {
         return dataset;
     }
 	
-	public static JFreeChart createChart(WarningAnalysisResultData waResultData)
+	public JFreeChart createChart()
 	{
 		return createChart(createDataset(waResultData));
 	}
 
-	public static JFreeChart createChart(XYDataset dataset)   
+	public JFreeChart createChart(XYDataset dataset)   
     {  
 		JFreeChart chart = ChartFactory.createXYLineChart(
 	            "Risk Score Chart",

@@ -1,7 +1,16 @@
 package ac.kaist.analysis.graphic;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -9,7 +18,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
@@ -24,6 +40,7 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.RectangleEdge;
+import org.joda.time.LocalDate;
 
 import ac.kaist.analysis.WarningAnalyzer;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
@@ -32,9 +49,99 @@ import ac.kaist.analysis.utils.WarningAnalysisLoadExcel;
 import demo.ExtendedStackedBarRenderer;
 
 public class SafetyAnalysisChromatography {
+	WarningAnalysisResultData waResultData;
+	String outPath;
 	static int maxVal = 0;
+	JPanel chromatographyChartpanel;
+	JFreeChart chromatographyChart;
 	
-	public static CategoryDataset createDataset(WarningAnalysisResultData waResultData)   
+	public static void main(String[] argv){
+		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
+		String inputSheetName = "input data";
+		int descriptor_depth = 3;
+		
+		//Load from excel file
+		WarningAnalysisLoadExcel load = null;
+		try {
+			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WarningAnalysisInputData waInputData = load.getWaInputData();
+			
+		
+		//Analysis
+		int totalDeparture = 192847;
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+		//Get Result data
+		WarningAnalysisResultData waResultData = wa.getWaResultData();
+		
+		JFrame frame = new JFrame("TEST");
+			    
+	    
+		LocalDate sDate = new LocalDate("2008-01-18");
+		LocalDate eDate = new LocalDate("2011-01-18");
+				
+	    
+		SafetyAnalysisChromatography sac = new SafetyAnalysisChromatography(waResultData, "E:/ext_work/respace/workspace/CTS_analysis/input");
+		
+		frame.getContentPane().add( sac.createPanel() );
+		frame.setVisible(true);
+		frame.setSize( 1024, 500 ); 
+	}
+	
+	public JPanel createPanel(){
+		JPanel m = new JPanel();
+		
+		chromatographyChart = createChart();
+		chromatographyChartpanel = new ChartPanel(chromatographyChart);
+		m.setLayout(new BorderLayout());
+		m.removeAll();
+		m.add("Center", chromatographyChartpanel);
+		
+		JPanel jp_chromatographyButton = new JPanel();
+		jp_chromatographyButton.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		JButton buttonChromatographyExport = new JButton("Export");
+		buttonChromatographyExport.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Dimension size = chromatographyChartpanel.getSize();
+				try {
+					//String outPath = textFieldSelectPath.getText();
+					String filename = "chromatography.png";
+					String path = outPath+"/"+filename;
+					OutputStream os = new FileOutputStream(path);
+					System.out.println(outPath+"/"+filename+"///"+size.width + " " + size.height);
+					BufferedImage chartImage = chromatographyChart.createBufferedImage( size.width, size.height, null);
+					ImageIO.write( chartImage, "png", os );
+					os.close();
+					JOptionPane.showMessageDialog(null, "Chart image was saved in "+path);
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
+			}
+		});
+		jp_chromatographyButton.add(buttonChromatographyExport);
+		m.add("South", jp_chromatographyButton);
+		
+		return m;
+	}
+	
+	public SafetyAnalysisChromatography(WarningAnalysisResultData waResultData, String outPath){
+		this.waResultData = waResultData;
+		this.outPath = outPath;
+	}
+	
+	
+	public CategoryDataset createDataset()   
     {
 		DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();   
         
@@ -78,32 +185,32 @@ public class SafetyAnalysisChromatography {
         return defaultcategorydataset;   
     }
 	
-	public static CategoryDataset createDataset() throws IOException   
-    {   
-		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
-		String inputSheetName = "input data";
-		int descriptor_depth = 3;
-		
-		//Load from excel file
-		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
-		WarningAnalysisInputData waInputData = load.getWaInputData();
-			
-		
-		//Analysis
-		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
-		//Get Result data
-		WarningAnalysisResultData waResultData = wa.getWaResultData();
-		
-		return createDataset(waResultData);
-    }   
+//	public CategoryDataset createDataset() throws IOException   
+//    {   
+//		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
+//		String inputSheetName = "input data";
+//		int descriptor_depth = 3;
+//		
+//		//Load from excel file
+//		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+//		WarningAnalysisInputData waInputData = load.getWaInputData();
+//			
+//		
+//		//Analysis
+//		int totalDeparture = 192847;
+//		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+//		//Get Result data
+//		WarningAnalysisResultData waResultData = wa.getWaResultData();
+//		
+//		return createDataset(waResultData);
+//    }   
    
-	public static JFreeChart createChart(WarningAnalysisResultData waResultData)
+	public JFreeChart createChart()
 	{
-		return createChart(createDataset(waResultData));
+		return createChart(createDataset());
 	}
 
-	public static JFreeChart createChart(CategoryDataset categorydataset)   
+	public JFreeChart createChart(CategoryDataset categorydataset)   
     {   
         JFreeChart jfreechart = ChartFactory.createStackedBarChart("Chromatograph of Descriptive Factor", "", "Injury | Damage", categorydataset, PlotOrientation.VERTICAL, true, false, false);
                        
