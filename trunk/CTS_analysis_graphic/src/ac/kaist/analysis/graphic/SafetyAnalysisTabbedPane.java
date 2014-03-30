@@ -165,7 +165,8 @@ public class SafetyAnalysisTabbedPane extends JFrame {
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
                 	textFieldOpenFile.setText(fileChooser.getSelectedFile().getAbsolutePath());
                 	textFieldSelectPath.setText(fileChooser.getSelectedFile().getParent());
-                    String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";//fileChooser.getSelectedFile().getAbsolutePath()
+                    //String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";//fileChooser.getSelectedFile().getAbsolutePath()
+                    String inputPath = fileChooser.getSelectedFile().getAbsolutePath();
             		String inputSheetName = "input data";
             		int descriptor_depth = 4;
             		
@@ -176,6 +177,9 @@ public class SafetyAnalysisTabbedPane extends JFrame {
     				} catch (IOException e) {
     					// TODO Auto-generated catch block
     					e.printStackTrace();
+    				} catch (Exception e){
+    					JOptionPane.showMessageDialog(null, "Wrong Input Data. Please try to use proper input file.");
+    					return;
     				}
             		waInputData = load.getWaInputData();
             		waInputDataDefault = waInputData;
