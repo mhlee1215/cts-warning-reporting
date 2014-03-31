@@ -93,7 +93,7 @@ public class SafetyAnalysisTrendAnalysis {
 		//Load from excel file
 		WarningAnalysisLoadExcel load = null;
 		try {
-			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public class SafetyAnalysisTrendAnalysis {
 		
 		//Analysis
 		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "20080118");
 		//Get Result data
 		WarningAnalysisResultData waResultData = wa.getWaResultData();
 		
@@ -527,12 +527,13 @@ public class SafetyAnalysisTrendAnalysis {
         	LocalDate subStartDate = sDateV.get(i);
         	LocalDate subEndDate = eDateV.get(i);
         	
-        	WarningAnalyzer wa = new WarningAnalyzer(waInputData, 0, "20080118", subStartDate, subEndDate);
+        	WarningAnalyzer wa = new WarningAnalyzer(waInputData, waResultData.getAnalDepth(), 0, "20080118", subStartDate, subEndDate);
         	
         	Map<String, Integer> im = wa.getWaResultData().getInjuryLevelDescMatrix().get(selectedDesc);
         	Map<String, Integer> am = wa.getWaResultData().getAircraftDamageDescMatrix().get(selectedDesc);
         	
-        	
+        	//System.out.println("selectedDesc : "+selectedDesc);
+        	//System.out.println(wa.getWaResultData().getInjuryLevelDescMatrix());
         	String periodString = formatter.print(sDateV.get(i))+"~"+formatter.print(eDateV.get(i)); 
         	
         	for(String s : sInjury){

@@ -130,13 +130,13 @@ public class WarningAnalysisGraphicMain extends ApplicationFrame {
 		int descriptor_depth = 3;
 		
 		//Load from excel file
-		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName);
 		WarningAnalysisInputData waInputData = load.getWaInputData();
 			
 		
 		//Analysis
 		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "20080118");
 		//Get Result data
 		WarningAnalysisResultData waResultData = wa.getWaResultData();
 		

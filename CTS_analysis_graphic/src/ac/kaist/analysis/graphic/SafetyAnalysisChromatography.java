@@ -63,7 +63,7 @@ public class SafetyAnalysisChromatography {
 		//Load from excel file
 		WarningAnalysisLoadExcel load = null;
 		try {
-			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class SafetyAnalysisChromatography {
 		
 		//Analysis
 		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "20080118");
 		//Get Result data
 		WarningAnalysisResultData waResultData = wa.getWaResultData();
 		
@@ -146,6 +146,7 @@ public class SafetyAnalysisChromatography {
 		DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();   
         
         Set<String> sDesc = waResultData.getsDesc();
+        System.out.println(sDesc);
         Vector<String> sDamage = waResultData.getsDamage();
         Vector<String> sInjury = waResultData.getsInjury();
         Map<String, Map<String, Integer> > aircraftDamageDesc = waResultData.getAircraftDamageDescMatrix();

@@ -20,7 +20,7 @@ public class WarningAnalysisLoadExcel {
 	
 	WarningAnalysisInputData waInputData;
 	
-	public WarningAnalysisLoadExcel(String path, String sheetName, int depth) throws IOException{
+	public WarningAnalysisLoadExcel(String path, String sheetName) throws IOException{
 		Workbook workbook;
 		try {
 			workbook = Workbook.getWorkbook(new File(path));
@@ -107,16 +107,31 @@ public class WarningAnalysisLoadExcel {
 			LevelValueMap.put(2, "D");
 			LevelValueMap.put(1, "E");
 			
-			String[] factors = {"Category", "SubCategory", "Section", "SubSection"};
+			//String[] factors = {"Category", "SubCategory", "Section", "SubSection"};
+			//System.out.println("Headers!: "+nrSheet.getHeaders());
+			Map<String, Vector<String> > vDescColumns = new HashMap<String, Vector<String> >();
+			Map<String, Set<String> > sDescColumns = new HashMap<String, Set<String> >();
+			Vector<String> factorsV = new Vector<String>();
+			for(int i = 1 ; i <= 4 ; i++){
+				String f = nrSheet.getHeaders().get(i);
+				factorsV.add(f);
+				sDescColumns.put(f, nrSheet.getColumnTypeList(f));
+				vDescColumns.put(f, nrSheet.getColumnStringContents(f));
+			}
+//			System.out.println(factorsV);
+//			String[] factors = (String[]) factorsV.toArray();
+			
+			
+			
 			
 			//Unique describe Id for retrieval
-			Set<String> sDesc = nrSheet.getColumnTypeList(factors[depth-1]);
+			//Set<String> sDesc = nrSheet.getColumnTypeList(factorsV.get(depth-1));
 			//Describe ID for saving
-			Vector<String> vDesc = nrSheet.getColumnStringContents(factors[depth-1]);
+			//Vector<String> vDesc = nrSheet.getColumnStringContents(factorsV.get(depth-1));
 			
 			waInputData = new WarningAnalysisInputData();
 			
-			waInputData.setDepth(depth);
+			//waInputData.setDepth(depth);
 			waInputData.setsEv_id(sEv_id);
 			waInputData.setvEv_id(vEv_id);
 			waInputData.setsSubsection(sSubsection);
@@ -128,8 +143,8 @@ public class WarningAnalysisLoadExcel {
 			waInputData.setDamageValueMap(damageValueMap);
 			waInputData.setInjuryValueMap(InjuryValueMap);
 			waInputData.setLevelValueMap(LevelValueMap);
-			waInputData.setsDesc(sDesc);
-			waInputData.setvDesc(vDesc);	
+			//waInputData.setsDesc(sDesc);
+			//waInputData.setvDesc(vDesc);	
 			
 			waInputData.setDamageWeight(damageWeight);
 			waInputData.setInjuryWeight(injuryWeight);
@@ -138,11 +153,13 @@ public class WarningAnalysisLoadExcel {
 			
 			waInputData.setvDate(vDate);
 			waInputData.setsDate(sDate);
+			waInputData.setvDescColumns(vDescColumns);
+			waInputData.setsDescColumns(sDescColumns);
 			
 			waInputData.setInputStartDate(sDate.get(0));
             waInputData.setInputEndDate(sDate.get(sDate.size()-1));
 		
-            waInputData.setFactors(factors);
+            waInputData.setFactors(factorsV);
             
 		} catch (BiffException e) {
 			// TODO Auto-generated catch block
