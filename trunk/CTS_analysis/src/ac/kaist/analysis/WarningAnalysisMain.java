@@ -25,13 +25,13 @@ public class WarningAnalysisMain {
 		int descriptor_depth = 3;
 		
 		//Load from excel file
-		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+		WarningAnalysisLoadExcel load = new WarningAnalysisLoadExcel(inputPath, inputSheetName);
 		WarningAnalysisInputData waInputData = load.getWaInputData();
 			
 		
 		//Analysis
 		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "2008-01-18");
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "2008-01-18");
 		//Get Result data
 		WarningAnalysisResultData waResultData = wa.getWaResultData();
 		

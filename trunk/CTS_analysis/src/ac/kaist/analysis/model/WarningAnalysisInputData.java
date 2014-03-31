@@ -36,9 +36,9 @@ public class WarningAnalysisInputData {
 	Map<Integer, String> LevelValueMap;
 	
 	//Unique Descriptor based on depth (Unique)
-	Set<String> sDesc;
+	//Set<String> sDesc;
 	//Vector of Descriptor
-	Vector<String> vDesc;
+	//Vector<String> vDesc;
 	
 	//Damage Weight for million computation
 	Map<String, Float> damageWeight;
@@ -53,12 +53,28 @@ public class WarningAnalysisInputData {
 	LocalDate inputStartDate;
 	LocalDate inputEndDate;
 	
-	String[] factors;
+	Vector<String> factors;
 	
-	public String[] getFactors() {
+	Map<String, Set<String> > sDescColumns;
+	Map<String, Vector<String> > vDescColumns;
+	
+	
+	public Map<String, Set<String>> getsDescColumns() {
+		return sDescColumns;
+	}
+	public void setsDescColumns(Map<String, Set<String>> sDescColumns) {
+		this.sDescColumns = sDescColumns;
+	}
+	public Map<String, Vector<String>> getvDescColumns() {
+		return vDescColumns;
+	}
+	public void setvDescColumns(Map<String, Vector<String>> vDescColumns) {
+		this.vDescColumns = vDescColumns;
+	}
+	public Vector<String> getFactors() {
 		return factors;
 	}
-	public void setFactors(String[] factors) {
+	public void setFactors(Vector<String> factors) {
 		this.factors = factors;
 	}
 	public LocalDate getInputStartDate() {
@@ -169,18 +185,18 @@ public class WarningAnalysisInputData {
 	public void setLevelValueMap(Map<Integer, String> levelValueMap) {
 		LevelValueMap = levelValueMap;
 	}
-	public Set<String> getsDesc() {
-		return sDesc;
-	}
-	public void setsDesc(Set<String> sDesc) {
-		this.sDesc = sDesc;
-	}
-	public Vector<String> getvDesc() {
-		return vDesc;
-	}
-	public void setvDesc(Vector<String> vDesc) {
-		this.vDesc = vDesc;
-	}
+//	public Set<String> getsDesc() {
+//		return sDesc;
+//	}
+//	public void setsDesc(Set<String> sDesc) {
+//		this.sDesc = sDesc;
+//	}
+//	public Vector<String> getvDesc() {
+//		return vDesc;
+//	}
+//	public void setvDesc(Vector<String> vDesc) {
+//		this.vDesc = vDesc;
+//	}
 	public int getDepth() {
 		return depth;
 	}

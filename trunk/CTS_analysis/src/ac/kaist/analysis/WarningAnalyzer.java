@@ -20,8 +20,8 @@ public class WarningAnalyzer {
 	LocalDate analEndDate;
 	
 	
-	public WarningAnalyzer(WarningAnalysisInputData waInputData, int totalDeparture, String today){
-		this(waInputData, totalDeparture, today, waInputData.getInputStartDate(), waInputData.getInputEndDate());
+	public WarningAnalyzer(WarningAnalysisInputData waInputData, int analDepth, int totalDeparture, String today){
+		this(waInputData, analDepth, totalDeparture, today, waInputData.getInputStartDate(), waInputData.getInputEndDate());
 	}
 	
 	public boolean isValidDate(LocalDate d){
@@ -32,7 +32,7 @@ public class WarningAnalyzer {
 			return false;
 	}
 	
-	public WarningAnalyzer(WarningAnalysisInputData waInputData, int totalDeparture, String today, LocalDate analStartDate, LocalDate analEndDate){
+	public WarningAnalyzer(WarningAnalysisInputData waInputData, int analDepth, int totalDeparture, String today, LocalDate analStartDate, LocalDate analEndDate){
 		
 		this.analStartDate = analStartDate;
 		this.analEndDate = analEndDate;
@@ -191,12 +191,16 @@ public class WarningAnalyzer {
 		//DESCR FACTOR VS SEVERITY BEGIN
 		//#########################################
 
+		//Set<String> sDesc = nrSheet.getColumnTypeList(factorsV.get(depth-1));
+		//Describe ID for saving
+		//Vector<String> vDesc = nrSheet.getColumnStringContents(factorsV.get(depth-1));
 		
+		Vector<String> factorsV = waInputData.getFactors();
 		
 		//Unique describe Id for retrieval
-		Set<String> sDesc = waInputData.getsDesc();
+		Set<String> sDesc = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));
 		//Describe ID for saving
-		Vector<String> vDesc = waInputData.getvDesc();
+		Vector<String> vDesc = waInputData.getvDescColumns().get(factorsV.get(analDepth-1));
 		Map<String, Integer> pDescMap = new HashMap<String, Integer>();
 		Vector<String> pDesc = new Vector<String>();
 		
@@ -449,6 +453,7 @@ public class WarningAnalyzer {
 		
 		waResultData.setpEv_id(pEv_id);
 		waResultData.setpDesc(pDesc);
+		waResultData.setAnalDepth(analDepth);
 	}
 	
 	public WarningAnalysisResultData getWaResultData() {

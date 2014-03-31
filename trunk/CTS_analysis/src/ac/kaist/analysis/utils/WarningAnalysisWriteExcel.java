@@ -164,9 +164,9 @@ public class WarningAnalysisWriteExcel {
 		Map<Integer, String> LevelValueMap = waInputData.getLevelValueMap();
 		
 		//Unique describe Id for retrieval
-		Set<String> sDesc = waInputData.getsDesc();
+		Set<String> sDesc = waResultData.getsDesc();
 		//Describe ID for saving
-		Vector<String> vDesc = waInputData.getvDesc();
+		Vector<String> vDesc = waResultData.getvDesc();
 		
 		
 		int totalDeparture = waResultData.getTotalDeparture();

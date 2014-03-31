@@ -10,7 +10,7 @@ import ac.kaist.analysis.WarningAnalyzer.likelihoodDesc;
 public class WarningAnalysisResultData {
 	//Total Departure from user input
 	int totalDeparture;
-	
+	int analDepth;
 	//Occurrence Matrix (Map<Ev_ID, Map<SUBSECTION, OCURRENCE>)
 	Map<String, Map<String, Integer> > occurrenceMatrix;
 	//Personal Injury (Map<Ev_ID, Map<INJURY_LEVEL, NUMBER>)
@@ -69,7 +69,14 @@ public class WarningAnalysisResultData {
 	Map<String, Float> damageMillionDescMatrix;
 	Map<String, Float> riskScoreDescMatrix;
 	
+		
 	
+	public int getAnalDepth() {
+		return analDepth;
+	}
+	public void setAnalDepth(int analDepth) {
+		this.analDepth = analDepth;
+	}
 	public Vector<String> getpEv_id() {
 		return pEv_id;
 	}

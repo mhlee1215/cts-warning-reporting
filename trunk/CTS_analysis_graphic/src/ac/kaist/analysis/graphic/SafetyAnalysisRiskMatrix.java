@@ -70,7 +70,7 @@ public class SafetyAnalysisRiskMatrix {
 		//Load from excel file
 		WarningAnalysisLoadExcel load = null;
 		try {
-			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName, descriptor_depth);
+			load = new WarningAnalysisLoadExcel(inputPath, inputSheetName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +80,7 @@ public class SafetyAnalysisRiskMatrix {
 		
 		//Analysis
 		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, totalDeparture, "20080118");
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "20080118");
 		//Get Result data
 		WarningAnalysisResultData waResultData = wa.getWaResultData();
 		
