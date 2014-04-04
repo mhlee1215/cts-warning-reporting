@@ -11,6 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -31,7 +35,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.DefaultFormatterFactory;
 
+import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.calendar.DatePickerFormatter;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.joda.time.LocalDate;
@@ -44,6 +51,7 @@ import ac.kaist.analysis.WarningAnalyzer;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
 import ac.kaist.analysis.utils.WarningAnalysisLoadExcel;
+import ac.kaist.analysis.utils.WarningAnalysisWriteExcel;
 
 public class SafetyAnalysisTabbedPane extends JFrame {
     
@@ -92,6 +100,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
     JFreeChart scoringMethodChart = null;
 	ChartPanel scoringMethodChartpanel = null;
 	
+	JButton btnExport;
 	JButton btnApply;
 	JButton btnDefault;
 	
@@ -107,7 +116,11 @@ public class SafetyAnalysisTabbedPane extends JFrame {
     int riskType = 1;
     
     JComboBox comboPivotColumn;
-    int descriptor_depth = 3;
+    int descriptor_depth = 4;
+    
+    JTextField textFieldPivotDate;
+    JXDatePicker datePicker;
+    final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
     @Override
     public void setSize(Dimension d) {
@@ -160,10 +173,10 @@ public class SafetyAnalysisTabbedPane extends JFrame {
                 
                 fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Excel 97 File","xls"));
                 
-                JFrame parent = new MenuMain();
+                //JFrame parent = new MenuMain();
                 
                 
-                int returnVal = fileChooser.showDialog(parent, "Open File Path");;
+                int returnVal = fileChooser.showDialog(new JFrame(), "Open File Path");;
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
                 	
                 	
@@ -200,14 +213,6 @@ public class SafetyAnalysisTabbedPane extends JFrame {
             		tfDamageSUBS.setText(Float.toString(waInputData.getDamageWeight().get("SUBS")));
             		tfDamageMINR.setText(Float.toString(waInputData.getDamageWeight().get("MINR")));
             		tfDamageNONE.setText(Float.toString(waInputData.getDamageWeight().get("NONE")));
-            		//tfInjuryFATL = new JTextField();
-//            		JTextField tfInjurySERS;
-//            	    JTextField tfInjuryMINR;
-//            	    JTextField tfInjuryNONE;
-//            	    JTextField tfDamageDSET;
-//            	    JTextField tfDamageSUBS;
-//            	    JTextField tfDamageMINR;
-//            	    JTextField tfDamageNONE;
             		
             		
             		jtp_main.setEnabledAt(1, false);
@@ -219,6 +224,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
                     buttonAnalyzePeriod.setEnabled(true);
                     btnDefault.setEnabled(true);
                     btnApply.setEnabled(true);
+                    
                     
                     inputStartDate = waInputData.getInputStartDate();
                     inputEndDate = waInputData.getInputEndDate();
@@ -263,7 +269,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
                 /* Setting Current Directory */
                 fileChooser.setCurrentDirectory(new File(textFieldSelectPath.getText()));
                 
-                int returnVal = fileChooser.showDialog(new MenuMain(), "Export File Path");
+                int returnVal = fileChooser.showDialog(new JFrame(), "Export File Path");
                 
                 
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -344,13 +350,26 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         textFieldMonthlyDeparture = new JTextField();
         textFieldMonthlyDeparture.setText(Integer.toString(totalDeparture));
         
-        JLabel labelPivotColumn = new JLabel("PivotColumn : ");
+        
+        JLabel labelPivotColumn = new JLabel("Pivot Column : ");
         comboPivotColumn = new JComboBox();
         comboPivotColumn.setEnabled(false);
         
-        //labelPivotColumn.setVisible(false);
-        //comboPivotColumn.setVisible(false);
-
+        JLabel labelPivotDate = new JLabel("Pivot Date : ");
+        textFieldPivotDate = new JTextField();
+        textFieldPivotDate.setAlignmentX(RIGHT_ALIGNMENT);
+                
+        datePicker = new JXDatePicker(new Date());
+        
+          
+        textFieldPivotDate.setText(format.format(datePicker.getDate()));
+          
+        datePicker.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textFieldPivotDate.setText(format.format(datePicker.getDate()));
+        	}
+        });
+  
         JLabel labelBlank1 = new JLabel("");
         JLabel labelBlank2 = new JLabel("");
         JLabel labelInjuryWeight = new JLabel("Human Injury Severity Weight (Mil$) ");
@@ -398,19 +417,19 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-            	
+            	btnExport.setEnabled(true);
             	descriptor_depth = comboPivotColumn.getSelectedIndex()+1;
             	
             	
-            	LocalDate analStartDate = new LocalDate(textFieldYYYYs.getText()+"-"+textFieldMMs.getText()+"-"+textFieldDDs.getText());
-            	LocalDate analEndDate = new LocalDate(textFieldYYYYe.getText()+"-"+textFieldMMe.getText()+"-"+textFieldDDe.getText());
+            	analyzeStartDate = new LocalDate(textFieldYYYYs.getText()+"-"+textFieldMMs.getText()+"-"+textFieldDDs.getText());
+            	analyzeEndDate = new LocalDate(textFieldYYYYe.getText()+"-"+textFieldMMe.getText()+"-"+textFieldDDe.getText());
             	
             	
             	//Get Parmas
             	totalDeparture = Integer.parseInt(textFieldMonthlyDeparture.getText());
             	//Analysis
-        		
-        		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "20080118", analyzeStartDate, analyzeEndDate);
+        		//System.out.println("Anal Depth : "+descriptor_depth);
+        		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, textFieldPivotDate.getText(), analyzeStartDate, analyzeEndDate);
         		//Get Result data
         		waResultData = wa.getWaResultData();
                 //Some action for notification about loaded file.
@@ -421,7 +440,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
                 jtp_main.setEnabledAt(4, true);
             	
                 //Trend Analysis
-            	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, analStartDate, analEndDate, textFieldSelectPath.getText());
+            	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, analyzeStartDate, analyzeEndDate, textFieldSelectPath.getText());
 				jp_trendAnalysis.setLayout(new BorderLayout());
 				jp_trendAnalysis.removeAll();
 				jp_trendAnalysis.add("Center", ta.createPanel());
@@ -450,6 +469,26 @@ public class SafetyAnalysisTabbedPane extends JFrame {
             }
         });
         
+        btnExport = new JButton("Export");
+        btnExport.setPreferredSize(new Dimension(100, 20));
+        btnExport.setEnabled(false);
+        btnExport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event){
+            	String outputPath = textFieldSelectPath.getText()+"/AnalyzeResult.xls";//"E:/ext_work/respace/workspace/CTS_analysis/input/Process_out3.xls";
+        		try {
+        			//System.out.println(waResultData.getOccurrenceMatrix());
+        			System.out.println(waResultData.getMFDescMatrix());
+					WarningAnalysisWriteExcel waWrite = new WarningAnalysisWriteExcel(outputPath, waInputData, waResultData);
+					waWrite.write();
+					JOptionPane.showMessageDialog(null, "Analyze result was saved in "+outputPath);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
+        
         JPanel bBtnPanel = new JPanel();
         //bBtnPanel.setBorder(new TitledBorder(""));
         //bBtnPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -460,6 +499,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         //bBtnPanel2.setLayout(new BorderLayout());
         bBtnPanel2.add(btnDefault);
         bBtnPanel2.add(btnApply);
+        bBtnPanel2.add(btnExport);
         
         bBtnPanel.add("East", bBtnPanel2);
         
@@ -540,11 +580,16 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         layout_b.setHorizontalGroup(layout_b.createSequentialGroup()
         		.addGroup(layout_b.createParallelGroup(GroupLayout.Alignment.LEADING)
     				.addGroup(layout_b.createSequentialGroup()
-            				.addComponent(labelPivotColumn)
+            				.addComponent(labelPivotColumn, 120, 120, 120)
             				.addComponent(comboPivotColumn, 200, 200, 200)
             		)
+            		.addGroup(layout_b.createSequentialGroup()
+            				.addComponent(labelPivotDate, 120, 120, 120)
+            				.addComponent(textFieldPivotDate, 100, 100, 100)
+            				.addComponent(datePicker, 30, 30, 30)
+            		)
         			.addGroup(layout_b.createSequentialGroup()
-        				.addComponent(labelMonthlyDeparture)
+        				.addComponent(labelMonthlyDeparture, 120, 120, 120)
         				.addComponent(textFieldMonthlyDeparture, 100, 100, 100)
         			)
         			.addGroup(layout_b.createSequentialGroup()
@@ -602,6 +647,11 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         		.addGroup(layout_b.createParallelGroup(GroupLayout.Alignment.BASELINE)
             	    	.addComponent(labelPivotColumn)      	 
             	    	.addComponent(comboPivotColumn, 20, 20, 20)
+            	)
+            	.addGroup(layout_b.createParallelGroup(GroupLayout.Alignment.BASELINE)
+            	    	.addComponent(labelPivotDate)      	 
+            	    	.addComponent(textFieldPivotDate, 20, 20, 20)
+            	    	.addComponent(datePicker, 20, 20, 20)
             	)
         	    .addGroup(layout_b.createParallelGroup(GroupLayout.Alignment.BASELINE)
         	    	.addComponent(labelMonthlyDeparture)      	 

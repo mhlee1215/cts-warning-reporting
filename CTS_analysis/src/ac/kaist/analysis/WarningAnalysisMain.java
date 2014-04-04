@@ -36,7 +36,7 @@ public class WarningAnalysisMain {
 		WarningAnalysisResultData waResultData = wa.getWaResultData();
 		
 		//Write
-		String outputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process_out3.xls";
+		String outputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process_out4.xls";
 		WarningAnalysisWriteExcel waWrite = new WarningAnalysisWriteExcel(outputPath, waInputData, waResultData);
 		waWrite.write();
 		System.out.println("FIN!");

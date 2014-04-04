@@ -60,8 +60,10 @@ public class WarningAnalyzer {
 		
 		Vector<LocalDate> vDate = waInputData.getvDate();
 		
-		Set<String> sSubsection = waInputData.getsSubsection();	//UNIQUE
-		Vector<String> vSubsection = waInputData.getvSubsection();//ALL
+		Vector<String> factorsV = waInputData.getFactors();
+		
+		Set<String> sSubsection = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));	//UNIQUE
+		Vector<String> vSubsection = waInputData.getvDescColumns().get(factorsV.get(analDepth-1));//ALL
 		
 		Vector<String> sInjury = waInputData.getsInjury();	//UNIQUE
 		Map<String, Float> injuryWeight = waInputData.getInjuryWeight();	//Weight
@@ -98,7 +100,7 @@ public class WarningAnalyzer {
 		Map<String, Float> injuryMillion = new HashMap<String, Float>();
 		Map<String, Float> damageMillion = new HashMap<String, Float>();
 		
-		Map<String, Integer> pEv_idMap = new HashMap<String, Integer>();
+		Map<String, Integer> pEv_idMap = new TreeMap<String, Integer>();
 		Vector<String> pEv_id = new Vector<String>();
 		///////////////////////////////////////////
 
@@ -195,7 +197,7 @@ public class WarningAnalyzer {
 		//Describe ID for saving
 		//Vector<String> vDesc = nrSheet.getColumnStringContents(factorsV.get(depth-1));
 		
-		Vector<String> factorsV = waInputData.getFactors();
+		//Vector<String> factorsV = waInputData.getFactors();
 		
 		//Unique describe Id for retrieval
 		Set<String> sDesc = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));
@@ -325,7 +327,7 @@ public class WarningAnalyzer {
 		for(String desc : sDesc){
 			Integer todaySeverity = ABCDETodayDescMatrix.get(desc);
 			//Set minimum severity for blank
-			if(todaySeverity == null) ABCDETodayDescMatrix.put(desc, 1);
+			//if(todaySeverity == null) ABCDETodayDescMatrix.put(desc, 1);
 			
 		}
 				
@@ -369,6 +371,7 @@ public class WarningAnalyzer {
 		//Compute M.F. values
 		for(String desc : sDesc){
 			Integer todaySeverity = ABCDETodayDescMatrix.get(desc);
+			if(todaySeverity == null) continue;
 			Map<Integer, Integer> severityMap = ABCDEDescMatrix.get(desc);
 			int grandTotal = 0;
 			float mf = 0;
@@ -379,7 +382,8 @@ public class WarningAnalyzer {
 				
 				mf += (j - todaySeverity) * cnt;
 			}
-			mf /= grandTotal;
+			if(grandTotal > 0)
+				mf /= grandTotal;
 			MFDescMatrix.put(desc,  mf);
 		}
 		

@@ -54,8 +54,8 @@ public class WarningAnalysisLoadExcel {
 			}
 			
 			
-			Set<String> sSubsection = nrSheet.getColumnTypeList("subsection");		//UNIQUE
-			Vector<String> vSubsection = nrSheet.getColumnStringContents("subsection");	//ALL
+			//Set<String> sSubsection = nrSheet.getColumnTypeList("subsection");		//UNIQUE
+			//Vector<String> vSubsection = nrSheet.getColumnStringContents("subsection");	//ALL
 			
 			Vector<String> sInjury = new Vector<String>();
 			sInjury.add("FATL");
@@ -134,8 +134,8 @@ public class WarningAnalysisLoadExcel {
 			//waInputData.setDepth(depth);
 			waInputData.setsEv_id(sEv_id);
 			waInputData.setvEv_id(vEv_id);
-			waInputData.setsSubsection(sSubsection);
-			waInputData.setvSubsection(vSubsection);
+			//waInputData.setsSubsection(sSubsection);
+			//waInputData.setvSubsection(vSubsection);
 			waInputData.setsInjury(sInjury);
 			waInputData.setvInjury(vInjury);
 			waInputData.setsDamage(sDamage);
