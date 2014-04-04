@@ -40,9 +40,11 @@ import swing.ax.MyTableModel;
 import swing.ax.RiskMatrixCellRenderer;
 import swing.ax.VerticalFlowLayout;
 import ac.kaist.analysis.WarningAnalyzer;
+import ac.kaist.analysis.model.RiskMatrixData;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
 import ac.kaist.analysis.utils.WarningAnalysisLoadExcel;
+import ac.kaist.analysis.utils.WarningAnalysisWriteExcel;
 
 public class SafetyAnalysisRiskMatrix {
 	WarningAnalysisResultData waResultData;
@@ -56,6 +58,8 @@ public class SafetyAnalysisRiskMatrix {
 	
 	String ev_id;
 	String hz_id;
+	
+	Vector<RiskMatrixData> rmData;
 	
 	public SafetyAnalysisRiskMatrix(WarningAnalysisResultData waResultData, String outPath){
 		this.waResultData = waResultData;
@@ -220,7 +224,15 @@ public class SafetyAnalysisRiskMatrix {
 					e.printStackTrace();
 				}
 				
-				JOptionPane.showMessageDialog(null, "Risk Matrix was saved in "+path);
+				JOptionPane.showMessageDialog(null, "Risk Matrix Figure was saved in "+path);
+				
+				if(riskType == 1)
+					filename = ev_id.replace("/",  "_") + "_Risk_Matrix.xls";
+				else if(riskType == 2)
+					filename = hz_id.replace("/",  "_") + "_Risk_Matrix.xls";
+				path = outPath+"/"+filename;
+				WarningAnalysisWriteExcel.writeRiskMatrix(rmData, riskType, path);
+				JOptionPane.showMessageDialog(null, "Risk Matrix Data was saved in "+path);
 				   
 			}
 			
@@ -251,25 +263,6 @@ public class SafetyAnalysisRiskMatrix {
 	            }
 	        }
 	    }
-	}
-	
-	private class RiskMatrixData{
-		public RiskMatrixData(String eventID, String hazardID, int worst, int most, int today, int likelihood, float mf){
-			this.eventID = eventID;
-			this.hazardID = hazardID;
-			this.worst = worst;
-			this.most = most;
-			this.today = today;
-			this.liklihood = likelihood;
-			this.mf = mf;
-		}
-		float mf;
-		int liklihood;
-		int worst;
-		int most;
-		int today;
-		String eventID;
-		String hazardID;
 	}
 	
 	private Vector<RiskMatrixData> getRiskMatrixData(String ev_id, String hz_id, int type){
@@ -318,7 +311,7 @@ public class SafetyAnalysisRiskMatrix {
 	public JScrollPane createRiskMatrix(String ev_id, String hz_id, int type){
 				
 		
-		Vector<RiskMatrixData> rmData= getRiskMatrixData(ev_id, hz_id, type);
+		rmData = getRiskMatrixData(ev_id, hz_id, type);
 		System.out.println(rmData);
 		//rmData.add(new RiskMatrixData("a", "B", 3, 5, 4, 3, 0.5f));
 		//rmData.add(new RiskMatrixData("aa", "Bb", 3, 5, 4, 3, 0.5f));

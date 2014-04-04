@@ -33,7 +33,7 @@ public class WarningAnalysisInputData {
 	//Assign value for label (FATL = 4, SERS = 3, MINR = 2, NONE = 1) or so on.
 	Map<String, Integer> damageValueMap;
 	Map<String, Integer> InjuryValueMap;
-	Map<Integer, String> LevelValueMap;
+	static Map<Integer, String> LevelValueMap;
 	
 	//Unique Descriptor based on depth (Unique)
 	//Set<String> sDesc;
