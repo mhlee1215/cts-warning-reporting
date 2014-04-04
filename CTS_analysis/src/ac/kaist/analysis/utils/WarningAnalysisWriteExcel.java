@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -27,6 +28,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import ac.kaist.analysis.WarningAnalyzer.likelihoodDesc;
+import ac.kaist.analysis.model.RiskMatrixData;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
 
@@ -49,6 +51,127 @@ public class WarningAnalysisWriteExcel {
 	
 	public static void writeTable(JTable table, String outPath){
 		writeTable(null, table, outPath);
+	}
+	
+	public static void writeRiskMatrix(Vector<RiskMatrixData> rmData, int type, String outPath){
+		
+		try{
+			WritableCellFormat cellFormatHeader = new WritableCellFormat();
+			cellFormatHeader.setAlignment(Alignment.CENTRE);
+			cellFormatHeader.setBackground(Colour.BLUE_GREY);
+			WritableCellFormat cellFormat = new WritableCellFormat();
+			
+			WritableWorkbook workbook_out = Workbook.createWorkbook(new File(outPath));
+			workbook_out.createSheet("Risk Matrixs", 0);
+			WritableSheet rm_sheet = workbook_out.getSheet(0);
+			
+			Map<Integer, String> LevelValueMap = new HashMap<Integer, String>();
+			LevelValueMap.put(5, "A");
+			LevelValueMap.put(4, "B");
+			LevelValueMap.put(3, "C");
+			LevelValueMap.put(2, "D");
+			LevelValueMap.put(1, "E");
+			
+			int row = 0;
+			int column = 0;
+			Label label = null;
+			Number number = null;
+			
+			if(type == 1)
+			{
+				label = new Label(column, row, "Ev_ID", cellFormatHeader);
+				rm_sheet.addCell(label);
+				column++;
+			}
+			
+			{
+				label = new Label(column, row, "Hz_ID", cellFormatHeader);
+				rm_sheet.addCell(label);
+				column++;
+			}
+			
+			{
+				label = new Label(column, row, "Worst Severity", cellFormatHeader);
+				rm_sheet.addCell(label);
+				column++;
+			}
+			
+			{
+				label = new Label(column, row, "Most Severity", cellFormatHeader);
+				rm_sheet.addCell(label);
+				column++;
+			}
+			
+			{
+				label = new Label(column, row, "Likelihood Rank", cellFormatHeader);
+				rm_sheet.addCell(label);
+				column++;
+			}
+			
+			if(type == 1)
+			{
+				label = new Label(column, row, "Today Severity", cellFormatHeader);
+				rm_sheet.addCell(label);
+				column++;
+			}
+			
+			if(type == 1)
+			{
+				label = new Label(column, row, "M.F. value", cellFormatHeader);
+				rm_sheet.addCell(label);
+				column++;
+			}
+			
+			row++;
+			
+			for(RiskMatrixData rm : rmData){
+				column = 0;
+				if(type == 1){
+					label = new Label(column, row, rm.eventID, cellFormat);
+					rm_sheet.addCell(label);
+					column++;					
+				}
+				
+				label = new Label(column, row, rm.hazardID, cellFormat);
+				rm_sheet.addCell(label);
+				column++;
+				
+				label = new Label(column, row, LevelValueMap.get(rm.worst), cellFormat);
+				rm_sheet.addCell(label);
+				column++;
+				
+				label = new Label(column, row, LevelValueMap.get(rm.most), cellFormat);
+				rm_sheet.addCell(label);
+				column++;
+				
+				number = new Number(column, row, rm.liklihood, cellFormat);
+				rm_sheet.addCell(number);
+				column++;
+
+				if(rm.today > 0){
+					label = new Label(column, row, LevelValueMap.get(rm.today), cellFormat);
+					rm_sheet.addCell(label);
+				}
+					column++;
+					
+				if(rm.today > 0){
+					number = new Number(column, row, rm.mf, cellFormat);
+					rm_sheet.addCell(number);
+					column++;
+				}
+				row++;
+			}
+			
+			workbook_out.write();
+			if(workbook_out != null) workbook_out.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  catch (WriteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void writeTable(String headerLabel, JTable table, String outPath){
