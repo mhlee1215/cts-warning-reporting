@@ -294,6 +294,7 @@ public class SafetyAnalysisRiskMatrix {
 				if(worst == null) worst = 0;
 				if(most == null) most = 0;
 				if(today == null) today = 0;
+				if(mf == null) mf = 0.0f;
 				//System.out.println(ev_id+" "+hz_ID+" "+ worst+" "+most+" "+today+" type:"+type);
 				if( worst > 0 && most > 0)
 					rm.add(new RiskMatrixData(ev_ID, hz_ID, worst, most, today, liklihood, mf));

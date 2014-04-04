@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.17-demo.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CTS_analysis"/>
 	<classpathentry kind="lib" path="lib/joda-time-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

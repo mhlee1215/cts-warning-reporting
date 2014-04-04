@@ -18,9 +18,9 @@ public class WarningAnalysisInputData {
 	//Ev_ID (Vector)
 	Vector<String> vEv_id;
 	//Subsection (Unique)
-	Set<String> sSubsection;
+	//Set<String> sSubsection;
 	//Subsection (Vector)
-	Vector<String> vSubsection;
+	//Vector<String> vSubsection;
 	//highest_inj_level (Unique)
 	Vector<String> sInjury;
 	//highest_inj_level (Vector)
@@ -131,18 +131,18 @@ public class WarningAnalysisInputData {
 	public void setvEv_id(Vector<String> vEv_id) {
 		this.vEv_id = vEv_id;
 	}
-	public Set<String> getsSubsection() {
-		return sSubsection;
-	}
-	public void setsSubsection(Set<String> sSubsection) {
-		this.sSubsection = sSubsection;
-	}
-	public Vector<String> getvSubsection() {
-		return vSubsection;
-	}
-	public void setvSubsection(Vector<String> vSubsection) {
-		this.vSubsection = vSubsection;
-	}
+//	public Set<String> getsSubsection() {
+//		return sSubsection;
+//	}
+//	public void setsSubsection(Set<String> sSubsection) {
+//		this.sSubsection = sSubsection;
+//	}
+//	public Vector<String> getvSubsection() {
+//		return vSubsection;
+//	}
+//	public void setvSubsection(Vector<String> vSubsection) {
+//		this.vSubsection = vSubsection;
+//	}
 	public Vector<String> getsInjury() {
 		return sInjury;
 	}

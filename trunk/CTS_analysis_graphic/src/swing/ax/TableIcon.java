@@ -6,8 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.table.*;
 
-import ac.kaist.analysis.graphic.MenuMain;
-
 public class TableIcon extends JFrame implements Runnable {
 
     private static final long serialVersionUID = 1L;
