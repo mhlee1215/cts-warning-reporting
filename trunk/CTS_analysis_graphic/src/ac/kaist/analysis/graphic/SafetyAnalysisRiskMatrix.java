@@ -47,6 +47,8 @@ import ac.kaist.analysis.utils.WarningAnalysisLoadExcel;
 import ac.kaist.analysis.utils.WarningAnalysisWriteExcel;
 
 public class SafetyAnalysisRiskMatrix {
+	
+	WarningAnalysisInputData waInputData;
 	WarningAnalysisResultData waResultData;
 	String outPath;
 	
@@ -61,7 +63,8 @@ public class SafetyAnalysisRiskMatrix {
 	
 	Vector<RiskMatrixData> rmData;
 	
-	public SafetyAnalysisRiskMatrix(WarningAnalysisResultData waResultData, String outPath){
+	public SafetyAnalysisRiskMatrix(WarningAnalysisResultData waResultData, WarningAnalysisInputData waInputData, String outPath){
+		this.waInputData = waInputData;
 		this.waResultData = waResultData;
 		this.outPath = outPath;
 	}
@@ -94,8 +97,8 @@ public class SafetyAnalysisRiskMatrix {
 		LocalDate sDate = new LocalDate("2008-01-18");
 		LocalDate eDate = new LocalDate("2011-01-18");
 				
-	    
-		SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, "E:/ext_work/respace/workspace/CTS_analysis/input");
+	    System.out.println(waResultData.getAnalStartDate()+"//"+waResultData.getAnalEndDate());
+		SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, waInputData, "E:/ext_work/respace/workspace/CTS_analysis/input");
 		
 		frame.getContentPane().add( sarm.createPanel() );
 		frame.setVisible(true);
@@ -135,7 +138,7 @@ public class SafetyAnalysisRiskMatrix {
 		cbHazard = new JComboBox(waResultData.getpDesc().toArray());
 		cbHazard.setEnabled(false);
 		//JTextField tfHazard = new JTextField();
-		cbHazard.setPreferredSize(new Dimension(300, 20));
+		cbHazard.setPreferredSize(new Dimension(600, 20));
 		JPanel riskPanel_main = new JPanel();
 		JPanel riskPanel = new JPanel();
 		riskPanel.setPreferredSize(new Dimension(600, 100));
@@ -269,18 +272,31 @@ public class SafetyAnalysisRiskMatrix {
 		Vector<RiskMatrixData> rm = new Vector<RiskMatrixData>();
 		//Using EV ID
 		if(type==1){
-			Vector<String> occurredHz = new Vector<String>();
+			
+			String y = (String) ev_id.subSequence(0, 4);
+			String m = (String) ev_id.subSequence(4, 6);
+			String d = (String) ev_id.subSequence(6, 8);
+			String dateStr = y+"-"+m+"-"+d;
+			
+			
+			WarningAnalyzer wa = new WarningAnalyzer(waInputData, this.waResultData.getAnalDepth(), 0, dateStr, this.waResultData.getAnalStartDate(), this.waResultData.getAnalEndDate());
+			//Get Result data
+			WarningAnalysisResultData waResultData = wa.getWaResultData();
+			
+			//Vector<String> occurredHz = new Vector<String>();
+			//System.out.println("dateStr:"+dateStr+"//"+waResultData.getTodayWorstSeverity());
+			System.out.println("+++"+waResultData.getMostSeverityMap());
 			for(String hz : waResultData.getOccurrenceMatrix().get(ev_id).keySet()){
 				String hz_ID = hz;
 				String ev_ID = ev_id;
-				System.out.println("ev_id: "+ev_id+", hz_id:"+hz_ID);
-				System.out.println( waResultData.getMFDescMatrix());
+				//System.out.println("ev_id: "+ev_id+", hz_id:"+hz_ID);
+				//System.out.println( waResultData.getMFDescMatrix());
 				Float mf = waResultData.getMFDescMatrix().get(hz_ID);
 				//System.out.println("mf:"+mf);
 				//System.out.println(waResultData.getLikelihoodQuantizedMap());
 				Integer liklihood = waResultData.getLikelihoodQuantizedMap().get(hz_ID);
 				Integer worst = waResultData.getWorstSeverityMap().get(hz_ID);
-				Integer most = waResultData.getWorstSeverityMap().get(hz_ID);
+				Integer most = waResultData.getMostSeverityMap().get(hz_ID);
 				Integer today = waResultData.getTodayWorstSeverity().get(hz_ID);
 				
 				if(liklihood == null) liklihood = 0;
@@ -300,7 +316,7 @@ public class SafetyAnalysisRiskMatrix {
 			float mf = 0.0f;
 			int liklihood = waResultData.getLikelihoodQuantizedMap().get(hz_ID);
 			int worst = waResultData.getWorstSeverityMap().get(hz_ID);
-			int most = waResultData.getWorstSeverityMap().get(hz_ID);
+			int most = waResultData.getMostSeverityMap().get(hz_ID);
 			
 			System.out.println(ev_id+" "+hz_ID+" "+ worst+" "+most+" type:"+type);
 			if( worst > 0 && most > 0)

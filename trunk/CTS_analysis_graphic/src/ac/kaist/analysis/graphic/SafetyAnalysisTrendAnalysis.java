@@ -170,10 +170,15 @@ public class SafetyAnalysisTrendAnalysis {
 			oneRow.add(s);
 			
 			int sum = 0;
+			
+			int emptyCount = 0;
 			Map<String, Integer> dmg2 = dmg.get(s);
 			for(String damage : waResultData.getsDamage()){
 				Integer d = dmg2.get(damage);
-				if(d == null) d = 0;
+				if(d == null){
+					emptyCount++;
+					d = 0;
+				}
 				sum += d;
 				oneRow.add(new Integer(d));
 			}
@@ -181,11 +186,17 @@ public class SafetyAnalysisTrendAnalysis {
 			Map<String, Integer> inj2 = inj.get(s);
 			for(String injury : waResultData.getsInjury()){
 				Integer d = inj2.get(injury);
-				if(d == null) d = 0;
+				if(d == null){
+					emptyCount++;
+					d = 0;
+				}
 				oneRow.add(d);
 			}
 			oneRow.add(sum);
-			rowData.add(oneRow);
+			if(emptyCount < waResultData.getsInjury().size() + waResultData.getsDamage().size()){
+				rowData.add(oneRow);	
+			}
+			
 		
 		}
 	 	    

@@ -58,7 +58,7 @@ public class SafetyAnalysisChromatography {
 	public static void main(String[] argv){
 		String inputPath = "E:/ext_work/respace/workspace/CTS_analysis/input/Process2.xls";
 		String inputSheetName = "input data";
-		int descriptor_depth = 3;
+		int descriptor_depth = 4;
 		
 		//Load from excel file
 		WarningAnalysisLoadExcel load = null;
@@ -73,7 +73,7 @@ public class SafetyAnalysisChromatography {
 		
 		//Analysis
 		int totalDeparture = 192847;
-		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "20080118");
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, "20080118", new LocalDate("2008-01-18"), new LocalDate("2009-01-18"));
 		//Get Result data
 		WarningAnalysisResultData waResultData = wa.getWaResultData();
 		
@@ -161,10 +161,11 @@ public class SafetyAnalysisChromatography {
         	//}
         	//for(String damage : sDamage){
         		Integer damageVal = m.get(damage);
-        		if(damageVal == null) damageVal = 0;
-        		if (maxVal < damageVal) maxVal = damageVal;
-        		defaultcategorydataset.addValue(damageVal, damage+"(damage)", desc);	
-        		cnt++;
+        		if(damageVal != null){ 
+	        		if (maxVal < damageVal) maxVal = damageVal;
+	        		defaultcategorydataset.addValue(damageVal, damage+"(damage)", desc);	
+	        		cnt++;
+        		}
         	}
         }
         
@@ -176,10 +177,11 @@ public class SafetyAnalysisChromatography {
         	//for(String injury : sInjury){
         		//System.out.println(m.get(injury));
         		Integer injuryVal = m.get(injury);
-        		if (injuryVal == null) injuryVal = 0;
-        		if (maxVal < injuryVal) maxVal = injuryVal;
-        		defaultcategorydataset.addValue(-injuryVal, injury+"(injury)", desc);	
-        		cnt++;
+        		if (injuryVal != null){
+	        		if (maxVal < injuryVal) maxVal = injuryVal;
+	        		defaultcategorydataset.addValue(-injuryVal, injury+"(injury)", desc);	
+	        		cnt++;
+        		}
         	}
         }
  

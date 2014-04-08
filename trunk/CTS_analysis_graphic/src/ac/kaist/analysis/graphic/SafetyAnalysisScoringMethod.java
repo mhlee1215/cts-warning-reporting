@@ -137,10 +137,10 @@ public class SafetyAnalysisScoringMethod {
 			oneRow.add(s);
 			oneRow.add(likelihood.get(s));
 			Float injuryMillion = injuryMillionDesc.get(s);
-			if(injuryMillion == null) injuryMillion = 0.0f;
+			if(injuryMillion == null) continue;
 			oneRow.add(injuryMillion);
 			Float damageMillion = damageMillionDesc.get(s);
-			if(damageMillion == null) damageMillion = 0.0f;
+			if(damageMillion == null) continue;
 			oneRow.add(damageMillion);
 			oneRow.add(injuryMillion + damageMillion);
 
