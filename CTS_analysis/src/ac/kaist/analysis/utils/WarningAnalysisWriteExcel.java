@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.swing.JTable;
@@ -288,7 +289,7 @@ public class WarningAnalysisWriteExcel {
 			Map<Integer, String> LevelValueMap = waInputData.getLevelValueMap();
 			
 			//Unique describe Id for retrieval
-			Set<String> sDesc = waResultData.getsDesc();
+			Set<String> ssDesc = waResultData.getsDesc();
 			//Describe ID for saving
 			Vector<String> vDesc = waResultData.getvDesc();
 			
@@ -530,6 +531,23 @@ public class WarningAnalysisWriteExcel {
 			//Map<String, Map<String, Integer> > aircraftDamageDescMatrix = new TreeMap<String, Map<String, Integer> >();
 			//Map<String, Map<String, Integer> > InjuryLevelDescMatrix = new TreeMap<String, Map<String, Integer> >();
 			//Map<String, Map<Integer, Integer> > ABCDEDescMatrix = new TreeMap<String, Map<Integer, Integer> >();
+			
+			Map<String, Integer> validDescMap = new TreeMap<String, Integer>();
+					
+			for(String a : ssDesc){
+				Map<Integer, Integer> m = ABCDEDescMatrix.get(a);
+
+				Integer grandTot = 0;
+				for(int i = 1 ; i <= 5 ; i++){
+					Integer b = m.get(i);
+					if (b == null) b = 0;
+					
+					grandTot += b;
+				}
+				if(grandTot > 0) validDescMap.put(a, 1);
+			}
+			
+			Set<String> sDesc = validDescMap.keySet();
 			
 			cnt = 2;
 			for(String a : sDesc){
