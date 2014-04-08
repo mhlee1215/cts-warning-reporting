@@ -310,6 +310,7 @@ public class WarningAnalyzer {
 		
 		//Compute Today Result
 		for(int i = 0 ; i < vEv_id.size() ; i++){
+			if(!isValidDate(vDate.get(i))) continue;
 			//String event_id = vEv_id.get(i);
 			if(vDate.get(i).compareTo(t_date) == 0){
 				//System.out.println("Added!");
@@ -318,10 +319,14 @@ public class WarningAnalyzer {
 				String h_desc = vDesc.get(i);
 				int level5 = getCombinedSeverity(damageValueMap.get(h_damage), InjuryValueMap.get(h_injury));
 				Integer cur_level = ABCDETodayDescMatrix.get(h_desc);
-				if(cur_level == null) cur_level = 1;
+				if(cur_level == null){
+					cur_level = 1;
+				}
 				//System.out.println("cur level : "+cur_level);
-				//if(cur_level < level5)
+				if(cur_level < level5)
 					ABCDETodayDescMatrix.put(h_desc, level5);
+				else
+					ABCDETodayDescMatrix.put(h_desc, cur_level);
 			}
 		}
 		
