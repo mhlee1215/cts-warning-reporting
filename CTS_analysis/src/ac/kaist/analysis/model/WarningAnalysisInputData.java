@@ -8,7 +8,7 @@ import org.joda.time.LocalDate;
 
 public class WarningAnalysisInputData {
 	//Depth for descriptive factor (0=category, 1=subcategory, 2=section, 3=subsection)
-	int depth;
+	//int depth;
 	
 	//Vector = contains a single column data with dupplicated id,
 	//Unique = contains only unique column data
@@ -197,12 +197,12 @@ public class WarningAnalysisInputData {
 //	public void setvDesc(Vector<String> vDesc) {
 //		this.vDesc = vDesc;
 //	}
-	public int getDepth() {
-		return depth;
-	}
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
+//	public int getDepth() {
+//		return depth;
+//	}
+//	public void setDepth(int depth) {
+//		this.depth = depth;
+//	}
 	
 	
 }

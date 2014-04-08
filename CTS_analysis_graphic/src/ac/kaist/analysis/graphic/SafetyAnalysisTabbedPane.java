@@ -454,7 +454,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 				
 				
 				//RiskMatrix
-				SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, textFieldSelectPath.getText());
+				SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, waInputData, textFieldSelectPath.getText());
 				jp_riskMatrix.setLayout(new BorderLayout());
 				jp_riskMatrix.removeAll();
 				jp_riskMatrix.add("Center",sarm.createPanel());

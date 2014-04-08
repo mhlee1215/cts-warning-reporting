@@ -203,7 +203,7 @@ public class WarningAnalyzer {
 		Set<String> sDesc = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));
 		//Describe ID for saving
 		Vector<String> vDesc = waInputData.getvDescColumns().get(factorsV.get(analDepth-1));
-		Map<String, Integer> pDescMap = new HashMap<String, Integer>();
+		Map<String, Integer> pDescMap = new TreeMap<String, Integer>();
 		Vector<String> pDesc = new Vector<String>();
 		
 		Map<String, Map<String, Integer> > aircraftDamageDescMatrix = new TreeMap<String, Map<String, Integer> >();
@@ -310,19 +310,22 @@ public class WarningAnalyzer {
 		
 		//Compute Today Result
 		for(int i = 0 ; i < vEv_id.size() ; i++){
-			String event_id = vEv_id.get(i);
+			//String event_id = vEv_id.get(i);
 			if(vDate.get(i).compareTo(t_date) == 0){
+				//System.out.println("Added!");
 				String h_injury = vInjury.get(i);
 				String h_damage = vDamage.get(i);
 				String h_desc = vDesc.get(i);
 				int level5 = getCombinedSeverity(damageValueMap.get(h_damage), InjuryValueMap.get(h_injury));
 				Integer cur_level = ABCDETodayDescMatrix.get(h_desc);
 				if(cur_level == null) cur_level = 1;
-				if(cur_level < level5)
+				//System.out.println("cur level : "+cur_level);
+				//if(cur_level < level5)
 					ABCDETodayDescMatrix.put(h_desc, level5);
 			}
 		}
 		
+		//System.out.println("+++"+ABCDETodayDescMatrix);
 		
 		for(String desc : sDesc){
 			Integer todaySeverity = ABCDETodayDescMatrix.get(desc);
@@ -458,6 +461,11 @@ public class WarningAnalyzer {
 		waResultData.setpEv_id(pEv_id);
 		waResultData.setpDesc(pDesc);
 		waResultData.setAnalDepth(analDepth);
+		
+		waResultData.setAnalStartDate(analStartDate);
+		waResultData.setAnalEndDate(analEndDate);
+		
+		waResultData.setvDate(vDate);
 	}
 	
 	public WarningAnalysisResultData getWaResultData() {

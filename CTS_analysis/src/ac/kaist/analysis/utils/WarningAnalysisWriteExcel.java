@@ -268,7 +268,7 @@ public class WarningAnalysisWriteExcel {
 	
 	public void write() throws IOException{
 		try{
-			int depth = waInputData.getDepth();
+			int depth = waResultData.getAnalDepth();
 			//Set<String> sEv_id = waInputData.getsEv_id(); //UNIQUE
 			//Vector<String> vEv_id = waInputData.getvEv_id();//ALL
 			Vector<String> pEv_id = waResultData.getpEv_id();	//Ev_id included anal period.

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import org.joda.time.LocalDate;
+
 import ac.kaist.analysis.WarningAnalyzer.likelihoodDesc;
 
 public class WarningAnalysisResultData {
@@ -69,8 +71,30 @@ public class WarningAnalysisResultData {
 	Map<String, Float> damageMillionDescMatrix;
 	Map<String, Float> riskScoreDescMatrix;
 	
+	LocalDate analStartDate;
+	LocalDate analEndDate;
+	
+	Vector<LocalDate> vDate;
 		
 	
+	public Vector<LocalDate> getvDate() {
+		return vDate;
+	}
+	public void setvDate(Vector<LocalDate> vDate) {
+		this.vDate = vDate;
+	}
+	public LocalDate getAnalStartDate() {
+		return analStartDate;
+	}
+	public void setAnalStartDate(LocalDate analStartDate) {
+		this.analStartDate = analStartDate;
+	}
+	public LocalDate getAnalEndDate() {
+		return analEndDate;
+	}
+	public void setAnalEndDate(LocalDate analEndDate) {
+		this.analEndDate = analEndDate;
+	}
 	public int getAnalDepth() {
 		return analDepth;
 	}
