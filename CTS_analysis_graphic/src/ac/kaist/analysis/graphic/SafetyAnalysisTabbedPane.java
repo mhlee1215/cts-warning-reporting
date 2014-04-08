@@ -129,7 +129,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
     }
     public SafetyAnalysisTabbedPane() {
         
-        setTitle("Aviation Safety Data Analysis Package (v 0.11)");
+        setTitle("Aviation Safety Data Analysis Package (v 0.12)");
         jtp_main = new JTabbedPane();
         getContentPane().add(jtp_main);
         
