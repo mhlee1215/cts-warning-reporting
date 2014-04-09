@@ -1,10 +1,21 @@
 package ac.kaist.analysis.graphic;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,13 +26,17 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,11 +45,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.DefaultFormatterFactory;
 
 import org.jdesktop.swingx.JXDatePicker;
@@ -46,6 +64,8 @@ import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import swing.ax.CustomCellRenderer;
+import swing.ax.ImagePanel;
 import swing.ax.VerticalFlowLayout;
 import ac.kaist.analysis.WarningAnalyzer;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
@@ -122,14 +142,29 @@ public class SafetyAnalysisTabbedPane extends JFrame {
     JXDatePicker datePicker;
     final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     
+    JFrame mainFrame;
+    WarningAnalysisLoadExcel load = null;
+    
+    Map<String, Set<String> > errColumns;
+    JDialog  d5;
+    
     @Override
     public void setSize(Dimension d) {
     	// TODO Auto-generated method stub
     	super.setSize(d);
     }
+    
+    private static WindowListener closeWindow = new WindowAdapter() {
+        public void windowClosing(WindowEvent e) {
+            e.getWindow().dispose();
+        }
+    };
+    
     public SafetyAnalysisTabbedPane() {
+    	
+    	mainFrame = this;
         
-        setTitle("Aviation Safety Data Analysis Package (v 0.12)");
+        setTitle("Aviation Safety Data Analysis Package (v"+GlobalVariables.version+")");
         jtp_main = new JTabbedPane();
         getContentPane().add(jtp_main);
         
@@ -148,12 +183,26 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         
         GroupLayout layout = new GroupLayout(jp1_p);
         jp1_p.setLayout(layout);
+        jp1_p.setBackground(Color.white);
         
         //jp_inputData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 15));
         jp_inputData.setLayout(new BorderLayout());
+        jp_inputData.setBackground(Color.white);
+        
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.setBackground(Color.white);
+        
+        ImagePanel logoPanel = new ImagePanel();
+        logoPanel.setPreferredSize(new Dimension(585, 35));
+        topPanel.add(logoPanel);
+        
+        //JButton button = new JButton(new ImageIcon(getClass().getResource("logo.jpg")));
+        
         JLabel pad1 = new JLabel();
         pad1.setPreferredSize(new Dimension(10, 10));
         jp_inputData.add("Center", jp1_p);
+        jp_inputData.add("South", topPanel);
         jp_inputData.add("North", pad1);
 
         layout.setAutoCreateGaps(true);
@@ -189,7 +238,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
             		
             		
             		//Load from excel file
-            		WarningAnalysisLoadExcel load = null;
+            		
     				try {
     					load = new WarningAnalysisLoadExcel(inputPath, inputSheetName);
     				} catch (IOException e) {
@@ -208,7 +257,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
             		tfInjuryMINR.setText(Float.toString(waInputData.getInjuryWeight().get("MINR")));
             		tfInjuryNONE.setText(Float.toString(waInputData.getInjuryWeight().get("NONE")));
             		
-            		System.out.println(waInputData.getDamageWeight());
+            		//System.out.println(waInputData.getDamageWeight());
             		tfDamageDEST.setText(Float.toString(waInputData.getDamageWeight().get("DEST")));
             		tfDamageSUBS.setText(Float.toString(waInputData.getDamageWeight().get("SUBS")));
             		tfDamageMINR.setText(Float.toString(waInputData.getDamageWeight().get("MINR")));
@@ -404,7 +453,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         		tfInjuryMINR.setText(Float.toString(waInputData.getInjuryWeight().get("MINR")));
         		tfInjuryNONE.setText(Float.toString(waInputData.getInjuryWeight().get("NONE")));
         		
-        		System.out.println(waInputData.getDamageWeight());
+        		//System.out.println(waInputData.getDamageWeight());
         		tfDamageDEST.setText(Float.toString(waInputData.getDamageWeight().get("DEST")));
         		tfDamageSUBS.setText(Float.toString(waInputData.getDamageWeight().get("SUBS")));
         		tfDamageMINR.setText(Float.toString(waInputData.getDamageWeight().get("MINR")));
@@ -417,54 +466,99 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-            	btnExport.setEnabled(true);
-            	descriptor_depth = comboPivotColumn.getSelectedIndex()+1;
+            	//Check Data Validity.
+       	
             	
+            	errColumns = load.dataValidityCheck();
             	
-            	analyzeStartDate = new LocalDate(textFieldYYYYs.getText()+"-"+textFieldMMs.getText()+"-"+textFieldDDs.getText());
-            	analyzeEndDate = new LocalDate(textFieldYYYYe.getText()+"-"+textFieldMMe.getText()+"-"+textFieldDDe.getText());
-            	
-            	
-            	//Get Parmas
-            	totalDeparture = Integer.parseInt(textFieldMonthlyDeparture.getText());
-            	//Analysis
-        		//System.out.println("Anal Depth : "+descriptor_depth);
-        		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, textFieldPivotDate.getText(), analyzeStartDate, analyzeEndDate);
-        		//Get Result data
-        		waResultData = wa.getWaResultData();
-                //Some action for notification about loaded file.
-            	
-            	jtp_main.setEnabledAt(1, true);
-            	jtp_main.setEnabledAt(2, true);
-                jtp_main.setEnabledAt(3, true);
-                jtp_main.setEnabledAt(4, true);
-            	
-                //Trend Analysis
-            	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, analyzeStartDate, analyzeEndDate, textFieldSelectPath.getText());
-				jp_trendAnalysis.setLayout(new BorderLayout());
-				jp_trendAnalysis.removeAll();
-				jp_trendAnalysis.add("Center", ta.createPanel());
-            	
+            	if(errColumns.size() > 0){
+            	    
+            	    Vector<Vector> rowData = new Vector<Vector>();
+            		for(String s : errColumns.keySet()){
+            			Vector oneRow = new Vector();
+            			oneRow.add(s);
+            			oneRow.add(errColumns.get(s));
 
-                //Chromatography
-                SafetyAnalysisChromatography sac = new SafetyAnalysisChromatography(waResultData, textFieldSelectPath.getText());
-				jp_chromatography.setLayout(new BorderLayout());
-				jp_chromatography.removeAll();
-				jp_chromatography.add("Center", sac.createPanel());
-				
-				
-				//RiskMatrix
-				SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, waInputData, textFieldSelectPath.getText());
-				jp_riskMatrix.setLayout(new BorderLayout());
-				jp_riskMatrix.removeAll();
-				jp_riskMatrix.add("Center",sarm.createPanel());
-								
-				
-				//Scoring Method
-				SafetyAnalysisScoringMethod sasm = new SafetyAnalysisScoringMethod(waResultData, textFieldSelectPath.getText());
-				jp_scoringMethod.setLayout(new BorderLayout());
-				jp_scoringMethod.removeAll();
-				jp_scoringMethod.add("Center", sasm.createPanel());
+            			rowData.add(oneRow);
+            			
+            		}
+            				
+
+            	    Vector<String> columnNames = new Vector<String>();
+            	    columnNames.addElement("Event_ID");
+            	    columnNames.addElement("Inconsistent column(s)");
+
+            		
+            		//DefaultTableModel model = new DefaultTableModel(data, columnNames);
+            		JTable table = new JTable(rowData, columnNames){
+            			 @Override
+            			   public TableCellRenderer getCellRenderer(int row, int column) {
+            			    // TODO Auto-generated method stub
+            			    return new CustomCellRenderer();
+            			   }
+            		};
+            		
+            		TableColumnModel cm = table.getColumnModel();
+            	    cm.getColumn(0).setPreferredWidth(10);
+            	    
+            	    table.getTableHeader().setForeground(Color.white);
+            	    table.getTableHeader().setBackground(CustomCellRenderer.headerBG);
+            		table.setAutoCreateRowSorter(true);
+            		JScrollPane scrollPane = new JScrollPane( table );
+            		
+            		          		
+
+            		int dw = 500;
+                    int dh = 300;
+                    
+                    
+                    
+                	d5 = new JDialog(mainFrame, "Data Inconsistency Detected", Dialog.ModalityType.DOCUMENT_MODAL);
+                	d5.setBounds(mainFrame.getLocation().x+mainFrame.getBounds().width/2-dw/2, mainFrame.getLocation().y+mainFrame.getBounds().height/2-dh/2, dw, dh);
+                	d5.addWindowListener(closeWindow);
+                    JLabel l5 = new JLabel("Inconsistent data row(s) are represented as follows. Please check the data file.");
+                    l5.setHorizontalAlignment(SwingConstants.CENTER);
+
+                    JButton b5 = new JButton("Stop");
+                    b5.setHorizontalAlignment(SwingConstants.CENTER);
+                    b5.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                        	//Do nothing.
+                        	JOptionPane.showMessageDialog(mainFrame,
+                        		    "Process was stopped.",
+                        		    "Parsing error",
+                        		    JOptionPane.ERROR_MESSAGE);
+                        	d5.setVisible(false);                        	
+                        	enableTabs(false);
+                        }
+                    });
+                    JButton b6 = new JButton("Ignore inconsistent data");
+                    b6.setHorizontalAlignment(SwingConstants.CENTER);
+                    b6.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                        	JOptionPane.showMessageDialog(mainFrame,
+                        		    "Inconsistent data will be ignored in the results.",
+                        		    "Ignore inconsistent data",
+                        		    JOptionPane.WARNING_MESSAGE);
+                        	generateTabs(errColumns);
+                        	d5.setVisible(false);
+                        }
+                    });
+                    Container cp5 = d5.getContentPane();
+                    // add label, text field and button one after another into a single column
+                    cp5.setLayout(new BorderLayout());
+                    cp5.add(l5, BorderLayout.NORTH);
+                    cp5.add(scrollPane, BorderLayout.CENTER);
+                    JPanel p5 = new JPanel();
+                    p5.setLayout(new FlowLayout());
+                    p5.add(b5);
+                    p5.add(b6);
+                    cp5.add(p5, BorderLayout.SOUTH);
+                    d5.setVisible(true);
+            	}
+            	else 
+            		generateTabs(null);
+                
 				
             }
         });
@@ -478,7 +572,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
             	String outputPath = textFieldSelectPath.getText()+"/AnalyzeResult.xls";//"E:/ext_work/respace/workspace/CTS_analysis/input/Process_out3.xls";
         		try {
         			//System.out.println(waResultData.getOccurrenceMatrix());
-        			System.out.println(waResultData.getMFDescMatrix());
+        			//System.out.println(waResultData.getMFDescMatrix());
 					WarningAnalysisWriteExcel waWrite = new WarningAnalysisWriteExcel(outputPath, waInputData, waResultData);
 					waWrite.write();
 					JOptionPane.showMessageDialog(null, "Analyze result was saved in "+outputPath);
@@ -709,15 +803,67 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         jtp_main.addTab("Scoring Method", jp_scoringMethod);
         jtp_main.addTab("Chromatography", jp_chromatography);
         
-        jtp_main.setEnabledAt(1, false);
-        jtp_main.setEnabledAt(2, false);
-        jtp_main.setEnabledAt(3, false);
-        jtp_main.setEnabledAt(4, false);
-        
-        
-        
-        
+        enableTabs(false);
+
     }
+    
+    public void enableTabs(boolean isEnable){
+    	jtp_main.setEnabledAt(1, isEnable);
+        jtp_main.setEnabledAt(2, isEnable);
+        jtp_main.setEnabledAt(3, isEnable);
+        jtp_main.setEnabledAt(4, isEnable);
+    }
+    
+    public void generateTabs(Map<String, Set<String> > errColumns){
+    	btnExport.setEnabled(true);
+    	descriptor_depth = comboPivotColumn.getSelectedIndex()+1;
+    	
+    	
+    	analyzeStartDate = new LocalDate(textFieldYYYYs.getText()+"-"+textFieldMMs.getText()+"-"+textFieldDDs.getText());
+    	analyzeEndDate = new LocalDate(textFieldYYYYe.getText()+"-"+textFieldMMe.getText()+"-"+textFieldDDe.getText());
+    	
+    	
+    	//Get Parmas
+    	totalDeparture = Integer.parseInt(textFieldMonthlyDeparture.getText());
+    	//Analysis
+		//System.out.println("Anal Depth : "+descriptor_depth);
+		WarningAnalyzer wa = new WarningAnalyzer(waInputData, descriptor_depth, totalDeparture, textFieldPivotDate.getText(), errColumns, analyzeStartDate, analyzeEndDate);
+		//Get Result data
+		waResultData = wa.getWaResultData();
+        //Some action for notification about loaded file.
+    	
+    	
+    	
+        //Trend Analysis
+    	SafetyAnalysisTrendAnalysis ta = new SafetyAnalysisTrendAnalysis(waResultData, waInputData, analyzeStartDate, analyzeEndDate, textFieldSelectPath.getText());
+		jp_trendAnalysis.setLayout(new BorderLayout());
+		jp_trendAnalysis.removeAll();
+		jp_trendAnalysis.add("Center", ta.createPanel());
+    	
+
+        //Chromatography
+        SafetyAnalysisChromatography sac = new SafetyAnalysisChromatography(waResultData, textFieldSelectPath.getText());
+		jp_chromatography.setLayout(new BorderLayout());
+		jp_chromatography.removeAll();
+		jp_chromatography.add("Center", sac.createPanel());
+		
+		
+		//RiskMatrix
+		SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, waInputData, textFieldSelectPath.getText());
+		jp_riskMatrix.setLayout(new BorderLayout());
+		jp_riskMatrix.removeAll();
+		jp_riskMatrix.add("Center",sarm.createPanel());
+						
+		
+		//Scoring Method
+		SafetyAnalysisScoringMethod sasm = new SafetyAnalysisScoringMethod(waResultData, textFieldSelectPath.getText());
+		jp_scoringMethod.setLayout(new BorderLayout());
+		jp_scoringMethod.removeAll();
+		jp_scoringMethod.add("Center", sasm.createPanel());
+		
+		enableTabs(true);
+    }
+    
     public static void main(String[] args) {
         
         SafetyAnalysisTabbedPane tp = new SafetyAnalysisTabbedPane();
