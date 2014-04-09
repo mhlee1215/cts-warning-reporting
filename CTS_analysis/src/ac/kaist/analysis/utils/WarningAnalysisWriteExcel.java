@@ -300,7 +300,9 @@ public class WarningAnalysisWriteExcel {
 			Map<String, Map<String, Integer> > highestInjuryMatrix = waResultData.getHighestInjuryMatrix();
 			Map<String, Map<String, Integer> > aircraftDamageMatrix = waResultData.getAircraftDamageMatrix();
 			Map<String, Float> injuryMillion = waResultData.getInjuryMillion();
+			Map<String, Float> injuryMillionDescMatrix = waResultData.getInjuryMillionDescMatrix();
 			Map<String, Float> damageMillion = waResultData.getDamageMillion();
+			Map<String, Float> damageMillionDescMatrix = waResultData.getDamageMillionDescMatrix();
 			
 			Map<String, Map<String, Integer> > aircraftDamageDescMatrix = waResultData.getAircraftDamageDescMatrix();
 			Map<String, Map<String, Integer> > InjuryLevelDescMatrix = waResultData.getInjuryLevelDescMatrix();
@@ -494,7 +496,7 @@ public class WarningAnalysisWriteExcel {
 			event_id_sheet.addCell(label);
 			cnt = 2;
 			for(String ev_id : pEv_id){
-				Float m = injuryMillion.get(ev_id);
+				Float m = injuryMillionDescMatrix.get(ev_id);
 				if(m == null) m = 0.0f;
 				number = new Number(cnt3, cnt, m);
 				event_id_sheet.addCell(number);
@@ -507,7 +509,7 @@ public class WarningAnalysisWriteExcel {
 			event_id_sheet.addCell(label);
 			cnt = 2;
 			for(String ev_id : pEv_id){
-				Float m = damageMillion.get(ev_id);
+				Float m = damageMillionDescMatrix.get(ev_id);
 				if(m == null) m = 0.0f;
 				number = new Number(cnt3, cnt, m);
 				event_id_sheet.addCell(number);

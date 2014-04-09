@@ -18,10 +18,14 @@ public class WarningAnalyzer {
 	WarningAnalysisResultData waResultData;
 	LocalDate analStartDate;
 	LocalDate analEndDate;
-	
+	Map<String, Set<String> > errColumns;
 	
 	public WarningAnalyzer(WarningAnalysisInputData waInputData, int analDepth, int totalDeparture, String today){
-		this(waInputData, analDepth, totalDeparture, today, waInputData.getInputStartDate(), waInputData.getInputEndDate());
+		this(waInputData, analDepth, totalDeparture, today, null, waInputData.getInputStartDate(), waInputData.getInputEndDate());
+	}
+	
+	public WarningAnalyzer(WarningAnalysisInputData waInputData, int analDepth, int totalDeparture, String today, Map<String, Set<String> > errColumns){
+		this(waInputData, analDepth, totalDeparture, today, errColumns, waInputData.getInputStartDate(), waInputData.getInputEndDate());
 	}
 	
 	public boolean isValidDate(LocalDate d){
@@ -32,10 +36,23 @@ public class WarningAnalyzer {
 			return false;
 	}
 	
+	public boolean isValidColumns(String ev_id){
+		if(errColumns == null) return true;
+		else{
+			if(errColumns.get(ev_id) == null) return true;
+			else return false;
+		}
+	}
+	
 	public WarningAnalyzer(WarningAnalysisInputData waInputData, int analDepth, int totalDeparture, String today, LocalDate analStartDate, LocalDate analEndDate){
+		this(waInputData, analDepth, totalDeparture, today, null, analStartDate, analEndDate);
+	}
+	
+	public WarningAnalyzer(WarningAnalysisInputData waInputData, int analDepth, int totalDeparture, String today, Map<String, Set<String> > errColumns, LocalDate analStartDate, LocalDate analEndDate){
 		
 		this.analStartDate = analStartDate;
 		this.analEndDate = analEndDate;
+		this.errColumns = errColumns;
 		
 		waResultData = new WarningAnalysisResultData();
 		waResultData.setTotalDeparture(totalDeparture);
@@ -54,16 +71,17 @@ public class WarningAnalyzer {
 		//get event id as vector type
 		//Prefix s = unique key
 		//Prefix v = data vector
+		Vector<String> factorsV = waInputData.getFactors();
 		
 		Set<String> sEv_id = waInputData.getsEv_id(); //UNIQUE
 		Vector<String> vEv_id = waInputData.getvEv_id();//ALL
+		//Unique describe Id for retrieval
+		Set<String> sDesc = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));
+		//Describe ID for saving
+		Vector<String> vDesc = waInputData.getvDescColumns().get(factorsV.get(analDepth-1));
 		
-		Vector<LocalDate> vDate = waInputData.getvDate();
-		
-		Vector<String> factorsV = waInputData.getFactors();
-		
-		Set<String> sSubsection = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));	//UNIQUE
-		Vector<String> vSubsection = waInputData.getvDescColumns().get(factorsV.get(analDepth-1));//ALL
+		//Set<String> sSubsection = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));	//UNIQUE
+		//Vector<String> vSubsection = waInputData.getvDescColumns().get(factorsV.get(analDepth-1));//ALL
 		
 		Vector<String> sInjury = waInputData.getsInjury();	//UNIQUE
 		Map<String, Float> injuryWeight = waInputData.getInjuryWeight();	//Weight
@@ -72,13 +90,69 @@ public class WarningAnalyzer {
 		Vector<String> sDamage = waInputData.getsDamage();			//UNIQUE
 		Map<String, Float> damageWeight = waInputData.getDamageWeight();	//Weight
 		Vector<String> vDamage = waInputData.getvDamage();			//ALL
+		
+		Map<String, Vector<Integer> > mvInjury = waInputData.getMvInjury();
+		
+		Vector<LocalDate> vDate = waInputData.getvDate();
+		
+		//Truncate error columns
+		if(errColumns!= null && errColumns.size() > 0 ){
+			Vector<String> vvEv_id = new Vector<String>();
+			Map<String, Integer> mEv_id = new TreeMap<String, Integer>();	
+			Vector<String> vvDesc = new Vector<String>();
+			Vector<String> vvInjury = new Vector<String>();
+			Vector<String> vvDamage = new Vector<String>();
+			Map<String, Integer> mDesc = new TreeMap<String, Integer>();
+			Vector<LocalDate> vvDate = new Vector<LocalDate>();
+			Map<String, Vector<Integer> > mmvInjury = new TreeMap<String, Vector<Integer> >();
+			for(int i = 0 ; i < vDesc.size() ; i++){
+				String id = vEv_id.get(i);
+				String d = vDesc.get(i);
+				String s = vEv_id.get(i);
+				String ij = vInjury.get(i);
+				String da = vDamage.get(i);
+				LocalDate date = vDate.get(i);
+				if(!isValidDate(vDate.get(i))) continue;
+				//If not exists, add
+				
+				if(errColumns.get(s) == null){
+					vvEv_id.add(s);
+					mEv_id.put(s,  0);
+					vvDesc.add(d);
+					mDesc.put(d,  0);
+					vvInjury.add(ij);
+					vvDamage.add(da);
+					vvDate.add(date);
+					
+					//Vector<Integer> subMvInjury = new Vector<Integer>();
+					for (String injury : sInjury){
+						if(mmvInjury.get(injury) == null) mmvInjury.put(injury, new Vector<Integer>());
+						mmvInjury.get(injury).add(mvInjury.get(injury).get(i));
+						//subMvInjury.add(mvInjury.get(injury).get(i));
+					}
+					
+				}
+			}
+			
+			
+			vEv_id = vvEv_id;
+			sEv_id = mEv_id.keySet();
+			vDesc = vvDesc;
+			sDesc = mDesc.keySet();
+			vInjury = vvInjury;
+			vDamage = vvDamage;
+			vDate = vvDate;
+			mvInjury = mmvInjury;
+		}
+		
+		
 				
 		//Assign value for label
 		Map<String, Integer> damageValueMap = waInputData.getDamageValueMap();
 		Map<String, Integer> InjuryValueMap = waInputData.getInjuryValueMap();
 		Map<Integer, String> LevelValueMap = waInputData.getLevelValueMap();		
 		
-		Map<String, Vector<Integer> > mvInjury = waInputData.getMvInjury();
+		
 		
 		
 		///////////////////////////////////////////
@@ -91,7 +165,9 @@ public class WarningAnalyzer {
 		Map<String, Map<String, Integer> > personalInjuryMatrix = new TreeMap<String, Map<String, Integer> >();
 		Map<String, Map<String, Integer> > highestInjuryMatrix = new TreeMap<String, Map<String, Integer> >();
 		Map<String, Map<String, Integer> > aircraftDamageMatrix = new TreeMap<String, Map<String, Integer> >();
-		for (String event_id : sEv_id){
+		for(int i = 0 ; i < vEv_id.size() ; i++){
+			String event_id = vEv_id.get(i);
+			if(!isValidDate(vDate.get(i))) continue;
 			personalInjuryMatrix.put(event_id, new TreeMap<String, Integer>());
 			highestInjuryMatrix.put(event_id, new TreeMap<String, Integer>());
 			aircraftDamageMatrix.put(event_id, new TreeMap<String, Integer>());
@@ -114,7 +190,7 @@ public class WarningAnalyzer {
 			if(!isValidDate(vDate.get(i))) continue;
 			//pEv_id.add(event_id);
 			pEv_idMap.put(event_id, 0);
-			String subsection_name = vSubsection.get(i);
+			String subsection_name = vDesc.get(i);
 			Integer cur_value = occurrenceMatrix.get(event_id).get(subsection_name);
 			if(cur_value == null) cur_value = 0;
 			occurrenceMatrix.get(event_id).put(subsection_name, cur_value+1);
@@ -125,15 +201,18 @@ public class WarningAnalyzer {
 		//Personal Injury
 		for(int i = 0 ; i < vEv_id.size() ; i++){
 			String event_id = vEv_id.get(i);
+			//System.out.println(this.analStartDate+"/"+this.analEndDate+"//check:"+vDate.get(i));
 			if(!isValidDate(vDate.get(i))) continue;
 			for (String injury : sInjury){
 				Integer i_val = mvInjury.get(injury).get(i);
 				if(i_val == null) i_val = 0;
-				Integer c_val = personalInjuryMatrix.get(event_id).get(injury);
-				if(c_val == null) c_val = 0;
-				personalInjuryMatrix.get(event_id).put(injury, c_val+i_val);	
+				//Integer c_val = personalInjuryMatrix.get(event_id).get(injury);
+				//if(c_val == null) c_val = 0;
+				personalInjuryMatrix.get(event_id).put(injury, i_val);	
 			}
 		}
+		
+		//System.out.println("personalInjuryMatrix:"+personalInjuryMatrix);
 		
 		//Injury Million
 		for(int i = 0 ; i < vEv_id.size() ; i++){
@@ -149,7 +228,8 @@ public class WarningAnalyzer {
 			injuryMillion.put(event_id, i_million);
 		}
 		
-		//System.out.println(injuryMillion);
+		//System.out.println("mvInjury: "+mvInjury);
+		//System.out.println("personalInjuryMatrix: "+personalInjuryMatrix);
 		
 		//Highest Injury
 		for(int i = 0 ; i < vEv_id.size() ; i++){
@@ -199,10 +279,7 @@ public class WarningAnalyzer {
 		
 		//Vector<String> factorsV = waInputData.getFactors();
 		
-		//Unique describe Id for retrieval
-		Set<String> sDesc = waInputData.getsDescColumns().get(factorsV.get(analDepth-1));
-		//Describe ID for saving
-		Vector<String> vDesc = waInputData.getvDescColumns().get(factorsV.get(analDepth-1));
+		
 		Map<String, Integer> pDescMap = new TreeMap<String, Integer>();
 		Vector<String> pDesc = new Vector<String>();
 		
@@ -247,14 +324,17 @@ public class WarningAnalyzer {
 			if(i_million == null) i_million = 0.0f;
 			Float cur_value = injuryMillionDescMatrix.get(descFactor);
 			if(cur_value == null) cur_value = 0.0f;
-			injuryMillionDescMatrix.put(descFactor, cur_value+i_million);
+			injuryMillionDescMatrix.put(descFactor, i_million);
 			
 			Float d_million = damageMillion.get(event_id);
 			if(d_million == null) d_million = 0.0f;
 			Float cur_value2 = damageMillionDescMatrix.get(descFactor);
 			if(cur_value2 == null) cur_value2 = 0.0f;
-			damageMillionDescMatrix.put(descFactor, cur_value2+d_million);
+			damageMillionDescMatrix.put(descFactor, d_million);
 		}
+		
+		//System.out.println("injuryMillion: "+injuryMillion);
+		//System.out.println("injuryMillionDescMatrix: "+injuryMillionDescMatrix);
 		
 		for(String desc : sDesc){
 			Float i_million = injuryMillionDescMatrix.get(desc);
@@ -443,8 +523,8 @@ public class WarningAnalyzer {
 		waResultData.setLikelihoodList(likelihoodList);
 		waResultData.setsEv_id(sEv_id);
 		waResultData.setvEv_id(vEv_id);
-		waResultData.setsSubsection(sSubsection);
-		waResultData.setvSubsection(vSubsection);
+		waResultData.setsSubsection(sDesc);
+		waResultData.setvSubsection(vDesc);
 		waResultData.setsInjury(sInjury);
 		waResultData.setvInjury(vInjury);
 		waResultData.setsDamage(sDamage);

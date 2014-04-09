@@ -166,6 +166,74 @@ public class WarningAnalysisLoadExcel {
 			e.printStackTrace();
 		}
 	}
+	
+	public Map<String, Set<String> > dataValidityCheck(){
+		Map<String, Map<String, Integer> > err = new TreeMap<String, Map<String, Integer> >();
+		Map<String, Set<String> > errRtn = new TreeMap<String, Set<String> >();
+		
+		Map<String, Map<String, String> > dataContainer = new TreeMap<String, Map<String, String> >();
+		for(int i = 0 ; i < waInputData.getvEv_id().size() ; i++){
+			String s = waInputData.getvEv_id().get(i);
+			if(dataContainer.get(s) == null) dataContainer.put(s, new TreeMap<String, String>());
+			Map<String, String> subContainer = dataContainer.get(s);
+			
+			
+			if(err.get(s) == null) err.put(s,  new TreeMap<String, Integer>());
+			Map<String, Integer> errColumn = err.get(s);
+			//highest_inj_level
+			Vector<String> vInjury = waInputData.getvInjury();
+			String injury_column = "highest_inj_level";
+			if(subContainer.get(injury_column) == null) subContainer.put(injury_column, vInjury.get(i));
+			else{
+				String cur = subContainer.get(injury_column);
+				if(!cur.equals(vInjury.get(i))) errColumn.put(injury_column, 0);
+			}
+			
+			//damage
+			Vector<String> vDamage = waInputData.getvDamage();
+			String damage_column = "damage";
+			if(subContainer.get(damage_column) == null) subContainer.put(damage_column, vDamage.get(i));
+			else{
+				String cur = subContainer.get(damage_column);
+				//if("20080118X00073".equals(s)) System.out.println(vDamage.get(i) +"/"+cur);
+				if(!cur.equals(vDamage.get(i))){
+					//if("20080118X00073".equals(s)) System.out.println("ADD!!");
+					errColumn.put(damage_column, 0); 
+				}
+			}
+			
+			//injury FATL / SERS / MINR / NONE
+			Map<String, Vector<Integer> > mvInjury = waInputData.getMvInjury();
+			for(String a : waInputData.getsInjury()){
+				String injury_amount_column = a;
+				//System.out.println(mvInjury);
+				Integer amount = mvInjury.get(injury_amount_column).get(i);
+				if(subContainer.get(injury_amount_column) == null) subContainer.put(injury_amount_column, Integer.toString(amount));
+				else{
+					String cur = subContainer.get(injury_amount_column);
+					if(!cur.equals(Integer.toString(amount))) errColumn.put("Injury "+injury_amount_column, 0);
+				}
+			}
+			
+			if(errColumn.size() > 0){
+				err.put(s, errColumn);
+			}
+		}
+		
+		for(String key : err.keySet()){
+			if(err.get(key).size() > 0) errRtn.put(key, err.get(key).keySet());
+		}
+		
+		return errRtn;
+	}
+	
+	public boolean isValidDate(LocalDate d, LocalDate start, LocalDate end){
+		if(start.compareTo(d) <= 0 && end.compareTo(d) >= 0){
+			return true;
+		}
+		else
+			return false;
+	}
 
 	public WarningAnalysisInputData getWaInputData() {
 		return waInputData;
