@@ -212,6 +212,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         
         JButton goWebButton = new JButton();
         goWebButton.setText("<HTML>http://true.kaist.ac.kr</HTML>");
+        goWebButton.setPreferredSize(new Dimension(135, 20));
         goWebButton.setHorizontalAlignment(SwingConstants.LEFT);
         goWebButton.setBorderPainted(false);
         goWebButton.setOpaque(false);
