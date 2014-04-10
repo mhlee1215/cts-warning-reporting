@@ -153,34 +153,55 @@ public class SafetyAnalysisChromatography {
         Map<String, Map<String, Integer> > injuryLevelDesc = waResultData.getInjuryLevelDescMatrix();
 
         
+        
         for(String desc : sDesc){
+        	boolean isHasData = false;
         	Map<String, Integer> m = aircraftDamageDesc.get(desc);
-        	int cnt = 1;
+        	//int cnt = 1;
         	for(int i = sDamage.size()-1 ; i >= 0 ; i--){
         		String damage = sDamage.get(i);
-        	//}
-        	//for(String damage : sDamage){
+
+        		Integer damageVal = m.get(damage);
+        		if(damageVal != null){ 
+        			isHasData = true;
+        		}
+        	}
+        	
+        	for(int i = sDamage.size()-1 ; i >= 0 ; i--){
+        		String damage = sDamage.get(i);
+
         		Integer damageVal = m.get(damage);
         		if(damageVal != null){ 
 	        		if (maxVal < damageVal) maxVal = damageVal;
 	        		defaultcategorydataset.addValue(damageVal, damage+"(damage)", desc);	
-	        		cnt++;
+	        		//cnt++;
+	        		
+        		}else if(isHasData){
+        			defaultcategorydataset.addValue(0, damage+"(damage)", desc);
         		}
         	}
         }
         
         for(String desc : sDesc){
+        	boolean isHasData = false;
         	Map<String, Integer> m = injuryLevelDesc.get(desc);
-        	int cnt = 1;
+        	//int cnt = 1;
         	for(int i = sInjury.size()-1 ; i >= 0 ; i--){
         		String injury = sInjury.get(i);
-        	//for(String injury : sInjury){
-        		//System.out.println(m.get(injury));
+        		Integer injuryVal = m.get(injury);
+        		if (injuryVal != null){
+        			isHasData = true;
+        		}
+        	}
+        	
+        	for(int i = sInjury.size()-1 ; i >= 0 ; i--){
+        		String injury = sInjury.get(i);
         		Integer injuryVal = m.get(injury);
         		if (injuryVal != null){
 	        		if (maxVal < injuryVal) maxVal = injuryVal;
 	        		defaultcategorydataset.addValue(-injuryVal, injury+"(injury)", desc);	
-	        		cnt++;
+        		}else if(isHasData){
+        			defaultcategorydataset.addValue(0, injury+"(injury)", desc);	
         		}
         	}
         }
