@@ -231,7 +231,20 @@ public class SafetyAnalysisTrendAnalysis {
 	    table.setRowSelectionAllowed(true);
 	    table.setColumnSelectionAllowed(false);
 	    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    table.getSelectionModel().addListSelectionListener(new RowListener());
+	    //table.getSelectionModel().addListSelectionListener(new RowListener());
+	    
+	    table.addMouseListener(new java.awt.event.MouseAdapter() {
+	        @Override
+	        public void mouseClicked(java.awt.event.MouseEvent evt) {
+	            int row = table.rowAtPoint(evt.getPoint());
+	            int col = table.columnAtPoint(evt.getPoint());
+	            if (row >= 0 && col >= 0) {
+	            	selectedDesc = (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0);            
+	                createChartFrame(1);
+	            }
+	        }
+	    });
+	    
 	    TableColumnModel cm = table.getColumnModel();
 	    
 	    cm.getColumn(0).setPreferredWidth(400);
@@ -259,12 +272,19 @@ public class SafetyAnalysisTrendAnalysis {
 	}
 	
 	public void createChartFrame(int intervalMonth){
-		if (detail_graph == null)
+		if (detail_graph == null){
 			detail_graph = new JFrame(selectedDesc+" Time Analysis");
+			detail_graph.setSize(new Dimension(900, 600));
+		}else{
+			//detail_graph.removeAll();
+		}
 		
 		if(detail_graph_pane == null){
 			detail_graph_pane = new JPanel();
 			detail_graph_pane2 = new JPanel();
+		}else{
+			detail_graph_pane.removeAll();
+			detail_graph_pane2.removeAll();
 		}
 		detail_graph.getContentPane().add(detail_graph_pane2);
 		detail_graph_pane2.setLayout(new BorderLayout());
@@ -312,7 +332,8 @@ public class SafetyAnalysisTrendAnalysis {
         
         detail_graph_pane.setLayout(new BorderLayout());
         detail_graph_pane.add("Center", chartPanel);
-        detail_graph.setSize(new Dimension(900, 600));
+        
+        
         detail_graph.setVisible(true);
         
         JPanel bPanel = new JPanel();
@@ -395,8 +416,11 @@ public class SafetyAnalysisTrendAnalysis {
         exportPanel.add(btnExport);
         detail_graph_pane2.add("South", exportPanel);
         
-        detail_graph.revalidate();
-        //detail_graph_pane.repaint();
+        //detail_graph.revalidate();
+        detail_graph.repaint();
+        
+        detail_graph_pane2.revalidate();
+        detail_graph_pane2.repaint();
 	}
 	
     public class RowListener implements ListSelectionListener {
@@ -520,7 +544,7 @@ public class SafetyAnalysisTrendAnalysis {
     private CategoryDataset createDataset(WarningAnalysisResultData waResultData, Vector<LocalDate> sDateV, Vector<LocalDate> eDateV) {
 
         // row keys...
-        String series1 = "First";
+        //String series1 = "First";
         
         // column keys...
        
@@ -543,6 +567,7 @@ public class SafetyAnalysisTrendAnalysis {
         	Map<String, Integer> im = wa.getWaResultData().getInjuryLevelDescMatrix().get(selectedDesc);
         	Map<String, Integer> am = wa.getWaResultData().getAircraftDamageDescMatrix().get(selectedDesc);
         	
+        	        	
         	//System.out.println("selectedDesc : "+selectedDesc);
         	//System.out.println(wa.getWaResultData().getInjuryLevelDescMatrix());
         	String periodString = formatter.print(sDateV.get(i))+"~"+formatter.print(eDateV.get(i)); 

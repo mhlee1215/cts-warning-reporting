@@ -3,6 +3,7 @@ package ac.kaist.analysis.graphic;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -22,6 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -160,7 +163,17 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         }
     };
     
-    public SafetyAnalysisTabbedPane() {
+    private static void open(URI uri) {
+	    if (Desktop.isDesktopSupported()) {
+	      try {
+	        Desktop.getDesktop().browse(uri);
+	      } catch (IOException e) { /* TODO: error handling */ }
+	    } else { /* TODO: error handling */ }
+	  }
+    
+   
+    
+    public SafetyAnalysisTabbedPane() throws URISyntaxException {
     	
     	mainFrame = this;
         
@@ -189,13 +202,47 @@ public class SafetyAnalysisTabbedPane extends JFrame {
         jp_inputData.setLayout(new BorderLayout());
         jp_inputData.setBackground(Color.white);
         
+        final URI uri = new URI("http://true.kaist.ac.kr/");
+        
+        class OpenUrlAction implements ActionListener {
+            @Override public void actionPerformed(ActionEvent e) {
+              open(uri);
+            }
+          }
+        
+        JButton goWebButton = new JButton();
+        goWebButton.setText("<HTML>http://true.kaist.ac.kr</HTML>");
+        goWebButton.setHorizontalAlignment(SwingConstants.LEFT);
+        goWebButton.setBorderPainted(false);
+        goWebButton.setOpaque(false);
+        goWebButton.setBackground(Color.WHITE);
+        goWebButton.setToolTipText(uri.toString());
+        goWebButton.addActionListener(new OpenUrlAction());
+        
+        
+        
+        JTextField webUrl = new JTextField("aaa");
+        JPanel urlPanel = new JPanel();
+        urlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        urlPanel.setBackground(Color.white);
+        urlPanel.add(goWebButton);
+        
+        ImagePanel logoPane = new ImagePanel();
+        logoPane.setPreferredSize(new Dimension(585, 35));
+        JPanel logoPanel= new JPanel();
+        logoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        logoPanel.setBackground(Color.white);
+        logoPanel.add(logoPane);
+        
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(Color.white);
         
-        ImagePanel logoPanel = new ImagePanel();
-        logoPanel.setPreferredSize(new Dimension(585, 35));
-        topPanel.add(logoPanel);
+        
+        
+        
+        topPanel.add("East", logoPanel);
+        topPanel.add("South", urlPanel);
         
         //JButton button = new JButton(new ImageIcon(getClass().getResource("logo.jpg")));
         
@@ -865,7 +912,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
 		enableTabs(true);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
         
         SafetyAnalysisTabbedPane tp = new SafetyAnalysisTabbedPane();
         tp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
