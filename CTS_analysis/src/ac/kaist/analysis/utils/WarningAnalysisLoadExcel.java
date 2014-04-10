@@ -187,6 +187,7 @@ public class WarningAnalysisLoadExcel {
 			else{
 				String cur = subContainer.get(injury_column);
 				if(!cur.equals(vInjury.get(i))) errColumn.put(injury_column, 0);
+				if(waInputData.getInjuryValueMap().get(vInjury.get(i)) == null) errColumn.put(injury_column, 0);
 			}
 			
 			//damage
@@ -200,6 +201,8 @@ public class WarningAnalysisLoadExcel {
 					//if("20080118X00073".equals(s)) System.out.println("ADD!!");
 					errColumn.put(damage_column, 0); 
 				}
+				
+				if(waInputData.getDamageValueMap().get(vDamage.get(i)) == null) errColumn.put(damage_column, 0);
 			}
 			
 			//injury FATL / SERS / MINR / NONE

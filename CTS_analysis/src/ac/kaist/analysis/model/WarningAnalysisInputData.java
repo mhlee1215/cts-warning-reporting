@@ -58,7 +58,15 @@ public class WarningAnalysisInputData {
 	Map<String, Set<String> > sDescColumns;
 	Map<String, Vector<String> > vDescColumns;
 	
+	Map<String, Set<String> > errColumns;
 	
+	
+	public Map<String, Set<String>> getErrColumns() {
+		return errColumns;
+	}
+	public void setErrColumns(Map<String, Set<String>> errColumns) {
+		this.errColumns = errColumns;
+	}
 	public Map<String, Set<String>> getsDescColumns() {
 		return sDescColumns;
 	}

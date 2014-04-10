@@ -97,7 +97,7 @@ public class SafetyAnalysisRiskMatrix {
 		LocalDate sDate = new LocalDate("2008-01-18");
 		LocalDate eDate = new LocalDate("2011-01-18");
 				
-	    System.out.println(waResultData.getAnalStartDate()+"//"+waResultData.getAnalEndDate());
+	    //System.out.println(waResultData.getAnalStartDate()+"//"+waResultData.getAnalEndDate());
 		SafetyAnalysisRiskMatrix sarm = new SafetyAnalysisRiskMatrix(waResultData, waInputData, "E:/ext_work/respace/workspace/CTS_analysis/input");
 		
 		frame.getContentPane().add( sarm.createPanel() );
@@ -279,13 +279,13 @@ public class SafetyAnalysisRiskMatrix {
 			String dateStr = y+"-"+m+"-"+d;
 			
 			
-			WarningAnalyzer wa = new WarningAnalyzer(waInputData, this.waResultData.getAnalDepth(), 0, dateStr, this.waResultData.getAnalStartDate(), this.waResultData.getAnalEndDate());
+			WarningAnalyzer wa = new WarningAnalyzer(waInputData, this.waResultData.getAnalDepth(), 0, dateStr, waInputData.getErrColumns(), this.waResultData.getAnalStartDate(), this.waResultData.getAnalEndDate());
 			//Get Result data
 			WarningAnalysisResultData waResultData = wa.getWaResultData();
 			
 			//Vector<String> occurredHz = new Vector<String>();
 			//System.out.println("dateStr:"+dateStr+"//"+waResultData.getTodayWorstSeverity());
-			System.out.println("+++"+waResultData.getMostSeverityMap());
+			//System.out.println("+++"+waResultData.getMostSeverityMap());
 			for(String hz : waResultData.getOccurrenceMatrix().get(ev_id).keySet()){
 				String hz_ID = hz;
 				String ev_ID = ev_id;
@@ -318,7 +318,7 @@ public class SafetyAnalysisRiskMatrix {
 			int worst = waResultData.getWorstSeverityMap().get(hz_ID);
 			int most = waResultData.getMostSeverityMap().get(hz_ID);
 			
-			System.out.println(ev_id+" "+hz_ID+" "+ worst+" "+most+" type:"+type);
+			//System.out.println(ev_id+" "+hz_ID+" "+ worst+" "+most+" type:"+type);
 			if( worst > 0 && most > 0)
 				rm.add(new RiskMatrixData("", hz_ID, worst, most, 0, liklihood, mf));
 		}
@@ -328,7 +328,7 @@ public class SafetyAnalysisRiskMatrix {
 				
 		
 		rmData = getRiskMatrixData(ev_id, hz_id, type);
-		System.out.println(rmData);
+		//System.out.println(rmData);
 		//rmData.add(new RiskMatrixData("a", "B", 3, 5, 4, 3, 0.5f));
 		//rmData.add(new RiskMatrixData("aa", "Bb", 3, 5, 4, 3, 0.5f));
 		

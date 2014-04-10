@@ -540,6 +540,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
                         		    "Inconsistent data will be ignored in the results.",
                         		    "Ignore inconsistent data",
                         		    JOptionPane.WARNING_MESSAGE);
+                        	waInputData.setErrColumns(errColumns);
                         	generateTabs(errColumns);
                         	d5.setVisible(false);
                         }

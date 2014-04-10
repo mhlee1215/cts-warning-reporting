@@ -110,6 +110,7 @@ public class WarningAnalyzer {
 				String d = vDesc.get(i);
 				String s = vEv_id.get(i);
 				String ij = vInjury.get(i);
+				
 				String da = vDamage.get(i);
 				LocalDate date = vDate.get(i);
 				if(!isValidDate(vDate.get(i))) continue;
@@ -120,6 +121,7 @@ public class WarningAnalyzer {
 					mEv_id.put(s,  0);
 					vvDesc.add(d);
 					mDesc.put(d,  0);
+
 					vvInjury.add(ij);
 					vvDamage.add(da);
 					vvDate.add(date);
@@ -139,7 +141,9 @@ public class WarningAnalyzer {
 			sEv_id = mEv_id.keySet();
 			vDesc = vvDesc;
 			sDesc = mDesc.keySet();
+
 			vInjury = vvInjury;
+			
 			vDamage = vvDamage;
 			vDate = vvDate;
 			mvInjury = mmvInjury;
@@ -261,6 +265,10 @@ public class WarningAnalyzer {
 			damageMillion.put(event_id, d_million);
 		}
 		
+//		System.out.println(injuryMillion);
+//		System.out.println("personalInjuryMatrix: "+personalInjuryMatrix);
+//		System.out.println(damageMillion);
+//		System.out.println("aircraftDamageMatrix : "+aircraftDamageMatrix);
 		
 		//#########################################
 		//EVENT TABLE END
@@ -369,7 +377,7 @@ public class WarningAnalyzer {
 		//Inverse Likelihood map for likelihood sorting
 		ArrayList<likelihoodDesc> likelihoodList = new ArrayList<likelihoodDesc>();
 		
-		
+		//System.out.println("==="+vInjury);
 		
 		//Convert into 5-label severity
 		for(int i = 0 ; i < vDesc.size() ; i++){
@@ -378,7 +386,19 @@ public class WarningAnalyzer {
 			String injury = vInjury.get(i);
 			String damage = vDamage.get(i);	
 			//Convert two 4 labels (DEST, ... and FATL, ... ) to 5-label (A, B, C, D, E)
-			int level5 = getCombinedSeverity(damageValueMap.get(damage), InjuryValueMap.get(injury));
+			
+					
+			int level5 = 0;
+			try{
+			level5 = getCombinedSeverity(damageValueMap.get(damage), InjuryValueMap.get(injury));
+			}catch(Exception e){
+				e.printStackTrace();
+//				System.out.println(vInjury.size()+"/"+vDamage.size()+"/"+vDesc.size()+"/i="+i);
+//				System.out.println(damage+"/"+injury);
+//				System.out.println(damageValueMap);
+//				System.out.println(InjuryValueMap);
+//				System.out.println(vInjury);
+			}
 			Integer cur_value = ABCDEDescMatrix.get(desc).get(level5);
 			if(cur_value == null) cur_value = 0;
 			ABCDEDescMatrix.get(desc).put(level5, cur_value+1);
@@ -397,6 +417,7 @@ public class WarningAnalyzer {
 				String h_injury = vInjury.get(i);
 				String h_damage = vDamage.get(i);
 				String h_desc = vDesc.get(i);
+				
 				int level5 = getCombinedSeverity(damageValueMap.get(h_damage), InjuryValueMap.get(h_injury));
 				Integer cur_level = ABCDETodayDescMatrix.get(h_desc);
 				if(cur_level == null){
