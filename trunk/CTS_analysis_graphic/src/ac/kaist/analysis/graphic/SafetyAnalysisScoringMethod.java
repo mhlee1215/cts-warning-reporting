@@ -52,6 +52,7 @@ import org.jfree.util.ShapeUtilities;
 import org.joda.time.LocalDate;
 
 import swing.ax.CustomCellRenderer;
+import swing.ax.MyTableModel;
 import ac.kaist.analysis.WarningAnalyzer;
 import ac.kaist.analysis.model.WarningAnalysisInputData;
 import ac.kaist.analysis.model.WarningAnalysisResultData;
@@ -155,9 +156,13 @@ public class SafetyAnalysisScoringMethod {
 	    columnNames.addElement("Injury Million");
 	    columnNames.addElement("Damage Million");
 	    columnNames.addElement("Risk Score");
+	    
+	    MyTableModel mm = new MyTableModel();
+	    mm.setData(rowData);
+	    mm.setColumnNames(columnNames);
 		
 		//DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		table = new JTable(rowData, columnNames){
+		table = new JTable(mm){
 			 @Override
 			   public TableCellRenderer getCellRenderer(int row, int column) {
 			    // TODO Auto-generated method stub
