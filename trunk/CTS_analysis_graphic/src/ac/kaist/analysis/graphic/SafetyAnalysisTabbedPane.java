@@ -177,7 +177,7 @@ public class SafetyAnalysisTabbedPane extends JFrame {
     	
     	mainFrame = this;
         
-        setTitle("Aviation Safety Data Analysis Package (v"+GlobalVariables.version+")");
+        setTitle("Aviation Risk Identification and Assessment (ARIA) (v"+GlobalVariables.version+")");
         jtp_main = new JTabbedPane();
         getContentPane().add(jtp_main);
         
